@@ -3,7 +3,7 @@ The official AdventureCraft mod.
 
 Contributing
 
-1.Create a fork of the TaleCraft repository.
+1.Create a fork of the AdventureCraft repository.
 
 2.Commit changes to that fork of yours.
 
