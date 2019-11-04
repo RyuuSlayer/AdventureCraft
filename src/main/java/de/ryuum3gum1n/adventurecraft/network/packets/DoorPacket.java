@@ -16,7 +16,8 @@ public class DoorPacket implements IMessage {
 	int z;
 	boolean type;
 
-	public DoorPacket() {}
+	public DoorPacket() {
+	}
 
 	public DoorPacket(BlockPos pos, boolean type) {
 		x = pos.getX();
@@ -46,7 +47,8 @@ public class DoorPacket implements IMessage {
 		@Override
 		public IMessage onMessage(DoorPacket message, MessageContext ctx) {
 			TileEntity te = Minecraft.getMinecraft().world.getTileEntity(new BlockPos(message.x, message.y, message.z));
-			if(te == null) return null;
+			if (te == null)
+				return null;
 			((LockedDoorTileEntity) te).useSilverKey = message.type;
 			return null;
 		}

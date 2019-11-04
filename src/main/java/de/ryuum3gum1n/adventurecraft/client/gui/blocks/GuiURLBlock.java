@@ -26,21 +26,23 @@ public class GuiURLBlock extends QADGuiScreen {
 	public void buildGui() {
 		final BlockPos position = tileEntity.getPos();
 
-		addComponent(new QADLabel("URL Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(), 2, 2));
+		addComponent(
+				new QADLabel("URL Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(), 2, 2));
 
-		textField_url = new QADTextField(fontRenderer, 3, 14+20+4, width-6, 20);
+		textField_url = new QADTextField(fontRenderer, 3, 14 + 20 + 4, width - 6, 20);
 		textField_url.setText(tileEntity.getURL());
 		textField_url.setTooltip("The URL to open.");
 		addComponent(textField_url);
 
-		textField_selector = new QADTextField(fontRenderer, 3, 14+20+4+20+4, width-6, 20);
+		textField_selector = new QADTextField(fontRenderer, 3, 14 + 20 + 4 + 20 + 4, width - 6, 20);
 		textField_selector.setText(tileEntity.getSelector());
 		textField_selector.setTooltip("Selector to select players.", "Default: @a");
 		addComponent(textField_selector);
 
 		QADButton setDataButton = QADFACTORY.createButton("Apply", 2, 14, 60, null);
 		setDataButton.setAction(new Runnable() {
-			@Override public void run() {
+			@Override
+			public void run() {
 				String commandString = ClientNetworkHandler.makeBlockDataMergeCommand(position);
 				NBTTagCompound commandData = new NBTTagCompound();
 
@@ -58,8 +60,8 @@ public class GuiURLBlock extends QADGuiScreen {
 
 	@Override
 	public void layoutGui() {
-		textField_url.setWidth(width-6);
-		textField_selector.setWidth(width-6);
+		textField_url.setWidth(width - 6);
+		textField_selector.setWidth(width - 6);
 	}
 
 }

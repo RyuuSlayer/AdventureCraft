@@ -101,7 +101,6 @@ public class GlobalScriptManager {
 
 		return newScope;
 	}
-	
 
 	public Scriptable createNewMovingBlock(EntityMovingBlock moving) {
 		Context cx = Context.enter();
@@ -109,69 +108,81 @@ public class GlobalScriptManager {
 		newScope.setPrototype(globalScope);
 		newScope.setParentScope(null);
 
-		ScriptableObject.putProperty(newScope, "position", Context.javaToJS(new MutableBlockPos(moving.getPosition()), newScope));
-		ScriptableObject.putProperty(newScope, "world", Context.javaToJS(new WorldObjectWrapper(moving.getEntityWorld()), newScope));
-		ScriptableObject.putProperty(newScope, "entity", Context.javaToJS(new MovingBlockObjectWrapper(moving), newScope));
+		ScriptableObject.putProperty(newScope, "position",
+				Context.javaToJS(new MutableBlockPos(moving.getPosition()), newScope));
+		ScriptableObject.putProperty(newScope, "world",
+				Context.javaToJS(new WorldObjectWrapper(moving.getEntityWorld()), newScope));
+		ScriptableObject.putProperty(newScope, "entity",
+				Context.javaToJS(new MovingBlockObjectWrapper(moving), newScope));
 
 		Context.exit();
 
 		return newScope;
 	}
-	
+
 	public Scriptable createNewMovingBlock(EntityMovingBlock moving, Entity entity) {
 		Context cx = Context.enter();
 		Scriptable newScope = cx.newObject(globalScope);
 		newScope.setPrototype(globalScope);
 		newScope.setParentScope(null);
 
-		ScriptableObject.putProperty(newScope, "position", Context.javaToJS(new MutableBlockPos(moving.getPosition()), newScope));
-		ScriptableObject.putProperty(newScope, "world", Context.javaToJS(new WorldObjectWrapper(moving.getEntityWorld()), newScope));
-		ScriptableObject.putProperty(newScope, "entity", Context.javaToJS(new MovingBlockObjectWrapper(moving), newScope));
+		ScriptableObject.putProperty(newScope, "position",
+				Context.javaToJS(new MutableBlockPos(moving.getPosition()), newScope));
+		ScriptableObject.putProperty(newScope, "world",
+				Context.javaToJS(new WorldObjectWrapper(moving.getEntityWorld()), newScope));
+		ScriptableObject.putProperty(newScope, "entity",
+				Context.javaToJS(new MovingBlockObjectWrapper(moving), newScope));
 		ScriptableObject.putProperty(newScope, "collide", Context.javaToJS(new EntityObjectWrapper(entity), newScope));
 
 		Context.exit();
 
 		return newScope;
 	}
-	
+
 	public Scriptable createNewMovingBlock(EntityMovingBlock moving, EntityPlayer entity) {
 		Context cx = Context.enter();
 		Scriptable newScope = cx.newObject(globalScope);
 		newScope.setPrototype(globalScope);
 		newScope.setParentScope(null);
 
-		ScriptableObject.putProperty(newScope, "position", Context.javaToJS(new MutableBlockPos(moving.getPosition()), newScope));
-		ScriptableObject.putProperty(newScope, "world", Context.javaToJS(new WorldObjectWrapper(moving.getEntityWorld()), newScope));
-		ScriptableObject.putProperty(newScope, "entity", Context.javaToJS(new MovingBlockObjectWrapper(moving), newScope));
+		ScriptableObject.putProperty(newScope, "position",
+				Context.javaToJS(new MutableBlockPos(moving.getPosition()), newScope));
+		ScriptableObject.putProperty(newScope, "world",
+				Context.javaToJS(new WorldObjectWrapper(moving.getEntityWorld()), newScope));
+		ScriptableObject.putProperty(newScope, "entity",
+				Context.javaToJS(new MovingBlockObjectWrapper(moving), newScope));
 		ScriptableObject.putProperty(newScope, "player", Context.javaToJS(new PlayerObjectWrapper(entity), newScope));
 
 		Context.exit();
 
 		return newScope;
 	}
-	
+
 	public Scriptable createNewNPCScope(EntityNPC entity, ItemStack stack, EntityPlayer player) {
 		Context cx = Context.enter();
 		Scriptable newScope = cx.newObject(globalScope);
 		newScope.setPrototype(globalScope);
 		newScope.setParentScope(null);
-		ScriptableObject.putProperty(newScope, "position", Context.javaToJS(new MutableBlockPos(entity.getPosition()), newScope));
-		ScriptableObject.putProperty(newScope, "world", Context.javaToJS(new WorldObjectWrapper(entity.getEntityWorld()), newScope));
+		ScriptableObject.putProperty(newScope, "position",
+				Context.javaToJS(new MutableBlockPos(entity.getPosition()), newScope));
+		ScriptableObject.putProperty(newScope, "world",
+				Context.javaToJS(new WorldObjectWrapper(entity.getEntityWorld()), newScope));
 		ScriptableObject.putProperty(newScope, "npc", Context.javaToJS(new NPCObjectWrapper(entity), newScope));
-		ScriptableObject.putProperty(newScope, "itemstack", Context.javaToJS(new ItemStackObjectWrapper(stack), newScope));
+		ScriptableObject.putProperty(newScope, "itemstack",
+				Context.javaToJS(new ItemStackObjectWrapper(stack), newScope));
 		ScriptableObject.putProperty(newScope, "player", Context.javaToJS(new PlayerObjectWrapper(player), newScope));
 		Context.exit();
 
 		return newScope;
 	}
-	
+
 	public Scriptable createNewDecorationScope(World world, BlockPos[] pos, NBTTagCompound options) {
 		Context cx = Context.enter();
 		Scriptable newScope = cx.newObject(globalScope);
 		newScope.setPrototype(globalScope);
 		newScope.setParentScope(null);
 		MutableBlockPos[] mpos = new MutableBlockPos[pos.length];
-		for(int i = 0; i < pos.length; i++){
+		for (int i = 0; i < pos.length; i++) {
 			mpos[i] = new MutableBlockPos(pos[i]);
 		}
 		ScriptableObject.putProperty(newScope, "positions", Context.javaToJS(mpos, newScope));
@@ -181,19 +192,21 @@ public class GlobalScriptManager {
 
 		return newScope;
 	}
-	
+
 	public Scriptable createNewNPCScope(EntityNPC entity) {
 		Context cx = Context.enter();
-		try{
+		try {
 			Scriptable newScope = cx.newObject(globalScope);
 			newScope.setPrototype(globalScope);
 			newScope.setParentScope(null);
-			
-			ScriptableObject.putProperty(newScope, "position", Context.javaToJS(new MutableBlockPos(entity.getPosition()), newScope));
-			ScriptableObject.putProperty(newScope, "world", Context.javaToJS(new WorldObjectWrapper(entity.getEntityWorld()), newScope));
+
+			ScriptableObject.putProperty(newScope, "position",
+					Context.javaToJS(new MutableBlockPos(entity.getPosition()), newScope));
+			ScriptableObject.putProperty(newScope, "world",
+					Context.javaToJS(new WorldObjectWrapper(entity.getEntityWorld()), newScope));
 			ScriptableObject.putProperty(newScope, "npc", Context.javaToJS(new NPCObjectWrapper(entity), newScope));
 			return newScope;
-		}finally{
+		} finally {
 			Context.exit();
 		}
 	}
@@ -215,7 +228,7 @@ public class GlobalScriptManager {
 		Object rvalue = null;
 		Context cx = Context.enter();
 
-		if(scope == null) {
+		if (scope == null) {
 			Scriptable newScope = cx.newObject(globalScope);
 			newScope.setPrototype(globalScope);
 			newScope.setParentScope(null);
@@ -224,7 +237,7 @@ public class GlobalScriptManager {
 
 		try {
 			rvalue = cx.evaluateString(scope, script, fileName, 0, null);
-		} catch(Throwable e) {
+		} catch (Throwable e) {
 			e.printStackTrace();
 			TextComponentString text = new TextComponentString("Script Error: " + e.getMessage());
 			FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendMessage(text);
@@ -239,7 +252,7 @@ public class GlobalScriptManager {
 	 * @return The script, or a short block-comment saying that an error ocurred.
 	 **/
 	public String loadScript(World world, String fileName) {
-		if(fileName.isEmpty()) {
+		if (fileName.isEmpty()) {
 			return "";
 		}
 
@@ -248,26 +261,27 @@ public class GlobalScriptManager {
 		File dataDir = worldDirectory;
 		File scriptDir = new File(dataDir, "scripts");
 
-		if(!scriptDir.exists()) {
+		if (!scriptDir.exists()) {
 			scriptDir.mkdir();
 		}
 
-		File scriptFile = new File(scriptDir, fileName+".js");
+		File scriptFile = new File(scriptDir, fileName + ".js");
 
-		if(!scriptFile.exists()) {
+		if (!scriptFile.exists()) {
 			String message = "Script does not exist: " + scriptFile;
 			AdventureCraft.logger.error(message);
-			return "/*Failed to load script: "+fileName+". Reason: "+message+"*/";
+			return "/*Failed to load script: " + fileName + ". Reason: " + message + "*/";
 		}
 
 		try {
 			String script = FileUtils.readFileToString(scriptFile);
-			// AdventureCraft.logger.info("Script successfully loaded: " + scriptFile + " (~"+script.length()+" chars)");
+			// AdventureCraft.logger.info("Script successfully loaded: " + scriptFile + "
+			// (~"+script.length()+" chars)");
 			return script;
 		} catch (IOException e) {
 			AdventureCraft.logger.error("Failed to load Script: " + scriptFile);
 			e.printStackTrace();
-			return "/*Failed to load script: "+fileName+". Reason: "+e.getMessage()+"*/";
+			return "/*Failed to load script: " + fileName + ". Reason: " + e.getMessage() + "*/";
 		}
 	}
 
@@ -277,11 +291,11 @@ public class GlobalScriptManager {
 		File dataDir = worldDirectory;
 		File scriptDir = new File(dataDir, "scripts");
 
-		if(!scriptDir.exists()) {
+		if (!scriptDir.exists()) {
 			scriptDir.mkdir();
 		}
 
-		File scriptFile = new File(scriptDir, fileName+".js");
+		File scriptFile = new File(scriptDir, fileName + ".js");
 		FileUtils.writeStringToFile(scriptFile, fileContent);
 	}
 

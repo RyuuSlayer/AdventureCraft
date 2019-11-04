@@ -26,12 +26,12 @@ import de.ryuum3gum1n.adventurecraft.decorator.Decoration;
 import de.ryuum3gum1n.adventurecraft.decorator.Decorator;
 import de.ryuum3gum1n.adventurecraft.network.packets.DecoratorGuiPacket;
 
-public class DecoratorItem extends ACItem implements ACITriggerableItem{
+public class DecoratorItem extends ACItem implements ACITriggerableItem {
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		NBTTagCompound comp = stack.getTagCompound();
-		if(comp == null) {
+		if (comp == null) {
 			comp = new NBTTagCompound();
 			stack.setTagCompound(comp);
 		}
@@ -40,20 +40,23 @@ public class DecoratorItem extends ACItem implements ACITriggerableItem{
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		if(world.isRemote) return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
+		if (world.isRemote)
+			return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 		NBTTagCompound tag = stack.getTagCompound().getCompoundTag("decorator_data");
 		EntityPlayerMP p = (EntityPlayerMP) player;
-			
-		if(!p.capabilities.isCreativeMode || !p.capabilities.allowEdit)return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
-		if(tag.hasNoTags()) return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
-		
+
+		if (!p.capabilities.isCreativeMode || !p.capabilities.allowEdit)
+			return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
+		if (tag.hasNoTags())
+			return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
+
 		Decoration decor = Decorator.getDecorationFromString(tag.getString("decor"));
-		
-		if(decor == null){
+
+		if (decor == null) {
 			p.sendMessage(new TextComponentString(ChatFormatting.RED + "Unknown decoration!"));
 			return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 		}
-			
+
 		int amount = tag.getInteger("amount");
 		BlockPos offset = new BlockPos(tag.getInteger("xoff"), tag.getInteger("yoff"), tag.getInteger("zoff"));
 		float lerp = 1F;
@@ -63,36 +66,36 @@ public class DecoratorItem extends ACItem implements ACITriggerableItem{
 		Vec3d end = start.addVector(direction.x * dist, direction.y * dist, direction.z * dist);
 		RayTraceResult result = p.world.rayTraceBlocks(start, end, false, false, false);
 		BlockPos center = result.getBlockPos().up().add(offset);
-			
+
 		int changes = decor.plant(p.world, getInRadius(center, tag.getInteger("radius"), amount), tag);
-			
-		p.sendMessage(new TextComponentString(ChatFormatting.YELLOW + "Changed "+changes+" block/s."));
+
+		p.sendMessage(new TextComponentString(ChatFormatting.YELLOW + "Changed " + changes + " block/s."));
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
-	
-	private BlockPos[] getInRadius(BlockPos center, int radius, int amount){
+
+	private BlockPos[] getInRadius(BlockPos center, int radius, int amount) {
 		List<BlockPos> allPos = new ArrayList<BlockPos>();
 		BlockPos[] returnPos = new BlockPos[amount];
-		int rsqr = radius*radius;
-		for(int x = center.getX() - radius; x < center.getX() + radius; x++){
-			for(int z = center.getZ() - radius; z < center.getZ() + radius; z++){
+		int rsqr = radius * radius;
+		for (int x = center.getX() - radius; x < center.getX() + radius; x++) {
+			for (int z = center.getZ() - radius; z < center.getZ() + radius; z++) {
 				BlockPos current = new BlockPos(x, center.getY(), z);
-				if(center.distanceSq(current) < rsqr){
+				if (center.distanceSq(current) < rsqr) {
 					allPos.add(current);
 				}
 			}
 		}
-		for(int i = 0; i < amount; i++){
+		for (int i = 0; i < amount; i++) {
 			int rint = itemRand.nextInt(allPos.size());
 			returnPos[i] = allPos.get(rint);
 		}
 		return returnPos;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
-		if(!stack.hasTagCompound()){
+		if (!stack.hasTagCompound()) {
 			super.addInformation(stack, player, tooltip, advanced);
 			return;
 		}
@@ -101,17 +104,17 @@ public class DecoratorItem extends ACItem implements ACITriggerableItem{
 		addDesc(data, tooltip);
 		super.addInformation(stack, player, tooltip, advanced);
 	}
-	
+
 	private static void addDesc(NBTTagCompound data, List<String> tooltip) {
-		if(data.hasNoTags()){
+		if (data.hasNoTags()) {
 			tooltip.add(TextFormatting.RED + "Not Defined Yet");
 			return;
 		}
-		
+
 	}
-	
+
 	public Vec3d getPositionEyes(float partialTicks, EntityPlayer player) {
-		if(partialTicks == 1.0F) {
+		if (partialTicks == 1.0F) {
 			return new Vec3d(player.posX, player.posY + player.getEyeHeight(), player.posZ);
 		} else {
 			double d0 = player.prevPosX + (player.posX - player.prevPosX) * partialTicks;
@@ -123,7 +126,8 @@ public class DecoratorItem extends ACItem implements ACITriggerableItem{
 
 	@Override
 	public void trigger(World world, EntityPlayerMP player, ItemStack stack) {
-		AdventureCraft.network.sendTo(new DecoratorGuiPacket(Decorator.getAllDecorations(), stack.getTagCompound()), player);
+		AdventureCraft.network.sendTo(new DecoratorGuiPacket(Decorator.getAllDecorations(), stack.getTagCompound()),
+				player);
 	}
 
 }

@@ -26,8 +26,7 @@ public class BlockPosTemporable implements ITemporaryRenderable {
 	}
 
 	@Override
-	public void render(Minecraft mc, ClientProxy clientProxy,
-			Tessellator tessellator, BufferBuilder vertexbuffer,
+	public void render(Minecraft mc, ClientProxy clientProxy, Tessellator tessellator, BufferBuilder vertexbuffer,
 			double partialTicks) {
 
 		GlStateManager.enableBlend();
@@ -39,12 +38,12 @@ public class BlockPosTemporable implements ITemporaryRenderable {
 		float z = pos[2];
 
 		float r = ((color >> 16) & 0xFF) / 256f;
-		float g = ((color >> 8 ) & 0xFF) / 256f;
-		float b = ((color      ) & 0xFF) / 256f;
+		float g = ((color >> 8) & 0xFF) / 256f;
+		float b = ((color) & 0xFF) / 256f;
 		float a = .5f;
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(ClientResources.texColorWhite);
-		BoxRenderer.renderBox(tessellator, vertexbuffer, x, y, z, x+1, y+1, z+1, r, g, b, a);
+		BoxRenderer.renderBox(tessellator, vertexbuffer, x, y, z, x + 1, y + 1, z + 1, r, g, b, a);
 	}
 
 }

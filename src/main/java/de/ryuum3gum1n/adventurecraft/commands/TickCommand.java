@@ -28,7 +28,7 @@ public class TickCommand extends ACCommandBase {
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		if(args.length != 3) {
+		if (args.length != 3) {
 			throw new CommandException("Wrong number of parameters: " + args.length + " given, 3 needed.");
 		}
 
@@ -45,14 +45,14 @@ public class TickCommand extends ACCommandBase {
 
 	@Override
 	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
-		if(args.length == 0) {
-			return getListOfStringsMatchingLastWord(args, new String[]{"~","0"});
+		if (args.length == 0) {
+			return getListOfStringsMatchingLastWord(args, new String[] { "~", "0" });
 		}
-		if(args.length == 1) {
-			return getListOfStringsMatchingLastWord(args, new String[]{"~","0"});
+		if (args.length == 1) {
+			return getListOfStringsMatchingLastWord(args, new String[] { "~", "0" });
 		}
-		if(args.length == 2) {
-			return getListOfStringsMatchingLastWord(args, new String[]{"~","0"});
+		if (args.length == 2) {
+			return getListOfStringsMatchingLastWord(args, new String[] { "~", "0" });
 		}
 
 		return Collections.emptyList();

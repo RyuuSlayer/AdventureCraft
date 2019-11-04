@@ -34,21 +34,23 @@ public class BarrierEXTBlock extends BlockBarrier {
 		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, Integer.valueOf(0)));
 	}
 
-	/*@SideOnly(Side.CLIENT) TODO
-	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World world, BlockPos pos) {
-		if(ClientProxy.isInBuildMode())
-			return new AxisAlignedBB((double)pos.getX() + this.minX, (double)pos.getY() + this.minY, (double)pos.getZ() + this.minZ, (double)pos.getX() + this.maxX, (double)pos.getY() + this.maxY, (double)pos.getZ() + this.maxZ);
-		else
-			return null;
-	}*/
-	
+	/*
+	 * @SideOnly(Side.CLIENT) TODO public AxisAlignedBB
+	 * getSelectedBoundingBox(IBlockState state, World world, BlockPos pos) {
+	 * if(ClientProxy.isInBuildMode()) return new AxisAlignedBB((double)pos.getX() +
+	 * this.minX, (double)pos.getY() + this.minY, (double)pos.getZ() + this.minZ,
+	 * (double)pos.getX() + this.maxX, (double)pos.getY() + this.maxY,
+	 * (double)pos.getZ() + this.maxZ); else return null; }
+	 */
+
 	@Deprecated
 	@Override
-	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity, boolean p_185477_7_) {
+	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB mask,
+			List<AxisAlignedBB> list, Entity collidingEntity, boolean p_185477_7_) {
 		int type = state.getValue(TYPE).intValue();
 		boolean collide = false;
 
-		switch(type) {
+		switch (type) {
 		case 0: // Everything
 			collide = true;
 			break;
@@ -66,11 +68,11 @@ public class BarrierEXTBlock extends BlockBarrier {
 			break;
 
 		case 4: // ALL monsters
-			if(collidingEntity instanceof EntityLiving) {
+			if (collidingEntity instanceof EntityLiving) {
 				EntityLiving living = (EntityLiving) collidingEntity;
 
-				for(Object targetTask : living.targetTasks.taskEntries) {
-					if(targetTask instanceof EntityAIFindEntityNearestPlayer) {
+				for (Object targetTask : living.targetTasks.taskEntries) {
+					if (targetTask instanceof EntityAIFindEntityNearestPlayer) {
 						collide |= true;
 						break;
 					}
@@ -91,7 +93,7 @@ public class BarrierEXTBlock extends BlockBarrier {
 			break;
 		}
 
-		if(collide) {
+		if (collide) {
 			super.addCollisionBoxToList(state, worldIn, pos, mask, list, collidingEntity, p_185477_7_);
 		}
 
@@ -123,7 +125,7 @@ public class BarrierEXTBlock extends BlockBarrier {
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {TYPE});
+		return new BlockStateContainer(this, new IProperty[] { TYPE });
 	}
 
 }

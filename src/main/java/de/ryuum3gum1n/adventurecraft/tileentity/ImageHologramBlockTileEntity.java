@@ -32,16 +32,16 @@ public class ImageHologramBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
-		if(command.equals("trigger")) {
+		if (command.equals("trigger")) {
 			state ^= true;
-			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO Confirm
 			return;
 		}
 
-		if(command.equals("set_vars")) {
+		if (command.equals("set_vars")) {
 			data.removeTag("command");
 			holodata.merge(data);
-			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO Confirm
 			return;
 		}
 
@@ -58,8 +58,9 @@ public class ImageHologramBlockTileEntity extends ACTileEntity {
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {
 		return getHologramOffsetRelative()
-			? new AxisAlignedBB(getPos().add(-999999999, -999999999, -999999999), getPos().add(999999999, 999999999, 999999999))
-			: new AxisAlignedBB(getPos().add(-512, -512, -512), getPos().add(512, 512, 512));
+				? new AxisAlignedBB(getPos().add(-999999999, -999999999, -999999999),
+						getPos().add(999999999, 999999999, 999999999))
+				: new AxisAlignedBB(getPos().add(-512, -512, -512), getPos().add(512, 512, 512));
 	}
 
 	@Override
@@ -70,7 +71,7 @@ public class ImageHologramBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public String getName() {
-		return "ImageHologramBlock@"+getPos();
+		return "ImageHologramBlock@" + getPos();
 	}
 
 	@Override
@@ -93,12 +94,12 @@ public class ImageHologramBlockTileEntity extends ACTileEntity {
 
 	public void toggleActive() {
 		state ^= true;
-		this.world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
+		this.world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO Confirm
 	}
 
 	public void setActive(boolean active) {
 		state = active;
-		this.world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
+		this.world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO Confirm
 	}
 
 	public boolean isActive() {
@@ -150,7 +151,7 @@ public class ImageHologramBlockTileEntity extends ACTileEntity {
 	}
 
 	public int getHologramColor() {
-		if(!holodata.hasKey("var_color")) {
+		if (!holodata.hasKey("var_color")) {
 			return 0xFFFFFFFF;
 		}
 		return holodata.getInteger("var_color");

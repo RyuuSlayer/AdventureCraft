@@ -11,21 +11,23 @@ public class DefaultSliderModel implements SliderModel<Integer> {
 	public DefaultSliderModel(int initial, int maximum) {
 		this.current = initial;
 		this.maximum = maximum;
-		this.value = (float)current / (float)maximum;
+		this.value = (float) current / (float) maximum;
 	}
 
 	@Override
 	public void setSliderValue(float newSliderValue) {
-		value = Math.round(newSliderValue * maximum) / (float)maximum;
-		current = MathHelper.clamp((int)(newSliderValue*maximum+0.5f), 0, maximum);
+		value = Math.round(newSliderValue * maximum) / (float) maximum;
+		current = MathHelper.clamp((int) (newSliderValue * maximum + 0.5f), 0, maximum);
 	}
 
 	@Override
 	public void setValue(Integer value) {
 		this.current = value.intValue();
 
-		if(current < 0) current = 0;
-		if(current > maximum) current = maximum;
+		if (current < 0)
+			current = 0;
+		if (current > maximum)
+			current = maximum;
 	}
 
 	@Override

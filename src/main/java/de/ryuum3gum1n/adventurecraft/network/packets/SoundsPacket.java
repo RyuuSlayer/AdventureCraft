@@ -14,11 +14,11 @@ public class SoundsPacket implements IMessage {
 	public boolean constant;
 	public int delay;
 	public SoundEnum sound;
-	
+
 	public SoundsPacket() {
 		mute = true;
 	}
-	
+
 	public SoundsPacket(SoundEnum sound, boolean repeat, int delay, boolean constant) {
 		mute = false;
 		this.sound = sound;
@@ -29,7 +29,7 @@ public class SoundsPacket implements IMessage {
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		if(!(mute = buf.readBoolean())){
+		if (!(mute = buf.readBoolean())) {
 			sound = SoundEnum.values()[buf.readInt()];
 			repeat = buf.readBoolean();
 			delay = buf.readInt();
@@ -40,7 +40,7 @@ public class SoundsPacket implements IMessage {
 	@Override
 	public void toBytes(ByteBuf buf) {
 		buf.writeBoolean(mute);
-		if(!mute){
+		if (!mute) {
 			buf.writeInt(sound.ordinal());
 			buf.writeBoolean(repeat);
 			buf.writeInt(delay);

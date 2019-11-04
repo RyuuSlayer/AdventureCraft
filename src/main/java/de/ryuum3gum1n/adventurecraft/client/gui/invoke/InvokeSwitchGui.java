@@ -28,18 +28,20 @@ public class InvokeSwitchGui extends QADGuiScreen {
 		addComponent(QADFACTORY.createLabel("Select Invoke Type...", 4, 4));
 
 		{
-			addComponent(QADFACTORY.createButton(TextFormatting.ITALIC+"Cancel", xOff, yOff, 120, new Runnable() {
-				@Override public void run() {
+			addComponent(QADFACTORY.createButton(TextFormatting.ITALIC + "Cancel", xOff, yOff, 120, new Runnable() {
+				@Override
+				public void run() {
 					mc.displayGuiScreen(screen);
 				}
-			}).setTooltip("Do not change the invoke type and","return the the previous screen."));
+			}).setTooltip("Do not change the invoke type and", "return the the previous screen."));
 			yOff += 20;
 			yOff += 4;
 		}
 
-		if((invokeTypeFlags & InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOW_NULL) != 0) {
+		if ((invokeTypeFlags & InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOW_NULL) != 0) {
 			addComponent(QADFACTORY.createButton("None", xOff, yOff, 120, new Runnable() {
-				@Override public void run() {
+				@Override
+				public void run() {
 					holder.switchInvokeType(NullInvoke.TYPE);
 					mc.displayGuiScreen(null);
 				}
@@ -47,19 +49,21 @@ public class InvokeSwitchGui extends QADGuiScreen {
 			yOff += 20;
 		}
 
-		if((invokeTypeFlags & InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOW_BLOCKTRIGGER) != 0) {
+		if ((invokeTypeFlags & InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOW_BLOCKTRIGGER) != 0) {
 			addComponent(QADFACTORY.createButton("Block Trigger", xOff, yOff, 120, new Runnable() {
-				@Override public void run() {
+				@Override
+				public void run() {
 					holder.switchInvokeType(BlockTriggerInvoke.TYPE);
 					mc.displayGuiScreen(null);
 				}
-			}).setTooltip("Invoke that triggers all","blocks in a given region."));
+			}).setTooltip("Invoke that triggers all", "blocks in a given region."));
 			yOff += 20;
 		}
 
-		if((invokeTypeFlags & InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOW_COMMAND) != 0) {
+		if ((invokeTypeFlags & InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOW_COMMAND) != 0) {
 			addComponent(QADFACTORY.createButton("Command", xOff, yOff, 120, new Runnable() {
-				@Override public void run() {
+				@Override
+				public void run() {
 					holder.switchInvokeType(CommandInvoke.TYPE);
 					mc.displayGuiScreen(null);
 				}
@@ -67,9 +71,10 @@ public class InvokeSwitchGui extends QADGuiScreen {
 			yOff += 20;
 		}
 
-		if((invokeTypeFlags & InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOW_SCRIPTFILE) != 0) {
+		if ((invokeTypeFlags & InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOW_SCRIPTFILE) != 0) {
 			addComponent(QADFACTORY.createButton("Script File", xOff, yOff, 120, new Runnable() {
-				@Override public void run() {
+				@Override
+				public void run() {
 					holder.switchInvokeType(FileScriptInvoke.TYPE);
 					mc.displayGuiScreen(null);
 				}

@@ -12,14 +12,15 @@ public class IntegerSliderModel implements SliderModel<Integer> {
 	private float value;
 	private final String name;
 	private NBTTagCompound tag;
-	
+
 	public IntegerSliderModel(NBTTagCompound compound, IntegerBrushParameter param) {
 		this.tag = compound;
 		min = param.getMinimum();
 		max = param.getMaximum();
 		name = param.getName();
 		setValue(param.getDefault());
-		if(compound.hasKey(name))current = compound.getInteger(name);
+		if (compound.hasKey(name))
+			current = compound.getInteger(name);
 	}
 
 	@Override
@@ -41,7 +42,7 @@ public class IntegerSliderModel implements SliderModel<Integer> {
 	@Override
 	public void setSliderValue(float sliderValue) {
 		this.value = sliderValue;
-		setValue((int)(sliderValue*(max+min) + min));
+		setValue((int) (sliderValue * (max + min) + min));
 	}
 
 	@Override

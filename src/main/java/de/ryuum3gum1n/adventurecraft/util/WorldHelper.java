@@ -16,20 +16,21 @@ public class WorldHelper {
 	}
 
 	/**
-	 * Iterates trough every block and executes a given action.
-	 * WARNING: This method assumes that the bounds given as parameters are already validated!
+	 * Iterates trough every block and executes a given action. WARNING: This method
+	 * assumes that the bounds given as parameters are already validated!
 	 **/
-	public static final void foreach(World world, int ix, int iy, int iz, int ax, int ay, int az, BlockRegionIterator function) {
-		if(world == null)
+	public static final void foreach(World world, int ix, int iy, int iz, int ax, int ay, int az,
+			BlockRegionIterator function) {
+		if (world == null)
 			return;
-		if(function == null)
+		if (function == null)
 			return;
 
 		MutableBlockPos pos = new MutableBlockPos(0, 0, 0);
 
-		for(int y = iy; y <= ay; y++) {
-			for(int z = iz; z <= az; z++) {
-				for(int x = ix; x <= ax; x++) {
+		for (int y = iy; y <= ay; y++) {
+			for (int z = iz; z <= az; z++) {
+				for (int x = ix; x <= ax; x++) {
 					pos.set(x, y, z);
 					IBlockState state = world.getBlockState(pos);
 					function.$(world, state, pos);
@@ -47,18 +48,19 @@ public class WorldHelper {
 	}
 
 	/**
-	 * Iterates trough every block and replaces it with the given block.
-	 * WARNING: This method assumes that the bounds given as parameters are already validated!
+	 * Iterates trough every block and replaces it with the given block. WARNING:
+	 * This method assumes that the bounds given as parameters are already
+	 * validated!
 	 **/
 	public static final void fill(World world, int ix, int iy, int iz, int ax, int ay, int az, IBlockState block) {
-		if(world == null)
+		if (world == null)
 			return;
 
 		MutableBlockPos pos = new MutableBlockPos(0, 0, 0);
 
-		for(int y = iy; y <= ay; y++) {
-			for(int z = iz; z <= az; z++) {
-				for(int x = ix; x <= ax; x++) {
+		for (int y = iy; y <= ay; y++) {
+			for (int z = iz; z <= az; z++) {
+				for (int x = ix; x <= ax; x++) {
 					pos.set(x, y, z);
 					world.setBlockState(new BlockPos(pos), block);
 				}
@@ -66,17 +68,18 @@ public class WorldHelper {
 		}
 	}
 
-	public static final void replace(World world, int ix, int iy, int iz, int ax, int ay, int az, IBlockState block, IBlockState mask) {
-		if(world == null)
+	public static final void replace(World world, int ix, int iy, int iz, int ax, int ay, int az, IBlockState block,
+			IBlockState mask) {
+		if (world == null)
 			return;
 
 		MutableBlockPos pos = new MutableBlockPos(0, 0, 0);
 
-		for(int y = iy; y <= ay; y++) {
-			for(int z = iz; z <= az; z++) {
-				for(int x = ix; x <= ax; x++) {
+		for (int y = iy; y <= ay; y++) {
+			for (int z = iz; z <= az; z++) {
+				for (int x = ix; x <= ax; x++) {
 					pos.set(x, y, z);
-					if(world.getBlockState(pos).equals(mask))
+					if (world.getBlockState(pos).equals(mask))
 						world.setBlockState(new BlockPos(pos), block);
 				}
 			}

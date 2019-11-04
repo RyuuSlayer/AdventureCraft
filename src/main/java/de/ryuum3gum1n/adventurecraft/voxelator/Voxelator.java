@@ -32,45 +32,54 @@ import de.ryuum3gum1n.adventurecraft.voxelator.shapes.*;
  * A total rewrite of the VoxelBrush: Voxelator.
  **/
 public class Voxelator {
-	
+
 	public static interface ShapeFactory {
 		public abstract String getName();
+
 		public abstract VXShape newShape(NBTTagCompound shapeData, BlockPos origin);
+
 		public abstract NBTTagCompound newShape(String[] parameters);
+
 		public abstract BrushParameter[] getParameters();
 	}
-	
+
 	public static interface ActionFactory {
 		public abstract String getName();
+
 		public abstract VXAction newAction(NBTTagCompound actionData);
+
 		public abstract NBTTagCompound newAction(String[] parameters);
+
 		public abstract BrushParameter[] getParameters();
 	}
-	
+
 	public static interface FilterFactory {
 		public abstract String getName();
+
 		public abstract VXPredicate newFilter(NBTTagCompound filterData);
+
 		public abstract NBTTagCompound newFilter(String[] parameters);
+
 		public abstract BrushParameter[] getParameters();
 	}
-	
+
 	public static final Map<String, ShapeFactory> shapes = Maps.newHashMap();
 	public static final Map<String, ActionFactory> actions = Maps.newHashMap();
 	public static final Map<String, FilterFactory> filters = Maps.newHashMap();
-	
+
 	static {
 		registerShape(VXShapeBox.FACTORY);
 		registerShape(VXShapeSphere.FACTORY);
 		registerShape(VXShapeCylinder.FACTORY);
-		
+
 		registerAction(VXActionGrassify.FACTORY);
 		registerAction(VXActionReplace.FACTORY);
 		registerAction(VXActionVariationsReplace.FACTORY);
-		
+
 		registerFilter(VXPredicateAND.FACTORY);
 		registerFilter(VXPredicateNOT.FACTORY);
 		registerFilter(VXPredicateOR.FACTORY);
-		
+
 		registerFilter(VXPredicateAlways.FACTORY);
 		registerFilter(VXPredicateAverageSmooth.FACTORY);
 		registerFilter(VXPredicateBoxSmooth.FACTORY);
@@ -97,7 +106,7 @@ public class Voxelator {
 
 	public static List<String> getShapeNameList() {
 		List<String> l = Lists.newArrayList();
-		for(String s : shapes.keySet()) {
+		for (String s : shapes.keySet()) {
 			l.add(s);
 		}
 		return l;
@@ -105,7 +114,7 @@ public class Voxelator {
 
 	public static List<String> getActionNameList() {
 		List<String> l = Lists.newArrayList();
-		for(String s : actions.keySet()) {
+		for (String s : actions.keySet()) {
 			l.add(s);
 		}
 		return l;
@@ -113,72 +122,72 @@ public class Voxelator {
 
 	public static List<String> getFilterNameList() {
 		List<String> l = Lists.newArrayList();
-		for(String s : filters.keySet()) {
+		for (String s : filters.keySet()) {
 			l.add(s);
 		}
 		return l;
 	}
-	
+
 	public static VXShape newShape(NBTTagCompound shapeData, BlockPos origin) {
-		if(shapeData == null) {
+		if (shapeData == null) {
 			throw new IllegalArgumentException("shapeData must not be null!");
 		}
-		
+
 		String type = shapeData.getString("type");
-		
-		if(type == null) {
+
+		if (type == null) {
 			throw new MissingNBTTagException("(type:TagCompound) is missing!");
 		}
-		
+
 		ShapeFactory factory = shapes.get(type);
-		
-		if(factory != null) {
+
+		if (factory != null) {
 			return factory.newShape(shapeData, origin);
 		}
-		
+
 		return null;
 	}
-	
+
 	public static VXAction newAction(NBTTagCompound actionData) {
-		if(actionData == null) {
+		if (actionData == null) {
 			throw new IllegalArgumentException("actionData must not be null!");
 		}
-		
+
 		String type = actionData.getString("type");
-		
-		if(type == null) {
+
+		if (type == null) {
 			throw new MissingNBTTagException("(type:TagCompound) is missing!");
 		}
-		
+
 		ActionFactory factory = actions.get(type);
-		
-		if(factory != null) {
+
+		if (factory != null) {
 			return factory.newAction(actionData);
 		}
-		
+
 		return null;
 	}
-	
+
 	public static VXPredicate newFilter(NBTTagCompound filterData) {
-		if(filterData == null) {
+		if (filterData == null) {
 			throw new IllegalArgumentException("filterData must not be null!");
 		}
-		
+
 		String type = filterData.getString("type");
-		
-		if(type == null) {
+
+		if (type == null) {
 			throw new MissingNBTTagException("(type:TagCompound) is missing!");
 		}
-		
+
 		FilterFactory factory = filters.get(type);
-		
-		if(factory != null) {
+
+		if (factory != null) {
 			return factory.newFilter(filterData);
 		}
-		
+
 		return null;
 	}
-	
+
 	public static void apply(VXShape shape, VXPredicate predicate, VXAction action, World world, EntityPlayer player) {
 
 		final BlockPos center = shape.getCenter();
@@ -189,21 +198,21 @@ public class Voxelator {
 		final List<BlockSnapshot> changes = Lists.newArrayList();
 
 		final CachedWorldDiff fworld = new CachedWorldDiff(world, previous, changes);
-		
+
 		UndoRegion before = new UndoRegion(region, world);
 
-		for(final BlockPos pos : BlockPos.getAllInBox(region.getMin(), region.getMax())) {
+		for (final BlockPos pos : BlockPos.getAllInBox(region.getMin(), region.getMax())) {
 			offset.set(pos);
 			offset.__sub(center);
-			if(shape.test(pos, center, offset, fworld)) {
-				if(predicate.test(pos, center, offset, fworld)){
+			if (shape.test(pos, center, offset, fworld)) {
+				if (predicate.test(pos, center, offset, fworld)) {
 					action.apply(pos, center, offset, fworld);
 				}
 			}
 		}
 
 		fworld.applyChanges(true);
-		
+
 		UndoRegion after = new UndoRegion(region, world);
 		UndoTask.TASKS.add(new UndoTask(before, after, "Voxelator", player.getName()));
 	}

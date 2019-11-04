@@ -48,7 +48,7 @@ public class GlobalScriptObject implements IObjectWrapper {
 		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 		return server.getCommandManager().executeCommand(server, command);
 	}
-	
+
 	public void setTimeout(final Runnable callable, final int delay) {
 		AdventureCraft.timedExecutor.executeLater(callable, delay);
 	}
@@ -56,7 +56,7 @@ public class GlobalScriptObject implements IObjectWrapper {
 	public BlockStateObjectWrapper getBlock(String id) {
 		IBlockState block = GObjectTypeHelper.findBlockState(id);
 
-		if(block == null)
+		if (block == null)
 			return null;
 
 		return new BlockStateObjectWrapper(block);
@@ -65,7 +65,7 @@ public class GlobalScriptObject implements IObjectWrapper {
 	public BlockStateObjectWrapper getBlock(String id, int meta) {
 		Block block = GObjectTypeHelper.findBlock(id);
 
-		if(block == null)
+		if (block == null)
 			return null;
 
 		return new BlockStateObjectWrapper(block.getStateFromMeta(meta));
@@ -74,7 +74,7 @@ public class GlobalScriptObject implements IObjectWrapper {
 	public ItemObjectWrapper getItem(String id) {
 		Item item = Item.getByNameOrId(id);
 
-		if(item == null)
+		if (item == null)
 			return null;
 
 		return new ItemObjectWrapper(item);
@@ -118,7 +118,7 @@ public class GlobalScriptObject implements IObjectWrapper {
 	public ItemStackObjectWrapper newItemStack(String ID) {
 		Item item = GObjectTypeHelper.findItem(ID);
 
-		if(item == null)
+		if (item == null)
 			return null;
 
 		return new ItemStackObjectWrapper(new ItemStack(item));
@@ -127,7 +127,7 @@ public class GlobalScriptObject implements IObjectWrapper {
 	public ItemStackObjectWrapper newItemStack(String ID, int amount) {
 		Item item = GObjectTypeHelper.findItem(ID);
 
-		if(item == null)
+		if (item == null)
 			return null;
 
 		return new ItemStackObjectWrapper(new ItemStack(item, amount));
@@ -136,7 +136,7 @@ public class GlobalScriptObject implements IObjectWrapper {
 	public ItemStackObjectWrapper newItemStack(String ID, int amount, int damage) {
 		Item item = GObjectTypeHelper.findItem(ID);
 
-		if(item == null)
+		if (item == null)
 			return null;
 
 		return new ItemStackObjectWrapper(new ItemStack(item, amount, damage));
@@ -152,7 +152,8 @@ public class GlobalScriptObject implements IObjectWrapper {
 		return new PotionEffectObjectWrapper(new PotionEffect(potion, duration, amplifier));
 	}
 
-	public PotionEffectObjectWrapper newPotionEffect(PotionObjectWrapper potionWrapper, int duration, int amplifier, boolean ambient, boolean showParticles) {
+	public PotionEffectObjectWrapper newPotionEffect(PotionObjectWrapper potionWrapper, int duration, int amplifier,
+			boolean ambient, boolean showParticles) {
 		Potion potion = potionWrapper.internal();
 		return new PotionEffectObjectWrapper(new PotionEffect(potion, duration, amplifier, ambient, showParticles));
 	}
@@ -160,7 +161,7 @@ public class GlobalScriptObject implements IObjectWrapper {
 	public PotionEffectObjectWrapper newPotionEffect(String name, int duration) {
 		Potion potion = GObjectTypeHelper.findPotion(name);
 
-		if(potion == null)
+		if (potion == null)
 			return null;
 
 		return new PotionEffectObjectWrapper(new PotionEffect(potion, duration));
@@ -169,16 +170,17 @@ public class GlobalScriptObject implements IObjectWrapper {
 	public PotionEffectObjectWrapper newPotionEffect(String name, int duration, int amplifier) {
 		Potion potion = GObjectTypeHelper.findPotion(name);
 
-		if(potion == null)
+		if (potion == null)
 			return null;
 
 		return new PotionEffectObjectWrapper(new PotionEffect(potion, duration, amplifier));
 	}
 
-	public PotionEffectObjectWrapper newPotionEffect(String name, int duration, int amplifier, boolean ambient, boolean showParticles) {
+	public PotionEffectObjectWrapper newPotionEffect(String name, int duration, int amplifier, boolean ambient,
+			boolean showParticles) {
 		Potion potion = GObjectTypeHelper.findPotion(name);
 
-		if(potion == null)
+		if (potion == null)
 			return null;
 
 		return new PotionEffectObjectWrapper(new PotionEffect(potion, duration, amplifier, ambient, showParticles));

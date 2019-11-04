@@ -20,40 +20,41 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import de.ryuum3gum1n.adventurecraft.AdventureCraft;
 import de.ryuum3gum1n.adventurecraft.network.packets.PlayerNBTDataMergePacket;
 
-public class WandItem extends ACItem implements ACITriggerableItem{
+public class WandItem extends ACItem implements ACITriggerableItem {
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side,
+			float hitX, float hitY, float hitZ) {
+		if (world.isRemote)
 			return EnumActionResult.PASS;
-		
+
 		applyWand(player, pos);
-		
+
 		return EnumActionResult.PASS;
 	}
-	
-	@Override //Clears the wand selection
+
+	@Override // Clears the wand selection
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		if(world.isRemote)
+		if (world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
-		
+
 		{ // do far-away raytrace...
 			float lerp = 1f;
 			float dist = 256;
-			
+
 			Vec3d start = getPositionEyes(lerp, player);
 			Vec3d direction = player.getLook(lerp);
 			Vec3d end = start.addVector(direction.x * dist, direction.y * dist, direction.z * dist);
 
 			RayTraceResult result = world.rayTraceBlocks(start, end, false, false, false);
-			
-			if(result.getBlockPos() != null) {
+
+			if (result.getBlockPos() != null) {
 				applyWand(player, result.getBlockPos());
 				return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 			}
 		}
-		
+
 		return ActionResult.newResult(EnumActionResult.PASS, stack);
 	}
 
@@ -61,7 +62,7 @@ public class WandItem extends ACItem implements ACITriggerableItem{
 	// Warning: Forge Method
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
 		// Check if we are on the server-side.
-		if(!player.world.isRemote) {
+		if (!player.world.isRemote) {
 			EntityPlayerMP playerMP = (EntityPlayerMP) player;
 			String cmd = "/ac_editentity " + entity.getUniqueID().toString();
 			FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager().executeCommand(playerMP, cmd);
@@ -70,41 +71,41 @@ public class WandItem extends ACItem implements ACITriggerableItem{
 		// by returning TRUE, we prevent damaging the entity being hit.
 		return true;
 	}
-	
+
 	public static final void applyWand(EntityPlayer player, BlockPos pos) {
 		NBTTagCompound compound = player.getEntityData();
 		NBTTagCompound tcWand = null;
 
-		if(!compound.hasKey("acWand")) {
+		if (!compound.hasKey("acWand")) {
 			tcWand = new NBTTagCompound();
 			compound.setTag("acWand", tcWand);
 		} else {
 			tcWand = compound.getCompoundTag("acWand");
 		}
-		
+
 		{
 			// Double Call Prevention Hack
 			long timeNow = player.world.getTotalWorldTime();
 			long timePre = tcWand.getLong("DCPH");
-			
-			if(timeNow == timePre) {
+
+			if (timeNow == timePre) {
 				return;
 			} else {
 				tcWand.setLong("DCPH", timeNow);
 			}
 		}
 
-		int[] pos$$ = new int[]{pos.getX(),pos.getY(),pos.getZ()};
-		
+		int[] pos$$ = new int[] { pos.getX(), pos.getY(), pos.getZ() };
+
 		tcWand.setIntArray("cursor", Arrays.copyOf(pos$$, 3));
 
-		if(!tcWand.hasKey("boundsA") || !tcWand.getBoolean("enabled")) {
+		if (!tcWand.hasKey("boundsA") || !tcWand.getBoolean("enabled")) {
 			tcWand.setIntArray("boundsA", pos$$);
 			tcWand.setIntArray("boundsB", pos$$);
 			tcWand.setBoolean("enabled", true);
 		} else {
 			boolean flip = tcWand.getBoolean("flip");
-			if(flip) {
+			if (flip) {
 				tcWand.setIntArray("boundsB", pos$$);
 			} else {
 				tcWand.setIntArray("boundsA", pos$$);
@@ -120,13 +121,13 @@ public class WandItem extends ACItem implements ACITriggerableItem{
 	}
 
 	public static final int[] getBoundsFromPlayerDataOrNull(NBTTagCompound playerData) {
-		if(playerData.hasKey("acWand"))
+		if (playerData.hasKey("acWand"))
 			return getBoundsFromTcWandOrNull(playerData.getCompoundTag("acWand"));
 		return null;
 	}
 
 	public static final int[] getBoundsFromTcWandOrNull(NBTTagCompound tcWand) {
-		if(!tcWand.hasKey("boundsA") || !tcWand.hasKey("boundsB")) {
+		if (!tcWand.hasKey("boundsA") || !tcWand.hasKey("boundsB")) {
 			return null;
 		}
 
@@ -140,7 +141,7 @@ public class WandItem extends ACItem implements ACITriggerableItem{
 		int ay = Math.max(a[1], b[1]);
 		int az = Math.max(a[2], b[2]);
 
-		return new int[]{ix,iy,iz,ax,ay,az};
+		return new int[] { ix, iy, iz, ax, ay, az };
 	}
 
 	public static final void setBounds(EntityPlayer player, int ix, int iy, int iz, int ax, int ay, int az) {
@@ -154,11 +155,13 @@ public class WandItem extends ACItem implements ACITriggerableItem{
 		int _ay = Math.max(iy, ay);
 		int _az = Math.max(iz, az);
 
-		if(_iy < 0) _iy = 0;
-		if(_ay > 255) _ay = 255;
+		if (_iy < 0)
+			_iy = 0;
+		if (_ay > 255)
+			_ay = 255;
 
-		wandData.setIntArray("boundsA", new int[]{_ix,_iy,_iz});
-		wandData.setIntArray("boundsB", new int[]{_ax,_ay,_az});
+		wandData.setIntArray("boundsA", new int[] { _ix, _iy, _iz });
+		wandData.setIntArray("boundsB", new int[] { _ax, _ay, _az });
 
 		AdventureCraft.network.sendTo(new PlayerNBTDataMergePacket(playerData), (EntityPlayerMP) player);
 	}
@@ -167,15 +170,15 @@ public class WandItem extends ACItem implements ACITriggerableItem{
 		int x = Math.abs(bounds[3] - bounds[0]);
 		int y = Math.abs(bounds[4] - bounds[1]);
 		int z = Math.abs(bounds[5] - bounds[2]);
-		return x*y*z;
+		return x * y * z;
 	}
-	
+
 	@Override
 	public void trigger(World world, EntityPlayerMP player, ItemStack stack) {
 		NBTTagCompound compound = player.getEntityData();
 		compound.getCompoundTag("tcWand").setBoolean("enabled", false);
-		compound.getCompoundTag("tcWand").setIntArray("boundsA", new int[]{0, 0, 0});
-		compound.getCompoundTag("tcWand").setIntArray("boundsB", new int[]{0, 0, 0});
+		compound.getCompoundTag("tcWand").setIntArray("boundsA", new int[] { 0, 0, 0 });
+		compound.getCompoundTag("tcWand").setIntArray("boundsB", new int[] { 0, 0, 0 });
 		player.sendMessage(new TextComponentString("Wand selection has been cleared!"));
 		AdventureCraft.network.sendTo(new PlayerNBTDataMergePacket(compound), player);
 	}

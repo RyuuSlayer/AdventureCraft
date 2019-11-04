@@ -19,30 +19,32 @@ public class ListBlockStateListModel implements ListModel {
 	private final NBTTagCompound tag;
 	private List<ListModelItem> items;
 	private List<ListModelItem> filtered;
-	
+
 	public ListBlockStateListModel(NBTTagCompound tag) {
 		this.tag = tag;
 		items = new ArrayList<ListModelItem>();
 		filtered = new ArrayList<ListModelItem>();
 		List<ItemStack> stacks = new ArrayList<ItemStack>();
-		for(Object block : Block.REGISTRY){
-			stacks.add(new ItemStack((Block)block));
+		for (Object block : Block.REGISTRY) {
+			stacks.add(new ItemStack((Block) block));
 		}
-		for(ItemStack item : stacks){
+		for (ItemStack item : stacks) {
 			Item itm = item.getItem();
-			if(itm == null) continue;
+			if (itm == null)
+				continue;
 			NonNullList<ItemStack> subitems = NonNullList.create();
 			itm.getSubItems(CreativeTabs.INVENTORY, subitems);
-			for(final ItemStack stack : subitems){
+			for (final ItemStack stack : subitems) {
 				items.add(new BlockStateItem(stack));
 			}
 		}
 	}
+
 	@Override
 	public void onSelection(ListModelItem selected) {
 		BlockStateItem stateItem = (BlockStateItem) selected;
 		Set<String> tempSet = new LinkedHashSet<String>(tag.getKeySet());
-		for(String string : tempSet){
+		for (String string : tempSet) {
 			tag.removeTag(string);
 		}
 		tag.merge(stateItem.stack.serializeNBT());
@@ -66,9 +68,10 @@ public class ListBlockStateListModel implements ListModel {
 	@Override
 	public void applyFilter(String filterString) {
 		filtered.clear();
-		for(ListModelItem lmi : items){
+		for (ListModelItem lmi : items) {
 			BlockStateItem bsi = (BlockStateItem) lmi;
-			if(bsi.stack.getItem().getItemStackDisplayName(bsi.stack).toLowerCase().contains(filterString.toLowerCase())){
+			if (bsi.stack.getItem().getItemStackDisplayName(bsi.stack).toLowerCase()
+					.contains(filterString.toLowerCase())) {
 				filtered.add(lmi);
 			}
 		}
@@ -86,33 +89,34 @@ public class ListBlockStateListModel implements ListModel {
 
 	@Override
 	public void drawIcon(VCUIRenderer renderer, float partialTicks, boolean light, ListModelItem item) {
-		renderer.drawItemStack(((BlockStateItem)item).stack, 2, 2);
+		renderer.drawItemStack(((BlockStateItem) item).stack, 2, 2);
 	}
-	
-	public static class BlockStateItem implements ListModelItem{
+
+	public static class BlockStateItem implements ListModelItem {
 
 		private ItemStack stack;
-		
-		public BlockStateItem(ItemStack stack){
+
+		public BlockStateItem(ItemStack stack) {
 			this.stack = stack;
 		}
-		
+
 		@Override
 		public String getText() {
 			return stack.getItem().getItemStackDisplayName(stack);
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
-			if(!(obj instanceof BlockStateItem))return false;
-			return ItemStack.areItemStacksEqual(stack, ((BlockStateItem)obj).stack);
+			if (!(obj instanceof BlockStateItem))
+				return false;
+			return ItemStack.areItemStacksEqual(stack, ((BlockStateItem) obj).stack);
 		}
 
 		@Override
 		public int hashCode() {
 			return stack.hashCode();
 		}
-		
+
 	}
 
 }

@@ -1,4 +1,4 @@
-package de.ryuum3gum1n.adventurecraft.client.gui.entity.npc;
+fpackage de.ryuum3gum1n.adventurecraft.client.gui.entity.npc;
 
 import java.util.ArrayList;
 import java.util.List;

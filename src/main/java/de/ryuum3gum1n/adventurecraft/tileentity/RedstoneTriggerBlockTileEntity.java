@@ -28,9 +28,9 @@ public class RedstoneTriggerBlockTileEntity extends ACTileEntity {
 	public void readFromNBT_do(NBTTagCompound compound) {
 		triggerInvokeOn = IInvoke.Serializer.read(compound.getCompoundTag("triggerInvokeOn"));
 		triggerInvokeOff = IInvoke.Serializer.read(compound.getCompoundTag("triggerInvokeOff"));
-		
+
 		// backwards compatibility
-		if(triggerInvokeOn.getType().equals("NullInvoke")) {
+		if (triggerInvokeOn.getType().equals("NullInvoke")) {
 			triggerInvokeOn = IInvoke.Serializer.read(compound.getCompoundTag("triggerInvoke"));
 		}
 	}
@@ -43,10 +43,10 @@ public class RedstoneTriggerBlockTileEntity extends ACTileEntity {
 	}
 
 	public void invokeFromUpdateTick(EnumTriggerState triggerState, boolean onOff) {
-		if(this.world.isRemote)
+		if (this.world.isRemote)
 			return;
 
-		if(onOff)
+		if (onOff)
 			Invoke.invoke(triggerInvokeOn, this, null, triggerState);
 		else
 			Invoke.invoke(triggerInvokeOff, this, null, triggerState);
@@ -54,18 +54,18 @@ public class RedstoneTriggerBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
-		if(command.equals("trigger")) {
+		if (command.equals("trigger")) {
 			Invoke.invoke(triggerInvokeOn, this, null, EnumTriggerState.ON);
 			Invoke.invoke(triggerInvokeOff, this, null, EnumTriggerState.ON);
 			return;
 		}
 
-		if(command.equals("reload")) {
-			if(triggerInvokeOn != null && triggerInvokeOn instanceof FileScriptInvoke) {
-				((FileScriptInvoke)triggerInvokeOn).reloadScript();
+		if (command.equals("reload")) {
+			if (triggerInvokeOn != null && triggerInvokeOn instanceof FileScriptInvoke) {
+				((FileScriptInvoke) triggerInvokeOn).reloadScript();
 			}
-			if(triggerInvokeOff != null && triggerInvokeOff instanceof FileScriptInvoke) {
-				((FileScriptInvoke)triggerInvokeOff).reloadScript();
+			if (triggerInvokeOff != null && triggerInvokeOff instanceof FileScriptInvoke) {
+				((FileScriptInvoke) triggerInvokeOff).reloadScript();
 			}
 			return;
 		}
@@ -75,12 +75,12 @@ public class RedstoneTriggerBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public String getName() {
-		return "RedstoneTrigger@"+pos;
+		return "RedstoneTrigger@" + pos;
 	}
 
 	@Override
 	public String toString() {
-		return "RedstoneTriggerTileEntity:{"+triggerInvokeOn+", "+triggerInvokeOff+"}";
+		return "RedstoneTriggerTileEntity:{" + triggerInvokeOn + ", " + triggerInvokeOff + "}";
 	}
 
 	@Override
@@ -97,10 +97,10 @@ public class RedstoneTriggerBlockTileEntity extends ACTileEntity {
 		return triggerInvokeOff;
 	}
 
-	//	@Override
-	//	public void getInvokesAsDataCompounds(List<NBTTagCompound> invokes) {
-	//		invokes.add(triggerInvoke);
-	//	}
+	// @Override
+	// public void getInvokesAsDataCompounds(List<NBTTagCompound> invokes) {
+	// invokes.add(triggerInvoke);
+	// }
 
 	@Override
 	public void getInvokeColor(float[] color) {

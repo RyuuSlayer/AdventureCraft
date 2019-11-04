@@ -26,13 +26,13 @@ public class ValidateBlockCommand extends ACCommandBase {
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		if(args.length != 1) {
+		if (args.length != 1) {
 			throw new CommandException("Wrong number of parameters: " + args.length + " given, 1 needed.");
 		}
 
 		IBlockState state = GObjectTypeHelper.findBlockState(args[0]);
 
-		if(state == null) {
+		if (state == null) {
 			throw new CommandException("Block type does not exist: " + args[0]);
 		}
 
@@ -41,7 +41,7 @@ public class ValidateBlockCommand extends ACCommandBase {
 
 	@Override
 	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
-		if(args.length == 0) {
+		if (args.length == 0) {
 			return getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys());
 		}
 

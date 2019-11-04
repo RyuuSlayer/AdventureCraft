@@ -23,24 +23,25 @@ import de.ryuum3gum1n.adventurecraft.invoke.Invoke;
 import de.ryuum3gum1n.adventurecraft.script.wrappers.entity.EntityObjectWrapper;
 import de.ryuum3gum1n.adventurecraft.util.MutableInteger;
 
-public class CollisionTriggerBlockTileEntity extends ACTileEntity{
+public class CollisionTriggerBlockTileEntity extends ACTileEntity {
 	IInvoke collisionStartTrigger = BlockTriggerInvoke.ZEROINSTANCE;
 	IInvoke collisionStopTrigger = BlockTriggerInvoke.ZEROINSTANCE;
 	private int entityFilter = 1;
 
 	// This map contains all entities that are currently colliding with this block.
-	private Map<Entity,MutableInteger> collidingEntities = Maps.newHashMap();
+	private Map<Entity, MutableInteger> collidingEntities = Maps.newHashMap();
 
 	public void collision(Entity entityIn) {
-		if(!filter(entityIn))return;
+		if (!filter(entityIn))
+			return;
 
-		if(collidingEntities.containsKey(entityIn)) {
+		if (collidingEntities.containsKey(entityIn)) {
 			collidingEntities.get(entityIn).set(3);
 		} else {
 			collidingEntities.put(entityIn, new MutableInteger(3));
 
-			Map<String,Object> map = null;
-			if(collisionStartTrigger instanceof IScriptInvoke) {
+			Map<String, Object> map = null;
+			if (collisionStartTrigger instanceof IScriptInvoke) {
 				map = Maps.newHashMap();
 				map.put("entity", new EntityObjectWrapper(entityIn));
 			}
@@ -52,15 +53,15 @@ public class CollisionTriggerBlockTileEntity extends ACTileEntity{
 	}
 
 	private boolean filter(Entity entityIn) {
-		if(entityFilter == 0) {
+		if (entityFilter == 0) {
 			return true;
 		}
 
-		if(entityFilter == 1) {
+		if (entityFilter == 1) {
 			return entityIn instanceof EntityPlayer;
 		}
 
-		if(entityFilter == 2) {
+		if (entityFilter == 2) {
 			return entityIn instanceof EntityLiving;
 		}
 
@@ -79,13 +80,13 @@ public class CollisionTriggerBlockTileEntity extends ACTileEntity{
 	private void propagateCollisionStart(Entity entityIn, BlockPos pos) {
 		TileEntity tileEntity = world.getTileEntity(pos);
 
-		if(tileEntity != null && tileEntity instanceof CollisionTriggerBlockTileEntity) {
-			Map<Entity,MutableInteger> otherMap = ((CollisionTriggerBlockTileEntity)tileEntity).collidingEntities;
+		if (tileEntity != null && tileEntity instanceof CollisionTriggerBlockTileEntity) {
+			Map<Entity, MutableInteger> otherMap = ((CollisionTriggerBlockTileEntity) tileEntity).collidingEntities;
 
-			if(otherMap.containsKey(entityIn)) {
+			if (otherMap.containsKey(entityIn)) {
 				MutableInteger integer = otherMap.get(entityIn);
 
-				if(integer.get() < 3) {
+				if (integer.get() < 3) {
 					// refresh collision
 					integer.set(3);
 					((CollisionTriggerBlockTileEntity) tileEntity).propagateCollisionStart(entityIn);
@@ -112,10 +113,10 @@ public class CollisionTriggerBlockTileEntity extends ACTileEntity{
 	private void propagateCollisionStop(Entity entityIn, BlockPos pos) {
 		TileEntity tileEntity = world.getTileEntity(pos);
 
-		if(tileEntity != null && tileEntity instanceof CollisionTriggerBlockTileEntity) {
-			Map<Entity,MutableInteger> otherMap = ((CollisionTriggerBlockTileEntity)tileEntity).collidingEntities;
+		if (tileEntity != null && tileEntity instanceof CollisionTriggerBlockTileEntity) {
+			Map<Entity, MutableInteger> otherMap = ((CollisionTriggerBlockTileEntity) tileEntity).collidingEntities;
 
-			if(otherMap.containsKey(entityIn)) {
+			if (otherMap.containsKey(entityIn)) {
 				otherMap.remove(entityIn);
 				((CollisionTriggerBlockTileEntity) tileEntity).propagateCollisionStop(entityIn);
 			}
@@ -127,21 +128,21 @@ public class CollisionTriggerBlockTileEntity extends ACTileEntity{
 		super.update();
 		LinkedList<Entity> toRemove = null;
 
-		for(Entry<Entity,MutableInteger> entity : collidingEntities.entrySet()) {
-			if(entity.getValue().decrement() <= 0) {
-				if(toRemove == null)
+		for (Entry<Entity, MutableInteger> entity : collidingEntities.entrySet()) {
+			if (entity.getValue().decrement() <= 0) {
+				if (toRemove == null)
 					toRemove = Lists.newLinkedList();
 				toRemove.add(entity.getKey());
 			}
 		}
 
-		if(toRemove != null) {
-			while(toRemove.size() > 0) {
+		if (toRemove != null) {
+			while (toRemove.size() > 0) {
 				Entity entity = toRemove.removeFirst();
 				collidingEntities.remove(entity);
 
-				Map<String,Object> map = null;
-				if(collisionStartTrigger instanceof IScriptInvoke) {
+				Map<String, Object> map = null;
+				if (collisionStartTrigger instanceof IScriptInvoke) {
 					map = Maps.newHashMap();
 					map.put("entity", new EntityObjectWrapper(entity));
 				}
@@ -175,7 +176,7 @@ public class CollisionTriggerBlockTileEntity extends ACTileEntity{
 
 	@Override
 	public String getName() {
-		return "CollisionTriggerBlock@"+getPos();
+		return "CollisionTriggerBlock@" + getPos();
 	}
 
 	@Override

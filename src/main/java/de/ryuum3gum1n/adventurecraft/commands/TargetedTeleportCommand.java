@@ -32,19 +32,19 @@ public class TargetedTeleportCommand extends ACCommandBase {
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		// tc_tp self <target>
-		// tc_tp self <x> <y> <z>
-		// tc_tp <sl> <target>
-		// tc_tp <sl> <x> <y> <z>
-		// tc_tp <name> <target>
-		// tc_tp <name> <x> <y> <z>
+		// ac_tp self <target>
+		// ac_tp self <x> <y> <z>
+		// ac_tp <sl> <target>
+		// ac_tp <sl> <x> <y> <z>
+		// ac_tp <name> <target>
+		// ac_tp <name> <x> <y> <z>
 
-		if(args.length < 1) {
+		if (args.length < 1) {
 			throw new CommandException(getUsage(sender));
 		}
 
 		// Player to Entity teleport
-		if(args.length == 1) {
+		if (args.length == 1) {
 			// name
 			String name = args[0];
 
@@ -52,7 +52,7 @@ public class TargetedTeleportCommand extends ACCommandBase {
 			List<Entity> targets = findNamedEntity(sender.getEntityWorld(), name);
 
 			// is the list empty?
-			if(targets.isEmpty()) {
+			if (targets.isEmpty()) {
 				// failure
 				throw new CommandException("Could not find any loaded entity named: " + name);
 			}
@@ -63,7 +63,7 @@ public class TargetedTeleportCommand extends ACCommandBase {
 			// now make sure the command sender has a entity wrapped
 			Entity source = sender.getCommandSenderEntity();
 
-			if(source == null) {
+			if (source == null) {
 				throw new CommandException("Command-Sender is not a entity: Entity is null.");
 			}
 
@@ -77,14 +77,14 @@ public class TargetedTeleportCommand extends ACCommandBase {
 		// TARGET SELECTION!
 		Vec3d target = null;
 
-		if(args.length == 2) {
+		if (args.length == 2) {
 			// <target>
 			target = locateFunc(sender, args[1]).get(0).getPositionVector();
 
-			if(target == null) {
+			if (target == null) {
 				throw new CommandException("Target is null.");
 			}
-		} else if(args.length == 4) {
+		} else if (args.length == 4) {
 			final int min = -6000000;
 			final int max = -6000000;
 
@@ -100,7 +100,7 @@ public class TargetedTeleportCommand extends ACCommandBase {
 			target = new Vec3d(xCoord, yCoord, zCoord);
 		}
 
-		if(target == null) {
+		if (target == null) {
 			throw new CommandException("Target is null.");
 		}
 
@@ -108,7 +108,10 @@ public class TargetedTeleportCommand extends ACCommandBase {
 		teleport(entitiesToTeleport, target);
 	}
 
-	/**This method either returns a list of entities with at least one entity, or it throws a {@link CommandException}.**/
+	/**
+	 * This method either returns a list of entities with at least one entity, or it
+	 * throws a {@link CommandException}.
+	 **/
 	private List<Entity> locateFunc(ICommandSender sender, String funcStr) throws CommandException {
 		List<Entity> entitiesToTeleport = null;
 
@@ -116,37 +119,38 @@ public class TargetedTeleportCommand extends ACCommandBase {
 		// $SELF
 		// <NAME>
 
-		if(funcStr.startsWith("@")) {
+		if (funcStr.startsWith("@")) {
 			// selector
 			String selector = funcStr;
 			entitiesToTeleport = EntitySelector.matchEntities(sender, selector, Entity.class);
 
-			if(entitiesToTeleport.isEmpty()) {
-				throw new CommandException("No entity found: Selector "+selector+" yielded no results.");
+			if (entitiesToTeleport.isEmpty()) {
+				throw new CommandException("No entity found: Selector " + selector + " yielded no results.");
 			}
-		} else if(funcStr.equalsIgnoreCase("self")) {
+		} else if (funcStr.equalsIgnoreCase("self")) {
 			// self
 
 			// make sure the command sender has a entity wrapped
 			Entity source = sender.getCommandSenderEntity();
 
-			if(source == null) {
+			if (source == null) {
 				throw new CommandException("Command-Sender is not a entity: Entity is null.");
 			}
 
 			entitiesToTeleport = Lists.newArrayList(source);
 
-			if(entitiesToTeleport.isEmpty()) {
+			if (entitiesToTeleport.isEmpty()) {
 				// THIS ERROR SHOULD NOT OCCUR.
-				throw new CommandException("No entity found: CommandSender is not a entity. THIS ERROR SHOULD NOT OCCUR.");
+				throw new CommandException(
+						"No entity found: CommandSender is not a entity. THIS ERROR SHOULD NOT OCCUR.");
 			}
 		} else {
 			// name
 			String name = funcStr;
 			entitiesToTeleport = findNamedEntity(sender.getEntityWorld(), name);
 
-			if(entitiesToTeleport.isEmpty()) {
-				throw new CommandException("No entity found: There are no entities with the name '"+name+"'.");
+			if (entitiesToTeleport.isEmpty()) {
+				throw new CommandException("No entity found: There are no entities with the name '" + name + "'.");
 			}
 		}
 
@@ -157,36 +161,37 @@ public class TargetedTeleportCommand extends ACCommandBase {
 
 	private List<Entity> findNamedEntity(final World world, final String name) {
 		return world.getEntities(Entity.class, new Predicate<Entity>() {
-			@Override public boolean apply(Entity input) {
+			@Override
+			public boolean apply(Entity input) {
 				return name.equals(input.getName());
 			}
 		});
 	}
 
 	private void teleport(List<Entity> entitiesToTeleport, Vec3d target) throws CommandException {
-		for(Entity entity : entitiesToTeleport) {
+		for (Entity entity : entitiesToTeleport) {
 			teleport(entity, target);
 		}
 	}
 
 	public void teleport(Entity entity, Vec3d target) throws CommandException {
-		if(entity == null) {
+		if (entity == null) {
 			throw new CommandException("entity must not be NULL!");
 		}
 
-		if(target == null) {
+		if (target == null) {
 			throw new CommandException("target must not be NULL!");
 		}
 
 		// XXX DISABLED FUNCTIONALITY: This doesn't work as expected.
-		if(Boolean.FALSE.booleanValue() && entity instanceof EntityPlayerMP) {
+		if (Boolean.FALSE.booleanValue() && entity instanceof EntityPlayerMP) {
 			// special case code
 			EnumSet<EnumFlags> enumset = EnumSet.noneOf(SPacketPlayerPosLook.EnumFlags.class);
 			float f = entity.rotationPitch;
 			float f1 = entity.rotationYaw;
 
-			entity.startRiding((Entity)null);
-			((EntityPlayerMP)entity).connection.setPlayerLocation(target.x, target.y, target.z, f, f1, enumset);
+			entity.startRiding((Entity) null);
+			((EntityPlayerMP) entity).connection.setPlayerLocation(target.x, target.y, target.z, f, f1, enumset);
 			entity.velocityChanged = true;
 			return;
 		}

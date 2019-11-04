@@ -46,17 +46,17 @@ public class EntityObjectWrapper implements IObjectWrapper {
 	}
 
 	public void setPosition(BlockPos blockPos) {
-		double x = blockPos.getX()+0.5;
+		double x = blockPos.getX() + 0.5;
 		double y = blockPos.getY();
-		double z = blockPos.getZ()+0.5;
+		double z = blockPos.getZ() + 0.5;
 		entity.setPositionAndUpdate(x, y, z);
 	}
 
 	public void setPositionAndRotation(BlockPos blockPos, double yaw, double pitch) {
-		double x = blockPos.getX()+0.5;
+		double x = blockPos.getX() + 0.5;
 		double y = blockPos.getY();
-		double z = blockPos.getZ()+0.5;
-		entity.setPositionAndRotation(x, y, z, (float)yaw, (float)pitch);
+		double z = blockPos.getZ() + 0.5;
+		entity.setPositionAndRotation(x, y, z, (float) yaw, (float) pitch);
 	}
 
 	public void setPosition(double x, double y, double z) {
@@ -64,7 +64,7 @@ public class EntityObjectWrapper implements IObjectWrapper {
 	}
 
 	public void setPositionAndRotation(double x, double y, double z, double yaw, double pitch) {
-		entity.setPositionAndRotation(x, y, z, (float)yaw, (float)pitch);
+		entity.setPositionAndRotation(x, y, z, (float) yaw, (float) pitch);
 	}
 
 	public void setRotation(float yaw, float pitch) {
@@ -123,31 +123,32 @@ public class EntityObjectWrapper implements IObjectWrapper {
 	public void mount(EntityObjectWrapper rider) {
 		entity.startRiding(rider.entity);
 	}
-	
-	public int getID(){
+
+	public int getID() {
 		return entity.getEntityId();
 	}
-	
-	public UUID getUUID(){
+
+	public UUID getUUID() {
 		return entity.getUniqueID();
 	}
 
-	//	public void attackEntity(DamageSource source, float damage) {
+	// public void attackEntity(DamageSource source, float damage) {
 	//
-	//	}
+	// }
 
 	public void kill() {
 		// TODO: This might not work correctly... ?
 		entity.attackEntityFrom(DamageSource.GENERIC, 1000000F);
 	}
-	
-	public EntityLivingObjectWrapper getAsLiving(){
+
+	public EntityLivingObjectWrapper getAsLiving() {
 		return new EntityLivingObjectWrapper((EntityLiving) entity);
 	}
 
 	/**
-	 * This function is seriosly powerful, as you can change ANY entities NBT-Data with it.
-	 * Hell, you can even transform one entity into another (In theory! Dont do it!).
+	 * This function is seriosly powerful, as you can change ANY entities NBT-Data
+	 * with it. Hell, you can even transform one entity into another (In theory!
+	 * Dont do it!).
 	 **/
 	public void merge(CompoundTagWrapper tagwrap) {
 		NBTTagCompound tagCompound = new NBTTagCompound();
@@ -159,7 +160,7 @@ public class EntityObjectWrapper implements IObjectWrapper {
 	public static final List<EntityObjectWrapper> transform(List<Entity> entities) {
 		List<EntityObjectWrapper> out = new ArrayList<EntityObjectWrapper>(entities.size());
 
-		for(Entity entity : entities) {
+		for (Entity entity : entities) {
 			out.add(transform(entity));
 		}
 
@@ -167,14 +168,14 @@ public class EntityObjectWrapper implements IObjectWrapper {
 	}
 
 	public static final EntityObjectWrapper transform(Entity entity) {
-		if(entity instanceof EntityLiving) {
-			return new EntityLivingObjectWrapper((EntityLiving)entity);
+		if (entity instanceof EntityLiving) {
+			return new EntityLivingObjectWrapper((EntityLiving) entity);
 		}
 
 		return new EntityObjectWrapper(entity);
 	}
-	
-	public PlayerObjectWrapper getClosestPlayer(double distance){
+
+	public PlayerObjectWrapper getClosestPlayer(double distance) {
 		return new PlayerObjectWrapper(entity.world.getClosestPlayerToEntity(entity, distance));
 	}
 

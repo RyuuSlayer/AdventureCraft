@@ -16,7 +16,6 @@ public class NPCDataPacket implements IMessage {
 
 	NBTTagCompound data;
 	UUID uuid;
-	
 
 	public NPCDataPacket() {
 	}

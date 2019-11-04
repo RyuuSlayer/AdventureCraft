@@ -23,7 +23,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import de.ryuum3gum1n.adventurecraft.AdventureCraft;
 import de.ryuum3gum1n.adventurecraft.invoke.IInvokeSource;
 
-public abstract class ACTileEntity extends TileEntity implements IInvokeSource, ICommandSender, ACIBlockCommandReceiver, ITickable  {
+public abstract class ACTileEntity extends TileEntity
+		implements IInvokeSource, ICommandSender, ACIBlockCommandReceiver, ITickable {
 	private boolean isTileEntityInitialized = false;
 	private Scriptable nativeObject;
 
@@ -31,7 +32,7 @@ public abstract class ACTileEntity extends TileEntity implements IInvokeSource, 
 	public void setPos(BlockPos pos) {
 		super.setPos(pos);
 
-		if(!isTileEntityInitialized) {
+		if (!isTileEntityInitialized) {
 			nativeObject = AdventureCraft.globalScriptManager.createNewBlockScope(getEntityWorld(), this.pos);
 			this.init();
 			isTileEntityInitialized = true;
@@ -42,9 +43,9 @@ public abstract class ACTileEntity extends TileEntity implements IInvokeSource, 
 
 	}
 
-
 	@Override
-	public void update(){}
+	public void update() {
+	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
@@ -59,13 +60,14 @@ public abstract class ACTileEntity extends TileEntity implements IInvokeSource, 
 	}
 
 	public abstract void readFromNBT_do(NBTTagCompound comp);
+
 	public abstract NBTTagCompound writeToNBT_do(NBTTagCompound comp);
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
 		// empty
 
-		if(command.equals("re_init")) {
+		if (command.equals("re_init")) {
 			isTileEntityInitialized = false;
 			setPos(pos);
 			return;
@@ -83,7 +85,7 @@ public abstract class ACTileEntity extends TileEntity implements IInvokeSource, 
 	public ITextComponent getDisplayName() {
 		return new TextComponentString(getName());
 	}
-	
+
 	@Override
 	public void sendMessage(ITextComponent message) {
 		// nope!
@@ -106,7 +108,7 @@ public abstract class ACTileEntity extends TileEntity implements IInvokeSource, 
 
 	@Override
 	public Vec3d getPositionVector() {
-		return new Vec3d(this.pos.getX(),this.pos.getY(),this.pos.getZ());
+		return new Vec3d(this.pos.getX(), this.pos.getY(), this.pos.getZ());
 	}
 
 	@Override
@@ -164,12 +166,12 @@ public abstract class ACTileEntity extends TileEntity implements IInvokeSource, 
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		return new SPacketUpdateTileEntity(this.pos, 3, writeToNBT(new NBTTagCompound()));
 	}
-	
+
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		return writeToNBT(new NBTTagCompound());
 	}
-	
+
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
 		readFromNBT(tag);

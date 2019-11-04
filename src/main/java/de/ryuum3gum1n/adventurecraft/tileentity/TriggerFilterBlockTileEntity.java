@@ -18,10 +18,10 @@ public class TriggerFilterBlockTileEntity extends ACTileEntity {
 
 	public TriggerFilterBlockTileEntity() {
 		triggerInvoke = BlockTriggerInvoke.ZEROINSTANCE;
-		filter_on  = true;
+		filter_on = true;
 		filter_off = false;
-		filter_invert  = false;
-		filter_ignore  = false;
+		filter_invert = false;
+		filter_ignore = false;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class TriggerFilterBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public String getName() {
-		return "TriggerFilterBlock@"+this.getPos();
+		return "TriggerFilterBlock@" + this.getPos();
 	}
 
 	public IInvoke getTriggerInvoke() {
@@ -66,7 +66,7 @@ public class TriggerFilterBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
-		if(command.equals("trigger")) {
+		if (command.equals("trigger")) {
 			trigger(EnumTriggerState.IGNORE);
 			return;
 		}
@@ -78,15 +78,24 @@ public class TriggerFilterBlockTileEntity extends ACTileEntity {
 	public void trigger(EnumTriggerState triggerState) {
 		boolean can = false;
 
-		switch(triggerState) {
-		case ON: can |= filter_on; break;
-		case OFF: can |= filter_off; break;
-		case INVERT: can |= filter_invert; break;
-		case IGNORE: can |= filter_ignore; break;
-		default: break;
+		switch (triggerState) {
+		case ON:
+			can |= filter_on;
+			break;
+		case OFF:
+			can |= filter_off;
+			break;
+		case INVERT:
+			can |= filter_invert;
+			break;
+		case IGNORE:
+			can |= filter_ignore;
+			break;
+		default:
+			break;
 		}
 
-		if(can) {
+		if (can) {
 			Invoke.invoke(triggerInvoke, this, null, triggerState);
 		}
 	}

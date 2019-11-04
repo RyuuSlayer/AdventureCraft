@@ -37,9 +37,10 @@ import de.ryuum3gum1n.adventurecraft.invoke.NullInvoke;
 public class ScriptItem extends ACItem {
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side,
+			float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
-		if(world.isRemote)
+		if (world.isRemote)
 			return EnumActionResult.PASS;
 
 		NBTTagCompound compound = getNBT(stack);
@@ -48,11 +49,14 @@ public class ScriptItem extends ACItem {
 		IInvoke invoke = IInvoke.Serializer.read(compound.getCompoundTag("invoke_on_use"));
 
 		// make sure to not waste time
-		if(invoke == null) return EnumActionResult.PASS;
-		if(invoke instanceof NullInvoke) return EnumActionResult.PASS;
+		if (invoke == null)
+			return EnumActionResult.PASS;
+		if (invoke instanceof NullInvoke)
+			return EnumActionResult.PASS;
 
 		// execute invoke
-		Invoke.invoke(invoke, new TempstackvokeSource(world, new BlockPos(hitX, hitY, hitZ), player), null, EnumTriggerState.ON);
+		Invoke.invoke(invoke, new TempstackvokeSource(world, new BlockPos(hitX, hitY, hitZ), player), null,
+				EnumTriggerState.ON);
 
 		return EnumActionResult.SUCCESS;
 	}
@@ -60,7 +64,7 @@ public class ScriptItem extends ACItem {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		if(world.isRemote)
+		if (world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 
 		NBTTagCompound compound = getNBT(stack);
@@ -69,8 +73,10 @@ public class ScriptItem extends ACItem {
 		IInvoke invoke = IInvoke.Serializer.read(compound.getCompoundTag("invoke_on_rclick"));
 
 		// make sure to not waste time
-		if(invoke == null) return ActionResult.newResult(EnumActionResult.PASS, stack);
-		if(invoke instanceof NullInvoke) return ActionResult.newResult(EnumActionResult.PASS, stack);
+		if (invoke == null)
+			return ActionResult.newResult(EnumActionResult.PASS, stack);
+		if (invoke instanceof NullInvoke)
+			return ActionResult.newResult(EnumActionResult.PASS, stack);
 
 		// execute invoke
 		Invoke.invoke(invoke, new TempstackvokeSource(world, player.getPosition(), player), null, EnumTriggerState.ON);
@@ -86,11 +92,14 @@ public class ScriptItem extends ACItem {
 		IInvoke invoke = IInvoke.Serializer.read(compound.getCompoundTag("invoke_on_lclick"));
 
 		// make sure to not waste time
-		if(invoke == null) return false;
-		if(invoke instanceof NullInvoke) return false;
+		if (invoke == null)
+			return false;
+		if (invoke instanceof NullInvoke)
+			return false;
 
 		// execute invoke
-		Invoke.invoke(invoke, new TempstackvokeSource(player.world, player.getPosition(), player), null, EnumTriggerState.ON);
+		Invoke.invoke(invoke, new TempstackvokeSource(player.world, player.getPosition(), player), null,
+				EnumTriggerState.ON);
 
 		return false;
 	}
@@ -106,9 +115,10 @@ public class ScriptItem extends ACItem {
 		NBTTagCompound compound = getNBT(stack);
 
 		NBTTagList lore = compound.getTagList("lore", NBT.TAG_STRING);
-		if(lore.hasNoTags()) return;
+		if (lore.hasNoTags())
+			return;
 
-		for(int i = 0; i < lore.tagCount(); i++) {
+		for (int i = 0; i < lore.tagCount(); i++) {
 			tooltip.add(lore.getStringTagAt(i));
 		}
 	}
@@ -116,7 +126,7 @@ public class ScriptItem extends ACItem {
 	private static final NBTTagCompound getNBT(ItemStack stack) {
 		NBTTagCompound comp = stack.getTagCompound();
 
-		if(comp == null) {
+		if (comp == null) {
 			comp = new NBTTagCompound();
 			stack.setTagCompound(comp);
 		}
@@ -138,7 +148,7 @@ public class ScriptItem extends ACItem {
 
 		@Override
 		public Scriptable getInvokeScriptScope() {
-			if(scriptScope == null) {
+			if (scriptScope == null) {
 
 				// if(holder != null) ... ?
 
@@ -180,7 +190,7 @@ public class ScriptItem extends ACItem {
 
 		@Override
 		public void sendMessage(ITextComponent message) {
-			if(holder != null)
+			if (holder != null)
 				holder.sendMessage(message);
 		}
 
@@ -216,7 +226,7 @@ public class ScriptItem extends ACItem {
 
 		@Override
 		public void setCommandStat(Type type, int amount) {
-			if(holder != null)
+			if (holder != null)
 				holder.setCommandStat(type, amount);
 		}
 

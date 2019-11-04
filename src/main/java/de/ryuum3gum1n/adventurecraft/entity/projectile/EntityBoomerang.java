@@ -15,27 +15,27 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import de.ryuum3gum1n.adventurecraft.client.entity.RenderBoomerang;
 
 public class EntityBoomerang extends EntityThrowable {
-	
+
 	private int rotation = 0;
 	private ItemStack stack;
 	private boolean isReturning = false;
-	
+
 	public EntityBoomerang(World world) {
 		super(world);
 	}
-	
+
 	public EntityBoomerang(World world, EntityLivingBase thrower) {
 		super(world, thrower);
 	}
-	
+
 	public EntityBoomerang(World world, double x, double y, double z) {
 		super(world, x, y, z);
 	}
-	
+
 	public void setItemStack(ItemStack stack) {
 		this.stack = stack;
 	}
-	
+
 	@Override
 	protected void onImpact(RayTraceResult result) {
 		if (world.isRemote)
@@ -45,8 +45,7 @@ public class EntityBoomerang extends EntityThrowable {
 			if (ent == getThrower()) {
 				setDead();
 			} else {
-				ent.attackEntityFrom(
-						DamageSource.causeIndirectDamage(this, getThrower()), 4F);
+				ent.attackEntityFrom(DamageSource.causeIndirectDamage(this, getThrower()), 4F);
 			}
 		} else {
 			if (isReturning) {
@@ -56,7 +55,7 @@ public class EntityBoomerang extends EntityThrowable {
 			}
 		}
 	}
-	
+
 	@Override
 	public void onUpdate() {
 		rotation += 30;
@@ -73,14 +72,14 @@ public class EntityBoomerang extends EntityThrowable {
 		}
 		super.onUpdate();
 	}
-	
+
 	private void returnToThrower() {
 		isReturning = true;
 		this.motionX *= -1;
 		this.motionY *= -1;
 		this.motionZ *= -1;
 	}
-	
+
 	@Override
 	public void setDead() {
 		super.setDead();
@@ -88,28 +87,28 @@ public class EntityBoomerang extends EntityThrowable {
 			stack.getTagCompound().setBoolean("thrown", false);
 		}
 	}
-	
+
 	public int getRotation() {
 		return rotation;
 	}
-	
+
 	@Override
 	protected float getGravityVelocity() {
 		return 0;
 	}
-	
+
 	@Override
 	public void writeEntityToNBT(NBTTagCompound tag) {
 		super.writeEntityToNBT(tag);
-		
+
 	}
-	
+
 	@Override
 	public void readEntityFromNBT(NBTTagCompound tag) {
 		super.readEntityFromNBT(tag);
-		
+
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public static class EntityBoomerangFactory implements IRenderFactory {
 		@Override
@@ -117,5 +116,5 @@ public class EntityBoomerang extends EntityThrowable {
 			return new RenderBoomerang(manager);
 		}
 	}
-	
+
 }

@@ -26,16 +26,17 @@ public class URLBlock extends ACBlockContainer implements ACITriggerableBlock {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (!worldIn.isRemote)
 			return true;
-		if(!AdventureCraft.proxy.isBuildMode())
+		if (!AdventureCraft.proxy.isBuildMode())
 			return false;
-		if(playerIn.isSneaking())
+		if (playerIn.isSneaking())
 			return true;
 
 		Minecraft mc = Minecraft.getMinecraft();
-		mc.displayGuiScreen(new GuiURLBlock((URLBlockTileEntity)worldIn.getTileEntity(pos)));
+		mc.displayGuiScreen(new GuiURLBlock((URLBlockTileEntity) worldIn.getTileEntity(pos)));
 
 		return true;
 	}
@@ -48,7 +49,7 @@ public class URLBlock extends ACBlockContainer implements ACITriggerableBlock {
 		TileEntity tileentity = world.getTileEntity(position);
 
 		if (tileentity instanceof URLBlockTileEntity) {
-			((URLBlockTileEntity)tileentity).trigger(triggerState);
+			((URLBlockTileEntity) tileentity).trigger(triggerState);
 		}
 	}
 

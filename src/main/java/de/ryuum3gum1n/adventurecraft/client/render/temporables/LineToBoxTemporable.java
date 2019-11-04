@@ -22,8 +22,7 @@ public class LineToBoxTemporable implements ITemporaryRenderable {
 	}
 
 	@Override
-	public void render(Minecraft mc, ClientProxy clientProxy,
-			Tessellator tessellator, BufferBuilder vertexbuffer,
+	public void render(Minecraft mc, ClientProxy clientProxy, Tessellator tessellator, BufferBuilder vertexbuffer,
 			double partialTicks) {
 
 		// float timeUntilRemoval = deletionTimepoint - System.currentTimeMillis();
@@ -59,7 +58,8 @@ public class LineToBoxTemporable implements ITemporaryRenderable {
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(ClientResources.texColorOrange);
-		//		BoxRenderer.renderBox(tessellator, worldrenderer, minX, minY, minZ, maxX, maxY, maxZ, r, g, b, a);
+		// BoxRenderer.renderBox(tessellator, worldrenderer, minX, minY, minZ, maxX,
+		// maxY, maxZ, r, g, b, a);
 
 		BoxRenderer.renderBoxLine(tessellator, vertexbuffer, x0, y0, z0, x1, y1, z1, r, g, b, a);
 		BoxRenderer.renderWireBoxWithPointAndLines(minX, minY, minZ, maxX, maxY, maxZ, x0, y0, z0, r, g, b, a);

@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import de.ryuum3gum1n.adventurecraft.entity.NPC.EntityNPC;
 
 public class NPCEditorItem extends ACItem {
-	
+
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		// ItemStack stack = player.getHeldItem(hand);
@@ -26,25 +26,25 @@ public class NPCEditorItem extends ACItem {
 		Vec3d end = start.addVector(direction.x * dist, direction.y * dist, direction.z * dist);
 
 		RayTraceResult result = world.rayTraceBlocks(start, end, false, false, false);
-		if(result != null && result.typeOfHit == Type.BLOCK){
+		if (result != null && result.typeOfHit == Type.BLOCK) {
 			spawnNPC(world, result.getBlockPos());
-			if(!world.isRemote) player.sendMessage(new TextComponentString("NPC spawned!"));
+			if (!world.isRemote)
+				player.sendMessage(new TextComponentString("NPC spawned!"));
 		}
 		return super.onItemRightClick(world, player, hand);
 	}
-	
-	private void spawnNPC(World world, BlockPos pos){
-		if(!world.isRemote){
+
+	private void spawnNPC(World world, BlockPos pos) {
+		if (!world.isRemote) {
 			EntityNPC npc = new EntityNPC(world);
-			npc.setLocationAndAngles(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, MathHelper.wrapDegrees(world.rand.nextFloat() * 360.0F), 0.0F);
+			npc.setLocationAndAngles(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5,
+					MathHelper.wrapDegrees(world.rand.nextFloat() * 360.0F), 0.0F);
 			npc.rotationYawHead = npc.rotationYaw;
 			npc.renderYawOffset = npc.rotationYaw;
-			npc.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(npc)), (IEntityLivingData)null);
+			npc.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(npc)), (IEntityLivingData) null);
 			world.spawnEntity(npc);
 			npc.playLivingSound();
 		}
 	}
-	
 
-	
 }

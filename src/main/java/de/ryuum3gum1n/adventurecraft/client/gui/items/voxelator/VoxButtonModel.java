@@ -10,10 +10,11 @@ public class VoxButtonModel implements ButtonModel {
 	private boolean current;
 	private final String name;
 	private final NBTTagCompound tag;
-	
+
 	public VoxButtonModel(NBTTagCompound compound, BooleanBrushParameter param) {
 		name = param.getName();
-		if(compound.hasKey(name))current = compound.getBoolean(name);
+		if (compound.hasKey(name))
+			current = compound.getBoolean(name);
 		this.tag = compound;
 	}
 
@@ -29,12 +30,16 @@ public class VoxButtonModel implements ButtonModel {
 	}
 
 	@Override
-	public ResourceLocation getIcon() {return null;}
+	public ResourceLocation getIcon() {
+		return null;
+	}
 
 	@Override
-	public void setText(String newText) {}
+	public void setText(String newText) {
+	}
 
 	@Override
-	public void setIcon(ResourceLocation newIcon) {}
+	public void setIcon(ResourceLocation newIcon) {
+	}
 
 }

@@ -5,7 +5,7 @@ import de.ryuum3gum1n.adventurecraft.AdventureCraftSounds;
 import de.ryuum3gum1n.adventurecraft.AdventureCraftItems;
 
 public class RifleItem extends ACGunItem {
-	
+
 	@Override
 	protected ACGunClipItem getClip() {
 		return AdventureCraftItems.rifleClip;

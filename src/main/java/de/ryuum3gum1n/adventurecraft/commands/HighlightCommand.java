@@ -39,13 +39,14 @@ public class HighlightCommand extends ACCommandBase {
 
 		String action = parser.consume_string("Couldn't parse highlight action!");
 
-		if(action.equals("clear")) {
+		if (action.equals("clear")) {
 			// TODO: clear highlights!
-			sender.sendMessage(new TextComponentString(TextFormatting.RED+"ERROR: highlight clearing not yet implemented."));
+			sender.sendMessage(
+					new TextComponentString(TextFormatting.RED + "ERROR: highlight clearing not yet implemented."));
 			return;
 		}
 
-		if(action.equals("entity")) {
+		if (action.equals("entity")) {
 			// highlight a entity/multiple entities
 			double duration = parser.consume_double("Couldn't parse duration!", 0.0000000001d, 10d);
 			String selector = parser.consume_string("Couldn't parse entity selector!");
@@ -54,16 +55,16 @@ public class HighlightCommand extends ACCommandBase {
 
 			Potion potion = Potion.getPotionFromResourceLocation("minecraft:glow");
 			PotionEffect effect = new PotionEffect(potion, (int) duration, 1);
-			
-			for(Entity ent : entities) {
-				if(ent instanceof EntityLiving) {
+
+			for (Entity ent : entities) {
+				if (ent instanceof EntityLiving) {
 					((EntityLiving) ent).addPotionEffect(effect);
 				}
 			}
 			return;
 		}
 
-		if(action.equals("block")) {
+		if (action.equals("block")) {
 			// highlight a block
 
 			double duration = parser.consume_double("Couldn't parse duration!", 0.0000000001d, 10d);
@@ -83,8 +84,8 @@ public class HighlightCommand extends ACCommandBase {
 
 	@Override
 	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
-		if(args.length <= 1) {
-			return getListOfStringsMatchingLastWord(args, new String[]{"entity","block","clear"});
+		if (args.length <= 1) {
+			return getListOfStringsMatchingLastWord(args, new String[] { "entity", "block", "clear" });
 		}
 
 		return Collections.emptyList();

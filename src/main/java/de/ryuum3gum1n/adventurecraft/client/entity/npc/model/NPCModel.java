@@ -12,7 +12,8 @@ import de.ryuum3gum1n.adventurecraft.entity.NPC.EntityNPC;
 public class NPCModel extends ModelBiped {
 
 	@Override
-	public void render(Entity entity, float swingTime, float swingAmunt, float tick, float yaw, float pitch, float scale) {
+	public void render(Entity entity, float swingTime, float swingAmunt, float tick, float yaw, float pitch,
+			float scale) {
 		EntityNPC npc = (EntityNPC) entity;
 		NPCModelData model_data = npc.model_data;
 		if (model_data == null) {
@@ -32,7 +33,8 @@ public class NPCModel extends ModelBiped {
 	}
 
 	@Override
-	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+			float headPitch, float scaleFactor, Entity entityIn) {
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
 		EntityNPC npc = (EntityNPC) entityIn;
 		NPCModelData model_data = npc.model_data;
@@ -41,10 +43,12 @@ public class NPCModel extends ModelBiped {
 			npc.model_data = model_data;
 		}
 		if (model_data.currentModel.animation.equals("internal:zombie")) {
-			new INPCAnimationInternal.ZombieAnimation().animate(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn, this, model_data);
+			new INPCAnimationInternal.ZombieAnimation().animate(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw,
+					headPitch, scaleFactor, entityIn, this, model_data);
 		}
 		if (model_data.currentModel.animation.equals("internal:player")) {
-			new INPCAnimationInternal.PlayerAnimation().animate(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn, this, model_data);
+			new INPCAnimationInternal.PlayerAnimation().animate(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw,
+					headPitch, scaleFactor, entityIn, this, model_data);
 		}
 	}
 
@@ -58,7 +62,8 @@ public class NPCModel extends ModelBiped {
 	}
 
 	@Override
-	public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
+	public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount,
+			float partialTickTime) {
 		super.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTickTime);
 	}
 

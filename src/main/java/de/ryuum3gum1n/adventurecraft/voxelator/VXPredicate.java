@@ -16,37 +16,29 @@ import de.ryuum3gum1n.adventurecraft.voxelator.predicates.VXPredicateNOT;
 import de.ryuum3gum1n.adventurecraft.voxelator.predicates.VXPredicateOR;
 import de.ryuum3gum1n.adventurecraft.voxelator.predicates.VXPredicateRandom;
 
-public abstract class VXPredicate{
+public abstract class VXPredicate {
 	/**
 	 * A predicate that always returns true.
-	 * @deprecated Use instead: {@code de.longor.adventurecraft.voxelator.predicates.VXPredicateAlways}
+	 * 
+	 * @deprecated Use instead:
+	 *             {@code de.longor.adventurecraft.voxelator.predicates.VXPredicateAlways}
 	 **/
 	@Deprecated
-	public static final VXPredicate ALWAYS = new VXPredicate(){
+	public static final VXPredicate ALWAYS = new VXPredicate() {
 		@Override
-		public boolean test(
-				BlockPos pos,
-				BlockPos center,
-				MutableBlockPos offset,
-				CachedWorldDiff fworld
-				) {
+		public boolean test(BlockPos pos, BlockPos center, MutableBlockPos offset, CachedWorldDiff fworld) {
 			return true;
 		}
 	};
 
 	/** @return SEE IMPLEMENTATION. **/
-	public abstract boolean test(
-			BlockPos pos,
-			BlockPos center,
-			MutableBlockPos offset,
-			CachedWorldDiff fworld
-			);
+	public abstract boolean test(BlockPos pos, BlockPos center, MutableBlockPos offset, CachedWorldDiff fworld);
 
-	public static VXPredicate newAND(VXPredicate...predicates) {
+	public static VXPredicate newAND(VXPredicate... predicates) {
 		return new VXPredicateAND(predicates);
 	}
 
-	public static VXPredicate newOR(VXPredicate...predicates) {
+	public static VXPredicate newOR(VXPredicate... predicates) {
 		return new VXPredicateOR(predicates);
 	}
 

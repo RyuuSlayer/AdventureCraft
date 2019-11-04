@@ -29,22 +29,22 @@ import de.ryuum3gum1n.adventurecraft.util.WorldHelper.BlockRegionIterator;
 public class SelectionBoxRenderer implements IRenderable {
 
 	@Override
-	public void render(Minecraft mc, ClientProxy clientProxy,
-			Tessellator tessellator, final BufferBuilder vertexbuffer,
+	public void render(Minecraft mc, ClientProxy clientProxy, Tessellator tessellator, final BufferBuilder vertexbuffer,
 			double partialTicks) {
 
 		// Don't show the selection if we are not in BuildMode!
-		if(!ClientProxy.isInBuildMode()) return;
+		if (!ClientProxy.isInBuildMode())
+			return;
 
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GL11.GL_ONE_MINUS_DST_COLOR, GL11.GL_ZERO);
 
 		// Wand Selection Rendering
 		NBTTagCompound playerData = mc.player.getEntityData();
-		if(playerData.hasKey("acWand")) {
+		if (playerData.hasKey("acWand")) {
 			NBTTagCompound acWand = playerData.getCompoundTag("tcWand");
 
-			if(acWand.hasKey("cursor")) {
+			if (acWand.hasKey("cursor")) {
 				final float E = -1f / 64f;
 				int[] cursor = acWand.getIntArray("cursor");
 
@@ -52,16 +52,17 @@ public class SelectionBoxRenderer implements IRenderable {
 				GlStateManager.glPolygonMode(GL11.GL_BACK, GL11.GL_FILL);
 				GlStateManager.enableTexture2D();
 				mc.getTextureManager().bindTexture(ClientResources.texColorWhite);
-				BoxRenderer.renderBox(tessellator, vertexbuffer, cursor[0]-E, cursor[1]-E, cursor[2]-E, cursor[0]+1+E, cursor[1]+1+E, cursor[2]+1+E, 1f,1f,1f,1f);
+				BoxRenderer.renderBox(tessellator, vertexbuffer, cursor[0] - E, cursor[1] - E, cursor[2] - E,
+						cursor[0] + 1 + E, cursor[1] + 1 + E, cursor[2] + 1 + E, 1f, 1f, 1f, 1f);
 				GlStateManager.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
 			}
 
 			// If not null, render the cursor selections boundaries.
-			if(acWand.hasKey("boundsA") && acWand.hasKey("boundsB") && acWand.getBoolean("enabled")) {
+			if (acWand.hasKey("boundsA") && acWand.hasKey("boundsB") && acWand.getBoolean("enabled")) {
 				// get bounds
 				int[] ba = acWand.getIntArray("boundsA");
 				int[] bb = acWand.getIntArray("boundsB");
-				
+
 				// make sure its correctly sorted
 				int ix = Math.min(ba[0], bb[0]);
 				int iy = Math.min(ba[1], bb[1]);
@@ -69,61 +70,65 @@ public class SelectionBoxRenderer implements IRenderable {
 				int ax = Math.max(ba[0], bb[0]);
 				int ay = Math.max(ba[1], bb[1]);
 				int az = Math.max(ba[2], bb[2]);
-				
+
 				// Calculate Size & Volume
-				int sx = ax-ix+1;
-				int sy = ay-iy+1;
-				int sz = az-iz+1;
-				int sv = sx*sy*sz;
-				
-				if(sv < 1024 && sv > 0) {
+				int sx = ax - ix + 1;
+				int sy = ay - iy + 1;
+				int sz = az - iz + 1;
+				int sv = sx * sy * sz;
+
+				if (sv < 1024 && sv > 0) {
 					boolean showVoid = false;
-					
+
 					ItemStack IS = mc.player.getHeldItemMainhand();
-					Item I = IS!=null?IS.getItem():null;
-					
-					if(I!=null) {
-						/* TODO: Replace the getBlockFromName with the actual Block instance if possible. */
+					Item I = IS != null ? IS.getItem() : null;
+
+					if (I != null) {
+						/*
+						 * TODO: Replace the getBlockFromName with the actual Block instance if
+						 * possible.
+						 */
 						showVoid |= I.equals(Item.getItemFromBlock(Block.getBlockFromName("minecraft:structure_void")));
 						showVoid |= I.equals(Item.getItemFromBlock(Blocks.STRUCTURE_BLOCK));
 						showVoid |= I.equals(AdventureCraftItems.paste);
 						showVoid |= I.equals(AdventureCraftItems.copy);
 						showVoid |= I.equals(AdventureCraftItems.cut);
 					}
-					
-					if(showVoid) {
+
+					if (showVoid) {
 						final IBlockState stvoid = Block.getBlockFromName("minecraft:structure_void").getDefaultState();
-						
+
 						GlStateManager.disableBlend();
 						GlStateManager.disableTexture2D();
 						GlStateManager.glLineWidth(3f);
 						vertexbuffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
 						final float m = 0.45f;
-						final float M = 1-m;
-						
+						final float M = 1 - m;
+
 						final int r = 0;
 						final int g = 255;
 						final int b = 255;
 						final int a = 255;
-						
+
 						WorldHelper.foreach(mc.world, ix, iy, iz, ax, ay, az, new BlockRegionIterator() {
-							@Override public void $(World world, IBlockState state, BlockPos pos) {
-								if(!state.equals(stvoid))
+							@Override
+							public void $(World world, IBlockState state, BlockPos pos) {
+								if (!state.equals(stvoid))
 									return;
-								
+
 								float x = pos.getX();
 								float y = pos.getY();
 								float z = pos.getZ();
-								
-								vertexbuffer.pos(x+m, y+m, z+m).color(r, g, b, a).endVertex();
-								vertexbuffer.pos(x+M, y+M, z+M).color(r, g, b, a).endVertex();
-								vertexbuffer.pos(x+M, y+m, z+m).color(r, g, b, a).endVertex();
-								vertexbuffer.pos(x+m, y+M, z+M).color(r, g, b, a).endVertex();
-								
-								vertexbuffer.pos(x+m, y+m, z+M).color(r, g, b, a).endVertex();
-								vertexbuffer.pos(x+M, y+M, z+m).color(r, g, b, a).endVertex();
-								vertexbuffer.pos(x+M, y+m, z+M).color(r, g, b, a).endVertex();
-								vertexbuffer.pos(x+m, y+M, z+m).color(r, g, b, a).endVertex();
+
+								vertexbuffer.pos(x + m, y + m, z + m).color(r, g, b, a).endVertex();
+								vertexbuffer.pos(x + M, y + M, z + M).color(r, g, b, a).endVertex();
+								vertexbuffer.pos(x + M, y + m, z + m).color(r, g, b, a).endVertex();
+								vertexbuffer.pos(x + m, y + M, z + M).color(r, g, b, a).endVertex();
+
+								vertexbuffer.pos(x + m, y + m, z + M).color(r, g, b, a).endVertex();
+								vertexbuffer.pos(x + M, y + M, z + m).color(r, g, b, a).endVertex();
+								vertexbuffer.pos(x + M, y + m, z + M).color(r, g, b, a).endVertex();
+								vertexbuffer.pos(x + m, y + M, z + m).color(r, g, b, a).endVertex();
 							}
 						});
 						tessellator.draw();
@@ -145,46 +150,48 @@ public class SelectionBoxRenderer implements IRenderable {
 				ResourceLocation texture = null;
 
 				AdventureCraft.proxy.asClient();
-				if(!ClientProxy.settings.getBoolean("client.render.useAlternateSelectionTexture")) {
+				if (!ClientProxy.settings.getBoolean("client.render.useAlternateSelectionTexture")) {
 					texture = ClientResources.textureSelectionBoxWS;
 				} else {
 					texture = ClientResources.textureSelectionBoxFF;
 				}
 
 				GlStateManager.enableTexture2D();
-				
+
 				// Render primary (with-depth) box
 				{
 					mc.getTextureManager().bindTexture(texture);
 					GlStateManager.enableDepth();
-					BoxRenderer.renderSelectionBox(tessellator, vertexbuffer, ix-E, iy-E, iz-E, ax+1+E, ay+1+E, az+1+E, 1);
+					BoxRenderer.renderSelectionBox(tessellator, vertexbuffer, ix - E, iy - E, iz - E, ax + 1 + E,
+							ay + 1 + E, az + 1 + E, 1);
 				}
-				
+
 				// Render secondary (no-depth) box
-				/// XXX: Temporarily disabled the 'xray selection' feature since it isnt working as intended.
-				if(Boolean.FALSE.booleanValue())
-				{
+				/// XXX: Temporarily disabled the 'xray selection' feature since it isnt working
+				// as intended.
+				if (Boolean.FALSE.booleanValue()) {
 					mc.getTextureManager().bindTexture(ClientResources.texColorWhite);
 					GlStateManager.disableTexture2D();
 					GlStateManager.disableDepth();
 					GlStateManager.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
-					BoxRenderer.renderSelectionBox(tessellator, vertexbuffer, ix-E, iy-E, iz-E, ax+1+E, ay+1+E, az+1+E, -1);
+					BoxRenderer.renderSelectionBox(tessellator, vertexbuffer, ix - E, iy - E, iz - E, ax + 1 + E,
+							ay + 1 + E, az + 1 + E, -1);
 					GlStateManager.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
 					GlStateManager.enableDepth();
 					GlStateManager.enableTexture2D();
 				}
-				
+
 				mc.getTextureManager().bindTexture(ClientResources.texColorWhite);
 				GlStateManager.glBegin(GL11.GL_LINES);
 				GlStateManager.color(1, 0, 0, 1);
-				GlStateManager.glVertex3f(ix-E, iy-E, iz-E);
-				GlStateManager.glVertex3f(ax+1+E, iy-E, iz-E);
+				GlStateManager.glVertex3f(ix - E, iy - E, iz - E);
+				GlStateManager.glVertex3f(ax + 1 + E, iy - E, iz - E);
 				GlStateManager.color(0, 1, 0, 1);
-				GlStateManager.glVertex3f(ix-E, iy-E, iz-E);
-				GlStateManager.glVertex3f(ix-E, ay+1+E, iz-E);
+				GlStateManager.glVertex3f(ix - E, iy - E, iz - E);
+				GlStateManager.glVertex3f(ix - E, ay + 1 + E, iz - E);
 				GlStateManager.color(0, 0, 1, 1);
-				GlStateManager.glVertex3f(ix-E, iy-E, iz-E);
-				GlStateManager.glVertex3f(ix-E, iy-E, az+1+E);
+				GlStateManager.glVertex3f(ix - E, iy - E, iz - E);
+				GlStateManager.glVertex3f(ix - E, iy - E, az + 1 + E);
 				GlStateManager.glEnd();
 
 				GlStateManager.glLineWidth(1.0f);

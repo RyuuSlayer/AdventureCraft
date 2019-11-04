@@ -26,10 +26,10 @@ public class MusicBlockTileEntity extends ACTileEntity {
 	@Override
 	public void getInvokes(List<IInvoke> invokes) {
 	}
-	
+
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
-		if(command.equals("sound")){
+		if (command.equals("sound")) {
 			sound = SoundEnum.valueOf(data.getString("sound"));
 			mute = data.getBoolean("mute");
 			repeat = data.getBoolean("repeat");
@@ -38,7 +38,7 @@ public class MusicBlockTileEntity extends ACTileEntity {
 			return;
 		}
 		super.commandReceived(command, data);
-		
+
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class MusicBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public String getName() {
-		return "MusicBlock@"+this.getPos();
+		return "MusicBlock@" + this.getPos();
 	}
 
 	@Override
@@ -73,28 +73,29 @@ public class MusicBlockTileEntity extends ACTileEntity {
 	public SoundEnum getSound() {
 		return sound;
 	}
-	
-	public boolean isMute(){
+
+	public boolean isMute() {
 		return mute;
 	}
-	
-	public boolean isRepeat(){
+
+	public boolean isRepeat() {
 		return repeat;
 	}
-	
-	public int repeatDelay(){
+
+	public int repeatDelay() {
 		return repeat_delay;
 	}
 
-	public void trigger(EnumTriggerState triggerState){
-		if(world.isRemote) return;
+	public void trigger(EnumTriggerState triggerState) {
+		if (world.isRemote)
+			return;
 		SoundsPacket packet = null;
-		if(mute){
+		if (mute) {
 			packet = new SoundsPacket();
-		}else{
+		} else {
 			packet = new SoundsPacket(getSound(), isRepeat(), repeatDelay(), true);
 		}
 		AdventureCraft.network.sendToDimension(packet, world.provider.getDimension());
 	}
-	
+
 }

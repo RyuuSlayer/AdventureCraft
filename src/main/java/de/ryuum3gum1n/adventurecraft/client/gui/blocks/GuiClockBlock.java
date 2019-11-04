@@ -26,7 +26,8 @@ public class GuiClockBlock extends QADGuiScreen {
 	public void buildGui() {
 		final BlockPos position = tileEntity.getPos();
 
-		addComponent(new QADLabel("Clock Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(), 2, 2));
+		addComponent(
+				new QADLabel("Clock Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(), 2, 2));
 
 		int column0x = 4;
 		int column0w = 60;
@@ -34,41 +35,47 @@ public class GuiClockBlock extends QADGuiScreen {
 		int column1w = 100;
 		int column2x = column1x + column1w + 2;
 		int column2w = 100;
-		int row0y = 22*1;
-		int row1y = 22*2;
-		int row2y = 22*3;
-		int row3y = 22*4;
-		int row4y = 22*5;
-		int row5y = 22*6;
-		int row6y = 22*7;
-		int row7y = 22*8;
-		int row8y = 22*9;
+		int row0y = 22 * 1;
+		int row1y = 22 * 2;
+		int row2y = 22 * 3;
+		int row3y = 22 * 4;
+		int row4y = 22 * 5;
+		int row5y = 22 * 6;
+		int row6y = 22 * 7;
+		int row7y = 22 * 8;
+		int row8y = 22 * 9;
 
 		{
 			StringBuilder b = new StringBuilder(64);
 			b.append(TextFormatting.RED).append("Last known State: ").append(TextFormatting.RESET);
 			b.append(TextFormatting.BOLD).append(tileEntity.active ? "ON" : "OFF").append(TextFormatting.RESET);
-			b.append(", repeat: "+tileEntity.repeat);
-			b.append(", speed: "+tileEntity.speed);
-			b.append(", time: "+tileEntity.time);
+			b.append(", repeat: " + tileEntity.repeat);
+			b.append(", speed: " + tileEntity.speed);
+			b.append(", time: " + tileEntity.time);
 
-			addComponent(new QADLabel(b.toString(), column0x, row7y+6));
+			addComponent(new QADLabel(b.toString(), column0x, row7y + 6));
 		}
 
-		addComponent(new QADLabel(TextFormatting.YELLOW + "Tick", column0x, row0y+6));
-		InvokePanelBuilder.build(this, this, column1x, row0y, tileEntity.getTickInvoke(), new BlockInvokeHolder(position, "clockInvoke"), InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOWALL);
-		addComponent(new QADLabel(TextFormatting.YELLOW + "Start", column0x, row1y+6));
-		InvokePanelBuilder.build(this, this, column1x, row1y, tileEntity.getStartInvoke(), new BlockInvokeHolder(position, "clockStartInvoke"), InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOWALL);
-		addComponent(new QADLabel(TextFormatting.YELLOW + "Stop", column0x, row2y+6));
-		InvokePanelBuilder.build(this, this, column1x, row2y, tileEntity.getStopInvoke(), new BlockInvokeHolder(position, "clockStopInvoke"), InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOWALL);
+		addComponent(new QADLabel(TextFormatting.YELLOW + "Tick", column0x, row0y + 6));
+		InvokePanelBuilder.build(this, this, column1x, row0y, tileEntity.getTickInvoke(),
+				new BlockInvokeHolder(position, "clockInvoke"), InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOWALL);
+		addComponent(new QADLabel(TextFormatting.YELLOW + "Start", column0x, row1y + 6));
+		InvokePanelBuilder.build(this, this, column1x, row1y, tileEntity.getStartInvoke(),
+				new BlockInvokeHolder(position, "clockStartInvoke"), InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOWALL);
+		addComponent(new QADLabel(TextFormatting.YELLOW + "Stop", column0x, row2y + 6));
+		InvokePanelBuilder.build(this, this, column1x, row2y, tileEntity.getStopInvoke(),
+				new BlockInvokeHolder(position, "clockStopInvoke"), InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOWALL);
 
-		addComponent(new QADLabel("Repeats", column0x, row3y+6));
-		addComponent(new QADLabel("Speed", column0x, row4y+6));
-		addComponent(new QADLabel("Time", column0x, row5y+6));
+		addComponent(new QADLabel("Repeats", column0x, row3y + 6));
+		addComponent(new QADLabel("Speed", column0x, row4y + 6));
+		addComponent(new QADLabel("Time", column0x, row5y + 6));
 
-		final QADTextField fieldRepeat = QADFACTORY.createNumberTextField(tileEntity.set_repeat, column1x+2, row3y+2, column1w-4, 1000000, 0);
-		final QADTextField fieldSpeed = QADFACTORY.createNumberTextField(tileEntity.set_speed, column1x+2, row4y+2, column1w-4, 20*60, 1);
-		final QADTextField fieldTime = QADFACTORY.createNumberTextField(tileEntity.set_time, column1x+2, row5y+2, column1w-4, 20*60*1, 1);
+		final QADTextField fieldRepeat = QADFACTORY.createNumberTextField(tileEntity.set_repeat, column1x + 2,
+				row3y + 2, column1w - 4, 1000000, 0);
+		final QADTextField fieldSpeed = QADFACTORY.createNumberTextField(tileEntity.set_speed, column1x + 2, row4y + 2,
+				column1w - 4, 20 * 60, 1);
+		final QADTextField fieldTime = QADFACTORY.createNumberTextField(tileEntity.set_time, column1x + 2, row5y + 2,
+				column1w - 4, 20 * 60 * 1, 1);
 		fieldRepeat.setTooltip("The amount of times this clock will 'tick'.");
 		fieldSpeed.setTooltip("How fast this clock will count down.");
 		fieldTime.setTooltip("The number the countdown starts at.");
@@ -78,7 +85,8 @@ public class GuiClockBlock extends QADGuiScreen {
 
 		QADButton setDataButton = QADFACTORY.createButton("Apply", column1x, row6y, column1w, null);
 		setDataButton.setAction(new Runnable() {
-			@Override public void run() {
+			@Override
+			public void run() {
 				String commandString = ClientNetworkHandler.makeBlockDataMergeCommand(position);
 				NBTTagCompound commandData = new NBTTagCompound();
 				NBTTagCompound invokeData = new NBTTagCompound();
@@ -96,7 +104,8 @@ public class GuiClockBlock extends QADGuiScreen {
 
 		QADButton buttonStart = QADFACTORY.createButton("Start", column0x, row8y, column0w, null);
 		buttonStart.setAction(new Runnable() {
-			@Override public void run() {
+			@Override
+			public void run() {
 				String commandString = ClientNetworkHandler.makeBlockDataMergeCommand(position);
 				NBTTagCompound commandData = new NBTTagCompound();
 				commandData.setString("command", "start");
@@ -109,7 +118,8 @@ public class GuiClockBlock extends QADGuiScreen {
 
 		QADButton buttonPause = QADFACTORY.createButton("Pause", column1x, row8y, column1w, null);
 		buttonPause.setAction(new Runnable() {
-			@Override public void run() {
+			@Override
+			public void run() {
 				String commandString = ClientNetworkHandler.makeBlockDataMergeCommand(position);
 				NBTTagCompound commandData = new NBTTagCompound();
 				commandData.setString("command", "pause");
@@ -122,7 +132,8 @@ public class GuiClockBlock extends QADGuiScreen {
 
 		QADButton buttonStop = QADFACTORY.createButton("Stop", column2x, row8y, column2w, null);
 		buttonStop.setAction(new Runnable() {
-			@Override public void run() {
+			@Override
+			public void run() {
 				String commandString = ClientNetworkHandler.makeBlockDataMergeCommand(position);
 				NBTTagCompound commandData = new NBTTagCompound();
 				commandData.setString("command", "stop");

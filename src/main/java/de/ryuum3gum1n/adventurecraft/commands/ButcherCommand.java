@@ -28,32 +28,32 @@ public class ButcherCommand extends ACCommandBase {
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		String filter = null;
 
-		if(args.length == 1) {
+		if (args.length == 1) {
 			filter = args[0];
 		}
 
 		List<Entity> entities = sender.getEntityWorld().getEntities(Entity.class, Predicates.alwaysTrue());
 
-		if(filter == null) {
-			for(Entity entity : entities) {
-				if(entity instanceof EntityItem)
+		if (filter == null) {
+			for (Entity entity : entities) {
+				if (entity instanceof EntityItem)
 					entity.setDead();
-				if(entity instanceof EntityLiving)
+				if (entity instanceof EntityLiving)
 					entity.setDead();
 			}
 			return;
 		}
 
-		if(filter.equalsIgnoreCase("items")) {
-			for(Entity entity : entities)
-				if(entity instanceof EntityItem)
+		if (filter.equalsIgnoreCase("items")) {
+			for (Entity entity : entities)
+				if (entity instanceof EntityItem)
 					entity.setDead();
 			return;
 		}
 
-		if(filter.equalsIgnoreCase("livings")) {
-			for(Entity entity : entities)
-				if(entity instanceof EntityLiving)
+		if (filter.equalsIgnoreCase("livings")) {
+			for (Entity entity : entities)
+				if (entity instanceof EntityLiving)
 					entity.setDead();
 			return;
 		}
@@ -63,7 +63,7 @@ public class ButcherCommand extends ACCommandBase {
 
 	@Override
 	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
-		return getListOfStringsMatchingLastWord(args, new String[]{"items", "livings"});
+		return getListOfStringsMatchingLastWord(args, new String[] { "items", "livings" });
 	}
 
 }

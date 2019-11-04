@@ -11,7 +11,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AdventureCraftTabs {
 	// Empty stub method for 'touching' the class
-	public static final void init() {}
+	public static final void init() {
+	}
 
 	public static CreativeTabs tab_AdventureCraftTab = new CreativeTabs("adventurecraftTab") {
 		@Override
@@ -36,20 +37,20 @@ public class AdventureCraftTabs {
 		public ItemStack getTabIconItem() {
 			return new ItemStack(Items.DYE, 1, this.getIconItemDamage());
 		}
-		
+
 		@SideOnly(Side.CLIENT)
 		public int getIconItemDamage() {
 			return (int) ((Minecraft.getSystemTime() / 100D) % 16);
 		}
 	};
-	
+
 	public static CreativeTabs tab_AdventureCraftWorldTab = new CreativeTabs("adventurecrafttWorldTab") {
 		@Override
 		public ItemStack getTabIconItem() {
 			return new ItemStack(AdventureCraftItems.goldKey);
 		}
 	};
-	
+
 	public static CreativeTabs tab_AdventureCraftWeaponTab = new CreativeTabs("adventurecraftWeaponTab") {
 		@Override
 		public ItemStack getTabIconItem() {

@@ -15,24 +15,25 @@ public final class VXPredicateIsAir extends VXPredicate {
 		public String getName() {
 			return "is_air";
 		}
-		
+
 		@Override
 		public VXPredicate newFilter(NBTTagCompound filterData) {
 			return new VXPredicateIsAir();
 		}
-		
+
 		@Override
 		public NBTTagCompound newFilter(String[] parameters) {
 			NBTTagCompound filterData = new NBTTagCompound();
 			filterData.setString("type", getName());
 			return filterData;
 		}
+
 		@Override
 		public BrushParameter[] getParameters() {
 			return BrushParameter.NO_PARAMETERS;
 		}
 	};
-	
+
 	public VXPredicateIsAir() {
 		// no op
 	}

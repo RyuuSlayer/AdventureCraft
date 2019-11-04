@@ -27,7 +27,7 @@ public class StorageBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public String getName() {
-		return "StorageBlock@"+pos;
+		return "StorageBlock@" + pos;
 	}
 
 	public int[] getBounds() {
@@ -45,7 +45,7 @@ public class StorageBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
-		if(command.equals("set")) {
+		if (command.equals("set")) {
 			int[] bounds = data.getIntArray("bounds");
 
 			this.bounds = new int[6];
@@ -61,25 +61,25 @@ public class StorageBlockTileEntity extends ACTileEntity {
 			this.bounds[5] = Math.max(bounds[2], bounds[5]);
 
 			this.item = ClipboardItem.copyRegion(bounds, world, getName(), this);
-			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO Confirm
 			return;
 		}
 
-		if(command.equals("store")) {
+		if (command.equals("store")) {
 			this.item = ClipboardItem.copyRegion(bounds, world, getName(), this);
-			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO Confirm
 			return;
 		}
 
-		if(command.equals("trigger")) {
-			if(item == null) {
+		if (command.equals("trigger")) {
+			if (item == null) {
 				AdventureCraft.logger.error(getName() + this + "# does not have CLIPBOARD: " + item);
 			}
-			if(bounds == null) {
+			if (bounds == null) {
 				AdventureCraft.logger.error(getName() + this + "# does not have BOUNDS: " + bounds);
 			}
 
-			if(item != null && bounds != null) {
+			if (item != null && bounds != null) {
 				BlockPos pos = new BlockPos(bounds[0], bounds[1], bounds[2]);
 				ClipboardItem.pasteRegion(item, pos, world, this);
 			}
@@ -91,7 +91,7 @@ public class StorageBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public void readFromNBT_do(NBTTagCompound comp) {
-		if(comp.hasKey("clipboard", comp.getId())) {
+		if (comp.hasKey("clipboard", comp.getId())) {
 			item = ClipboardItem.fromNBT(comp.getCompoundTag("clipboard"));
 			bounds = comp.getIntArray("bounds");
 		}
@@ -99,7 +99,7 @@ public class StorageBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
-		if(item != null && item.getData() != null) {
+		if (item != null && item.getData() != null) {
 			comp.setTag("clipboard", item.getData());
 			comp.setIntArray("bounds", bounds);
 		}

@@ -64,7 +64,7 @@ public class GuiSummonBlock extends QADGuiScreen {
 
 		mainContainer = new QADScrollPanel();
 		mainContainer.setPosition(0, headerHeight);
-		mainContainer.setSize(width, height-headerHeight);
+		mainContainer.setSize(width, height - headerHeight);
 		addComponent(mainContainer);
 
 		generalPanel = new QADPanel();
@@ -77,15 +77,19 @@ public class GuiSummonBlock extends QADGuiScreen {
 		{
 			QADLabel label = new QADLabel("Summon Count");
 
-			final QADTextField field = new QADTextField(""+tileEntity.getSummonCount());
+			final QADTextField field = new QADTextField("" + tileEntity.getSummonCount());
 
-			DefaultTextFieldIntegerNumberModel model = new DefaultTextFieldIntegerNumberModel(tileEntity.getSummonCount());
+			DefaultTextFieldIntegerNumberModel model = new DefaultTextFieldIntegerNumberModel(
+					tileEntity.getSummonCount());
 			model.setValidatorPredicate(new Predicate<Integer>() {
-				@Override public boolean apply(Integer input) {
+				@Override
+				public boolean apply(Integer input) {
 					int i = input.intValue();
 
-					if(i > 100) return false;
-					if(i < 1  ) return false;
+					if (i > 100)
+						return false;
+					if (i < 1)
+						return false;
 
 					send(i);
 					return true;
@@ -112,15 +116,16 @@ public class GuiSummonBlock extends QADGuiScreen {
 			QADLabel label = new QADLabel("Summon Region");
 			QADButton button = new QADButton("Set Summon Region");
 			button.setName("region.set");
-			button.setTooltip("Sets the region in which","entities are summoned.");
+			button.setTooltip("Sets the region in which", "entities are summoned.");
 			generalPanelLayout.row(label, button);
 
 			button.setAction(new Runnable() {
-				@Override public void run() {
+				@Override
+				public void run() {
 					EntityPlayerSP playerSP = Minecraft.getMinecraft().player;
 					int[] bounds = WandItem.getBoundsFromPlayerOrNull(playerSP);
 
-					if(bounds != null) {
+					if (bounds != null) {
 						BlockPos position = tileEntity.getPos();
 						String commandString = ClientNetworkHandler.makeBlockDataMergeCommand(position);
 
@@ -136,11 +141,12 @@ public class GuiSummonBlock extends QADGuiScreen {
 		// Use Weight As Count
 		{
 			QADLabel label = new QADLabel("Use weight as count?");
-			QADTickBox tickBox = new QADTickBox(new TickBoxModel(){
+			QADTickBox tickBox = new QADTickBox(new TickBoxModel() {
 				boolean state = tileEntity.getSummonWeightAsCount();
 
-				@Override public void setState(boolean newState) {
-					if(state != newState) {
+				@Override
+				public void setState(boolean newState) {
+					if (state != newState) {
 						state = newState;
 
 						BlockPos position = tileEntity.getPos();
@@ -153,11 +159,13 @@ public class GuiSummonBlock extends QADGuiScreen {
 					}
 				}
 
-				@Override public boolean getState() {
+				@Override
+				public boolean getState() {
 					return state;
 				}
 
-				@Override public void toggleState() {
+				@Override
+				public void toggleState() {
 					setState(!getState());
 				}
 			});
@@ -173,9 +181,10 @@ public class GuiSummonBlock extends QADGuiScreen {
 			mainContainer.addComponent(button);
 
 			button.setAction(new Runnable() {
-				@Override public void run() {
+				@Override
+				public void run() {
 					SummonOption[] oldArray = tileEntity.getSummonOptions();
-					SummonOption[] newArray = new SummonOption[oldArray.length+1];
+					SummonOption[] newArray = new SummonOption[oldArray.length + 1];
 					System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
 
 					newArray[oldArray.length] = new SummonOption();
@@ -198,7 +207,7 @@ public class GuiSummonBlock extends QADGuiScreen {
 
 		SummonOption[] options = tileEntity.getSummonOptions();
 
-		for(int i = 0; i < options.length; i++) {
+		for (int i = 0; i < options.length; i++) {
 			final int optionIndex = i;
 			final SummonOption option = options[optionIndex];
 
@@ -207,17 +216,19 @@ public class GuiSummonBlock extends QADGuiScreen {
 			int panelHeight = 2;
 			int rowHeight = 25;
 
-			panel.addComponent(new QADLabel("Summon Option #"+optionIndex, 2, panelHeight+6));
+			panel.addComponent(new QADLabel("Summon Option #" + optionIndex, 2, panelHeight + 6));
 			{
 				QADButton button = new QADButton(QADButton.ICON_DELETE);
-				button.setPosition(panel.getWidth()-20-2, panelHeight);
-				button.setTooltip("Remove summon option #"+optionIndex+".");
+				button.setPosition(panel.getWidth() - 20 - 2, panelHeight);
+				button.setTooltip("Remove summon option #" + optionIndex + ".");
 				button.setName("option.remove");
 				panel.addComponent(button);
 
 				button.setAction(new Runnable() {
 					final int index = optionIndex;
-					@Override public void run() {
+
+					@Override
+					public void run() {
 						SummonOption[] source = tileEntity.getSummonOptions();
 
 						SummonOption[] result = new SummonOption[source.length - 1];
@@ -234,55 +245,61 @@ public class GuiSummonBlock extends QADGuiScreen {
 			panelHeight += 2;
 			panelHeight += rowHeight;
 
-
-			panel.addComponent(new QADLabel("Weight ", 2, panelHeight+6));
+			panel.addComponent(new QADLabel("Weight ", 2, panelHeight + 6));
 			{
-				QADTextField field = new QADTextField(new DefaultTextFieldDecimalNumberModel(option.getWeight(),new Predicate<Double>() {
-					@Override public boolean apply(Double input) {
-						double i = input.doubleValue();
+				QADTextField field = new QADTextField(
+						new DefaultTextFieldDecimalNumberModel(option.getWeight(), new Predicate<Double>() {
+							@Override
+							public boolean apply(Double input) {
+								double i = input.doubleValue();
 
-						if(i > 100) return false;
-						if(i < 0  ) return false;
+								if (i > 100)
+									return false;
+								if (i < 0)
+									return false;
 
-						send(i);
-						return true;
-					}
+								send(i);
+								return true;
+							}
 
-					// ONLY update the changed value
-					private void send(double value) {
-						option.setWeight((float)value);
-						updateSummonBlockData(false);
-					}
-				}));
-				field.setPosition(2+140, panelHeight);
-				field.setSize(200-22, 20);
+							// ONLY update the changed value
+							private void send(double value) {
+								option.setWeight((float) value);
+								updateSummonBlockData(false);
+							}
+						}));
+				field.setPosition(2 + 140, panelHeight);
+				field.setSize(200 - 22, 20);
 
 				panel.addComponent(field);
 			}
 			panelHeight += rowHeight;
 
-			panel.addComponent(new QADLabel("Type ", 2, panelHeight+6));
+			panel.addComponent(new QADLabel("Type ", 2, panelHeight + 6));
 			{
 				QADButton button = new QADButton(option.getData().getString("id"));
-				button.setPosition(2+140, panelHeight);
-				button.setSize(200-22, 20);
+				button.setPosition(2 + 140, panelHeight);
+				button.setSize(200 - 22, 20);
 				button.setEnabled(false);
 				panel.addComponent(button);
 			}
 			{
 				QADButton button = new QADButton(QADButton.ICON_INVEDIT);
-				button.setPosition(2+120+200+2, panelHeight);
+				button.setPosition(2 + 120 + 200 + 2, panelHeight);
 				button.setTooltip("Change entity type.");
 				button.setAction(new Runnable() {
-					@Override public void run() {
+					@Override
+					public void run() {
 						AdventureCraft.logger.info("Click!");
 
-						GuiEntityTypeSelection guiScreen = new GuiEntityTypeSelection(GuiSummonBlock.this, new EntityTypeDataLink() {
-							@Override public void setType(String identifier) {
-								option.getData().setString("id", identifier);
-								updateSummonBlockData(true);
-							}
-						});
+						GuiEntityTypeSelection guiScreen = new GuiEntityTypeSelection(GuiSummonBlock.this,
+								new EntityTypeDataLink() {
+									@Override
+									public void setType(String identifier) {
+										option.getData().setString("id", identifier);
+										updateSummonBlockData(true);
+									}
+								});
 
 						displayGuiScreen(guiScreen);
 					}
@@ -291,23 +308,25 @@ public class GuiSummonBlock extends QADGuiScreen {
 			}
 			panelHeight += rowHeight;
 
-			panel.addComponent(new QADLabel("Data ", 2, panelHeight+6));
+			panel.addComponent(new QADLabel("Data ", 2, panelHeight + 6));
 			{
 				QADTextField button = new QADTextField(NBTHelper.asJson(option.getData()));
 				button.setMaxStringLength(65535);
-				button.setPosition(2+140, panelHeight);
-				button.setSize(200-22, 20);
+				button.setPosition(2 + 140, panelHeight);
+				button.setSize(200 - 22, 20);
 				button.setEnabled(false);
 				panel.addComponent(button);
 			}
 			{
 				QADButton button = new QADButton(QADButton.ICON_INVEDIT);
-				button.setPosition(2+120+200+2, panelHeight);
+				button.setPosition(2 + 120 + 200 + 2, panelHeight);
 				button.setTooltip("Open entity editor.");
 				button.setAction(new Runnable() {
-					@Override public void run() {
+					@Override
+					public void run() {
 						RemoteEntityDataLink dataLink = new RemoteEntityDataLink() {
-							@Override public void updateData(NBTTagCompound entityData) {
+							@Override
+							public void updateData(NBTTagCompound entityData) {
 								option.setData(entityData);
 								updateSummonBlockData(true);
 							}
@@ -321,38 +340,40 @@ public class GuiSummonBlock extends QADGuiScreen {
 				panel.addComponent(button);
 			}
 			panelHeight += rowHeight;
-			
-			panel.addComponent(new QADLabel("Stable ", 2, panelHeight+6));
+
+			panel.addComponent(new QADLabel("Stable ", 2, panelHeight + 6));
 			{
-				QADTickBox tickbox = new QADTickBox(new TickBoxModel(){
+				QADTickBox tickbox = new QADTickBox(new TickBoxModel() {
 					boolean state = option.isStable();
 
-					@Override public void setState(boolean newState) {
-						if(state != newState) {
+					@Override
+					public void setState(boolean newState) {
+						if (state != newState) {
 							state = newState;
 							option.setStable(state);
 							updateSummonBlockData(false);
 						}
 					}
 
-					@Override public boolean getState() {
+					@Override
+					public boolean getState() {
 						return state;
 					}
 
-					@Override public void toggleState() {
+					@Override
+					public void toggleState() {
 						setState(!getState());
 					}
 				});
-				tickbox.setPosition(2+140, panelHeight);
+				tickbox.setPosition(2 + 140, panelHeight);
 				tickbox.getModel().setState(option.isStable());
 				panel.addComponent(tickbox);
 			}
 			panelHeight += rowHeight;
 
-			panel.setHeight(panelHeight+6);
+			panel.setHeight(panelHeight + 6);
 			summonOptionPanels.add(panel);
 			mainContainer.addComponent(panel);
-
 
 		}
 
@@ -361,7 +382,7 @@ public class GuiSummonBlock extends QADGuiScreen {
 
 	@Override
 	public void layoutGui() {
-		mainContainer.setSize(width, height-headerHeight);
+		mainContainer.setSize(width, height - headerHeight);
 		int viewHeight = 0;
 
 		generalPanel.setX(0);
@@ -374,15 +395,15 @@ public class GuiSummonBlock extends QADGuiScreen {
 		mainContainer.getComponentByName("option.add").setPosition(width - 20 - 2 - 8, viewHeight - 2);
 		viewHeight += 22;
 
-		for(QADPanel panel : summonOptionPanels) {
+		for (QADPanel panel : summonOptionPanels) {
 			panel.setPosition(2, viewHeight);
-			panel.setWidth(width-2-8);
+			panel.setWidth(width - 2 - 8);
 			viewHeight += panel.getHeight() + 2;
 
-			panel.getComponentByName("option.remove").setPosition(panel.getWidth()-20-2, 3);
+			panel.getComponentByName("option.remove").setPosition(panel.getWidth() - 20 - 2, 3);
 		}
 
-		mainContainer.setViewportHeight(viewHeight+2);
+		mainContainer.setViewportHeight(viewHeight + 2);
 	}
 
 	private void updateSummonBlockData(boolean resetScreen) {
@@ -394,7 +415,7 @@ public class GuiSummonBlock extends QADGuiScreen {
 
 		AdventureCraft.network.sendToServer(new StringNBTCommandPacket(commandString, data));
 
-		if(resetScreen)
+		if (resetScreen)
 			resetGuiScreen();
 	}
 
@@ -417,57 +438,58 @@ public class GuiSummonBlock extends QADGuiScreen {
 			List<QADComponent> rowComponentsList = Lists.newArrayList(rowComponents);
 			rows.add(rowComponentsList);
 
-			for(QADComponent component : rowComponentsList) {
+			for (QADComponent component : rowComponentsList) {
 				container.addComponent(component);
 			}
 		}
 
 		public void layout(int $width) {
-			if(rows.size() == 0) return;
+			if (rows.size() == 0)
+				return;
 
 			final int rowHeight = 18;
 
 			final int $center = $width / 2;
 			final int $left = 2;
-			final int $right = $width-6-2;
-			final int $top = rowHeight/2;
+			final int $right = $width - 6 - 2;
+			final int $top = rowHeight / 2;
 			final int $bottomPad = 0;
 			final int $rightWidth = $right - $center;
 
 			// increases
 			int yOff = $top;
 
-			for(List<QADComponent> row : rows) {
+			for (List<QADComponent> row : rows) {
 
 				QADComponent rowLabel = row.get(0);
 				int rowLabelYOffset = 0;
 
-				if(rowLabel instanceof QADLabel) {
+				if (rowLabel instanceof QADLabel) {
 					rowLabelYOffset = 6;
 				}
 
 				rowLabel.setX($left);
-				rowLabel.setY(yOff+rowLabelYOffset);
+				rowLabel.setY(yOff + rowLabelYOffset);
 
-				for(int i = 1; i < row.size(); i++) {
+				for (int i = 1; i < row.size(); i++) {
 					QADComponent component = row.get(i);
 
 					component.setX($center);
 					component.setY(yOff);
 
-					if(component instanceof QADRectangularComponent) {
-						if(component instanceof QADTickBox) {
+					if (component instanceof QADRectangularComponent) {
+						if (component instanceof QADTickBox) {
 							yOff += 20 + 5;
 							continue;
 						}
 
-						if(((QADRectangularComponent) component).canResize())
+						if (((QADRectangularComponent) component).canResize())
 							((QADRectangularComponent) component).setWidth($rightWidth);
 
 						int height = ((QADRectangularComponent) component).getHeight();
 
-						if(height < rowHeight) {
-							component.setY(yOff+(rowHeight/2)-(height/2));
+						if (height < rowHeight) {
+							component.setY(yOff + (rowHeight / 2) - (height / 2));
 							height = rowHeight;
 						}
 

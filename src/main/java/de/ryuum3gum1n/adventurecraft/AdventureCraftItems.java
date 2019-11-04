@@ -71,16 +71,16 @@ public class AdventureCraftItems {
 	public static TriggerItem trigger;
 	public static CustomPaintingItem custompainting;
 	public static MovingBlockCreator movingblockcreator;
-	
+
 	public static KeyItem silverKey;
 	public static KeyItem goldKey;
 	public static HeartItem heart;
 	public static BombItem bomb;
-	
+
 	public static ACWorldItem goldCoin;
 	public static ACWorldItem silverCoin;
 	public static ACWorldItem emeraldCoin;
-	
+
 	public static PistolItem pistol;
 	public static PistolClipItem pistolClip;
 	public static RifleItem rifle;
@@ -90,15 +90,15 @@ public class AdventureCraftItems {
 	public static BombArrowItem bombArrow;
 	public static BoomerangItem boomerang;
 	public static KnifeItem knife;
-	
+
 	public static ACInstrumentItem harp;
 	public static ACInstrumentItem guitar;
 	public static ACInstrumentItem drums;
 
 	@SubscribeEvent
 	public static void init(final RegistryEvent.Register<Item> event) {
-		registry = event.getRegistry();	
-		
+		registry = event.getRegistry();
+
 		wand = register(new WandItem(), "wand");
 		filler = register(new FillerItem(), "filler");
 		eraser = register(new EraserItem(), "eraser");
@@ -118,7 +118,7 @@ public class AdventureCraftItems {
 		trigger = register(new TriggerItem(), "trigger");
 		custompainting = register(new CustomPaintingItem(), "custompainting");
 		movingblockcreator = register(new MovingBlockCreator(), "movingblockcreator");
-		
+
 		silverKey = register(new KeyItem(), "silverkey");
 		goldKey = register(new KeyItem(), "goldkey");
 		bomb = register(new BombItem(), "bomb");
@@ -126,7 +126,7 @@ public class AdventureCraftItems {
 		goldCoin = register(new ACWorldItem(), "goldcoin");
 		silverCoin = register(new ACWorldItem(), "silvercoin");
 		emeraldCoin = register(new ACWorldItem(), "emeraldcoin");
-		
+
 		pistolClip = register(new PistolClipItem(), "pistolclip");
 		pistol = register(new PistolItem(), "pistol");
 		rifleClip = register(new RifleClipItem(), "rifleclip");
@@ -136,20 +136,21 @@ public class AdventureCraftItems {
 		bombArrow = register(new BombArrowItem(), "bombarrow");
 		boomerang = register(new BoomerangItem(), "boomerang");
 		knife = register(new KnifeItem(), "knife");
-		
+
 		harp = register(new ACInstrumentItem(Instrument.PIANO), "harp");
 		guitar = register(new ACInstrumentItem(Instrument.BASSGUITAR), "guitar");
 		drums = register(new ACInstrumentItem(Instrument.BASSDRUM), "drums");
-		
+
 		MinecraftForge.EVENT_BUS.register(boomerang);
-		
+
 		registerItemBlocks();
 	}
-	
+
 	private static void registerItemBlocks() {
-		for(Block block : AdventureCraftBlocks.blocks) {
-			if(AdventureCraftBlocks.customItemBlocks.contains(block)) {
-				registry.register(new AdventureCraftBlocks.ItemBlockBlankBlock(block).setRegistryName(block.getRegistryName()));
+		for (Block block : AdventureCraftBlocks.blocks) {
+			if (AdventureCraftBlocks.customItemBlocks.contains(block)) {
+				registry.register(
+						new AdventureCraftBlocks.ItemBlockBlankBlock(block).setRegistryName(block.getRegistryName()));
 			} else {
 				registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
 			}

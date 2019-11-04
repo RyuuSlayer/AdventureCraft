@@ -40,8 +40,9 @@ public class GuiItemStackEditor extends QADGuiScreen {
 		addComponent(QADFACTORY.createLabel("Item(-stack) Editor", 2, 2));
 
 		buttonDone = addComponent(QADFACTORY.createButton("Done", 0, 0, 40, new Runnable() {
-			@Override public void run() {
-				if(getBehind() != null && getBehind() instanceof QADGuiScreen) {
+			@Override
+			public void run() {
+				if (getBehind() != null && getBehind() instanceof QADGuiScreen) {
 					((QADGuiScreen) getBehind()).resetGuiScreen();
 				}
 				displayGuiScreen(getBehind());
@@ -53,14 +54,15 @@ public class GuiItemStackEditor extends QADGuiScreen {
 		// builder.append(slot.getByte("Count"));
 
 		{
-			addComponent(QADFACTORY.createLabel("Type", 2, 24+24*0+6));
-			fieldType = new QADTextField(fontRenderer, 80, 24+24*0, 140, 20);
+			addComponent(QADFACTORY.createLabel("Type", 2, 24 + 24 * 0 + 6));
+			fieldType = new QADTextField(fontRenderer, 80, 24 + 24 * 0, 140, 20);
 			fieldType.setText(stack.getString("id"));
 			fieldType.setModel(new NBTStringTextFieldModel("id", stack));
 			addComponent(fieldType);
 
-			addComponent(QADFACTORY.createButton("?", 2+80+2+140+2, 24+24*0, 20, new Runnable() {
-				@Override public void run() {
+			addComponent(QADFACTORY.createButton("?", 2 + 80 + 2 + 140 + 2, 24 + 24 * 0, 20, new Runnable() {
+				@Override
+				public void run() {
 					final GuiScreen behindPre = GuiItemStackEditor.this.getBehind();
 					final GuiScreen returnScreen = GuiItemStackEditor.this.returnScreen;
 					GuiItemStackEditor.this.setBehind(null);
@@ -74,7 +76,8 @@ public class GuiItemStackEditor extends QADGuiScreen {
 					}));
 
 					AdventureCraft.proxy.asClient().sheduleClientTickTask(new Runnable() {
-						@Override public void run() {
+						@Override
+						public void run() {
 							GuiItemStackEditor.this.setBehind(behindPre);
 							GuiItemStackEditor.this.returnScreen = returnScreen;
 						}
@@ -84,18 +87,20 @@ public class GuiItemStackEditor extends QADGuiScreen {
 		}
 
 		{
-			addComponent(QADFACTORY.createLabel("Count", 2, 24+24*1+6));
+			addComponent(QADFACTORY.createLabel("Count", 2, 24 + 24 * 1 + 6));
 			Number stackCount = stack.getByte("Count");
-			QADNumberTextField fieldCount = new QADNumberTextField(fontRenderer, 80, 24+24*1, 140, 20, stackCount, NumberType.INTEGER);
-			fieldCount.setRange(0, 64+1);
+			QADNumberTextField fieldCount = new QADNumberTextField(fontRenderer, 80, 24 + 24 * 1, 140, 20, stackCount,
+					NumberType.INTEGER);
+			fieldCount.setRange(0, 64 + 1);
 			fieldCount.setModel(new NBTByteTextFieldModel("Count", stack));
 			addComponent(fieldCount);
 		}
 		{
-			addComponent(QADFACTORY.createLabel("Damage", 2, 24+24*2+6));
+			addComponent(QADFACTORY.createLabel("Damage", 2, 24 + 24 * 2 + 6));
 			Number stackDamage = stack.getShort("Damage");
-			QADNumberTextField fieldDamage = new QADNumberTextField(fontRenderer, 80, 24+24*2, 140, 20, stackDamage, NumberType.INTEGER);
-			fieldDamage.setRange(Short.MIN_VALUE-1, Short.MAX_VALUE+1);
+			QADNumberTextField fieldDamage = new QADNumberTextField(fontRenderer, 80, 24 + 24 * 2, 140, 20, stackDamage,
+					NumberType.INTEGER);
+			fieldDamage.setRange(Short.MIN_VALUE - 1, Short.MAX_VALUE + 1);
 			fieldDamage.setModel(new NBTShortTextFieldModel("Damage", stack));
 			addComponent(fieldDamage);
 		}
@@ -104,7 +109,7 @@ public class GuiItemStackEditor extends QADGuiScreen {
 
 	@Override
 	public void layoutGui() {
-		buttonDone.setX(width-40);
+		buttonDone.setX(width - 40);
 	}
 
 }

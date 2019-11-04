@@ -32,26 +32,27 @@ public class FileCommand extends ACCommandBase {
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		if(!(sender instanceof EntityPlayerMP)) {
-			sender.sendMessage(new TextComponentString(TextFormatting.RED+"This command can only be used by players."));
+		if (!(sender instanceof EntityPlayerMP)) {
+			sender.sendMessage(
+					new TextComponentString(TextFormatting.RED + "This command can only be used by players."));
 			return;
 		}
 
 		ServerFileSystem fileSystem = ServerMirror.instance().getFileSystem();
 
-		if(args.length == 0) {
+		if (args.length == 0) {
 			throw new SyntaxErrorException("No arguments given; /tc_file <action> <path>");
 		}
 
 		String action = args[0];
 
-		if(action.equalsIgnoreCase("open")) {
+		if (action.equalsIgnoreCase("open")) {
 			String path = args.length > 1 ? args[1] : "/";
 			path = path.replace("%20", " ");
 
 			NBTTagCompound data = null;
 			Either<NBTTagCompound, String> either = fileSystem.getFileData(path, true);
-			if(either.issetA()) {
+			if (either.issetA()) {
 				data = either.getA();
 			} else {
 				data = new NBTTagCompound();
@@ -60,10 +61,10 @@ public class FileCommand extends ACCommandBase {
 
 			String type = data.getString("type");
 
-			if(type.equalsIgnoreCase("file")) {
+			if (type.equalsIgnoreCase("file")) {
 				StringNBTCommandPacket command = new StringNBTCommandPacket("client.gui.file.edit", data);
 				AdventureCraft.network.sendTo(command, (EntityPlayerMP) sender);
-			} else if(type.equalsIgnoreCase("dir")) {
+			} else if (type.equalsIgnoreCase("dir")) {
 				StringNBTCommandPacket command = new StringNBTCommandPacket("client.gui.file.browse", data);
 				AdventureCraft.network.sendTo(command, (EntityPlayerMP) sender);
 			} else {

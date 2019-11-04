@@ -23,7 +23,7 @@ public class BlockUpdateDetectorTileEntity extends ACTileEntity {
 
 	@Override
 	public String getName() {
-		return "BlockUpdateDetector@"+pos;
+		return "BlockUpdateDetector@" + pos;
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class BlockUpdateDetectorTileEntity extends ACTileEntity {
 	}
 
 	public void triggerUpdateInvoke(EnumTriggerState triggerState) {
-		if(this.world.isRemote)
+		if (this.world.isRemote)
 			return;
 
 		Invoke.invoke(detectorInvoke, this, null, triggerState);
@@ -60,7 +60,7 @@ public class BlockUpdateDetectorTileEntity extends ACTileEntity {
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
-		if(command.equals("trigger")) {
+		if (command.equals("trigger")) {
 			Invoke.invoke(detectorInvoke, this, null, EnumTriggerState.ON);
 		}
 

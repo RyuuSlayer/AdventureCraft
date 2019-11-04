@@ -40,10 +40,10 @@ public class TriggerItemPacket implements IMessage {
 		public IMessage onMessage(TriggerItemPacket message, MessageContext ctx) {
 			MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 			EntityPlayerMP player = server.getPlayerList().getPlayerByUUID(message.uuid);
-			
+
 			ItemStack item = player.inventory.getCurrentItem();
-			if(item != null && item.getItem() instanceof ACITriggerableItem){
-				((ACITriggerableItem)item.getItem()).trigger(player.world, player, item);
+			if (item != null && item.getItem() instanceof ACITriggerableItem) {
+				((ACITriggerableItem) item.getItem()).trigger(player.world, player, item);
 			}
 			return null;
 		}

@@ -26,12 +26,12 @@ public class ExplosionCommand extends ACCommandBase {
 		// 1 2 -> <entity> [strength]
 		// 3 4 -> <x> <y> <z> [strength]
 
-
 		// entities = PlayerSelector.matchEntities(sender, args[0], Entity.class);
 
-		//		if(args.length != 3) {
-		//			throw new CommandException("Wrong number of parameters: " + args.length + " given, 3 needed.");
-		//		}
+		// if(args.length != 3) {
+		// throw new CommandException("Wrong number of parameters: " + args.length + "
+		// given, 3 needed.");
+		// }
 
 		{
 			BlockPos originPos = sender.getPosition();
@@ -39,7 +39,7 @@ public class ExplosionCommand extends ACCommandBase {
 			CoordinateArg posY = CommandBase.parseCoordinate(originPos.getY(), args[1], false);
 			CoordinateArg posZ = CommandBase.parseCoordinate(originPos.getZ(), args[2], false);
 			BlockPos pos = new BlockPos(posX.getAmount(), posY.getAmount(), posZ.getAmount());
-			
+
 			sender.getEntityWorld().createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 10f, false);
 		}
 	}

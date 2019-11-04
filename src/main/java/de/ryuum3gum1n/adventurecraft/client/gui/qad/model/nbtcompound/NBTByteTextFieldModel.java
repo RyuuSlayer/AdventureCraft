@@ -15,7 +15,8 @@ public final class NBTByteTextFieldModel implements TextFieldModel {
 		this.text = Byte.toString(tagParent.getByte(tagKey));
 	}
 
-	@Override public void setText(String newText) {
+	@Override
+	public void setText(String newText) {
 		text = newText;
 		try {
 			byte value = Byte.parseByte(text);
@@ -26,15 +27,18 @@ public final class NBTByteTextFieldModel implements TextFieldModel {
 		}
 	}
 
-	@Override public int getTextLength() {
+	@Override
+	public int getTextLength() {
 		return text.length();
 	}
 
-	@Override public String getText() {
+	@Override
+	public String getText() {
 		return text;
 	}
 
-	@Override public char getCharAt(int i) {
+	@Override
+	public char getCharAt(int i) {
 		return text.charAt(i);
 	}
 

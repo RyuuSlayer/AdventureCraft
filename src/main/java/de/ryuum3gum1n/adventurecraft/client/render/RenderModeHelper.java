@@ -13,11 +13,11 @@ import de.ryuum3gum1n.adventurecraft.client.ClientRenderer.VisualMode;
 public class RenderModeHelper {
 
 	/**
-	 * warning: this method will fuck up the rendering pipeline.
-	 * only use this in the terrain render phase.
+	 * warning: this method will fuck up the rendering pipeline. only use this in
+	 * the terrain render phase.
 	 **/
 	public static final void ENABLE(VisualMode visual) {
-		switch(visual) {
+		switch (visual) {
 		case Lighting:
 			GL11.glPointSize(8.0f);
 			GL11.glLineWidth(0.25f);
@@ -33,7 +33,8 @@ public class RenderModeHelper {
 			GlStateManager.disableTexture2D();
 			GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
 			GlStateManager.disableFog();
-			Minecraft.getMinecraft().player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, Integer.MAX_VALUE));
+			Minecraft.getMinecraft().player
+					.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, Integer.MAX_VALUE));
 			break;
 		case Wireframe:
 			GL11.glLineWidth(0.25f);
@@ -43,7 +44,7 @@ public class RenderModeHelper {
 			break;
 		default:
 			break;
-		
+
 		}
 	}
 

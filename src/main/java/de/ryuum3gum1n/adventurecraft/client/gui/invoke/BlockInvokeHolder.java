@@ -28,7 +28,7 @@ public class BlockInvokeHolder implements IInvokeHolder {
 	public void sendCommand(String command, NBTTagCompound commandData) {
 		String commandString = ClientNetworkHandler.makeBlockDataMergeCommand(blockPosition);
 
-		if(commandData == null)
+		if (commandData == null)
 			commandData = new NBTTagCompound();
 		commandData.setString("command", command);
 

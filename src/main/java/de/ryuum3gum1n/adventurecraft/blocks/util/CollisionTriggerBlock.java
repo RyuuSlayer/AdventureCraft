@@ -27,29 +27,32 @@ public class CollisionTriggerBlock extends ACBlockContainer {
 
 	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		if(entityIn instanceof EntityPlayerMP) {
+		if (entityIn instanceof EntityPlayerMP) {
 			EntityPlayerMP p = (EntityPlayerMP) entityIn;
-			if(p.capabilities.isCreativeMode)return;
-		}else return;
+			if (p.capabilities.isCreativeMode)
+				return;
+		} else
+			return;
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 
-		if(tileEntity != null && tileEntity instanceof CollisionTriggerBlockTileEntity) {
-			((CollisionTriggerBlockTileEntity)tileEntity).collision(entityIn);
+		if (tileEntity != null && tileEntity instanceof CollisionTriggerBlockTileEntity) {
+			((CollisionTriggerBlockTileEntity) tileEntity).collision(entityIn);
 		}
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (!worldIn.isRemote)
 			return true;
-		if(!AdventureCraft.proxy.isBuildMode())
+		if (!AdventureCraft.proxy.isBuildMode())
 			return false;
-		if(playerIn.isSneaking())
+		if (playerIn.isSneaking())
 			return true;
 
 		Minecraft mc = Minecraft.getMinecraft();
-		mc.displayGuiScreen(new GuiCollisionTriggerBlock((CollisionTriggerBlockTileEntity)worldIn.getTileEntity(pos)));
+		mc.displayGuiScreen(new GuiCollisionTriggerBlock((CollisionTriggerBlockTileEntity) worldIn.getTileEntity(pos)));
 
 		return true;
 	}

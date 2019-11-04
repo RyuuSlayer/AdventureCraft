@@ -27,8 +27,16 @@ public abstract class AbstractButtonModel implements ButtonModel {
 		this.icon = newIcon;
 	}
 
-	@Override public String getText() { return text; }
-	@Override public ResourceLocation getIcon() { return icon; }
+	@Override
+	public String getText() {
+		return text;
+	}
 
-	@Override public abstract void onClick();
+	@Override
+	public ResourceLocation getIcon() {
+		return icon;
+	}
+
+	@Override
+	public abstract void onClick();
 }

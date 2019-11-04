@@ -56,13 +56,15 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	private NPCData data;
 	private NBTTagCompound scriptdata;
 	private Scriptable scope;
-	private BossInfoServer bossInfo = new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.PROGRESS);
+	private BossInfoServer bossInfo = new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED,
+			BossInfo.Overlay.PROGRESS);
 
 	@SideOnly(Side.CLIENT)
 	public NPCModelData model_data;
 
 	public static enum NPCType {
 		Passive(TextFormatting.GREEN), Neutral(TextFormatting.YELLOW), Aggressive(TextFormatting.RED);
+
 		public final TextFormatting color;
 
 		NPCType(TextFormatting color) {
@@ -179,9 +181,11 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 			return;
 		for (Entity ent : this.world.getEntities(EntityPlayerMP.class, Predicates.notNull())) {
 			EntityPlayerMP player = (EntityPlayerMP) ent;
-			player.connection.sendPacket(new S16PacketEntityLook(this.getEntityId(), (byte) this.rotationYaw, (byte) this.rotationPitch, this.onGround));
+			player.connection.sendPacket(new S16PacketEntityLook(this.getEntityId(), (byte) this.rotationYaw,
+					(byte) this.rotationPitch, this.onGround));
 		}
-		AdventureCraft.network.sendToDimension(new NPCDataUpdatePacket(getEntityId(), tag), world.provider.getDimension());
+		AdventureCraft.network.sendToDimension(new NPCDataUpdatePacket(getEntityId(), tag),
+				world.provider.getDimension());
 	}
 
 	@Override
@@ -189,7 +193,9 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 		AxisAlignedBB axisalignedbb = super.getEntityBoundingBox();
 		float width = data.getModel().width;
 		float height = data.getModel().height;
-		return new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.minX + (double) width, axisalignedbb.minY + (double) height, axisalignedbb.minZ + (double) width);
+		return new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ,
+				axisalignedbb.minX + (double) width, axisalignedbb.minY + (double) height,
+				axisalignedbb.minZ + (double) width);
 	}
 
 	@Override
@@ -211,7 +217,8 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 		return EnumActionResult.SUCCESS;
 	}
 
-	private void handleRegularInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand, boolean server) {
+	private void handleRegularInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand,
+			boolean server) {
 		if (server) {
 			FileScriptInvoke scriptInvoke = new FileScriptInvoke(data.getInteractScript());
 			if (!scriptInvoke.getScriptName().isEmpty()) {
@@ -244,7 +251,8 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 		return false;
 	}
 
-	private void handleEditorInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand, boolean server) {
+	private void handleEditorInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand,
+			boolean server) {
 		if (server) {
 			AdventureCraft.network.sendTo(new NPCOpenPacket(this.getEntityId()), (EntityPlayerMP) player);
 		}
@@ -321,7 +329,9 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	}
 
 	private EntityPlayer lookAtPlayer(int range, int rangeY) {
-		List<Entity> closeEntities = this.world.getEntitiesWithinAABBExcludingEntity(this, new AxisAlignedBB(this.posX - range, this.posY - rangeY, this.posZ - range, this.posX + range, this.posY + rangeY, this.posZ + range));
+		List<Entity> closeEntities = this.world.getEntitiesWithinAABBExcludingEntity(this,
+				new AxisAlignedBB(this.posX - range, this.posY - rangeY, this.posZ - range, this.posX + range,
+						this.posY + rangeY, this.posZ + range));
 		for (Entity ent : closeEntities) {
 			if (ent instanceof EntityPlayer) {
 				return (EntityPlayer) ent;

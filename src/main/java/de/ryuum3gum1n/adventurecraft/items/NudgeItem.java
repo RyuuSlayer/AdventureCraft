@@ -15,8 +15,9 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 public class NudgeItem extends ACItem {
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side,
+			float hitX, float hitY, float hitZ) {
+		if (world.isRemote)
 			return EnumActionResult.PASS;
 		return EnumActionResult.SUCCESS;
 	}
@@ -24,7 +25,7 @@ public class NudgeItem extends ACItem {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		if(world.isRemote)
+		if (world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 
 		nudge(player, player.isSneaking());
@@ -33,48 +34,49 @@ public class NudgeItem extends ACItem {
 	}
 
 	private void nudge(EntityPlayer player, boolean moveByBounds) {
-		if(player == null)
+		if (player == null)
 			return;
 
 		// Get WORLD
 		World world = player.world;
 
-		if(world.isRemote)
+		if (world.isRemote)
 			return;
 
 		// Get SIDE
 		EnumFacing side = null;
 
-		if(player.rotationPitch > 45) {
+		if (player.rotationPitch > 45) {
 			side = EnumFacing.DOWN;
-		} else if(player.rotationPitch < -45) {
+		} else if (player.rotationPitch < -45) {
 			side = EnumFacing.UP;
 		} else {
 			side = player.getHorizontalFacing();
 		}
 
 		// If SNEAKING do INVERT FACING
-		if(player.isSneaking()) {
+		if (player.isSneaking()) {
 			side = side.getOpposite();
 		}
 
 		// Get BOUNDS
 		int[] bounds = WandItem.getBoundsFromPlayerOrNull(player);
 
-		if(bounds == null) {
-			player.sendMessage(new TextComponentString(TextFormatting.RED+"Bounds invalid."));
+		if (bounds == null) {
+			player.sendMessage(new TextComponentString(TextFormatting.RED + "Bounds invalid."));
 			return;
 		}
 
 		long bounds_volume = WandItem.getBoundsVolume(bounds);
 
-		if(bounds_volume > (32*32*32)) {
-			player.sendMessage(new TextComponentString(TextFormatting.RED+"Selection is too big: " + bounds_volume));
+		if (bounds_volume > (32 * 32 * 32)) {
+			player.sendMessage(new TextComponentString(TextFormatting.RED + "Selection is too big: " + bounds_volume));
 			return;
 		}
 
-		// player.sendMessage(new ChatComponentText(TextFormatting.AQUA+"Nudge: " + direction + " " + bounds_volume));
-		
+		// player.sendMessage(new ChatComponentText(TextFormatting.AQUA+"Nudge: " +
+		// direction + " " + bounds_volume));
+
 		// Selection Bounds
 		int ix = bounds[0];
 		int iy = bounds[1];
@@ -82,53 +84,80 @@ public class NudgeItem extends ACItem {
 		int ax = bounds[3];
 		int ay = bounds[4];
 		int az = bounds[5];
-		
+
 		// Selection Size
-		int sx = ax-ix+1;
-		int sy = ay-iy+1;
-		int sz = az-iz+1;
-		
+		int sx = ax - ix + 1;
+		int sy = ay - iy + 1;
+		int sz = az - iz + 1;
+
 		// Selection Movement
 		int new_ix = ix;
 		int new_iy = iy;
 		int new_iz = iz;
-		
-		if(moveByBounds) {
-			switch(side) {
-				// x
-				case EAST:	new_ix +=-sx; break;
-				case WEST:	new_ix -=-sx; break;
-				// y
-				case UP:	  new_iy +=-sy; break;
-				case DOWN:	new_iy -=-sy; break;
-				// z
-				case SOUTH:	new_iz +=-sz; break;
-				case NORTH:	new_iz -=-sz; break;
-				// ?!
-				default: return;
+
+		if (moveByBounds) {
+			switch (side) {
+			// x
+			case EAST:
+				new_ix += -sx;
+				break;
+			case WEST:
+				new_ix -= -sx;
+				break;
+			// y
+			case UP:
+				new_iy += -sy;
+				break;
+			case DOWN:
+				new_iy -= -sy;
+				break;
+			// z
+			case SOUTH:
+				new_iz += -sz;
+				break;
+			case NORTH:
+				new_iz -= -sz;
+				break;
+			// ?!
+			default:
+				return;
 			}
 		} else {
-			switch(side) {
-				// x
-				case EAST:	new_ix++; break;
-				case WEST:	new_ix--; break;
-				// y
-				case UP:	  new_iy++; break;
-				case DOWN:	new_iy--; break;
-				// z
-				case SOUTH:	new_iz++; break;
-				case NORTH:	new_iz--; break;
-				// ?!
-				default: return;
+			switch (side) {
+			// x
+			case EAST:
+				new_ix++;
+				break;
+			case WEST:
+				new_ix--;
+				break;
+			// y
+			case UP:
+				new_iy++;
+				break;
+			case DOWN:
+				new_iy--;
+				break;
+			// z
+			case SOUTH:
+				new_iz++;
+				break;
+			case NORTH:
+				new_iz--;
+				break;
+			// ?!
+			default:
+				return;
 			}
 		}
-		
+
 		int moveX = new_ix - ix;
 		int moveY = new_iy - iy;
 		int moveZ = new_iz - iz;
-		
-		// Lets by terribly lazy and use an existing minecraft command to do the actual movement.
-		
+
+		// Lets by terribly lazy and use an existing minecraft command to do the actual
+		// movement.
+
 		StringBuilder builder = new StringBuilder(128);
 
 		builder.append("/clone ");
@@ -149,8 +178,10 @@ public class NudgeItem extends ACItem {
 		builder.append(' ');
 		builder.append("move");
 
-		// player.sendMessage(new ChatComponentText(EnumChatFormatting.GOLD+builder.toString()));
-		FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager().executeCommand(player, builder.toString());
+		// player.sendMessage(new
+		// ChatComponentText(EnumChatFormatting.GOLD+builder.toString()));
+		FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager().executeCommand(player,
+				builder.toString());
 
 		ix += moveX;
 		iy += moveY;

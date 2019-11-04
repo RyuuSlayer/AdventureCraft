@@ -30,8 +30,9 @@ public class ServerHandler {
 
 	public static void handleEntityJoin(World world, Entity entity) {
 		// If this is a player, send the player the persistent EntityData.
-		if(entity instanceof EntityPlayerMP) {
-			AdventureCraft.network.sendTo(new PlayerNBTDataMergePacket(entity.getEntityData()), (EntityPlayerMP) entity);
+		if (entity instanceof EntityPlayerMP) {
+			AdventureCraft.network.sendTo(new PlayerNBTDataMergePacket(entity.getEntityData()),
+					(EntityPlayerMP) entity);
 			// PlayerList.playerJoin((EntityPlayerMP)entity);
 		}
 	}
@@ -44,26 +45,27 @@ public class ServerHandler {
 
 	/** This method actually handles the SNBT-command. **/
 	private static void handleSNBTCommand(EntityPlayerMP player, World world, StringNBTCommandPacket message) {
-		if(world.isRemote){
+		if (world.isRemote) {
 			AdventureCraft.logger.error("FATAL ERROR: ServerHandler method was called on client-side!");
 			return;
 		}
 
-		if(message.command.equals("server.client.connection.state.change:join_acknowledged")) {
+		if (message.command.equals("server.client.connection.state.change:join_acknowledged")) {
 			AdventureCraft.logger.info("join acknowledged : " + message.data);
 			getServerMirror(null).playerList().getPlayer(player).construct(message.data);
 			return;
 		}
 
-		if(message.command.equals("server.client.settings.update")) {
+		if (message.command.equals("server.client.settings.update")) {
 			AdventureCraft.logger.info("updating settings " + message.data);
 			getServerMirror(null).playerList().getPlayer(player).updateSettings(message.data);
 			return;
 		}
 
-		if(message.command.equals("server.data.entity.merge")) {
-			if(!PlayerHelper.isOp(player)) {
-				player.sendMessage(new TextComponentString("Error: 'server.data.entity.merge' is a operator only command."));
+		if (message.command.equals("server.data.entity.merge")) {
+			if (!PlayerHelper.isOp(player)) {
+				player.sendMessage(
+						new TextComponentString("Error: 'server.data.entity.merge' is a operator only command."));
 				return;
 			}
 
@@ -72,16 +74,16 @@ public class ServerHandler {
 
 			Entity theEntity = null;
 
-			for(Object entityObject : world.loadedEntityList) {
+			for (Object entityObject : world.loadedEntityList) {
 				Entity entity = (Entity) entityObject;
 
-				if(entity.getUniqueID().equals(uuid)) {
+				if (entity.getUniqueID().equals(uuid)) {
 					theEntity = entity;
 					break;
 				}
 			}
 
-			if(theEntity == null) {
+			if (theEntity == null) {
 				player.sendMessage(new TextComponentString("Error: Entity not found. (Possibly dead)"));
 				return;
 			}
@@ -99,78 +101,91 @@ public class ServerHandler {
 			entityData.merge(mergeData);
 			theEntity.readFromNBT(entityData);
 
-			if(entityData.hasKey("AC_Width")) theEntity.width = entityData.getFloat("AC_Width");
-			if(entityData.hasKey("AC_Height")) theEntity.height = entityData.getFloat("AC_Height");
-			if(entityData.hasKey("AC_StepHeight")) theEntity.stepHeight = entityData.getFloat("AC_StepHeight");
-			if(entityData.hasKey("AC_NoClip")) theEntity.noClip = entityData.getBoolean("AC_NoClip");
+			if (entityData.hasKey("AC_Width"))
+				theEntity.width = entityData.getFloat("AC_Width");
+			if (entityData.hasKey("AC_Height"))
+				theEntity.height = entityData.getFloat("AC_Height");
+			if (entityData.hasKey("AC_StepHeight"))
+				theEntity.stepHeight = entityData.getFloat("AC_StepHeight");
+			if (entityData.hasKey("AC_NoClip"))
+				theEntity.noClip = entityData.getBoolean("AC_NoClip");
 
 			// Done!
 			return;
 		}
 
-		if(message.command.startsWith("server.data.block.merge:")) {
-			if(!PlayerHelper.isOp(player)) {
+		if (message.command.startsWith("server.data.block.merge:")) {
+			if (!PlayerHelper.isOp(player)) {
 				player.sendMessage(new TextComponentString("Error: 'blockdatamerge' is a operator only command."));
 				return;
 			}
 
 			String positionString = message.command.substring(24);
 			String[] posStrings = positionString.split(" ");
-			BlockPos position = new BlockPos(Integer.valueOf(posStrings[0]), Integer.valueOf(posStrings[1]), Integer.valueOf(posStrings[2]));
+			BlockPos position = new BlockPos(Integer.valueOf(posStrings[0]), Integer.valueOf(posStrings[1]),
+					Integer.valueOf(posStrings[2]));
 
 			TileEntity entity = world.getTileEntity(position);
 
-			if(entity != null) {
-				if(message.data.hasKey("command") && message.data.getString("command").equals("trigger")){
-					if(entity instanceof IInvokeSource){
+			if (entity != null) {
+				if (message.data.hasKey("command") && message.data.getString("command").equals("trigger")) {
+					if (entity instanceof IInvokeSource) {
 						IInvokeSource iis = (IInvokeSource) entity;
 						List<IInvoke> invokes = new ArrayList<IInvoke>();
 						iis.getInvokes(invokes);
-						for(IInvoke in : invokes){
+						for (IInvoke in : invokes) {
 							Invoke.invoke(in, iis, null, EnumTriggerState.ON);
 						}
 					}
 					return;
-				}else{
+				} else {
 					AdventureCraft.logger.info("(datamerge) " + position + " -> " + message.data);
 					mergeTileEntityData(entity, message.data);
 					return;
 				}
 			} else {
-				player.sendMessage(new TextComponentString("Error: Failed to merge block data: TileEntity does not exist."));
+				player.sendMessage(
+						new TextComponentString("Error: Failed to merge block data: TileEntity does not exist."));
 				return;
 			}
 		}
 
-		if(message.command.startsWith("server.data.block.command:")) {
-			if(!PlayerHelper.isOp(player)) {
+		if (message.command.startsWith("server.data.block.command:")) {
+			if (!PlayerHelper.isOp(player)) {
 				player.sendMessage(new TextComponentString("Error: 'blockcommand' is a operator only command."));
 				return;
 			}
 
 			String positionString = message.command.substring(26);
 			String[] posStrings = positionString.split(" ");
-			BlockPos position = new BlockPos(Integer.valueOf(posStrings[0]), Integer.valueOf(posStrings[1]), Integer.valueOf(posStrings[2]));
+			BlockPos position = new BlockPos(Integer.valueOf(posStrings[0]), Integer.valueOf(posStrings[1]),
+					Integer.valueOf(posStrings[2]));
 
 			TileEntity entity = world.getTileEntity(position);
 
-			if(entity != null) {
-				// AdventureCraft.logger.info("(block command) " + position + " -> " + commandPacket.data);
+			if (entity != null) {
+				// AdventureCraft.logger.info("(block command) " + position + " -> " +
+				// commandPacket.data);
 
-				if(entity instanceof ACIBlockCommandReceiver) {
+				if (entity instanceof ACIBlockCommandReceiver) {
 					((ACIBlockCommandReceiver) entity).commandReceived(message.data.getString("command"), message.data);
 					return;
 				}
 			} else {
-				player.sendMessage(new TextComponentString("Error: Failed to run block-command: TileEntity does not exist."));
+				player.sendMessage(
+						new TextComponentString("Error: Failed to run block-command: TileEntity does not exist."));
 				return;
 			}
 		}
 
-		AdventureCraft.logger.error("Received unknown StringNBTCommand from client: "+message.command+" : "+message.data);
+		AdventureCraft.logger
+				.error("Received unknown StringNBTCommand from client: " + message.command + " : " + message.data);
 	}
 
-	/** Merges the given {@link NBTTagCompound} into the given {@link TileEntity} data. **/
+	/**
+	 * Merges the given {@link NBTTagCompound} into the given {@link TileEntity}
+	 * data.
+	 **/
 	private static void mergeTileEntityData(TileEntity entity, NBTTagCompound data) {
 		BlockPos pos = entity.getPos();
 		World world = entity.getWorld();
@@ -184,18 +199,19 @@ public class ServerHandler {
 
 		entity.readFromNBT(compound);
 		entity.markDirty();
-		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
+		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO Confirm
 	}
 
 	private static HashMap<MinecraftServer, ServerMirror> serverMirrorsMap = new HashMap<MinecraftServer, ServerMirror>();
+
 	public static ServerMirror getServerMirror(MinecraftServer server) {
-		if(server == null) {
+		if (server == null) {
 			server = FMLCommonHandler.instance().getMinecraftServerInstance();
 		}
 
 		ServerMirror mirror = serverMirrorsMap.get(server);
 
-		if(mirror == null) {
+		if (mirror == null) {
 			mirror = new ServerMirror();
 			mirror.create(server);
 			serverMirrorsMap.put(server, mirror);
@@ -205,8 +221,8 @@ public class ServerHandler {
 	}
 
 	public static void destroyServerMirror(MinecraftServer server) {
-		if(server == null) {
-			for(ServerMirror mirror : serverMirrorsMap.values()) {
+		if (server == null) {
+			for (ServerMirror mirror : serverMirrorsMap.values()) {
 				mirror.destroy();
 			}
 			serverMirrorsMap.clear();
@@ -215,7 +231,7 @@ public class ServerHandler {
 
 		ServerMirror mirror = serverMirrorsMap.remove(server);
 
-		if(mirror != null) {
+		if (mirror != null) {
 			mirror.destroy();
 		}
 	}

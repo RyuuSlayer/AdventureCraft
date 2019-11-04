@@ -35,7 +35,7 @@ public class HiddenBlock extends ACBlock {
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
-	
+
 	@Override
 	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
 		tooltip.add("DO NOT USE");
@@ -73,8 +73,9 @@ public class HiddenBlock extends ACBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
-		if(AdventureCraft.proxy.isBuildMode())
-			return new AxisAlignedBB(pos.getX(),pos.getY(),pos.getZ(),pos.getX()+1,pos.getY()+1,pos.getZ()+1);
+		if (AdventureCraft.proxy.isBuildMode())
+			return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1,
+					pos.getZ() + 1);
 		else
 			return null;
 	}

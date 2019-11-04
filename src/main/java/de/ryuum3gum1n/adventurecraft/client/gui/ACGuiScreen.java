@@ -36,7 +36,7 @@ public class ACGuiScreen extends GuiScreen {
 	/** ********************************* **/
 	/**                                   **/
 	/** Everything following is final and **/
-	/** should not be overriden.          **/
+	/** should not be overriden. **/
 	/**                                   **/
 	/** ********************************* **/
 
@@ -52,7 +52,7 @@ public class ACGuiScreen extends GuiScreen {
 		root.size.x = width;
 		root.size.y = height;
 
-		if(root.layoutManager != null) {
+		if (root.layoutManager != null) {
 			root.layoutManager.accept(root);
 		}
 	}
@@ -79,7 +79,7 @@ public class ACGuiScreen extends GuiScreen {
 
 	@Override
 	public final void keyTyped(char typedChar, int typedCode) {
-		if(typedCode == Keyboard.KEY_ESCAPE) {
+		if (typedCode == Keyboard.KEY_ESCAPE) {
 			mc.displayGuiScreen(null);
 			mc.inGameHasFocus = true;
 			return;
@@ -95,19 +95,20 @@ public class ACGuiScreen extends GuiScreen {
 
 	@Override
 	public final void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		if(this.fontRenderer != null) instance.setCurrentScreen(this, this.zLevel, this.fontRenderer, this.itemRender);
+		if (this.fontRenderer != null)
+			instance.setCurrentScreen(this, this.zLevel, this.fontRenderer, this.itemRender);
 		instance.drawDefaultBackground();
 
-		if(Mouse.isInsideWindow() && Boolean.TRUE.booleanValue()) {
+		if (Mouse.isInsideWindow() && Boolean.TRUE.booleanValue()) {
 			final int color = 0x1ACCEEFF;
 			instance.drawHorizontalLine(0, width, mouseY, color);
 			instance.drawVerticalLine(mouseX, -1, height, color);
 		}
 
-		if(Boolean.FALSE.booleanValue()) {
+		if (Boolean.FALSE.booleanValue()) {
 			final int H = 128;
-			instance.drawGradientRectangle(0, 0, 		width, H, 0xFF000000, 0);
-			instance.drawGradientRectangle(0, height-H, width, height, 0, 0xFF000000);
+			instance.drawGradientRectangle(0, 0, width, H, 0xFF000000, 0);
+			instance.drawGradientRectangle(0, height - H, width, height, 0, 0xFF000000);
 		}
 
 		root.draw();

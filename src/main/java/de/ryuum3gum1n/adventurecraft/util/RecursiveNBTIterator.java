@@ -12,30 +12,31 @@ public class RecursiveNBTIterator {
 	}
 
 	private static final void iterate(NBTTagCompound parent, NBTTreeConsumer consumer, int depth) {
-		if(parent == null) return;
-		consumer.consume(depth+1, "<compound>", parent, null);
+		if (parent == null)
+			return;
+		consumer.consume(depth + 1, "<compound>", parent, null);
 
-		for(Object keyObject : parent.getKeySet()) {
-			String key = (String)keyObject;
+		for (Object keyObject : parent.getKeySet()) {
+			String key = (String) keyObject;
 			NBTBase value = parent.getTag(key);
 
-			consumer.consume(depth+1, key, value, parent);
+			consumer.consume(depth + 1, key, value, parent);
 
-			if(value instanceof NBTTagCompound) {
-				iterate((NBTTagCompound)value, consumer, depth+1);
+			if (value instanceof NBTTagCompound) {
+				iterate((NBTTagCompound) value, consumer, depth + 1);
 			}
 
-			if(value instanceof NBTTagList) {
+			if (value instanceof NBTTagList) {
 				NBTTagList list = (NBTTagList) value;
-				if(list.getTagType() == NBT.TAG_COMPOUND) {
-					for(int i = 0; i < list.tagCount(); i++) {
+				if (list.getTagType() == NBT.TAG_COMPOUND) {
+					for (int i = 0; i < list.tagCount(); i++) {
 						NBTTagCompound compound = list.getCompoundTagAt(i);
-						iterate(compound, consumer, depth+1);
+						iterate(compound, consumer, depth + 1);
 					}
 				}
 			}
 		}
-		consumer.consume(depth+1, "", null, parent);
+		consumer.consume(depth + 1, "", null, parent);
 	}
 
 	public static interface NBTTreeConsumer {

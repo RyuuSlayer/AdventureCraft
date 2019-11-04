@@ -36,7 +36,7 @@ public class URLBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public String getName() {
-		return "URLBlock@"+this.getPos();
+		return "URLBlock@" + this.getPos();
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class URLBlockTileEntity extends ACTileEntity {
 	}
 
 	public void trigger(EnumTriggerState triggerState) {
-		if(triggerState.getBooleanValue()) {
+		if (triggerState.getBooleanValue()) {
 			List<EntityPlayerMP> players = null;
 			try {
 				players = EntitySelector.matchEntities(this, selector, EntityPlayerMP.class);
@@ -71,9 +71,9 @@ public class URLBlockTileEntity extends ACTileEntity {
 			}
 			StringNBTCommandPacketClient command = new StringNBTCommandPacketClient();
 			command.command = "client.gui.openurl";
-			command.data = NBTHelper.newSingleStringCompound("url",url);
+			command.data = NBTHelper.newSingleStringCompound("url", url);
 
-			for(EntityPlayerMP player : players) {
+			for (EntityPlayerMP player : players) {
 				AdventureCraft.network.sendTo(command, player);
 			}
 		}

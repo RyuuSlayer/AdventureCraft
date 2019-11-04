@@ -18,6 +18,7 @@ public abstract class CommonProxy {
 	public final ClientProxy asClient() {
 		return (ClientProxy) this;
 	}
+
 	public final ServerProxy asServer() {
 		return (ServerProxy) this;
 	}
@@ -25,11 +26,14 @@ public abstract class CommonProxy {
 	/** The one and only instance of 'adventurecraft'. **/
 	public AdventureCraft adventureCraft;
 
-	public void preInit(FMLPreInitializationEvent event) {};
+	public void preInit(FMLPreInitializationEvent event) {
+	};
 
-	public void init(FMLInitializationEvent event) {};
+	public void init(FMLInitializationEvent event) {
+	};
 
-	public void postInit(FMLPostInitializationEvent event) {}
+	public void postInit(FMLPostInitializationEvent event) {
+	}
 
 	public boolean isBuildMode() {
 		return true; // Just say its true!
@@ -43,7 +47,7 @@ public abstract class CommonProxy {
 	public void tickWorld(WorldTickEvent event) {
 		ACWorldManager mng = AdventureCraft.worldsManager.fetchManager(event.world);
 
-		if(mng == null) {
+		if (mng == null) {
 			AdventureCraft.logger.error("No WorldManager for @" + event.world.hashCode());
 			return;
 		}

@@ -17,8 +17,11 @@ public class GuiUpdateDetectorBlock extends QADGuiScreen {
 	@Override
 	public void buildGui() {
 		final BlockPos position = tileEntity.getPos();
-		addComponent(new QADLabel("Block Update Detector Trigger @ " + position.getX() + " " + position.getY() + " " + position.getZ(), 2, 2));
-		InvokePanelBuilder.build(this, this, 2, 16, tileEntity.getInvoke(), new BlockInvokeHolder(position, "detectorInvoke"), InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOWALL);
+		addComponent(new QADLabel(
+				"Block Update Detector Trigger @ " + position.getX() + " " + position.getY() + " " + position.getZ(), 2,
+				2));
+		InvokePanelBuilder.build(this, this, 2, 16, tileEntity.getInvoke(),
+				new BlockInvokeHolder(position, "detectorInvoke"), InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOWALL);
 	}
 
 }

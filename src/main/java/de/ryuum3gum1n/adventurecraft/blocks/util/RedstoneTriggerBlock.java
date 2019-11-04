@@ -63,22 +63,23 @@ public class RedstoneTriggerBlock extends ACBlockContainer implements ACITrigger
 		boolean flag1 = state.getValue(TRIGGERED).booleanValue();
 
 		if (tileentity instanceof RedstoneTriggerBlockTileEntity) {
-			((RedstoneTriggerBlockTileEntity)tileentity).invokeFromUpdateTick(EnumTriggerState.IGNORE, flag1);
+			((RedstoneTriggerBlockTileEntity) tileentity).invokeFromUpdateTick(EnumTriggerState.IGNORE, flag1);
 		}
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (!worldIn.isRemote)
 			return true;
-		if(!AdventureCraft.proxy.isBuildMode())
+		if (!AdventureCraft.proxy.isBuildMode())
 			return false;
-		if(playerIn.isSneaking())
+		if (playerIn.isSneaking())
 			return true;
 
 		Minecraft mc = Minecraft.getMinecraft();
-		mc.displayGuiScreen(new GuiRedstoneTriggerBlock((RedstoneTriggerBlockTileEntity)worldIn.getTileEntity(pos)));
+		mc.displayGuiScreen(new GuiRedstoneTriggerBlock((RedstoneTriggerBlockTileEntity) worldIn.getTileEntity(pos)));
 
 		return true;
 	}
@@ -93,8 +94,7 @@ public class RedstoneTriggerBlock extends ACBlockContainer implements ACITrigger
 	public int getMetaFromState(IBlockState state) {
 		int i = 0;
 
-		if (state.getValue(TRIGGERED).booleanValue())
-		{
+		if (state.getValue(TRIGGERED).booleanValue()) {
 			i |= 1;
 		}
 
@@ -103,11 +103,12 @@ public class RedstoneTriggerBlock extends ACBlockContainer implements ACITrigger
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {TRIGGERED});
+		return new BlockStateContainer(this, new IProperty[] { TRIGGERED });
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY,
+			float hitZ, int meta, EntityLivingBase placer) {
 		return this.getDefaultState().withProperty(TRIGGERED, Boolean.valueOf(false));
 	}
 
@@ -119,8 +120,8 @@ public class RedstoneTriggerBlock extends ACBlockContainer implements ACITrigger
 		TileEntity tileentity = world.getTileEntity(position);
 
 		if (tileentity instanceof RedstoneTriggerBlockTileEntity) {
-			((RedstoneTriggerBlockTileEntity)tileentity).invokeFromUpdateTick(triggerState, true);
-			((RedstoneTriggerBlockTileEntity)tileentity).invokeFromUpdateTick(triggerState, false);
+			((RedstoneTriggerBlockTileEntity) tileentity).invokeFromUpdateTick(triggerState, true);
+			((RedstoneTriggerBlockTileEntity) tileentity).invokeFromUpdateTick(triggerState, false);
 		}
 	}
 }

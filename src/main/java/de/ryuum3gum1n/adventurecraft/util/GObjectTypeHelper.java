@@ -21,7 +21,7 @@ public class GObjectTypeHelper {
 		List<String> list = Lists.newArrayList();
 		EnumParticleTypes[] types = EnumParticleTypes.values();
 
-		for(EnumParticleTypes type : types) {
+		for (EnumParticleTypes type : types) {
 			list.add(type.getParticleName());
 		}
 
@@ -31,8 +31,8 @@ public class GObjectTypeHelper {
 	public static final EnumParticleTypes findParticleType(String name) {
 		EnumParticleTypes[] types = EnumParticleTypes.values();
 
-		for(EnumParticleTypes type : types)
-			if(type.getParticleName().equalsIgnoreCase(name))
+		for (EnumParticleTypes type : types)
+			if (type.getParticleName().equalsIgnoreCase(name))
 				return type;
 
 		throw new IllegalArgumentException("Given name is not a particle name.");
@@ -51,17 +51,17 @@ public class GObjectTypeHelper {
 		// String typeMod = null;
 		String typeID = null;
 
-		if(indexOfDot == -1) {
+		if (indexOfDot == -1) {
 			// typeMod = "minecraft";
 			typeID = typeMID;
 		} else {
 			// typeMod = typeMID.substring(0, indexOfDot);
-			typeID = typeMID.substring(indexOfDot+1);
+			typeID = typeMID.substring(indexOfDot + 1);
 		}
 
 		Item item = Item.getByNameOrId(typeID);
 
-		if(item != null) {
+		if (item != null) {
 			return item;
 		}
 
@@ -75,11 +75,11 @@ public class GObjectTypeHelper {
 		String typeMID = null;
 		int typeMeta = 0;
 
-		if(indexOfSlash == -1) {
+		if (indexOfSlash == -1) {
 			typeMID = typeString;
 		} else {
 			typeMID = typeString.substring(0, indexOfSlash);
-			typeMeta = Integer.valueOf(typeString.substring(indexOfSlash+1));
+			typeMeta = Integer.valueOf(typeString.substring(indexOfSlash + 1));
 		}
 
 		int indexOfDot = typeMID.indexOf(':');
@@ -87,24 +87,25 @@ public class GObjectTypeHelper {
 		String typeMod = null;
 		String typeID = null;
 
-		if(indexOfDot == -1) {
+		if (indexOfDot == -1) {
 			typeMod = "minecraft";
 			typeID = typeMID;
 		} else {
 			typeMod = typeMID.substring(0, indexOfDot);
-			typeID = typeMID.substring(indexOfDot+1);
+			typeID = typeMID.substring(indexOfDot + 1);
 		}
 
-		ResourceLocation location = new ResourceLocation(typeMod+":"+typeID);
+		ResourceLocation location = new ResourceLocation(typeMod + ":" + typeID);
 		Block block = Block.REGISTRY.getObject(location);
 
-		if(block != null) {
-			if(!Block.REGISTRY.containsKey(location)) {
-				System.err.println("Block type mismatch: " + typeString + " | " + typeMod + " " + typeID + " " + typeMeta + " GOT " + block.getUnlocalizedName());
+		if (block != null) {
+			if (!Block.REGISTRY.containsKey(location)) {
+				System.err.println("Block type mismatch: " + typeString + " | " + typeMod + " " + typeID + " "
+						+ typeMeta + " GOT " + block.getUnlocalizedName());
 				return null; // This is the wrong block! D: (Probably minecraft:air)
 			}
 
-			return new String[]{typeMID,typeMod,typeID,Integer.toString(typeMeta)};
+			return new String[] { typeMID, typeMod, typeID, Integer.toString(typeMeta) };
 		}
 
 		System.err.println("Block type not found: " + typeString + " | " + typeMod + " " + typeID + " " + typeMeta);
@@ -117,7 +118,7 @@ public class GObjectTypeHelper {
 
 		String typeMID = null;
 
-		if(indexOfSlash == -1) {
+		if (indexOfSlash == -1) {
 			typeMID = typeString;
 		} else {
 			typeMID = typeString.substring(0, indexOfSlash);
@@ -128,12 +129,12 @@ public class GObjectTypeHelper {
 		// String typeMod = null;
 		String typeID = null;
 
-		if(indexOfDot == -1) {
+		if (indexOfDot == -1) {
 			// typeMod = "minecraft";
 			typeID = typeMID;
 		} else {
 			// typeMod = typeMID.substring(0, indexOfDot);
-			typeID = typeMID.substring(indexOfDot+1);
+			typeID = typeMID.substring(indexOfDot + 1);
 		}
 
 		return typeID;
@@ -146,11 +147,11 @@ public class GObjectTypeHelper {
 		// String typeMID = null;
 		int typeMeta = 0;
 
-		if(indexOfSlash == -1) {
+		if (indexOfSlash == -1) {
 			// typeMID = typeString;
 		} else {
 			// typeMID = typeString.substring(0, indexOfSlash);
-			typeMeta = Integer.valueOf(typeString.substring(indexOfSlash+1));
+			typeMeta = Integer.valueOf(typeString.substring(indexOfSlash + 1));
 		}
 
 		return typeMeta;
@@ -163,11 +164,11 @@ public class GObjectTypeHelper {
 		String typeMID = null;
 		int typeMeta = 0;
 
-		if(indexOfSlash == -1) {
+		if (indexOfSlash == -1) {
 			typeMID = typeString;
 		} else {
 			typeMID = typeString.substring(0, indexOfSlash);
-			typeMeta = Integer.valueOf(typeString.substring(indexOfSlash+1));
+			typeMeta = Integer.valueOf(typeString.substring(indexOfSlash + 1));
 		}
 
 		int indexOfDot = typeMID.indexOf(':');
@@ -175,19 +176,19 @@ public class GObjectTypeHelper {
 		String typeMod = null;
 		String typeID = null;
 
-		if(indexOfDot == -1) {
+		if (indexOfDot == -1) {
 			typeMod = "minecraft";
 			typeID = typeMID;
 		} else {
 			typeMod = typeMID.substring(0, indexOfDot);
-			typeID = typeMID.substring(indexOfDot+1);
+			typeID = typeMID.substring(indexOfDot + 1);
 		}
 
-		ResourceLocation location = new ResourceLocation(typeMod+":"+typeID);
+		ResourceLocation location = new ResourceLocation(typeMod + ":" + typeID);
 		Block block = Block.REGISTRY.getObject(location);
 
-		if(block != null) {
-			if(block.getUnlocalizedName().equals("tile.air") && !typeID.contains("air")){
+		if (block != null) {
+			if (block.getUnlocalizedName().equals("tile.air") && !typeID.contains("air")) {
 				return null; // This is the wrong block! D: (Probably minecraft:air)
 			}
 
@@ -204,7 +205,7 @@ public class GObjectTypeHelper {
 		String typeMID = null;
 		// int typeMeta = 0;
 
-		if(indexOfSlash == -1) {
+		if (indexOfSlash == -1) {
 			typeMID = typeString;
 		} else {
 			typeMID = typeString.substring(0, indexOfSlash);
@@ -216,19 +217,19 @@ public class GObjectTypeHelper {
 		String typeMod = null;
 		String typeID = null;
 
-		if(indexOfDot == -1) {
+		if (indexOfDot == -1) {
 			typeMod = "minecraft";
 			typeID = typeMID;
 		} else {
 			typeMod = typeMID.substring(0, indexOfDot);
-			typeID = typeMID.substring(indexOfDot+1);
+			typeID = typeMID.substring(indexOfDot + 1);
 		}
 
-		ResourceLocation location = new ResourceLocation(typeMod+":"+typeID);
+		ResourceLocation location = new ResourceLocation(typeMod + ":" + typeID);
 		Block block = Block.REGISTRY.getObject(location);
 
-		if(block != null) {
-			if(block.getUnlocalizedName().equals("tile.air") && !typeID.contains("air")){
+		if (block != null) {
+			if (block.getUnlocalizedName().equals("tile.air") && !typeID.contains("air")) {
 				return null; // This is the wrong block! D: (Probably minecraft:air)
 			}
 

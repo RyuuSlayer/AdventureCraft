@@ -76,7 +76,7 @@ public class AdventureCraft {
 		config.save();
 		logger.info("Configuration loaded!");
 		MinecraftForge.EVENT_BUS.register(this);
-		
+
 		AdventureCraftNetwork.preInit();
 		random = new Random(42);
 
@@ -84,7 +84,7 @@ public class AdventureCraft {
 		timedExecutor = new TimedExecutor();
 		globalScriptManager = new GlobalScriptManager();
 		globalScriptManager.init(this, proxy);
-		
+
 		gson = new GsonBuilder().setPrettyPrinting().create();
 
 		// Print debug information
@@ -96,8 +96,9 @@ public class AdventureCraft {
 		eventHandler = new AdventureCraftEventHandler();
 		MinecraftForge.EVENT_BUS.register(eventHandler);
 		MinecraftForge.EVENT_BUS.register(new SendMessage());
-		
-		if(ConfigurationManager.USE_VERSION_CHECKER && event.getSide() == Side.CLIENT)MinecraftForge.EVENT_BUS.register(new WorldSelectorInjector());
+
+		if (ConfigurationManager.USE_VERSION_CHECKER && event.getSide() == Side.CLIENT)
+			MinecraftForge.EVENT_BUS.register(new WorldSelectorInjector());
 		logger.info("AdventureCraft Event Handler @" + eventHandler.hashCode());
 		// Initialize all the Tabs/Blocks/Items/Commands etc.
 		logger.info("Loading Tabs, Blocks, Items, Entities and Commands");
@@ -116,7 +117,7 @@ public class AdventureCraft {
 	public void init(FMLInitializationEvent event) {
 		proxy.init(event);
 		NetworkRegistry.INSTANCE.registerGuiHandler(AdventureCraft.instance, new GuiHandler());
-		
+
 		// Convert tile entity IDs
 		CompoundDataFixer compoundDataFixer = FMLCommonHandler.instance().getDataFixer();
 		ModFixs dataFixer = compoundDataFixer.init(Reference.MOD_ID, 1);
@@ -130,7 +131,7 @@ public class AdventureCraft {
 	}
 
 	@Mod.EventHandler
-	public void serverStarting(FMLServerStartingEvent event){
+	public void serverStarting(FMLServerStartingEvent event) {
 		MinecraftServer server = event.getServer();
 
 		ICommandManager cmdmng = server.getCommandManager();
@@ -144,22 +145,23 @@ public class AdventureCraft {
 	}
 
 	@Mod.EventHandler
-	public void serverStopping(FMLServerStoppingEvent event)
-	{
+	public void serverStopping(FMLServerStoppingEvent event) {
 		// Calling this method destroys all server instances that exist,
-		// because the 'event' given above does NOT give us the server-instance that is being stopped.
+		// because the 'event' given above does NOT give us the server-instance that is
+		// being stopped.
 		ServerHandler.destroyServerMirror(null);
 	}
 
 	@Mod.EventHandler
-	public void serverStarted(FMLServerStartedEvent event){
+	public void serverStarted(FMLServerStartedEvent event) {
 		logger.info("Server started: " + event + " [ACINFO]");
-		AdventureCraftGameRules.registerGameRules(FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0).getGameRules());
+		AdventureCraftGameRules
+				.registerGameRules(FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0).getGameRules());
 	}
 
 	@Mod.EventHandler
-	public void serverStopped(FMLServerStoppedEvent event){
-		//logger.info("Server stopped: " + event + " [ACINFO]");
+	public void serverStopped(FMLServerStoppedEvent event) {
+		// logger.info("Server stopped: " + event + " [ACINFO]");
 	}
 
 	@SideOnly(Side.CLIENT)

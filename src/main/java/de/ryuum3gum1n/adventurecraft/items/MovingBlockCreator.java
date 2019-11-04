@@ -12,11 +12,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class MovingBlockCreator extends ACItem {
 	@Override
 	@SideOnly(Side.CLIENT)
-	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote) {
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side,
+			float hitX, float hitY, float hitZ) {
+		if (world.isRemote) {
 			net.minecraft.client.Minecraft.getMinecraft().displayGuiScreen(
-				new de.ryuum3gum1n.adventurecraft.client.gui.entity.MovingBlockGui(pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ)
-			);
+					new de.ryuum3gum1n.adventurecraft.client.gui.entity.MovingBlockGui(pos.getX() + hitX,
+							pos.getY() + hitY, pos.getZ() + hitZ));
 		}
 		return super.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
 	}

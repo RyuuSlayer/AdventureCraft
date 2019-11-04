@@ -6,7 +6,8 @@ import de.ryuum3gum1n.adventurecraft.client.gui.qad.QADTextField.TextFieldModel;
 
 public final class DefaultTextFieldIntegerNumberModel implements TextFieldModel {
 	private Predicate<Integer> validatorPredicate = new Predicate<Integer>() {
-		@Override public boolean apply(Integer input) {
+		@Override
+		public boolean apply(Integer input) {
 			return true;
 		}
 	};
@@ -27,7 +28,8 @@ public final class DefaultTextFieldIntegerNumberModel implements TextFieldModel 
 		this.valid = validatorPredicate.apply(Integer.valueOf(value));
 	}
 
-	@Override public void setText(String text) {
+	@Override
+	public void setText(String text) {
 		this.text = text;
 
 		int oldValue = value;
@@ -35,7 +37,7 @@ public final class DefaultTextFieldIntegerNumberModel implements TextFieldModel 
 			value = Integer.parseInt(text);
 			valid = true;
 
-			if(!validatorPredicate.apply(Integer.valueOf(value))) {
+			if (!validatorPredicate.apply(Integer.valueOf(value))) {
 				throw new NumberFormatException("Value did not pass validator predicate.");
 			}
 		} catch (NumberFormatException e) {
@@ -44,23 +46,28 @@ public final class DefaultTextFieldIntegerNumberModel implements TextFieldModel 
 		}
 	}
 
-	@Override public String getText() {
+	@Override
+	public String getText() {
 		return this.text;
 	}
 
-	@Override public int getTextLength() {
+	@Override
+	public int getTextLength() {
 		return this.text.length();
 	}
 
-	@Override public char getCharAt(int i) {
+	@Override
+	public char getCharAt(int i) {
 		return this.text.charAt(i);
 	}
 
-	@Override public void setTextColor(int color) {
+	@Override
+	public void setTextColor(int color) {
 		// nope
 	}
 
-	@Override public int getTextColor() {
+	@Override
+	public int getTextColor() {
 		return valid ? 0xFFFFFFFF : 0xFFFF7070;
 	}
 

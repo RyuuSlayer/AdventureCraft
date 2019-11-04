@@ -29,17 +29,17 @@ public class ScriptBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
-		if(command.equals("reload")) {
+		if (command.equals("reload")) {
 			scriptInvoke.reloadScript();
 			return;
 		}
 
-		if(command.equals("execute")) {
+		if (command.equals("execute")) {
 			triggerInvokeScript();
 			return;
 		}
 
-		if(command.equals("reloadexecute")) {
+		if (command.equals("reloadexecute")) {
 			scriptInvoke.reloadScript();
 			triggerInvokeScript();
 			return;
@@ -50,12 +50,12 @@ public class ScriptBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public String getName() {
-		return "ScriptBlock@"+pos;
+		return "ScriptBlock@" + pos;
 	}
 
 	@Override
 	public String toString() {
-		return "ScriptBlockTileEntity:{"+scriptInvoke+", "+getInvokeScriptScope()+"}";
+		return "ScriptBlockTileEntity:{" + scriptInvoke + ", " + getInvokeScriptScope() + "}";
 	}
 
 	@Override

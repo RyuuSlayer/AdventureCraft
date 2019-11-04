@@ -36,7 +36,7 @@ public class CommandArgumentParser {
 	}
 
 	public String consume_string(String errorText) throws CommandException {
-		if(outbounds(index)) {
+		if (outbounds(index)) {
 			throw new SyntaxErrorException(errorText, new RuntimeException("Index out of bounds!"));
 		} else {
 			return arguments[index++];
@@ -59,8 +59,8 @@ public class CommandArgumentParser {
 		try {
 			int l = Integer.parseInt(str);
 
-			if(l > max) {
-				throw new NumberFormatException("Given value '"+l+"' is higher than maximum value '"+max+"'.");
+			if (l > max) {
+				throw new NumberFormatException("Given value '" + l + "' is higher than maximum value '" + max + "'.");
 			}
 
 			return l;
@@ -75,12 +75,12 @@ public class CommandArgumentParser {
 		try {
 			int l = Integer.parseInt(str);
 
-			if(l > max) {
-				throw new NumberFormatException("Given value '"+l+"' is higher than maximum value '"+max+"'.");
+			if (l > max) {
+				throw new NumberFormatException("Given value '" + l + "' is higher than maximum value '" + max + "'.");
 			}
 
-			if(l < min) {
-				throw new NumberFormatException("Given value '"+l+"' is smaller than minimum value '"+min+"'.");
+			if (l < min) {
+				throw new NumberFormatException("Given value '" + l + "' is smaller than minimum value '" + min + "'.");
 			}
 
 			return l;
@@ -105,8 +105,8 @@ public class CommandArgumentParser {
 		try {
 			long l = Long.parseLong(str);
 
-			if(l > max) {
-				throw new NumberFormatException("Given value '"+l+"' is higher than maximum value '"+max+"'.");
+			if (l > max) {
+				throw new NumberFormatException("Given value '" + l + "' is higher than maximum value '" + max + "'.");
 			}
 
 			return l;
@@ -121,12 +121,12 @@ public class CommandArgumentParser {
 		try {
 			long l = Long.parseLong(str);
 
-			if(l > max) {
-				throw new NumberFormatException("Given value '"+l+"' is higher than maximum value '"+max+"'.");
+			if (l > max) {
+				throw new NumberFormatException("Given value '" + l + "' is higher than maximum value '" + max + "'.");
 			}
 
-			if(l < min) {
-				throw new NumberFormatException("Given value '"+l+"' is smaller than minimum value '"+min+"'.");
+			if (l < min) {
+				throw new NumberFormatException("Given value '" + l + "' is smaller than minimum value '" + min + "'.");
 			}
 
 			return l;
@@ -151,8 +151,8 @@ public class CommandArgumentParser {
 		try {
 			float l = Float.parseFloat(str);
 
-			if(l > max) {
-				throw new NumberFormatException("Given value '"+l+"' is higher than maximum value '"+max+"'.");
+			if (l > max) {
+				throw new NumberFormatException("Given value '" + l + "' is higher than maximum value '" + max + "'.");
 			}
 
 			return l;
@@ -167,12 +167,12 @@ public class CommandArgumentParser {
 		try {
 			float l = Float.parseFloat(str);
 
-			if(l > max) {
-				throw new NumberFormatException("Given value '"+l+"' is higher than maximum value '"+max+"'.");
+			if (l > max) {
+				throw new NumberFormatException("Given value '" + l + "' is higher than maximum value '" + max + "'.");
 			}
 
-			if(l < min) {
-				throw new NumberFormatException("Given value '"+l+"' is smaller than minimum value '"+min+"'.");
+			if (l < min) {
+				throw new NumberFormatException("Given value '" + l + "' is smaller than minimum value '" + min + "'.");
 			}
 
 			return l;
@@ -197,8 +197,8 @@ public class CommandArgumentParser {
 		try {
 			double l = Double.parseDouble(str);
 
-			if(l > max) {
-				throw new NumberFormatException("Given value '"+l+"' is higher than maximum value '"+max+"'.");
+			if (l > max) {
+				throw new NumberFormatException("Given value '" + l + "' is higher than maximum value '" + max + "'.");
 			}
 
 			return l;
@@ -213,12 +213,12 @@ public class CommandArgumentParser {
 		try {
 			double l = Double.parseDouble(str);
 
-			if(l > max) {
-				throw new NumberFormatException("Given value '"+l+"' is higher than maximum value '"+max+"'.");
+			if (l > max) {
+				throw new NumberFormatException("Given value '" + l + "' is higher than maximum value '" + max + "'.");
 			}
 
-			if(l < min) {
-				throw new NumberFormatException("Given value '"+l+"' is smaller than minimum value '"+min+"'.");
+			if (l < min) {
+				throw new NumberFormatException("Given value '" + l + "' is smaller than minimum value '" + min + "'.");
 			}
 
 			return l;
@@ -232,26 +232,35 @@ public class CommandArgumentParser {
 		String yPosStr = consume_string(errorText);
 		String zPosStr = consume_string(errorText);
 
-		if(xPosStr.equals("~")) xPosStr = xPosStr.concat("0");
-		if(yPosStr.equals("~")) yPosStr = yPosStr.concat("0");
-		if(zPosStr.equals("~")) zPosStr = zPosStr.concat("0");
+		if (xPosStr.equals("~"))
+			xPosStr = xPosStr.concat("0");
+		if (yPosStr.equals("~"))
+			yPosStr = yPosStr.concat("0");
+		if (zPosStr.equals("~"))
+			zPosStr = zPosStr.concat("0");
 
 		boolean xPosr = xPosStr.charAt(0) == '~';
 		boolean yPosr = yPosStr.charAt(0) == '~';
 		boolean zPosr = zPosStr.charAt(0) == '~';
 
-		if(xPosr) xPosStr = xPosStr.substring(1);
-		if(yPosr) yPosStr = yPosStr.substring(1);
-		if(zPosr) zPosStr = zPosStr.substring(1);
+		if (xPosr)
+			xPosStr = xPosStr.substring(1);
+		if (yPosr)
+			yPosStr = yPosStr.substring(1);
+		if (zPosr)
+			zPosStr = zPosStr.substring(1);
 
 		int xPos = parseInt(xPosStr, errorText);
 		int yPos = parseInt(yPosStr, errorText);
 		int zPos = parseInt(zPosStr, errorText);
 
-		if(commandSenderPosition != null) {
-			if(xPosr) xPos += Math.floor(commandSenderPosition.x);
-			if(yPosr) yPos += Math.floor(commandSenderPosition.y);
-			if(zPosr) zPos += Math.floor(commandSenderPosition.z);
+		if (commandSenderPosition != null) {
+			if (xPosr)
+				xPos += Math.floor(commandSenderPosition.x);
+			if (yPosr)
+				yPos += Math.floor(commandSenderPosition.y);
+			if (zPosr)
+				zPos += Math.floor(commandSenderPosition.z);
 		}
 
 		return new BlockPos(xPos, yPos, zPos);
@@ -259,18 +268,18 @@ public class CommandArgumentParser {
 
 	public Block consume_blocktype(String errorText) throws CommandException {
 		// Structures:
-		//  - stone
-		//  - stone/0
-		//  - minecraft:stone
-		//  - minecraft:stone/0
-		//---
+		// - stone
+		// - stone/0
+		// - minecraft:stone
+		// - minecraft:stone/0
+		// ---
 
 		String str = consume_string(errorText);
 
 		String typeStr = str;
 		// String metaStr = "-1";
 
-		if(str.indexOf('/') != -1) {
+		if (str.indexOf('/') != -1) {
 			int ix = str.indexOf('/');
 			typeStr = str.substring(0, ix);
 			// metaStr = str.substring(ix +1);
@@ -279,8 +288,8 @@ public class CommandArgumentParser {
 		ResourceLocation location = new ResourceLocation(typeStr);
 		Block type = Block.REGISTRY.getObject(location);
 
-		if(type == null) {
-			throw new CommandException("Block type '"+location+"' does not exist.", typeStr);
+		if (type == null) {
+			throw new CommandException("Block type '" + location + "' does not exist.", typeStr);
 		}
 
 		return type;
@@ -288,34 +297,34 @@ public class CommandArgumentParser {
 
 	public IBlockState consume_blockstate(String errorText) throws CommandException {
 		// Structures:
-		//  - stone
-		//  - stone/0
-		//  - minecraft:stone
-		//  - minecraft:stone/0
-		//---
+		// - stone
+		// - stone/0
+		// - minecraft:stone
+		// - minecraft:stone/0
+		// ---
 
 		String str = consume_string(errorText);
 
 		String typeStr = str;
 		String metaStr = "-1";
 
-		if(str.indexOf('/') != -1) {
+		if (str.indexOf('/') != -1) {
 			int ix = str.indexOf('/');
 			typeStr = str.substring(0, ix);
-			metaStr = str.substring(ix +1);
+			metaStr = str.substring(ix + 1);
 		}
 
 		ResourceLocation location = new ResourceLocation(typeStr);
 		Block type = Block.REGISTRY.getObject(location);
 
-		if(type == null) {
-			throw new CommandException("Block type '"+location+"' does not exist.", typeStr);
+		if (type == null) {
+			throw new CommandException("Block type '" + location + "' does not exist.", typeStr);
 		}
 
 		int meta = parseInt(metaStr, "Invalid meta-value string.");
 		IBlockState state = type.getDefaultState();
 
-		if(meta >= 0 && meta < 16) {
+		if (meta >= 0 && meta < 16) {
 			state = type.getStateFromMeta(meta);
 		}
 

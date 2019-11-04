@@ -27,7 +27,8 @@ public class PlayerList {
 	}
 
 	/**
-	 * @return The mirror for the given player, or NULL if the player does not exist.
+	 * @return The mirror for the given player, or NULL if the player does not
+	 *         exist.
 	 */
 	public PlayerMirror getPlayer(EntityPlayerMP player) {
 		return players.get(player);

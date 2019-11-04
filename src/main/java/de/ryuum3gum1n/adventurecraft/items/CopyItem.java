@@ -18,9 +18,10 @@ import de.ryuum3gum1n.adventurecraft.server.ServerMirror;
 public class CopyItem extends ACItem {
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side,
+			float hitX, float hitY, float hitZ) {
 		// ItemStack stack = player.getHeldItem(hand);
-		if(world.isRemote) {
+		if (world.isRemote) {
 			rightClickClient(world, player);
 		} else {
 			rightClickServer(world, player);
@@ -33,7 +34,7 @@ public class CopyItem extends ACItem {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		if(world.isRemote)
+		if (world.isRemote)
 			rightClickClient(world, player);
 		else
 			rightClickServer(world, player);
@@ -46,26 +47,26 @@ public class CopyItem extends ACItem {
 		ServerClipboard clipboard = mirror.getClipboard();
 
 		int[] bounds = WandItem.getBoundsFromPlayerOrNull(player);
-		String keyString = "player."+player.getGameProfile().getId().toString();
+		String keyString = "player." + player.getGameProfile().getId().toString();
 
-		if(bounds == null)
+		if (bounds == null)
 			return;
 
 		ClipboardItem item = ClipboardItem.copyRegion(bounds, world, keyString, player);
 
-		if(item != null)
+		if (item != null)
 			clipboard.put(keyString, item);
 	}
 
 	public static void rightClickClient(World world, EntityPlayer player) {
 		int[] bounds = WandItem.getBoundsFromPlayerOrNull(player);
 
-		if(bounds == null)
+		if (bounds == null)
 			return;
 
 		ClipboardItem item = ClipboardItem.copyRegion(bounds, world, "player.self", player);
 
-		if(item != null) {
+		if (item != null) {
 			AdventureCraft.asClient().setClipboard(item);
 		}
 	}
@@ -73,9 +74,9 @@ public class CopyItem extends ACItem {
 	@Override
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
 		World world = player.world;
-		String keyString = "player."+player.getGameProfile().getId().toString();
+		String keyString = "player." + player.getGameProfile().getId().toString();
 
-		if(world.isRemote)
+		if (world.isRemote)
 			leftClickClient(stack, player, entity, world, keyString);
 		else
 			leftClickServer(stack, player, entity, world, keyString);
@@ -87,9 +88,9 @@ public class CopyItem extends ACItem {
 	private void leftClickClient(ItemStack stack, EntityPlayer player, Entity entity, World world, String keyString) {
 		ClipboardItem item = ClipboardItem.copyEntity(entity.world, entity, keyString);
 
-		//System.out.println("Click Client");
+		// System.out.println("Click Client");
 
-		if(item != null) {
+		if (item != null) {
 			AdventureCraft.asClient().setClipboard(item);
 		}
 	}
@@ -98,11 +99,11 @@ public class CopyItem extends ACItem {
 		ServerMirror mirror = ServerHandler.getServerMirror(null);
 		ServerClipboard clipboard = mirror.getClipboard();
 
-		//System.out.println("Click Server");
+		// System.out.println("Click Server");
 
 		ClipboardItem item = ClipboardItem.copyEntity(entity.world, entity, keyString);
 
-		if(item != null) {
+		if (item != null) {
 			clipboard.put(keyString, item);
 		}
 	}

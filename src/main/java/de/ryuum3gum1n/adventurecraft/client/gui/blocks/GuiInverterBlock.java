@@ -18,8 +18,10 @@ public class GuiInverterBlock extends QADGuiScreen {
 	public void buildGui() {
 		final BlockPos position = tileEntity.getPos();
 
-		addComponent(new QADLabel("Inverter Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(), 2, 2));
-		InvokePanelBuilder.build(this, this, 2, 16, tileEntity.getTriggerInvoke(), new BlockInvokeHolder(position, "triggerInvoke"), InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOWALL);
+		addComponent(new QADLabel("Inverter Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(),
+				2, 2));
+		InvokePanelBuilder.build(this, this, 2, 16, tileEntity.getTriggerInvoke(),
+				new BlockInvokeHolder(position, "triggerInvoke"), InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOWALL);
 	}
 
 }

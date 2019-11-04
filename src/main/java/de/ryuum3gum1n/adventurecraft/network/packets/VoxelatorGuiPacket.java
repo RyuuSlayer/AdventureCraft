@@ -9,13 +9,13 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import de.ryuum3gum1n.adventurecraft.network.handlers.client.VoxelatorGuiPacketHandler;
 
 public class VoxelatorGuiPacket implements IMessage {
-	
+
 	public NBTTagCompound tag;
-	
+
 	public VoxelatorGuiPacket() {
 	}
-	
-	public VoxelatorGuiPacket(NBTTagCompound tag){
+
+	public VoxelatorGuiPacket(NBTTagCompound tag) {
 		this.tag = tag;
 	}
 
@@ -28,7 +28,7 @@ public class VoxelatorGuiPacket implements IMessage {
 	public void toBytes(ByteBuf buf) {
 		ByteBufUtils.writeTag(buf, tag);
 	}
-	
+
 	public static class Handler implements IMessageHandler<VoxelatorGuiPacket, IMessage> {
 		@Override
 		public IMessage onMessage(VoxelatorGuiPacket message, MessageContext ctx) {

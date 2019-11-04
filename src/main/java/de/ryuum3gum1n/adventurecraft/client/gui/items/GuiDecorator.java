@@ -27,19 +27,20 @@ public class GuiDecorator extends QADGuiScreen {
 	private String selected_decoration;
 	private List<String> decorations;
 	private NBTTagCompound tag;
-	
+
 	public GuiDecorator(List<String> sd, NBTTagCompound tag) {
 		selected_decoration = sd.get(0);
 		decorations = sd;
 		this.tag = tag;
 	}
-	
+
 	@Override
 	public void buildGui() {
 		addComponent(new QADLabel("Decorator", 2, 2));
 		addComponent(new QADLabel("Decoration:", 20, 30));
-		DECORATION_SELECTOR = new QADDropdownBox(new DecorationListModel(), new DecorationModelItem(tag.getString("decor")));
-		DECORATION_SELECTOR.setBounds(85, 25,  100, 20);
+		DECORATION_SELECTOR = new QADDropdownBox(new DecorationListModel(),
+				new DecorationModelItem(tag.getString("decor")));
+		DECORATION_SELECTOR.setBounds(85, 25, 100, 20);
 		DECORATION_SELECTOR.setColor(-6250336);
 		addComponent(new QADLabel("Offset:", 42, 60));
 		X_OFFSET = new QADNumberTextField(85, 53, 40, 20, 0, NumberType.INTEGER);
@@ -57,12 +58,14 @@ public class GuiDecorator extends QADGuiScreen {
 		addComponent(new QADLabel("Amount:", 42, 90));
 		AMOUNT = new QADNumberTextField(85, 53 + 28, 40, 20, 1, NumberType.INTEGER);
 		AMOUNT.setRange(1, 50);
-		if(tag.hasKey("amount")) AMOUNT.setText(tag.getString("amount"));
+		if (tag.hasKey("amount"))
+			AMOUNT.setText(tag.getString("amount"));
 		addComponent(AMOUNT);
 		addComponent(new QADLabel("Radius:", 42, 90 + 30));
 		RADIUS = new QADNumberTextField(85, 53 + 28 + 30, 40, 20, 1, NumberType.INTEGER);
 		RADIUS.setRange(1, 100);
-		if(tag.hasKey("radius")) RADIUS.setText(tag.getString("radius"));
+		if (tag.hasKey("radius"))
+			RADIUS.setText(tag.getString("radius"));
 		addComponent(RADIUS);
 		addComponent(DECORATION_SELECTOR);
 		QADButton button = new QADButton("Apply");
@@ -70,34 +73,36 @@ public class GuiDecorator extends QADGuiScreen {
 		button.setAction(new Runnable() {
 			@Override
 			public void run() {
-				AdventureCraft.network.sendToServer(
-						new DecoratorPacket(mc.player.getUniqueID(),
-								X_OFFSET.getValue().intValue(), (int)Y_OFFSET.getValue().intValue(), (int)Z_OFFSET.getValue().intValue(),
+				AdventureCraft.network
+						.sendToServer(new DecoratorPacket(mc.player.getUniqueID(), X_OFFSET.getValue().intValue(),
+								(int) Y_OFFSET.getValue().intValue(), (int) Z_OFFSET.getValue().intValue(),
 								selected_decoration, AMOUNT.getValue().intValue(), RADIUS.getValue().intValue()));
 			}
 		});
 		addComponent(button);
 	}
-	
-	private class DecorationListModel implements ListModel{
+
+	private class DecorationListModel implements ListModel {
 
 		private final List<ListModelItem> items = new ArrayList<ListModelItem>();
 		private final List<ListModelItem> filtered = new ArrayList<ListModelItem>();
-		
+
 		public DecorationListModel() {
-			for(String decor : decorations){
+			for (String decor : decorations) {
 				items.add(new DecorationModelItem(decor));
 			}
 			filtered.addAll(filtered);
 		}
-		
+
 		@Override
 		public void onSelection(ListModelItem selected) {
-			selected_decoration = ((DecorationModelItem)selected).decor;
+			selected_decoration = ((DecorationModelItem) selected).decor;
 		}
 
 		@Override
-		public boolean hasItems() {return true;}
+		public boolean hasItems() {
+			return true;
+		}
 
 		@Override
 		public int getItemCount() {
@@ -112,9 +117,9 @@ public class GuiDecorator extends QADGuiScreen {
 		@Override
 		public void applyFilter(String filter) {
 			filtered.clear();
-			for(ListModelItem item : items){
+			for (ListModelItem item : items) {
 				DecorationModelItem decor = (DecorationModelItem) item;
-				if(decor.decor.toLowerCase().contains(filter.toLowerCase())){
+				if (decor.decor.toLowerCase().contains(filter.toLowerCase())) {
 					filtered.add(item);
 				}
 			}
@@ -126,30 +131,37 @@ public class GuiDecorator extends QADGuiScreen {
 		}
 
 		@Override
-		public boolean hasIcons() {return false;}
+		public boolean hasIcons() {
+			return false;
+		}
 
 		@Override
-		public void drawIcon(VCUIRenderer renderer, float partialTicks, boolean light, ListModelItem item) {}
-		
+		public void drawIcon(VCUIRenderer renderer, float partialTicks, boolean light, ListModelItem item) {
+		}
+
 	}
-	
-	private class DecorationModelItem implements ListModelItem{
+
+	private class DecorationModelItem implements ListModelItem {
 
 		private String decor;
-		
-		public DecorationModelItem(String decor){
+
+		public DecorationModelItem(String decor) {
 			this.decor = decor;
 		}
+
 		@Override
 		public String getText() {
 			return decor;
 		}
+
 		@Override
-		public boolean equals(Object o){
-			if(!(o instanceof DecorationModelItem)) return false;
+		public boolean equals(Object o) {
+			if (!(o instanceof DecorationModelItem))
+				return false;
 			DecorationModelItem other = (DecorationModelItem) o;
 			return other.decor.equals(decor);
 		}
+
 		@Override
 		public int hashCode() {
 			return decor.hashCode();

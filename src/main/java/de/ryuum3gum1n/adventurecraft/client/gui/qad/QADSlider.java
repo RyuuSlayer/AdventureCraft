@@ -13,10 +13,13 @@ public class QADSlider extends QADRectangularComponent {
 
 	public static interface SliderModel<T> {
 		void setValue(T value);
+
 		T getValue();
+
 		String getValueAsText();
 
 		void setSliderValue(float sliderValue);
+
 		float getSliderValue();
 	}
 
@@ -32,7 +35,7 @@ public class QADSlider extends QADRectangularComponent {
 	private Runnable action;
 
 	public QADSlider(SliderModel<?> model) {
-		if(model == null)
+		if (model == null)
 			throw new IllegalArgumentException("'model' must not be null!");
 
 		this.model = model;
@@ -80,12 +83,9 @@ public class QADSlider extends QADRectangularComponent {
 	protected int getHoverState(boolean mouseOver) {
 		byte b0 = 1;
 
-		if (!this.enabled)
-		{
+		if (!this.enabled) {
 			b0 = 0;
-		}
-		else if (mouseOver)
-		{
+		} else if (mouseOver) {
 			b0 = 2;
 		}
 
@@ -102,31 +102,30 @@ public class QADSlider extends QADRectangularComponent {
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 		GlStateManager.blendFunc(770, 771);
 
-		if(width < 50) {
+		if (width < 50) {
 			renderer.drawTexturedModalRectangle(this.xPos, this.yPos, 0, 46 + k * 20, this.width / 2, this.height);
-			renderer.drawTexturedModalRectangle(this.xPos + this.width / 2, this.yPos, 200 - this.width / 2, 46 + k * 20, this.width / 2, this.height);
+			renderer.drawTexturedModalRectangle(this.xPos + this.width / 2, this.yPos, 200 - this.width / 2,
+					46 + k * 20, this.width / 2, this.height);
 		} else {
-			renderer.drawRectangle(this.xPos, this.yPos, this.xPos+this.width, this.yPos+this.height, 0x7F000000);
-			renderer.drawLineRectangle(this.xPos, this.yPos, this.xPos+this.width, this.yPos+this.height, 0xFFFFFFFF);
+			renderer.drawRectangle(this.xPos, this.yPos, this.xPos + this.width, this.yPos + this.height, 0x7F000000);
+			renderer.drawLineRectangle(this.xPos, this.yPos, this.xPos + this.width, this.yPos + this.height,
+					0xFFFFFFFF);
 		}
 
 		// this.mouseDragged(mc, mouseX, mouseY);
 
 		int sliderPos = (int) (model.getSliderValue() * width);
-		sliderPos = MathHelper.clamp(sliderPos, 2, width-3);
+		sliderPos = MathHelper.clamp(sliderPos, 2, width - 3);
 
-		renderer.drawVerticalLine(xPos + sliderPos-1, yPos+2, yPos+height-3, 0xFF7F7F7F);
-		renderer.drawVerticalLine(xPos + sliderPos  , yPos+1, yPos+height-2, 0xFFFFFFFF);
-		renderer.drawVerticalLine(xPos + sliderPos+1, yPos+2, yPos+height-3, 0xFF7F7F7F);
+		renderer.drawVerticalLine(xPos + sliderPos - 1, yPos + 2, yPos + height - 3, 0xFF7F7F7F);
+		renderer.drawVerticalLine(xPos + sliderPos, yPos + 1, yPos + height - 2, 0xFFFFFFFF);
+		renderer.drawVerticalLine(xPos + sliderPos + 1, yPos + 2, yPos + height - 3, 0xFF7F7F7F);
 
 		int fontColor = 14737632;
 
-		if (!this.enabled)
-		{
+		if (!this.enabled) {
 			fontColor = 10526880;
-		}
-		else if (this.hovered)
-		{
+		} else if (this.hovered) {
 			fontColor = 16777120;
 		}
 
@@ -135,34 +134,40 @@ public class QADSlider extends QADRectangularComponent {
 
 	@Override
 	public void onMouseClicked(int localMouseX, int localMouseY, int mouseButton) {
-		boolean mouseOver = localMouseX >= 0 && localMouseY >= 0 && localMouseX < this.width && localMouseY < this.height;
-		if(!mouseOver) return;
+		boolean mouseOver = localMouseX >= 0 && localMouseY >= 0 && localMouseX < this.width
+				&& localMouseY < this.height;
+		if (!mouseOver)
+			return;
 		updateSlider(localMouseX);
 	}
 
 	@Override
 	public void onMouseReleased(int localMouseX, int localMouseY, int state) {
-		boolean mouseOver = localMouseX >= 0 && localMouseY >= 0 && localMouseX < this.width && localMouseY < this.height;
-		if(!mouseOver) return;
+		boolean mouseOver = localMouseX >= 0 && localMouseY >= 0 && localMouseX < this.width
+				&& localMouseY < this.height;
+		if (!mouseOver)
+			return;
 		updateSlider(localMouseX);
 		playPressSound();
 	}
 
 	@Override
 	public void onMouseClickMove(int localMouseX, int localMouseY, int clickedMouseButton, long timeSinceLastClick) {
-		boolean mouseOver = localMouseX >= 0 && localMouseY >= 0 && localMouseX < this.width && localMouseY < this.height;
-		if(!mouseOver) return;
+		boolean mouseOver = localMouseX >= 0 && localMouseY >= 0 && localMouseX < this.width
+				&& localMouseY < this.height;
+		if (!mouseOver)
+			return;
 		updateSlider(localMouseX);
 	}
 
 	private void updateSlider(int localMouseX) {
-		float newSliderValue = (float)localMouseX / (width-1);
+		float newSliderValue = (float) localMouseX / (width - 1);
 		float oldSliderValue = model.getSliderValue();
 
-		if(newSliderValue != oldSliderValue) {
+		if (newSliderValue != oldSliderValue) {
 			model.setSliderValue(newSliderValue);
 
-			if(action != null) {
+			if (action != null) {
 				action.run();
 			}
 		}
@@ -237,7 +242,7 @@ public class QADSlider extends QADRectangularComponent {
 
 	@Override
 	public boolean transferFocus() {
-		if(focused) {
+		if (focused) {
 			focused = false;
 			return false;
 		} else {

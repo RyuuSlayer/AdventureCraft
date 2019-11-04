@@ -16,20 +16,25 @@ public class RenderKnife extends Render<EntityKnife> {
 	public RenderKnife(RenderManager renderManager) {
 		super(renderManager);
 	}
-	
+
 	@Override
 	public void doRender(EntityKnife entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		GlStateManager.pushMatrix();
-        GlStateManager.translate((float)x, (float)y, (float)z);
-        GlStateManager.enableRescaleNormal();
-        bindEntityTexture(entity);
-        GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks - 35, 0.0F, 0.0F, 1.0F);
-        float scale = 1.3F;
-        GlStateManager.scale(scale, scale, scale);
-        Minecraft.getMinecraft().getRenderItem().renderItem(new ItemStack(AdventureCraftItems.knife), ItemCameraTransforms.TransformType.GROUND);
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.popMatrix();
+		GlStateManager.translate((float) x, (float) y, (float) z);
+		GlStateManager.enableRescaleNormal();
+		bindEntityTexture(entity);
+		GlStateManager.rotate(
+				entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0F, 0.0F,
+				1.0F, 0.0F);
+		GlStateManager.rotate(
+				entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks - 35, 0.0F,
+				0.0F, 1.0F);
+		float scale = 1.3F;
+		GlStateManager.scale(scale, scale, scale);
+		Minecraft.getMinecraft().getRenderItem().renderItem(new ItemStack(AdventureCraftItems.knife),
+				ItemCameraTransforms.TransformType.GROUND);
+		GlStateManager.disableRescaleNormal();
+		GlStateManager.popMatrix();
 	}
 
 	@Override

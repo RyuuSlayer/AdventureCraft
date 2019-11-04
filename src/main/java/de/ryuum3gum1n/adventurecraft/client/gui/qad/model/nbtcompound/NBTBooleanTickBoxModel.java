@@ -16,7 +16,7 @@ public class NBTBooleanTickBoxModel implements TickBoxModel {
 
 	@Override
 	public void setState(boolean newState) {
-		if(state != newState) {
+		if (state != newState) {
 			state = newState;
 			tagParent.setBoolean(tagKey, state);
 		}

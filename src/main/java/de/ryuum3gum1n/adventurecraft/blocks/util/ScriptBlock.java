@@ -26,24 +26,25 @@ public class ScriptBlock extends ACBlockContainer implements ACITriggerableBlock
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (!worldIn.isRemote)
 			return true;
-		if(!AdventureCraft.proxy.isBuildMode())
+		if (!AdventureCraft.proxy.isBuildMode())
 			return false;
-		if(playerIn.isSneaking())
+		if (playerIn.isSneaking())
 			return true;
 
 		Minecraft mc = Minecraft.getMinecraft();
-		mc.displayGuiScreen(new GuiScriptBlock((ScriptBlockTileEntity)worldIn.getTileEntity(pos)));
+		mc.displayGuiScreen(new GuiScriptBlock((ScriptBlockTileEntity) worldIn.getTileEntity(pos)));
 
 		return true;
 	}
 
 	@Override
 	public void trigger(World world, BlockPos position, EnumTriggerState triggerState) {
-		ScriptBlockTileEntity tEntity = (ScriptBlockTileEntity)world.getTileEntity(position);
-		if(tEntity != null) {
+		ScriptBlockTileEntity tEntity = (ScriptBlockTileEntity) world.getTileEntity(position);
+		if (tEntity != null) {
 			tEntity.triggerInvokeScript();
 		}
 	}

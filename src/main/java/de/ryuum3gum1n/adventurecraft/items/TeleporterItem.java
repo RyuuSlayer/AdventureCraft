@@ -20,15 +20,17 @@ import de.ryuum3gum1n.adventurecraft.entity.EntityPoint;
 public class TeleporterItem extends ACItem {
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side,
+			float hitX, float hitY, float hitZ) {
+		if (world.isRemote)
 			return EnumActionResult.PASS;
-		
-		if(world.getGameRules().hasRule("ac_disableTeleporter") && world.getGameRules().getBoolean("ac_disableTeleporter")) {
+
+		if (world.getGameRules().hasRule("ac_disableTeleporter")
+				&& world.getGameRules().getBoolean("ac_disableTeleporter")) {
 			return EnumActionResult.PASS;
 		}
-		
-		while(world.getBlockState(pos).isFullBlock() && pos.getY()<255) {
+
+		while (world.getBlockState(pos).isFullBlock() && pos.getY() < 255) {
 			pos = pos.up();
 		}
 
@@ -42,12 +44,12 @@ public class TeleporterItem extends ACItem {
 		float rP = player.rotationPitch;
 
 		// Teleport
-		if(player instanceof EntityPlayerMP) {
+		if (player instanceof EntityPlayerMP) {
 			// Its a MP player
-			if(player.getRidingEntity() == null) {
-				((EntityPlayerMP) player).connection.setPlayerLocation(nX,nY,nZ, rY, rP);
+			if (player.getRidingEntity() == null) {
+				((EntityPlayerMP) player).connection.setPlayerLocation(nX, nY, nZ, rY, rP);
 
-				if(player.isSprinting()) {
+				if (player.isSprinting()) {
 					player.motionX *= 5;
 					player.motionZ *= 5;
 				}
@@ -56,15 +58,16 @@ public class TeleporterItem extends ACItem {
 			} else {
 				Entity riding = player.getRidingEntity();
 
-				if(riding instanceof EntityPoint) {
+				if (riding instanceof EntityPoint) {
 					return EnumActionResult.PASS;
 				}
-				
-				riding.setPositionAndUpdate(nX, nY+0.01f, nZ);
+
+				riding.setPositionAndUpdate(nX, nY + 0.01f, nZ);
 				riding.velocityChanged = true;
 			}
 
-			player.world.playSound(null, pos, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.1f, (float) (1f + Math.random()*0.1));
+			player.world.playSound(null, pos, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.1f,
+					(float) (1f + Math.random() * 0.1));
 		}
 
 		return EnumActionResult.SUCCESS;
@@ -73,10 +76,11 @@ public class TeleporterItem extends ACItem {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		if(world.isRemote)
+		if (world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
-		
-		if(world.getGameRules().hasRule("ac_disableTeleporter") && world.getGameRules().getBoolean("ac_disableTeleporter")) {
+
+		if (world.getGameRules().hasRule("ac_disableTeleporter")
+				&& world.getGameRules().getBoolean("ac_disableTeleporter")) {
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 		}
 
@@ -89,18 +93,18 @@ public class TeleporterItem extends ACItem {
 
 		RayTraceResult result = world.rayTraceBlocks(start, end, false, false, false);
 
-		if(result == null)
+		if (result == null)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 
-		if(result.typeOfHit == RayTraceResult.Type.ENTITY) {
+		if (result.typeOfHit == RayTraceResult.Type.ENTITY) {
 			AdventureCraft.logger.info("Hit Entity: " + result.entityHit);
 		}
 
-		if(result.typeOfHit == RayTraceResult.Type.BLOCK) {
+		if (result.typeOfHit == RayTraceResult.Type.BLOCK) {
 			// Extract Block Hit
 			BlockPos newPos = result.getBlockPos();
-			
-			while(world.getBlockState(newPos).isFullBlock() && newPos.getY()<255) {
+
+			while (world.getBlockState(newPos).isFullBlock() && newPos.getY() < 255) {
 				newPos = newPos.up();
 			}
 
@@ -109,7 +113,7 @@ public class TeleporterItem extends ACItem {
 			double nZ = newPos.getZ() + 0.5;
 			double nY = newPos.getY();
 
-			if(player.isSneaking()) {
+			if (player.isSneaking()) {
 				nY = player.posY;
 			}
 
@@ -118,14 +122,14 @@ public class TeleporterItem extends ACItem {
 			float rP = player.rotationPitch;
 
 			// Teleport
-			if(player instanceof EntityPlayerMP) {
+			if (player instanceof EntityPlayerMP) {
 				// Its a MP player
 
-				if(player.getRidingEntity() == null) {
-					
-					((EntityPlayerMP) player).connection.setPlayerLocation(nX,nY,nZ, rY, rP);
+				if (player.getRidingEntity() == null) {
 
-					if(player.isSprinting()) {
+					((EntityPlayerMP) player).connection.setPlayerLocation(nX, nY, nZ, rY, rP);
+
+					if (player.isSprinting()) {
 						player.motionX *= 5;
 						player.motionZ *= 5;
 					}
@@ -134,15 +138,16 @@ public class TeleporterItem extends ACItem {
 				} else {
 					Entity riding = player.getRidingEntity();
 
-					if(riding instanceof EntityPoint) {
+					if (riding instanceof EntityPoint) {
 						return ActionResult.newResult(EnumActionResult.PASS, stack);
 					}
 
-					riding.setPositionAndUpdate(nX, nY+0.01f, nZ);
+					riding.setPositionAndUpdate(nX, nY + 0.01f, nZ);
 					riding.velocityChanged = true;
 				}
 
-				player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.1f, (float) (1f + Math.random()*0.1));
+				player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT,
+						SoundCategory.PLAYERS, 1.1f, (float) (1f + Math.random() * 0.1));
 			}
 		}
 
@@ -152,7 +157,7 @@ public class TeleporterItem extends ACItem {
 	@Override
 	// Warning: Forge Method
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
-		if(player.world.getGameRules().getBoolean("ac_disableTeleporter")) {
+		if (player.world.getGameRules().getBoolean("ac_disableTeleporter")) {
 			return false;
 		}
 
@@ -167,7 +172,7 @@ public class TeleporterItem extends ACItem {
 
 	@Override
 	public Vec3d getPositionEyes(float partialTicks, EntityPlayer player) {
-		if(partialTicks == 1.0F) {
+		if (partialTicks == 1.0F) {
 			return new Vec3d(player.posX, player.posY + player.getEyeHeight(), player.posZ);
 		} else {
 			double d0 = player.prevPosX + (player.posX - player.prevPosX) * partialTicks;

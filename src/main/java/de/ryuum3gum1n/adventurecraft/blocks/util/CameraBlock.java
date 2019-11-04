@@ -33,10 +33,11 @@ public class CameraBlock extends ACBlockContainer implements ACITriggerableBlock
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		ItemStack heldItem = playerIn.getHeldItem(hand);
-		if(!worldIn.isRemote){
-			if(heldItem != null && heldItem.getItem() == AdventureCraftItems.camera){
+		if (!worldIn.isRemote) {
+			if (heldItem != null && heldItem.getItem() == AdventureCraftItems.camera) {
 				NBTTagCompound tag = new NBTTagCompound();
 				tag.setLong("selected", pos.toLong());
 				heldItem.setTagCompound(tag);
@@ -44,14 +45,14 @@ public class CameraBlock extends ACBlockContainer implements ACITriggerableBlock
 			}
 			return true;
 		}
-		if(!AdventureCraft.proxy.isBuildMode())
+		if (!AdventureCraft.proxy.isBuildMode())
 			return false;
-		if(playerIn.isSneaking())
+		if (playerIn.isSneaking())
 			return true;
 
-		if(heldItem == null || heldItem.getItem() != AdventureCraftItems.camera){
+		if (heldItem == null || heldItem.getItem() != AdventureCraftItems.camera) {
 			Minecraft mc = Minecraft.getMinecraft();
-			mc.displayGuiScreen(new GuiCameraBlock((CameraBlockTileEntity)worldIn.getTileEntity(pos)));
+			mc.displayGuiScreen(new GuiCameraBlock((CameraBlockTileEntity) worldIn.getTileEntity(pos)));
 		}
 		return true;
 	}
@@ -64,10 +65,10 @@ public class CameraBlock extends ACBlockContainer implements ACITriggerableBlock
 		TileEntity tileentity = world.getTileEntity(position);
 
 		if (tileentity instanceof CameraBlockTileEntity) {
-			((CameraBlockTileEntity)tileentity).trigger(triggerState);
+			((CameraBlockTileEntity) tileentity).trigger(triggerState);
 		}
 	}
-	
+
 	@Override
 	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
 		tooltip.add("Currently a W.I.P.");

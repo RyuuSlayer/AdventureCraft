@@ -58,7 +58,7 @@ public class AdventureCraftCommands {
 	}
 
 	public static void register(CommandHandler registry) {
-		for(ICommand cmd : commands) {
+		for (ICommand cmd : commands) {
 			registry.registerCommand(cmd);
 		}
 	}

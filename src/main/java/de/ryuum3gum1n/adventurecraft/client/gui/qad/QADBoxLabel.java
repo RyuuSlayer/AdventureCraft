@@ -26,7 +26,7 @@ public class QADBoxLabel extends QADLabel {
 		int normFontHeight = renderer.getFontRenderer().fr.FONT_HEIGHT;
 		int drawFontHeight = renderer.getFontRenderer().fr.FONT_HEIGHT;
 
-		if(this.fontHeight != -1) {
+		if (this.fontHeight != -1) {
 			drawFontHeight = this.fontHeight;
 			renderer.getFontRenderer().fr.FONT_HEIGHT = drawFontHeight;
 		}
@@ -38,17 +38,29 @@ public class QADBoxLabel extends QADLabel {
 		int dy = y;
 
 		switch (halign) {
-		case 0: break;
-		case 1: dx = boxWidth/2 - lastKnownWidth/2; break;
-		case 2: dx = boxWidth - lastKnownWidth - 1; break;
-		default: break;
+		case 0:
+			break;
+		case 1:
+			dx = boxWidth / 2 - lastKnownWidth / 2;
+			break;
+		case 2:
+			dx = boxWidth - lastKnownWidth - 1;
+			break;
+		default:
+			break;
 		}
 
 		switch (valign) {
-		case 0: break;
-		case 1: dy = boxHeight/2 - lastKnownHeight/2; break;
-		case 2: dy = boxHeight - lastKnownHeight - 1; break;
-		default: break;
+		case 0:
+			break;
+		case 1:
+			dy = boxHeight / 2 - lastKnownHeight / 2;
+			break;
+		case 2:
+			dy = boxHeight - lastKnownHeight - 1;
+			break;
+		default:
+			break;
 		}
 
 		renderer.drawString(model.getText(), dx, dy, model.getColor(), shadow);

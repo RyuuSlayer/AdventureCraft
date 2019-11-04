@@ -13,46 +13,45 @@ import de.ryuum3gum1n.adventurecraft.script.wrappers.IObjectWrapper;
 public class WrapperClassCache {
 
 	private Map<IObjectWrapper, Cache> cache = new HashMap<IObjectWrapper, Cache>();
-	
+
 	/**
-	 * Gets the cache for the wrapper and if one is not cached
-	 * it will create it.
+	 * Gets the cache for the wrapper and if one is not cached it will create it.
 	 */
-	public Cache getCache(IObjectWrapper wrapper){
-		if(cache.containsKey(wrapper)) return cache.get(wrapper);
+	public Cache getCache(IObjectWrapper wrapper) {
+		if (cache.containsKey(wrapper))
+			return cache.get(wrapper);
 		Cache cache = new Cache(wrapper);
 		this.cache.put(wrapper, cache);
 		return cache;
 	}
-	
-	
-	class Cache{
-		
+
+	class Cache {
+
 		private final List<String> props;
-		
-		private Cache(IObjectWrapper wrapper){
+
+		private Cache(IObjectWrapper wrapper) {
 			Class<?> clazz = wrapper.getClass();
 
 			Field[] fields = clazz.getDeclaredFields();
 			Method[] methods = clazz.getDeclaredMethods();
 
-			String[] props = new String[fields.length+methods.length];
+			String[] props = new String[fields.length + methods.length];
 			int ix = 0;
 
-			for(Field field : fields) {
+			for (Field field : fields) {
 				props[ix++] = field.getName();
 			}
 
-			for(Method method : methods) {
+			for (Method method : methods) {
 				props[ix++] = method.getName();
 			}
 
 			this.props = Lists.newArrayList(props);
 		}
-		
-		public List<String> getProps(){
+
+		public List<String> getProps() {
 			return props;
 		}
 	}
-	
+
 }

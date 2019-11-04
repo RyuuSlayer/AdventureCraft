@@ -48,9 +48,10 @@ public class ServerMirror {
 	}
 
 	public void trackInvoke(IInvokeSource source, IInvoke invoke) {
-		if(!trackInvokes) return;
+		if (!trackInvokes)
+			return;
 
-		for(PlayerMirror playerMirror : players.getBackingList()) {
+		for (PlayerMirror playerMirror : players.getBackingList()) {
 			playerMirror.trackInvoke(source, invoke);
 		}
 	}

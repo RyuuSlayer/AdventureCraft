@@ -25,7 +25,7 @@ public class NBTListDoubleTextFieldModel implements TextFieldModel {
 			double value = Double.parseDouble(text);
 			list.set(index, new NBTTagDouble(value));
 			this.valid = true;
-		} catch(NumberFormatException ex) {
+		} catch (NumberFormatException ex) {
 			valid = false;
 		}
 	}

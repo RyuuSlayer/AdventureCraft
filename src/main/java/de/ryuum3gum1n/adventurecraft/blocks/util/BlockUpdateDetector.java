@@ -26,25 +26,26 @@ public class BlockUpdateDetector extends ACBlockContainer implements ACITriggera
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (!worldIn.isRemote)
 			return true;
-		if(!AdventureCraft.proxy.isBuildMode())
+		if (!AdventureCraft.proxy.isBuildMode())
 			return false;
-		if(playerIn.isSneaking())
+		if (playerIn.isSneaking())
 			return true;
 
 		Minecraft mc = Minecraft.getMinecraft();
-		mc.displayGuiScreen(new GuiUpdateDetectorBlock((BlockUpdateDetectorTileEntity)worldIn.getTileEntity(pos)));
+		mc.displayGuiScreen(new GuiUpdateDetectorBlock((BlockUpdateDetectorTileEntity) worldIn.getTileEntity(pos)));
 
 		return true;
 	}
-	
+
 	@Deprecated
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos from) {
-		BlockUpdateDetectorTileEntity tEntity = (BlockUpdateDetectorTileEntity)worldIn.getTileEntity(pos);
-		if(tEntity != null) {
+		BlockUpdateDetectorTileEntity tEntity = (BlockUpdateDetectorTileEntity) worldIn.getTileEntity(pos);
+		if (tEntity != null) {
 			tEntity.triggerUpdateInvoke(EnumTriggerState.ON);
 		}
 	}
@@ -55,9 +56,9 @@ public class BlockUpdateDetector extends ACBlockContainer implements ACITriggera
 	}
 
 	@Override
-	public void trigger(World world, BlockPos position, EnumTriggerState triggerState){
-		BlockUpdateDetectorTileEntity tEntity = (BlockUpdateDetectorTileEntity)world.getTileEntity(position);
-		if(tEntity != null) {
+	public void trigger(World world, BlockPos position, EnumTriggerState triggerState) {
+		BlockUpdateDetectorTileEntity tEntity = (BlockUpdateDetectorTileEntity) world.getTileEntity(position);
+		if (tEntity != null) {
 			tEntity.triggerUpdateInvoke(triggerState);
 		}
 	}

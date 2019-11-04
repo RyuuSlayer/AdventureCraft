@@ -7,6 +7,7 @@ import de.ryuum3gum1n.adventurecraft.AdventureCraft;
 
 public class ACWorldsManager {
 	private AdventureCraft adventureCraft;
+
 	public ACWorldsManager(AdventureCraft ac) {
 		worldMap = new HashMap<World, ACWorldManager>();
 		adventureCraft = ac;
@@ -15,7 +16,7 @@ public class ACWorldsManager {
 	private HashMap<World, ACWorldManager> worldMap;
 
 	public synchronized void registerWorld(World world) {
-		if(worldMap.containsKey(world)) {
+		if (worldMap.containsKey(world)) {
 			AdventureCraft.logger.error("WorldManager for THIS world is already registered -> " + world.toString());
 			return;
 		}
@@ -30,7 +31,7 @@ public class ACWorldsManager {
 	public synchronized void unregisterWorld(World world) {
 		AdventureCraft.proxy.unloadWorld(world);
 
-		if(!worldMap.containsKey(world)) {
+		if (!worldMap.containsKey(world)) {
 			AdventureCraft.logger.error("There is no WorldManager associated with THIS -> " + world.toString());
 			return;
 		}
@@ -42,7 +43,7 @@ public class ACWorldsManager {
 	public ACWorldManager fetchManager(World world) {
 		ACWorldManager worldManager = worldMap.get(world);
 
-		if(worldManager == null) {
+		if (worldManager == null) {
 			registerWorld(world);
 			worldManager = worldMap.get(world);
 		}

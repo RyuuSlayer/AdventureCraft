@@ -30,7 +30,7 @@ public class InverterBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public String getName() {
-		return "InverterBlock@"+this.getPos();
+		return "InverterBlock@" + this.getPos();
 	}
 
 	public IInvoke getTriggerInvoke() {
@@ -50,7 +50,7 @@ public class InverterBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
-		if(command.equals("trigger")) {
+		if (command.equals("trigger")) {
 			trigger(EnumTriggerState.ON);
 			return;
 		}

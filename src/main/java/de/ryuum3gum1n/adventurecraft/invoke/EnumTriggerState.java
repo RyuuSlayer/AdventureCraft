@@ -1,10 +1,11 @@
 package de.ryuum3gum1n.adventurecraft.invoke;
 
 public enum EnumTriggerState {
-	ON(1,true), OFF(0,false), INVERT(-1,true), IGNORE(-2,true);
+	ON(1, true), OFF(0, false), INVERT(-1, true), IGNORE(-2, true);
 
 	private final int ordinal;
 	private final boolean boolValue;
+
 	private EnumTriggerState(int ord, boolean boolValue) {
 		this.ordinal = ord;
 		this.boolValue = boolValue;
@@ -15,32 +16,47 @@ public enum EnumTriggerState {
 	}
 
 	public static final EnumTriggerState get(int ordinal) {
-		switch(ordinal) {
-		case 1: return ON;
-		case 0: return OFF;
-		case -1: return INVERT;
-		case -2: return IGNORE;
-		default: return ON;
+		switch (ordinal) {
+		case 1:
+			return ON;
+		case 0:
+			return OFF;
+		case -1:
+			return INVERT;
+		case -2:
+			return IGNORE;
+		default:
+			return ON;
 		}
 	}
 
 	public EnumTriggerState override(EnumTriggerState triggerStateOverride) {
 		switch (triggerStateOverride) {
-		case ON: return ON;
-		case OFF: return OFF;
-		case IGNORE: return this;
-		case INVERT: return this == ON ? OFF : ON;
-		default: return ON;
+		case ON:
+			return ON;
+		case OFF:
+			return OFF;
+		case IGNORE:
+			return this;
+		case INVERT:
+			return this == ON ? OFF : ON;
+		default:
+			return ON;
 		}
 	}
 
 	public EnumTriggerState invert() {
 		switch (this) {
-		case ON: return OFF;
-		case OFF: return ON;
-		case IGNORE: return ON;
-		case INVERT: return ON;
-		default: return ON;
+		case ON:
+			return OFF;
+		case OFF:
+			return ON;
+		case IGNORE:
+			return ON;
+		case INVERT:
+			return ON;
+		default:
+			return ON;
 		}
 	}
 

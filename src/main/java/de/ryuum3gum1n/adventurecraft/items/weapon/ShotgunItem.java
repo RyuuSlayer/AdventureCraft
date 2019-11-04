@@ -5,7 +5,7 @@ import de.ryuum3gum1n.adventurecraft.AdventureCraftSounds;
 import de.ryuum3gum1n.adventurecraft.AdventureCraftItems;
 
 public class ShotgunItem extends ACGunItem {
-	
+
 	@Override
 	protected ACGunClipItem getClip() {
 		return AdventureCraftItems.shotgunClip;
@@ -25,7 +25,7 @@ public class ShotgunItem extends ACGunItem {
 	protected SoundEvent fireSound() {
 		return AdventureCraftSounds.ShotgunFire;
 	}
-	
+
 	@Override
 	public SoundEvent reloadSound() {
 		return AdventureCraftSounds.ShotgunReload;

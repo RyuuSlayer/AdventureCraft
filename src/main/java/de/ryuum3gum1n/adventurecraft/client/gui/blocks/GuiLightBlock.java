@@ -31,7 +31,8 @@ public class GuiLightBlock extends QADGuiScreen {
 		slider.setX(2);
 		slider.setY(16);
 		slider.setSliderAction(new Runnable() {
-			@Override public void run() {
+			@Override
+			public void run() {
 				int newValue = (int) (slider.getSliderValue() * 16);
 				String commandString = ClientNetworkHandler.makeBlockCommand(position);
 				NBTTagCompound commandData = new NBTTagCompound();
@@ -42,7 +43,8 @@ public class GuiLightBlock extends QADGuiScreen {
 		});
 
 		QADButton buttonToggle = QADFACTORY.createButton("Toggle", 2, 40, 100, new Runnable() {
-			@Override public void run() {
+			@Override
+			public void run() {
 				String commandString = ClientNetworkHandler.makeBlockCommand(position);
 				NBTTagCompound commandData = new NBTTagCompound();
 				commandData.setString("command", "toggle");
@@ -52,7 +54,8 @@ public class GuiLightBlock extends QADGuiScreen {
 		addComponent(buttonToggle);
 
 		QADButton buttonEnable = QADFACTORY.createButton("Enable", 2 + 100 + 2, 40, 50, new Runnable() {
-			@Override public void run() {
+			@Override
+			public void run() {
 				String commandString = ClientNetworkHandler.makeBlockCommand(position);
 				NBTTagCompound commandData = new NBTTagCompound();
 				commandData.setString("command", "on");
@@ -62,7 +65,8 @@ public class GuiLightBlock extends QADGuiScreen {
 		addComponent(buttonEnable);
 
 		QADButton buttonDisable = QADFACTORY.createButton("Disable", 2 + 100 + 2 + 50 + 2, 40, 50, new Runnable() {
-			@Override public void run() {
+			@Override
+			public void run() {
 				String commandString = ClientNetworkHandler.makeBlockCommand(position);
 				NBTTagCompound commandData = new NBTTagCompound();
 				commandData.setString("command", "off");

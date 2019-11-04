@@ -17,24 +17,24 @@ public class PotionEffectObjectWrapper implements IObjectWrapper {
 	public PotionEffect internal() {
 		return potionEffect;
 	}
-	
-	public int getDuration(){
+
+	public int getDuration() {
 		return potionEffect.getDuration();
 	}
-	
-	public int getAmplifier(){
+
+	public int getAmplifier() {
 		return potionEffect.getAmplifier();
 	}
-	
-	public boolean isDurationMax(){
+
+	public boolean isDurationMax() {
 		return potionEffect.getIsPotionDurationMax();
 	}
-	
-	public boolean fromBeacon(){
+
+	public boolean fromBeacon() {
 		return potionEffect.getIsAmbient();
 	}
-	
-	public PotionObjectWrapper getPotion(){
+
+	public PotionObjectWrapper getPotion() {
 		return new PotionObjectWrapper(potionEffect.getPotion());
 	}
 

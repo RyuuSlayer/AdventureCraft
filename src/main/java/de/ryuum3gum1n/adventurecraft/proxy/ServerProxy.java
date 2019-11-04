@@ -10,8 +10,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import de.ryuum3gum1n.adventurecraft.server.ServerHandler;
 
-public class ServerProxy extends CommonProxy
-{
+public class ServerProxy extends CommonProxy {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
@@ -21,14 +20,14 @@ public class ServerProxy extends CommonProxy
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
-		
+
 	}
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
 		super.postInit(event);
 	}
-	
+
 	@Override
 	public boolean isBuildMode() {
 		return super.isBuildMode();

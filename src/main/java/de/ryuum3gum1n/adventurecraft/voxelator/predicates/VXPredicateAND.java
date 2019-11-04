@@ -17,31 +17,31 @@ public final class VXPredicateAND extends VXPredicate {
 		public String getName() {
 			return "and";
 		}
-		
+
 		@Override
 		public VXPredicate newFilter(NBTTagCompound filterData) {
 			NBTTagList list = filterData.getTagList("filters", NBT.TAG_COMPOUND);
 			int l = list.tagCount();
 			VXPredicate[] a = new VXPredicate[l];
-			
-			for(int i = 0; i < l; i++) {
+
+			for (int i = 0; i < l; i++) {
 				a[i] = Voxelator.newFilter(list.getCompoundTagAt(i));
 			}
-			
+
 			return new VXPredicateAND(a);
 		}
-		
+
 		@Override
 		public NBTTagCompound newFilter(String[] parameters) {
 			throw new UnsupportedOperationException("Not Yet Implemented!");
 		}
-		
+
 		@Override
 		public BrushParameter[] getParameters() {
 			return BrushParameter.NO_PARAMETERS;
 		}
 	};
-	
+
 	private final VXPredicate[] predicates;
 
 	public VXPredicateAND(VXPredicate... predicates) {
@@ -50,8 +50,8 @@ public final class VXPredicateAND extends VXPredicate {
 
 	@Override
 	public boolean test(BlockPos pos, BlockPos center, MutableBlockPos offset, CachedWorldDiff fworld) {
-		for(VXPredicate predicate : predicates) {
-			if(!predicate.test(pos, center, offset, fworld))
+		for (VXPredicate predicate : predicates) {
+			if (!predicate.test(pos, center, offset, fworld))
 				return false;
 		}
 		return true;

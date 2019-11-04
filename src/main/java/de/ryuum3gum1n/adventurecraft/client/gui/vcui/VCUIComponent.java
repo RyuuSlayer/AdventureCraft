@@ -21,16 +21,26 @@ public class VCUIComponent {
 	/** Creates a new VCUIComponent. **/
 	public VCUIComponent() {
 		children = new ArrayList<VCUIComponent>();
-		position = new Vec2i(0,0);
-		size = new Vec2i(1,1);
+		position = new Vec2i(0, 0);
+		size = new Vec2i(1, 1);
 	}
 
-	public void keyTyped(char typedChar, int typedCode) {}
-	public void update() {}
-	public void draw() {}
+	public void keyTyped(char typedChar, int typedCode) {
+	}
 
-	public void mouseReleased(int mouseX, int mouseY, int state) {}
-	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {}
-	public void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {}
+	public void update() {
+	}
+
+	public void draw() {
+	}
+
+	public void mouseReleased(int mouseX, int mouseY, int state) {
+	}
+
+	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+	}
+
+	public void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
+	}
 
 }

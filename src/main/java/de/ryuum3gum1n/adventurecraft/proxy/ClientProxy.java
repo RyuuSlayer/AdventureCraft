@@ -1,13 +1,13 @@
 package de.ryuum3gum1n.adventurecraft.proxy;
 
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.function.Predicate;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMerchant;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.GameRules;
@@ -15,6 +15,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.resource.IResourceType;
+import net.minecraftforge.client.resource.ISelectiveResourceReloadListener;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -43,7 +45,7 @@ import de.ryuum3gum1n.adventurecraft.clipboard.ClipboardItem;
 import de.ryuum3gum1n.adventurecraft.entity.NPC.NPCShop;
 import de.ryuum3gum1n.adventurecraft.util.ReflectionUtil;
 
-public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
+public class ClientProxy extends CommonProxy implements ISelectiveResourceReloadListener {
 	// All the singletons!
 	public static final Minecraft mc = Minecraft.getMinecraft();
 	public static final ClientSettings settings = new ClientSettings();
@@ -57,8 +59,8 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 	private ClientKeyboardHandler clientKeyboardHandler;
 	private ClientRenderer clientRenderer;
 	private ConcurrentLinkedDeque<Runnable> clientTickQeue;
-	
-	//Client settings
+
+	// Client settings
 	public GameRules gamerules;
 
 	@Override
@@ -74,7 +76,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 
 		IReloadableResourceManager resManager = (IReloadableResourceManager) mc.getResourceManager();
 		resManager.registerReloadListener(this);
-		
+
 		clientTickQeue = new ConcurrentLinkedDeque<Runnable>();
 		clientRenderer = new ClientRenderer(this);
 		clientRenderer.preInit();
@@ -89,9 +91,9 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 
 		// add all static renderers
 		clientRenderer.addStaticRenderer(new SelectionBoxRenderer());
-		
+
 		ReflectionUtil.replaceMusicTicker();
-		
+
 	} // init(..){}
 
 	@Override
@@ -103,10 +105,10 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 
 		// Create the invoke tracker instance
 		invokeTracker = new InvokeTracker();
-		
+
 		ItemMetaWorldRenderer.ITEM_RENDERS.put(AdventureCraftItems.paste, new PasteItemRender());
 		ItemMetaWorldRenderer.ITEM_RENDERS.put(AdventureCraftItems.custompainting, new CustomPaintingRender());
-		
+
 		gamerules = new GameRules();
 	}
 
@@ -119,16 +121,15 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 	public void worldPass(RenderWorldLastEvent event) {
 		clientRenderer.on_render_world_post(event);
 	}
-	
+
 	private NPCShop lastOpened;
-	
-	
+
 	@SubscribeEvent
-	public void npcTradeOpen(GuiOpenEvent event){
-		if(event.getGui() instanceof GuiMerchant){
-			if(((GuiMerchant) event.getGui()).getMerchant() instanceof NPCShop){
+	public void npcTradeOpen(GuiOpenEvent event) {
+		if (event.getGui() instanceof GuiMerchant) {
+			if (((GuiMerchant) event.getGui()).getMerchant() instanceof NPCShop) {
 				lastOpened = (NPCShop) ((GuiMerchant) event.getGui()).getMerchant();
-			}else{
+			} else {
 				Minecraft mc = Minecraft.getMinecraft();
 				event.setGui(new GuiNPCMerchant(mc.player.inventory, lastOpened, mc.world));
 			}
@@ -145,7 +146,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 	 **/
 	@Override
 	public void unloadWorld(World world) {
-		if(world instanceof WorldClient) {
+		if (world instanceof WorldClient) {
 			// the client is either changing dimensions or leaving the server.
 			// reset all temporary world related settings here
 			// delete all temporary world related objects here
@@ -160,32 +161,33 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 	}
 
 	/**
-	 * @return TRUE, if the client is in build-mode (aka: creative-mode), FALSE if not.
+	 * @return TRUE, if the client is in build-mode (aka: creative-mode), FALSE if
+	 *         not.
 	 **/
 	@Override
 	public boolean isBuildMode() {
 		return mc.playerController != null && mc.playerController.isInCreativeMode();
 	}
-	
+
 	@Override
 	public void tick(TickEvent event) {
 		super.tick(event);
 
-		if(event instanceof ClientTickEvent) {
-			while(!clientTickQeue.isEmpty())
+		if (event instanceof ClientTickEvent) {
+			while (!clientTickQeue.isEmpty())
 				clientTickQeue.poll().run();
 		}
-		if(event instanceof RenderTickEvent) {
+		if (event instanceof RenderTickEvent) {
 			RenderTickEvent revt = (RenderTickEvent) event;
 
 			// Pre-Scene Render
-			if(revt.phase == Phase.START) {
+			if (revt.phase == Phase.START) {
 				clientRenderer.on_render_world_terrain_pre(revt);
 			} else
-				// Post-World >> Pre-HUD Render
-				if(revt.phase == Phase.END) {
-					clientRenderer.on_render_world_terrain_post(revt);
-				}
+			// Post-World >> Pre-HUD Render
+			if (revt.phase == Phase.END) {
+				clientRenderer.on_render_world_terrain_post(revt);
+			}
 		}
 	}
 
@@ -234,7 +236,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 
 	/****/
 	public static final boolean isInBuildMode() {
-		if(proxy == null)
+		if (proxy == null)
 			proxy = AdventureCraft.proxy.asClient();
 
 		return proxy.isBuildMode();
@@ -255,6 +257,12 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 
 	public ClientKeyboardHandler getKeyboardHandler() {
 		return clientKeyboardHandler;
+	}
+
+	@Override
+	public void onResourceManagerReload(IResourceManager resourceManager, Predicate<IResourceType> resourcePredicate) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

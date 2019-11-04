@@ -13,14 +13,15 @@ public class FloatSliderModel implements SliderModel<Float> {
 	private float value;
 	private final String name;
 	private NBTTagCompound tag;
-	
+
 	public FloatSliderModel(NBTTagCompound compound, FloatBrushParameter param) {
 		tag = compound;
 		min = param.getMinimum();
 		max = param.getMaximum();
 		name = param.getName();
 		setValue(param.getDefault());
-		if(compound.hasKey(name))current = compound.getFloat(name);
+		if (compound.hasKey(name))
+			current = compound.getFloat(name);
 	}
 
 	@Override
@@ -42,7 +43,7 @@ public class FloatSliderModel implements SliderModel<Float> {
 	@Override
 	public void setSliderValue(float sliderValue) {
 		this.value = sliderValue;
-		setValue(Float.valueOf(ItemStack.DECIMALFORMAT.format(sliderValue*(max-min) + min)));
+		setValue(Float.valueOf(ItemStack.DECIMALFORMAT.format(sliderValue * (max - min) + min)));
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import de.ryuum3gum1n.adventurecraft.entity.NPC.EntityNPC;
 public class ItemQuest extends NPCQuest {
 
 	private ItemStack request;
-	
+
 	public ItemQuest(ItemStack request, String start_message, String ongoing_message, String end_message) {
 		super(start_message, ongoing_message, end_message);
 		this.request = request;

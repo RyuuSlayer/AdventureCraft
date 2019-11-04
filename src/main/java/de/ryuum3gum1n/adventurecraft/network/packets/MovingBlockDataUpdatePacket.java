@@ -13,7 +13,6 @@ public class MovingBlockDataUpdatePacket implements IMessage {
 
 	NBTTagCompound data;
 	int id;
-	
 
 	public MovingBlockDataUpdatePacket() {
 	}
@@ -40,9 +39,10 @@ public class MovingBlockDataUpdatePacket implements IMessage {
 		@Override
 		public IMessage onMessage(MovingBlockDataUpdatePacket message, MessageContext ctx) {
 			Minecraft mc = Minecraft.getMinecraft();
-			
+
 			EntityMovingBlock moving = (EntityMovingBlock) mc.world.getEntityByID(message.id);
-			if(moving != null)moving.updateData(message.data);
+			if (moving != null)
+				moving.updateData(message.data);
 			return null;
 		}
 	}

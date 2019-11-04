@@ -10,9 +10,9 @@ import net.minecraft.util.SoundCategory;
 import de.ryuum3gum1n.adventurecraft.client.sound.ConstantSound;
 import de.ryuum3gum1n.adventurecraft.network.packets.SoundsPacket;
 
-public class SoundsPacketHandler{
-	
-	public static void handle(SoundsPacket message){
+public class SoundsPacketHandler {
+
+	public static void handle(SoundsPacket message) {
 		Minecraft mc = Minecraft.getMinecraft();
 		if (message.mute) {
 			mc.getSoundHandler().stopSounds();
@@ -46,5 +46,5 @@ public class SoundsPacketHandler{
 			mc.getSoundHandler().playSound(record);
 		}
 	}
-	
+
 }

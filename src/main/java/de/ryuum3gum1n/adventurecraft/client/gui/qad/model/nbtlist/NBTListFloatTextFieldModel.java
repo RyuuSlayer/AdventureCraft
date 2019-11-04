@@ -25,7 +25,7 @@ public class NBTListFloatTextFieldModel implements TextFieldModel {
 			float value = Float.parseFloat(text);
 			list.set(index, new NBTTagFloat(value));
 			valid = true;
-		} catch(NumberFormatException ex) {
+		} catch (NumberFormatException ex) {
 			valid = false;
 		}
 	}

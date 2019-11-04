@@ -7,7 +7,7 @@ import de.ryuum3gum1n.adventurecraft.entity.NPC.NPCData;
 public class PanelQuests extends NPCPanel {
 
 	private QADTickBox has_quests;
-	
+
 	public PanelQuests(NPCData data, int width, int height) {
 		super(data, width, height);
 		addComponent(new QADLabel("Has Quest:", 4, 5));
@@ -18,7 +18,7 @@ public class PanelQuests extends NPCPanel {
 
 	@Override
 	public void save(NPCData data) {
-		if(!has_quests.getState()){
+		if (!has_quests.getState()) {
 			data.setQuest(null);
 			return;
 		}

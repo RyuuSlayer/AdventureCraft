@@ -6,7 +6,8 @@ public class QADActions {
 
 	public static Runnable newBackToGameAction() {
 		return new Runnable() {
-			@Override public void run() {
+			@Override
+			public void run() {
 				Minecraft.getMinecraft().displayGuiScreen(null);
 			}
 		};

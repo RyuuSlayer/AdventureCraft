@@ -30,7 +30,7 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 		components = Lists.newArrayList();
 		layout = null;
 		shouldRebuildLayout = true;
-		
+
 		enabled = true;
 		visible = true;
 		ignoreOuterEvents = false;
@@ -73,9 +73,9 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 	public boolean canResize() {
 		return true;
 	}
-	
+
 	@Override
-	public void handleMouseInput(){
+	public void handleMouseInput() {
 		super.handleMouseInput();
 		for (QADComponent comp : components) {
 			comp.handleMouseInput();
@@ -115,47 +115,52 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 
 	@Override
 	public void draw(int localMouseX, int localMouseY, float partialTicks, VCUIRenderer renderer) {
-		if(!visible)
+		if (!visible)
 			return;
-		
-		if(renderer.getOffsetY()+y > renderer.getHeight()) {
+
+		if (renderer.getOffsetY() + y > renderer.getHeight()) {
 			return;
 		}
 
-		if(renderer.getOffsetY()+y+height < 0) {
+		if (renderer.getOffsetY() + y + height < 0) {
 			return;
 		}
 
-		if(backgroundColor == 2) {
+		if (backgroundColor == 2) {
 			;// no background
 		} else if (backgroundColor == 1) {
-			boolean inside = localMouseX >= 0 && localMouseY >= 0 && localMouseX < this.width && localMouseY < this.height;
+			boolean inside = localMouseX >= 0 && localMouseY >= 0 && localMouseX < this.width
+					&& localMouseY < this.height;
 			renderer.bindTexture(null);
-			renderer.drawRectangle(x, y, x+width, y+height, inside ? 0x307F7F7F : 0x1F7F7F7F);
+			renderer.drawRectangle(x, y, x + width, y + height, inside ? 0x307F7F7F : 0x1F7F7F7F);
 		} else if (backgroundColor == 3) {
 			renderer.bindTexture(null);
-			renderer.drawRectangle(x, y, x+width, y+height, 0x7F000000);
-		} else if(backgroundColor != 0) {
+			renderer.drawRectangle(x, y, x + width, y + height, 0x7F000000);
+		} else if (backgroundColor != 0) {
 			renderer.bindTexture(null);
-			renderer.drawRectangle(x, y, x+width, y+height, backgroundColor);
+			renderer.drawRectangle(x, y, x + width, y + height, backgroundColor);
 		} else {
 			ResourceLocation optionsBackground = new ResourceLocation("minecraft:textures/gui/options_background.png");
-			
+
 			optionsBackground = GuiWorldSelection.OPTIONS_BACKGROUND;
-			
+
 			renderer.bindTexture(optionsBackground);
-			renderer.drawTexturedModalRectangle(x, y, 0, 0, -width-1, -height-1, 0xFF888888);
+			renderer.drawTexturedModalRectangle(x, y, 0, 0, -width - 1, -height - 1, 0xFF888888);
 			renderer.bindTexture(null);
 		}
 
 		// renderer.drawRectangle(0, 0, 64, 64, backgroundColor);
-		if(!components.isEmpty()) {
+		if (!components.isEmpty()) {
 			renderer.offset(x, y);
-			for(QADComponent component : components) {
-				if(component != null)component.draw(localMouseX-component.getX(), localMouseY-component.getY(), partialTicks, renderer);
+			for (QADComponent component : components) {
+				if (component != null)
+					component.draw(localMouseX - component.getX(), localMouseY - component.getY(), partialTicks,
+							renderer);
 			}
-			for(QADComponent component : components) {
-				if(component != null)component.postDraw(localMouseX-component.getX(), localMouseY-component.getY(), partialTicks, renderer);
+			for (QADComponent component : components) {
+				if (component != null)
+					component.postDraw(localMouseX - component.getX(), localMouseY - component.getY(), partialTicks,
+							renderer);
 			}
 			renderer.offset(-x, -y);
 		}
@@ -163,21 +168,22 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 
 	@Override
 	public void onMouseClicked(int localMouseX, int localMouseY, int mouseButton) {
-		if(!enabled) return;
+		if (!enabled)
+			return;
 
-		if(!isPointInside(localMouseX+x, localMouseY+y) && ignoreOuterEvents) {
+		if (!isPointInside(localMouseX + x, localMouseY + y) && ignoreOuterEvents) {
 			return;
 		}
-		for(QADComponent component : components) {
-			if(component.focusInput()){
-				component.onMouseClicked(localMouseX-component.getX(), localMouseY-component.getY(), mouseButton);
-			return;
+		for (QADComponent component : components) {
+			if (component.focusInput()) {
+				component.onMouseClicked(localMouseX - component.getX(), localMouseY - component.getY(), mouseButton);
+				return;
 			}
 		}
-		for(QADComponent component : components) {
-			component.onMouseClicked(localMouseX-component.getX(), localMouseY-component.getY(), mouseButton);
+		for (QADComponent component : components) {
+			component.onMouseClicked(localMouseX - component.getX(), localMouseY - component.getY(), mouseButton);
 
-			if(component.isFocused()) {
+			if (component.isFocused()) {
 				focused = true;
 			}
 		}
@@ -185,59 +191,65 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 
 	@Override
 	public void onMouseReleased(int localMouseX, int localMouseY, int state) {
-		if(!enabled) return;
+		if (!enabled)
+			return;
 
-		if(!isPointInside(localMouseX+x, localMouseY+y) && ignoreOuterEvents) {
+		if (!isPointInside(localMouseX + x, localMouseY + y) && ignoreOuterEvents) {
 			return;
 		}
-		for(QADComponent component : components) {
-			if(component.focusInput()){
-				component.onMouseReleased(localMouseX-component.getX(), localMouseY-component.getY(), state);
-			return;
+		for (QADComponent component : components) {
+			if (component.focusInput()) {
+				component.onMouseReleased(localMouseX - component.getX(), localMouseY - component.getY(), state);
+				return;
 			}
 		}
-		for(QADComponent component : components) {
-			component.onMouseReleased(localMouseX-component.getX(), localMouseY-component.getY(), state);
+		for (QADComponent component : components) {
+			component.onMouseReleased(localMouseX - component.getX(), localMouseY - component.getY(), state);
 		}
 	}
 
 	@Override
 	public void onMouseClickMove(int localMouseX, int localMouseY, int clickedMouseButton, long timeSinceLastClick) {
-		if(!enabled) return;
+		if (!enabled)
+			return;
 
-		if(!isPointInside(localMouseX+x, localMouseY+y) && ignoreOuterEvents) {
+		if (!isPointInside(localMouseX + x, localMouseY + y) && ignoreOuterEvents) {
 			return;
 		}
-		for(QADComponent component : components) {
-			if(component.focusInput()){
-				component.onMouseClickMove(localMouseX-component.getX(), localMouseY-component.getY(), clickedMouseButton, timeSinceLastClick);
-			return;
+		for (QADComponent component : components) {
+			if (component.focusInput()) {
+				component.onMouseClickMove(localMouseX - component.getX(), localMouseY - component.getY(),
+						clickedMouseButton, timeSinceLastClick);
+				return;
 			}
 		}
-		for(QADComponent component : components) {
-			component.onMouseClickMove(localMouseX-component.getX(), localMouseY-component.getY(), clickedMouseButton, timeSinceLastClick);
+		for (QADComponent component : components) {
+			component.onMouseClickMove(localMouseX - component.getX(), localMouseY - component.getY(),
+					clickedMouseButton, timeSinceLastClick);
 		}
 	}
 
 	@Override
 	public void onKeyTyped(char typedChar, int typedCode) {
-		if(!enabled) return;
+		if (!enabled)
+			return;
 
-		for(QADComponent component : components) {
+		for (QADComponent component : components) {
 			component.onKeyTyped(typedChar, typedCode);
 		}
 	}
 
 	@Override
 	public void onTickUpdate() {
-		if(!enabled) return;
+		if (!enabled)
+			return;
 
-		if(layout != null && isLayoutDirty()) {
-			layout.layout( this, components, new Vec2i() );
+		if (layout != null && isLayoutDirty()) {
+			layout.layout(this, components, new Vec2i());
 			shouldRebuildLayout = false;
 		}
 
-		for(QADComponent component : components) {
+		for (QADComponent component : components) {
 			component.onTickUpdate();
 		}
 	}
@@ -253,9 +265,10 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 	public List<String> getTooltip(int mouseX, int mouseY) {
 		List<String> tooltip = null;
 
-		for(QADComponent component : components) {
-			tooltip = component.getTooltip(mouseX-x, mouseY-y);
-			if(tooltip != null) break;
+		for (QADComponent component : components) {
+			tooltip = component.getTooltip(mouseX - x, mouseY - y);
+			if (tooltip != null)
+				break;
 		}
 
 		return tooltip;
@@ -268,8 +281,8 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 
 	@Override
 	public QADComponent getComponentByName(String name) {
-		for(QADComponent component : components) {
-			if(name.equals(component.getName()))
+		for (QADComponent component : components) {
+			if (name.equals(component.getName()))
 				return component;
 		}
 		return null;
@@ -285,60 +298,58 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 	public QADEnumComponentClass getComponentClass() {
 		return QADEnumComponentClass.CONTAINER;
 	}
-	
+
 	@Override
 	public void forceRebuildLayout() {
-		if(layout != null) {
-			layout.layout( this, components, new Vec2i() );
+		if (layout != null) {
+			layout.layout(this, components, new Vec2i());
 			shouldRebuildLayout = false;
 		}
 	}
-	
+
 	@Override
 	public boolean isLayoutDirty() {
 		return shouldRebuildLayout;
 	}
-	
+
 	@Override
 	public QADLayoutManager getLayout() {
 		return layout;
 	}
-	
+
 	@Override
 	public void setLayout(QADLayoutManager newLayout) {
 		layout = newLayout;
 		shouldRebuildLayout = true;
 	}
 
-
-
 	@Override
 	public boolean transferFocus() {
-		if(components.size() == 0) {
+		if (components.size() == 0) {
 			return false;
 		}
 
-		if(!focused) {
+		if (!focused) {
 			focused = true;
 		}
 
 		Iterator<QADComponent> iterator = components.iterator();
 		boolean unfocusRest = false;
 
-		while(iterator.hasNext()) {
+		while (iterator.hasNext()) {
 			QADComponent current = iterator.next();
 
-			if(unfocusRest) {
+			if (unfocusRest) {
 				current.removeFocus();
 				continue;
 			}
 
-			if(current.isFocused()) {
-				if(current.transferFocus()) {
+			if (current.isFocused()) {
+				if (current.transferFocus()) {
 					// stay
 				} else {
 					// move to next
-					if(iterator.hasNext()) {
+					if (iterator.hasNext()) {
 						iterator.next().transferFocus();
 					} else {
 						return false;
@@ -361,7 +372,7 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 		// we dont have a focus
 		focused = false;
 
-		for(QADComponent component : components) {
+		for (QADComponent component : components) {
 			component.removeFocus();
 		}
 	}

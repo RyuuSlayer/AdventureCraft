@@ -32,7 +32,7 @@ public class DelayBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public String getName() {
-		return "DelayBlock@"+this.getPos();
+		return "DelayBlock@" + this.getPos();
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class DelayBlockTileEntity extends ACTileEntity {
 	}
 
 	public void trigger(EnumTriggerState triggerState) {
-		if(triggerState.getBooleanValue()) {
+		if (triggerState.getBooleanValue()) {
 			world.scheduleUpdate(getPos(), getBlockType(), delay);
 		}
 	}
@@ -60,9 +60,9 @@ public class DelayBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
-		if(command.equals("set")) {
+		if (command.equals("set")) {
 			delay = data.getInteger("delay");
-			world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO Confirm
 			return;
 		}
 

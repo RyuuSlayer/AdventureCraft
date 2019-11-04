@@ -34,7 +34,7 @@ public class DelayBlock extends ACBlockContainer implements ACITriggerableBlock 
 		TileEntity tileentity = world.getTileEntity(position);
 
 		if (tileentity instanceof DelayBlockTileEntity) {
-			((DelayBlockTileEntity)tileentity).trigger(triggerState);
+			((DelayBlockTileEntity) tileentity).trigger(triggerState);
 		}
 	}
 
@@ -46,22 +46,23 @@ public class DelayBlock extends ACBlockContainer implements ACITriggerableBlock 
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
 		if (tileentity instanceof DelayBlockTileEntity) {
-			((DelayBlockTileEntity)tileentity).invokeFromUpdateTick();
+			((DelayBlockTileEntity) tileentity).invokeFromUpdateTick();
 		}
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (!worldIn.isRemote)
 			return true;
-		if(!AdventureCraft.proxy.isBuildMode())
+		if (!AdventureCraft.proxy.isBuildMode())
 			return false;
-		if(playerIn.isSneaking())
+		if (playerIn.isSneaking())
 			return true;
 
 		Minecraft mc = Minecraft.getMinecraft();
-		mc.displayGuiScreen(new GuiDelayBlock((DelayBlockTileEntity)worldIn.getTileEntity(pos)));
+		mc.displayGuiScreen(new GuiDelayBlock((DelayBlockTileEntity) worldIn.getTileEntity(pos)));
 
 		return true;
 	}

@@ -33,9 +33,10 @@ public class WorldCommandSender implements ICommandSender {
 	public void sendMessage(ITextComponent message) {
 		AdventureCraft.logger.info("WorldCommandSender :: " + message.getUnformattedText());
 	}
+
 	@Override
 	public BlockPos getPosition() {
-		return new MutableBlockPos(0,0,0);
+		return new MutableBlockPos(0, 0, 0);
 	}
 
 	@Override

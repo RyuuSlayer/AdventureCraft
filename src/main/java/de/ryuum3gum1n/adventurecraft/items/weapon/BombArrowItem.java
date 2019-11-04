@@ -14,9 +14,9 @@ public class BombArrowItem extends ItemArrow {
 		this.setCreativeTab(AdventureCraftTabs.tab_AdventureCraftWeaponTab);
 	}
 
-    @Override
-		public EntityArrow createArrow(World worldIn, ItemStack stack, EntityLivingBase shooter){
-        return new EntityBombArrow(worldIn, shooter);
-    }
+	@Override
+	public EntityArrow createArrow(World worldIn, ItemStack stack, EntityLivingBase shooter) {
+		return new EntityBombArrow(worldIn, shooter);
+	}
 
 }

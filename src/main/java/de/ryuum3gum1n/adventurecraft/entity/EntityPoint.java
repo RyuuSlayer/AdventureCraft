@@ -37,8 +37,8 @@ public class EntityPoint extends Entity {
 		this.prevPosY = this.posY;
 		this.prevPosZ = this.posZ;
 
-		if(!this.getPassengers().isEmpty()) {
-			for(Entity passenger : this.getPassengers()) {
+		if (!this.getPassengers().isEmpty()) {
+			for (Entity passenger : this.getPassengers()) {
 				passenger.rotationPitch = this.rotationPitch;
 				passenger.rotationYaw = this.rotationYaw;
 				passenger.prevRotationPitch = this.rotationPitch;
@@ -62,15 +62,15 @@ public class EntityPoint extends Entity {
 	}
 
 	public boolean interactFirst(EntityPlayer player) {
-		if(player.world.isRemote)
+		if (player.world.isRemote)
 			return false;
 
 		ItemStack stack = player.getHeldItemMainhand();
 
-		if(stack == null)
+		if (stack == null)
 			return false;
 
-		if(stack.getItem() == Items.NAME_TAG) {
+		if (stack.getItem() == Items.NAME_TAG) {
 			this.setCustomNameTag(stack.getDisplayName());
 			return true;
 		}
@@ -80,21 +80,21 @@ public class EntityPoint extends Entity {
 
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
-		if(world.isRemote)
+		if (world.isRemote)
 			return false;
 
-		if(source.isCreativePlayer()) {
-			ItemStack heldItem = ((EntityPlayerMP)source.getTrueSource()).getHeldItemMainhand();
+		if (source.isCreativePlayer()) {
+			ItemStack heldItem = ((EntityPlayerMP) source.getTrueSource()).getHeldItemMainhand();
 
-			if(heldItem != null) {
-				if(heldItem.getItem() instanceof TeleporterItem) {
+			if (heldItem != null) {
+				if (heldItem.getItem() instanceof TeleporterItem) {
 					return false;
 				}
-				if(heldItem.getItem() instanceof ItemNameTag) {
+				if (heldItem.getItem() instanceof ItemNameTag) {
 					this.setCustomNameTag(heldItem.getDisplayName());
 					return false;
 				}
-				if(heldItem.getItem() instanceof WandItem) {
+				if (heldItem.getItem() instanceof WandItem) {
 					return false;
 				}
 			}
@@ -108,7 +108,7 @@ public class EntityPoint extends Entity {
 
 	@Override
 	public AxisAlignedBB getEntityBoundingBox() {
-		if(Boolean.FALSE.booleanValue()) {
+		if (Boolean.FALSE.booleanValue()) {
 			final double f = getCollisionBorderSize();
 			return new AxisAlignedBB(0, 0, 0, 0, 0, 0).offset(prevPosX, prevPosY, prevPosZ).expand(f, f, f);
 		}
@@ -118,13 +118,14 @@ public class EntityPoint extends Entity {
 
 	@Override
 	public float getEyeHeight() {
-		return height*0.5f;
+		return height * 0.5f;
 	}
 
 	public void updateRiderPosition() {
-		if(!this.getPassengers().isEmpty()) {
-			for(Entity passenger : this.getPassengers()) {
-				passenger.setPositionAndRotation(this.posX, this.posY+(this.height/2)-passenger.getEyeHeight(), this.posZ, this.rotationYaw, this.rotationPitch);
+		if (!this.getPassengers().isEmpty()) {
+			for (Entity passenger : this.getPassengers()) {
+				passenger.setPositionAndRotation(this.posX, this.posY + (this.height / 2) - passenger.getEyeHeight(),
+						this.posZ, this.rotationYaw, this.rotationPitch);
 			}
 		}
 	}

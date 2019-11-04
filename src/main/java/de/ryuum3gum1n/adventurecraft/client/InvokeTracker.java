@@ -18,7 +18,8 @@ public class InvokeTracker {
 	}
 
 	public void trackInvoke(NBTTagCompound data) {
-		if(!ClientProxy.settings.getBoolean("invoke.tracker"))return;
+		if (!ClientProxy.settings.getBoolean("invoke.tracker"))
+			return;
 
 		TrackedInvoke invoke = new TrackedInvoke();
 		invoke.isr = data.getFloat("isr");
@@ -32,13 +33,13 @@ public class InvokeTracker {
 	}
 
 	public void display(Minecraft mc, ClientProxy clientProxy) {
-		if(!ClientProxy.settings.getBoolean("invoke.tracker")) {
+		if (!ClientProxy.settings.getBoolean("invoke.tracker")) {
 			trackedInvokes.clear();
 			return;
 		}
 
 		// Don't let it go over 32 invokes!
-		while(trackedInvokes.size() > 255) {
+		while (trackedInvokes.size() > 255) {
 			trackedInvokes.remove(0);
 		}
 
@@ -48,44 +49,45 @@ public class InvokeTracker {
 		final int BASEY = clientProxy.getInfoBar().getLastMaxY();
 		final int BAWI = mc.displayWidth;
 		final int BAHE = mc.fontRenderer.FONT_HEIGHT;
-		final int BAYM = BASEY+BAHE;
+		final int BAYM = BASEY + BAHE;
 		final int BAYI = BASEY;
 
 		Gui.drawRect(0, BAYI, BAWI, BAYM, 0xAA000000);
 
 		int wi = 8;
-		int he = BAHE-1;
-		int he2 = he/2;
+		int he = BAHE - 1;
+		int he2 = he / 2;
 		int incrX = 0;
 
-		for(TrackedInvoke invoke : Lists.reverse(new ArrayList<TrackedInvoke>(trackedInvokes))) {
-			Gui.drawRect(incrX, BAYI+1, incrX+wi, BAYM-he2, invoke.is);
-			Gui.drawRect(incrX, BAYI+1+he2, incrX+wi, BAYM-1, invoke.it);
+		for (TrackedInvoke invoke : Lists.reverse(new ArrayList<TrackedInvoke>(trackedInvokes))) {
+			Gui.drawRect(incrX, BAYI + 1, incrX + wi, BAYM - he2, invoke.is);
+			Gui.drawRect(incrX, BAYI + 1 + he2, incrX + wi, BAYM - 1, invoke.it);
 			incrX += wi + 1;
 
-			if(incrX > BAWI) break;
+			if (incrX > BAWI)
+				break;
 		}
 
 	}
 
 	private class TrackedInvoke {
-		float isr,isg,isb;
-		float itr,itg,itb;
+		float isr, isg, isb;
+		float itr, itg, itb;
 
 		int is;
 		int it;
 
 		public void encodeColors() {
 			is = 0;
-			is |= ((int)(isr*255) & 0xFF) << 16;
-			is |= ((int)(isg*255) & 0xFF) << 8;
-			is |= ((int)(isb*255) & 0xFF);
+			is |= ((int) (isr * 255) & 0xFF) << 16;
+			is |= ((int) (isg * 255) & 0xFF) << 8;
+			is |= ((int) (isb * 255) & 0xFF);
 			is |= 0xFF000000;
 
 			it = 0;
-			it |= ((int)(itr*255) & 0xFF) << 16;
-			it |= ((int)(itg*255) & 0xFF) << 8;
-			it |= ((int)(itb*255)) & 0xFF;
+			it |= ((int) (itr * 255) & 0xFF) << 16;
+			it |= ((int) (itg * 255) & 0xFF) << 8;
+			it |= ((int) (itb * 255)) & 0xFF;
 			it |= 0xFF000000;
 		}
 	}

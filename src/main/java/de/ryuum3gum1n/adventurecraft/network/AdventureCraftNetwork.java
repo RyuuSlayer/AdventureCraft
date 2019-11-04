@@ -36,8 +36,8 @@ import de.ryuum3gum1n.adventurecraft.network.packets.WorkbenchCraftingPacket;
 public class AdventureCraftNetwork {
 
 	private static int discriminator = 0;
-	
-	public static void preInit(){
+
+	public static void preInit() {
 		network = NetworkRegistry.INSTANCE.newSimpleChannel("AdventurecraftNet");
 
 		register(PlayerNBTDataMergePacket.Handler.class, PlayerNBTDataMergePacket.class, CLIENT);
@@ -65,10 +65,11 @@ public class AdventureCraftNetwork {
 		register(UndoGuiPacket.Handler.class, UndoGuiPacket.class, CLIENT);
 		register(UndoPacket.Handler.class, UndoPacket.class, SERVER);
 	}
-	
-	private static <REQ extends IMessage, REPLY extends IMessage> void register(Class<? extends IMessageHandler<REQ, REPLY>> handler, Class<REQ> packet, Side side){
+
+	private static <REQ extends IMessage, REPLY extends IMessage> void register(
+			Class<? extends IMessageHandler<REQ, REPLY>> handler, Class<REQ> packet, Side side) {
 		network.registerMessage(handler, packet, discriminator, side);
 		discriminator++;
 	}
-	
+
 }

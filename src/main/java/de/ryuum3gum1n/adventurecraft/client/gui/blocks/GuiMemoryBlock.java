@@ -24,11 +24,14 @@ public class GuiMemoryBlock extends QADGuiScreen {
 	public void buildGui() {
 		final BlockPos position = tileEntity.getPos();
 
-		addComponent(new QADLabel("Memory Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(), 2, 2));
-		InvokePanelBuilder.build(this, this, 2, 16, tileEntity.getTriggerInvoke(), new BlockInvokeHolder(position, "triggerInvoke"), InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOWALL);
+		addComponent(new QADLabel("Memory Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(),
+				2, 2));
+		InvokePanelBuilder.build(this, this, 2, 16, tileEntity.getTriggerInvoke(),
+				new BlockInvokeHolder(position, "triggerInvoke"), InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOWALL);
 
-		addComponent(new QADButton(2, 16+2+20+2, 60, new AbstractButtonModel("Reset") {
-			@Override public void onClick() {
+		addComponent(new QADButton(2, 16 + 2 + 20 + 2, 60, new AbstractButtonModel("Reset") {
+			@Override
+			public void onClick() {
 				String commandString = ClientNetworkHandler.makeBlockCommand(position);
 				NBTTagCompound commandData = new NBTTagCompound();
 				commandData.setString("command", "reset");
@@ -36,9 +39,8 @@ public class GuiMemoryBlock extends QADGuiScreen {
 				GuiMemoryBlock.this.mc.displayGuiScreen(null);
 			}
 
-
 		}));
-		addComponent(new QADLabel("Triggered: " + tileEntity.getIsTriggered(), 2+60+2, 16+2+20+2+6));
+		addComponent(new QADLabel("Triggered: " + tileEntity.getIsTriggered(), 2 + 60 + 2, 16 + 2 + 20 + 2 + 6));
 
 	}
 

@@ -7,28 +7,25 @@ import de.ryuum3gum1n.adventurecraft.client.render.renderers.BoxRenderer;
 import de.ryuum3gum1n.adventurecraft.proxy.ClientProxy;
 import de.ryuum3gum1n.adventurecraft.tileentity.StorageBlockTileEntity;
 
-public class StorageBlockTileEntityEXTRenderer implements
-IEXTTileEntityRenderer<StorageBlockTileEntity> {
+public class StorageBlockTileEntityEXTRenderer implements IEXTTileEntityRenderer<StorageBlockTileEntity> {
 	@Override
-	public void render(
-			StorageBlockTileEntity tileentity,
-			TileEntityRendererDispatcher dispatcher, double posX, double posY,
-			double posZ, float partialTicks
-			) {
-		if(!ClientProxy.isInBuildMode())return;
+	public void render(StorageBlockTileEntity tileentity, TileEntityRendererDispatcher dispatcher, double posX,
+			double posY, double posZ, float partialTicks) {
+		if (!ClientProxy.isInBuildMode())
+			return;
 
 		int[] bounds = tileentity.getBounds();
 
-		if(bounds != null) {
+		if (bounds != null) {
 			ClientProxy.mc.renderEngine.bindTexture(ClientResources.texColorWhite);
 			GlStateManager.disableCull();
 
 			float minX = bounds[0];
 			float minY = bounds[1];
 			float minZ = bounds[2];
-			float maxX = bounds[3]+1;
-			float maxY = bounds[4]+1;
-			float maxZ = bounds[5]+1;
+			float maxX = bounds[3] + 1;
+			float maxY = bounds[4] + 1;
+			float maxZ = bounds[5] + 1;
 
 			float error = 1f / 1024f;
 

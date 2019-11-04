@@ -84,8 +84,9 @@ public abstract class ACBlockContainer extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
-		if(AdventureCraft.proxy.isBuildMode())
-			return new AxisAlignedBB(pos.getX(),pos.getY(),pos.getZ(),pos.getX()+1,pos.getY()+1,pos.getZ()+1);
+		if (AdventureCraft.proxy.isBuildMode())
+			return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1,
+					pos.getZ() + 1);
 		else
 			return null;
 	}
@@ -103,6 +104,7 @@ public abstract class ACBlockContainer extends BlockContainer {
 	}
 
 	@Override
-	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {}
+	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+	}
 
 }

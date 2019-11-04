@@ -71,15 +71,14 @@ public class CachedWorldDiff implements IBlockAccess {
 	public void applyChanges(boolean physics) {
 		long time = System.currentTimeMillis();
 		int changeCount = 0;
-		for(BlockSnapshot snapshot : changes) {
+		for (BlockSnapshot snapshot : changes) {
 			previous.add(BlockSnapshot.getBlockSnapshot(world, snapshot.getPos()));
 			snapshot.restore(true, physics);
 			changeCount++;
 		}
 
-		AdventureCraft.logger.info("Changed " + changeCount
-				+ " block(s). Operation took " + ((double)System.currentTimeMillis()-(double)time)/1000D + "s."
-				);
+		AdventureCraft.logger.info("Changed " + changeCount + " block(s). Operation took "
+				+ ((double) System.currentTimeMillis() - (double) time) / 1000D + "s.");
 	}
 
 }

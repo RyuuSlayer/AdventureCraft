@@ -32,22 +32,24 @@ public class MessageBlock extends ACBlockContainer implements ACITriggerableBloc
 		TileEntity tileentity = world.getTileEntity(position);
 
 		if (tileentity instanceof MessageBlockTileEntity) {
-			((MessageBlockTileEntity)tileentity).commandReceived("trigger", null);;
+			((MessageBlockTileEntity) tileentity).commandReceived("trigger", null);
+			;
 		}
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (!worldIn.isRemote)
 			return true;
-		if(!AdventureCraft.proxy.isBuildMode())
+		if (!AdventureCraft.proxy.isBuildMode())
 			return false;
-		if(playerIn.isSneaking())
+		if (playerIn.isSneaking())
 			return true;
 
 		Minecraft mc = Minecraft.getMinecraft();
-		mc.displayGuiScreen(new GuiMessageBlock((MessageBlockTileEntity)worldIn.getTileEntity(pos)));
+		mc.displayGuiScreen(new GuiMessageBlock((MessageBlockTileEntity) worldIn.getTileEntity(pos)));
 
 		return true;
 	}

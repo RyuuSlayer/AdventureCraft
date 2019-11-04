@@ -5,7 +5,7 @@ import de.ryuum3gum1n.adventurecraft.AdventureCraftSounds;
 import de.ryuum3gum1n.adventurecraft.AdventureCraftItems;
 
 public class PistolItem extends ACGunItem {
-	
+
 	@Override
 	protected ACGunClipItem getClip() {
 		return AdventureCraftItems.pistolClip;
@@ -30,7 +30,7 @@ public class PistolItem extends ACGunItem {
 	protected int fireSpeed() {
 		return 100;
 	}
-	
+
 	@Override
 	protected boolean isPistol() {
 		return true;

@@ -7,8 +7,7 @@ public class StringUtils {
 	}
 
 	/**
-	 * Directly taken from StackOverflow:
-	 * http://stackoverflow.com/a/3758880
+	 * Directly taken from StackOverflow: http://stackoverflow.com/a/3758880
 	 **/
 	public static String humanReadableByteCount(long bytes, boolean si) {
 		int unit = si ? 1000 : 1024;

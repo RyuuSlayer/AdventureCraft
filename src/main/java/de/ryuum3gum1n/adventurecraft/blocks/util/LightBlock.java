@@ -29,7 +29,7 @@ public class LightBlock extends ACBlockContainer implements ACITriggerableBlock 
 	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
 		TileEntity tileEntity = world.getTileEntity(pos);
 
-		if(tileEntity != null && tileEntity instanceof LightBlockTileEntity) {
+		if (tileEntity != null && tileEntity instanceof LightBlockTileEntity) {
 			return ((LightBlockTileEntity) tileEntity).getLightValue();
 		}
 
@@ -43,29 +43,39 @@ public class LightBlock extends ACBlockContainer implements ACITriggerableBlock 
 
 		TileEntity tileEntity = world.getTileEntity(position);
 
-		if(tileEntity != null && tileEntity instanceof LightBlockTileEntity) {
+		if (tileEntity != null && tileEntity instanceof LightBlockTileEntity) {
 			switch (triggerState) {
-			case ON: ((LightBlockTileEntity) tileEntity).setLightActive(true); break;
-			case OFF: ((LightBlockTileEntity) tileEntity).setLightActive(false); break;
-			case INVERT: ((LightBlockTileEntity) tileEntity).toggleLightActive(); break;
-			case IGNORE: ((LightBlockTileEntity) tileEntity).setLightActive(true); break;
-			default: break;
+			case ON:
+				((LightBlockTileEntity) tileEntity).setLightActive(true);
+				break;
+			case OFF:
+				((LightBlockTileEntity) tileEntity).setLightActive(false);
+				break;
+			case INVERT:
+				((LightBlockTileEntity) tileEntity).toggleLightActive();
+				break;
+			case IGNORE:
+				((LightBlockTileEntity) tileEntity).setLightActive(true);
+				break;
+			default:
+				break;
 			}
 		}
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (!worldIn.isRemote)
 			return true;
-		if(!AdventureCraft.proxy.isBuildMode())
+		if (!AdventureCraft.proxy.isBuildMode())
 			return false;
-		if(playerIn.isSneaking())
+		if (playerIn.isSneaking())
 			return true;
 
 		Minecraft mc = Minecraft.getMinecraft();
-		mc.displayGuiScreen(new GuiLightBlock((LightBlockTileEntity)worldIn.getTileEntity(pos)));
+		mc.displayGuiScreen(new GuiLightBlock((LightBlockTileEntity) worldIn.getTileEntity(pos)));
 
 		return true;
 	}

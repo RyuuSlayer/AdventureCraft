@@ -68,8 +68,9 @@ public final class FullDebugPrintCommand extends CommandBase {
 		AdventureCraft.logger.info("Printing information about ALL blocks ...");
 
 		List<Block> blocks = AdventureCraftBlocks.blocks;
-		for(Block block : blocks) {
-			AdventureCraft.logger.info("Block -> " + block.getUnlocalizedName() + ", TE?" + block.hasTileEntity(block.getDefaultState()) + ", STATE?" + block.getDefaultState());
+		for (Block block : blocks) {
+			AdventureCraft.logger.info("Block -> " + block.getUnlocalizedName() + ", TE?"
+					+ block.hasTileEntity(block.getDefaultState()) + ", STATE?" + block.getDefaultState());
 		}
 
 		AdventureCraft.logger.info("--------------------------------------------------");
@@ -78,13 +79,13 @@ public final class FullDebugPrintCommand extends CommandBase {
 
 		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 		List<Item> items = AdventureCraftItems.ALL_AC_ITEMS;
-		for(Item item : items) {
+		for (Item item : items) {
 			AdventureCraft.logger.info("Item -> " + item + " / " + item.getUnlocalizedName());
 
 			NonNullList<ItemStack> stacks = NonNullList.create();
 			item.getSubItems(null, stacks);
 
-			for(ItemStack stack : stacks) {
+			for (ItemStack stack : stacks) {
 				AdventureCraft.logger.info("ItemStack -> " + stack.getUnlocalizedName());
 
 				IBakedModel model = mesher.getItemModel(stack);
@@ -101,7 +102,7 @@ public final class FullDebugPrintCommand extends CommandBase {
 		commands.addAll(AdventureCraftCommands.getCommandList());
 		commands.addAll(AdventureCraftClientCommands.getCommandList());
 
-		for(CommandBase command : commands) {
+		for (CommandBase command : commands) {
 			AdventureCraft.logger.info("Command -> " + command.getName() + ", " + command.getRequiredPermissionLevel());
 		}
 
@@ -109,7 +110,8 @@ public final class FullDebugPrintCommand extends CommandBase {
 
 		AdventureCraft.logger.info("Statistics:");
 		AdventureCraft.logger.info("Blocks    : " + blocks.size());
-		AdventureCraft.logger.info("Items     : " + blocks.size() + " + " + (items.size()-blocks.size()) + " = " + items.size());
+		AdventureCraft.logger
+				.info("Items     : " + blocks.size() + " + " + (items.size() - blocks.size()) + " = " + items.size());
 		AdventureCraft.logger.info("Commands  : " + commands.size());
 
 	}

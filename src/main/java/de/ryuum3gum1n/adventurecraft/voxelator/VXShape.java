@@ -5,32 +5,33 @@ import de.ryuum3gum1n.adventurecraft.util.BlockRegion;
 import de.ryuum3gum1n.adventurecraft.util.MutableBlockPos;
 
 public abstract class VXShape {
-	
-	public static enum VXShapes{
+
+	public static enum VXShapes {
 		Sphere("Sphere"), Box("Box"), Cylinder("Cylinder");
-		
+
 		String name;
-		
-		VXShapes(String name){
+
+		VXShapes(String name) {
 			this.name = name;
 		}
-	
+
 		@Override
-		public String toString(){
+		public String toString() {
 			return name;
 		}
-		
-		public int getID(){
+
+		public int getID() {
 			return ordinal();
 		}
-		
-		public static VXShapes get(int id){
+
+		public static VXShapes get(int id) {
 			return VXShapes.values()[id];
 		}
-		
+
 	}
-	
+
 	public abstract BlockPos getCenter();
+
 	public abstract BlockRegion getRegion();
 
 	/** @return TRUE, if the given <i>pos</i> is inside the shape. FALSE if not. **/

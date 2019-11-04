@@ -35,13 +35,14 @@ import de.ryuum3gum1n.adventurecraft.util.WorkbenchManager;
 import de.ryuum3gum1n.adventurecraft.util.WorldFileDataHelper;
 
 public class AdventureCraftEventHandler {
-	public AdventureCraftEventHandler() {}
+	public AdventureCraftEventHandler() {
+	}
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void keyEvent(KeyInputEvent event) {
-		if(FMLCommonHandler.instance().getSide().isClient()) {
-			if(AdventureCraft.proxy instanceof de.ryuum3gum1n.adventurecraft.proxy.ClientProxy) {
+		if (FMLCommonHandler.instance().getSide().isClient()) {
+			if (AdventureCraft.proxy instanceof de.ryuum3gum1n.adventurecraft.proxy.ClientProxy) {
 				AdventureCraft.proxy.asClient().getKeyboardHandler().on_key(event);
 			}
 		}
@@ -59,15 +60,18 @@ public class AdventureCraftEventHandler {
 
 	@SubscribeEvent
 	public void playerLoggedIn(PlayerLoggedInEvent event) {
-		if(event.player instanceof EntityPlayerMP) {
+		if (event.player instanceof EntityPlayerMP) {
 			ServerHandler.getServerMirror(null).playerList().playerJoin((EntityPlayerMP) event.player);
-			AdventureCraft.network.sendTo(new StringNBTCommandPacketClient("client.network.join"), (EntityPlayerMP) event.player);
-			AdventureCraft.network.sendTo(new GameruleSyncPacket(event.player.getEntityWorld().getGameRules().writeToNBT()), (EntityPlayerMP) event.player);
+			AdventureCraft.network.sendTo(new StringNBTCommandPacketClient("client.network.join"),
+					(EntityPlayerMP) event.player);
+			AdventureCraft.network.sendTo(
+					new GameruleSyncPacket(event.player.getEntityWorld().getGameRules().writeToNBT()),
+					(EntityPlayerMP) event.player);
 		}
-		
+
 	}
-	
-	//CAN BE USED TO FIND CERTAIN EVENTS
+
+	// CAN BE USED TO FIND CERTAIN EVENTS
 //	@SubscribeEvent
 //	public void event(Event event){
 //      \/ FILTER SPAM EVENTS \/
@@ -93,56 +97,57 @@ public class AdventureCraftEventHandler {
 //		if(event instanceof AttachCapabilitiesEvent) return;
 //		if(event instanceof GuiOpenEvent) return;
 //      /\ FILTER SPAM EVENTS /\
-	
+
 //		System.out.println(event.getClass().toString());
 //	}
 
-	
 	@SubscribeEvent
-	public void villagerInteract(EntityInteractSpecific e){
-		/* XXX: Commented out because disabling features is NOT okay.
-		if(e.getTarget() instanceof EntityVillager){
-			if(e.getSide() == Side.CLIENT){
-				e.getEntityPlayer().addChatComponentMessage(new TextComponentString(TextFormatting.RED + "Villager trading is disabled in AddventureCraft. Use the NPC instead."));
-			}
-			e.setCanceled(true);
-		}
-		//*/
+	public void villagerInteract(EntityInteractSpecific e) {
+		/*
+		 * XXX: Commented out because disabling features is NOT okay. if(e.getTarget()
+		 * instanceof EntityVillager){ if(e.getSide() == Side.CLIENT){
+		 * e.getEntityPlayer().addChatComponentMessage(new
+		 * TextComponentString(TextFormatting.RED +
+		 * "Villager trading is disabled in AddventureCraft. Use the NPC instead.")); }
+		 * e.setCanceled(true); } //
+		 */
 	}
 
 	@SubscribeEvent
 	public void playerLoggedOut(PlayerLoggedOutEvent event) {
-		if(event.player instanceof EntityPlayerMP) {
+		if (event.player instanceof EntityPlayerMP) {
 			ServerHandler.getServerMirror(null).playerList().playerLeave((EntityPlayerMP) event.player);
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void worldLoad(WorldEvent.Load event) {
 		AdventureCraft.worldsManager.registerWorld(event.getWorld());
-		if(event.getWorld().isRemote)return;
-		WorkbenchBlock.recipes = WorkbenchManager.fromNBT(WorldFileDataHelper.getTagFromFile(event.getWorld(), "workbench"));
+		if (event.getWorld().isRemote)
+			return;
+		WorkbenchBlock.recipes = WorkbenchManager
+				.fromNBT(WorldFileDataHelper.getTagFromFile(event.getWorld(), "workbench"));
 		UndoTask.loadFromNBT(WorldFileDataHelper.getTagFromFile(event.getWorld(), "undo"));
 	}
 
 	@SubscribeEvent
 	public void worldUnload(WorldEvent.Unload event) {
 		AdventureCraft.worldsManager.unregisterWorld(event.getWorld());
-		if(event.getWorld().isRemote)return;
+		if (event.getWorld().isRemote)
+			return;
 		WorldFileDataHelper.saveNBTToWorld(event.getWorld(), "workbench", WorkbenchBlock.recipes.toNBT());
 		WorldFileDataHelper.saveNBTToWorld(event.getWorld(), "undo", UndoTask.toNBT());
 	}
 
 	/*
-	@SubscribeEvent
-	public void guiRenderPre(GuiScreenEvent.DrawScreenEvent.Pre event) {
-		event.getGui().drawString(event.getGui().mc.fontRendererObj, "Hello, World!", 1, 1, 0xFFFFFF);
-	}
+	 * @SubscribeEvent public void guiRenderPre(GuiScreenEvent.DrawScreenEvent.Pre
+	 * event) { event.getGui().drawString(event.getGui().mc.fontRendererObj,
+	 * "Hello, World!", 1, 1, 0xFFFFFF); }
 	 */
 
 	@SubscribeEvent
 	public void entityJoinWorld(EntityJoinWorldEvent event) {
-		if(!event.getWorld().isRemote) {
+		if (!event.getWorld().isRemote) {
 			ServerHandler.handleEntityJoin(event.getWorld(), event.getEntity());
 			AdventureCraft.worldsManager.fetchManager(event.getWorld()).joinWorld(event.getEntity());
 		}
@@ -152,39 +157,40 @@ public class AdventureCraftEventHandler {
 	public void onLivingAttacked(LivingAttackEvent event) {
 		World world = event.getEntity().getEntityWorld();
 
-		if(world.isRemote) return;
+		if (world.isRemote)
+			return;
 
-		if(world.getGameRules().getBoolean("disable.damage.*")) {
+		if (world.getGameRules().getBoolean("disable.damage.*")) {
 			event.setCanceled(true);
 			return;
 		}
 
-		if(event.getSource() == DamageSource.FALL && world.getGameRules().getBoolean("disable.damage.fall")) {
+		if (event.getSource() == DamageSource.FALL && world.getGameRules().getBoolean("disable.damage.fall")) {
 			event.setCanceled(true);
 			return;
 		}
 
-		if(event.getSource() == DamageSource.DROWN && world.getGameRules().getBoolean("disable.damage.drown")) {
+		if (event.getSource() == DamageSource.DROWN && world.getGameRules().getBoolean("disable.damage.drown")) {
 			event.setCanceled(true);
 			return;
 		}
 
-		if(event.getSource() == DamageSource.LAVA && world.getGameRules().getBoolean("disable.damage.lava")) {
+		if (event.getSource() == DamageSource.LAVA && world.getGameRules().getBoolean("disable.damage.lava")) {
 			event.setCanceled(true);
 			return;
 		}
 
-		if(event.getSource() == DamageSource.MAGIC && world.getGameRules().getBoolean("disable.damage.magic")) {
+		if (event.getSource() == DamageSource.MAGIC && world.getGameRules().getBoolean("disable.damage.magic")) {
 			event.setCanceled(true);
 			return;
 		}
 
-		if(event.getSource() == DamageSource.IN_FIRE && world.getGameRules().getBoolean("disable.damage.fire")) {
+		if (event.getSource() == DamageSource.IN_FIRE && world.getGameRules().getBoolean("disable.damage.fire")) {
 			event.setCanceled(true);
 			return;
 		}
 
-		if(event.getSource() == DamageSource.IN_WALL && world.getGameRules().getBoolean("disable.damage.suffocate")) {
+		if (event.getSource() == DamageSource.IN_WALL && world.getGameRules().getBoolean("disable.damage.suffocate")) {
 			event.setCanceled(true);
 			return;
 		}
@@ -193,64 +199,71 @@ public class AdventureCraftEventHandler {
 
 	@SubscribeEvent
 	public void playerUseItem(final PlayerInteractEvent.RightClickItem event) {
-		if(event.getSide() == Side.CLIENT) return;
+		if (event.getSide() == Side.CLIENT)
+			return;
 		ItemStack stack = event.getItemStack();
 		final EntityPlayer player = event.getEntityPlayer();
 		boolean hasCommandTag = stack.hasTagCompound() ? stack.getTagCompound().hasKey("command") : false;
-		if(hasCommandTag){
+		if (hasCommandTag) {
 			String command = stack.getTagCompound().getString("command");
-			FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager().executeCommand(new ICommandSender() {
-				@Override
-				public void setCommandStat(Type type, int amount) {
-					player.setCommandStat(type, amount);
-				}
-				@Override
-				public boolean sendCommandFeedback() {
-					return false;
-				}
-				@Override
-				public MinecraftServer getServer() {
-					return FMLCommonHandler.instance().getMinecraftServerInstance();
-				}
-				@Override
-				public Vec3d getPositionVector() {
-					return player.getPositionVector();
-				}
-				
-				@Override
-				public BlockPos getPosition() {
-					return player.getPosition();
-				}
-				
-				@Override
-				public String getName() {
-					return player.getName();
-				}
-				
-				@Override
-				public World getEntityWorld() {
-					return player.getEntityWorld();
-				}
-				
-				@Override
-				public ITextComponent getDisplayName() {
-					return player.getDisplayName();
-				}
-				@Override
-				public Entity getCommandSenderEntity() {
-					return player;
-				}
-				@Override
-				public boolean canUseCommand(int permLevel, String commandName) {
-					return true;
-				}
-				@Override
-				public void sendMessage(ITextComponent component) {
-					event.getEntityPlayer().sendMessage(component);
-				}
-			}, command);
+			FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager()
+					.executeCommand(new ICommandSender() {
+						@Override
+						public void setCommandStat(Type type, int amount) {
+							player.setCommandStat(type, amount);
+						}
+
+						@Override
+						public boolean sendCommandFeedback() {
+							return false;
+						}
+
+						@Override
+						public MinecraftServer getServer() {
+							return FMLCommonHandler.instance().getMinecraftServerInstance();
+						}
+
+						@Override
+						public Vec3d getPositionVector() {
+							return player.getPositionVector();
+						}
+
+						@Override
+						public BlockPos getPosition() {
+							return player.getPosition();
+						}
+
+						@Override
+						public String getName() {
+							return player.getName();
+						}
+
+						@Override
+						public World getEntityWorld() {
+							return player.getEntityWorld();
+						}
+
+						@Override
+						public ITextComponent getDisplayName() {
+							return player.getDisplayName();
+						}
+
+						@Override
+						public Entity getCommandSenderEntity() {
+							return player;
+						}
+
+						@Override
+						public boolean canUseCommand(int permLevel, String commandName) {
+							return true;
+						}
+
+						@Override
+						public void sendMessage(ITextComponent component) {
+							event.getEntityPlayer().sendMessage(component);
+						}
+					}, command);
 		}
 	}
-	
 
 }

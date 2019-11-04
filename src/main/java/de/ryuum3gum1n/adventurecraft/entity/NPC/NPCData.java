@@ -11,16 +11,16 @@ import de.ryuum3gum1n.adventurecraft.entity.NPC.EntityNPC.NPCType;
 import de.ryuum3gum1n.adventurecraft.entity.NPC.NPCInventoryData.NPCDrop;
 import de.ryuum3gum1n.adventurecraft.entity.NPC.quest.NPCQuest;
 
-/** The class that stores all of the data for each NPC*/
+/** The class that stores all of the data for each NPC */
 public class NPCData {
 
-	/**Can the NPC take damage?*/
+	/** Can the NPC take damage? */
 	private boolean invulnerable;
 	private String name;
-	/**Passive, Neutral or Aggressive*/
+	/** Passive, Neutral or Aggressive */
 	private NPCType type;
 	private String message;
-	/**Can the NPC collide other entities?*/
+	/** Can the NPC collide other entities? */
 	private boolean movable;
 	private boolean namemsg;
 	private boolean showname;
@@ -35,20 +35,20 @@ public class NPCData {
 	private double movementspeed;
 	private float health;
 	private TextFormatting nameColor;
-	
+
 	private String interact_script;
 	private String update_script;
 	private String death_script;
 
 	private NPCShop shop;
 	private NPCQuest quest;
-	
-	/**The data for the NPC's inventory*/
+
+	/** The data for the NPC's inventory */
 	private NPCInventoryData invdata;
-	
+
 	public final EntityNPC npc;
-	
-	public NPCData(EntityNPC npc){
+
+	public NPCData(EntityNPC npc) {
 		this.npc = npc;
 		invulnerable = true;
 		name = "New NPC";
@@ -74,210 +74,210 @@ public class NPCData {
 		death_script = "";
 		update_script = "";
 	}
-	
-	public NPCShop getShop(){
+
+	public NPCShop getShop() {
 		return shop;
 	}
-	
-	public void setShop(NPCShop shp){
+
+	public void setShop(NPCShop shp) {
 		shop = shp;
 	}
-	
-	public boolean isInvulnerable(){
+
+	public boolean isInvulnerable() {
 		return invulnerable;
 	}
-	
-	public void setInvulnerable(boolean bool){
+
+	public void setInvulnerable(boolean bool) {
 		invulnerable = bool;
 	}
-	
-	public boolean doEyesFollow(){
+
+	public boolean doEyesFollow() {
 		return eyesfollow;
 	}
-	
-	public void setEyesFollow(boolean bool){
+
+	public void setEyesFollow(boolean bool) {
 		eyesfollow = bool;
 	}
-	
-	public String getName(){
+
+	public String getName() {
 		return name;
 	}
-	
-	public void setName(String str){
+
+	public void setName(String str) {
 		name = str;
 	}
-	
-	public String getInteractScript(){
+
+	public String getInteractScript() {
 		return interact_script;
 	}
-	
-	public void setInteractScript(String str){
+
+	public void setInteractScript(String str) {
 		interact_script = str;
 	}
-	
-	public String getDeathScript(){
+
+	public String getDeathScript() {
 		return death_script;
 	}
-	
-	public void setDeathScript(String str){
+
+	public void setDeathScript(String str) {
 		death_script = str;
 	}
-	
-	public String getUpdateScript(){
+
+	public String getUpdateScript() {
 		return update_script;
 	}
-	
-	public void setUpdateScript(String str){
+
+	public void setUpdateScript(String str) {
 		update_script = str;
 	}
-	
-	public String getMessage(){
+
+	public String getMessage() {
 		return message;
 	}
-	
-	public void setMessage(String str){
+
+	public void setMessage(String str) {
 		message = str;
 	}
-	
-	public boolean isMovable(){
+
+	public boolean isMovable() {
 		return movable;
 	}
-	
-	public void setMovable(boolean bool){
+
+	public void setMovable(boolean bool) {
 		movable = bool;
 	}
-	
-	public boolean isBoss(){
+
+	public boolean isBoss() {
 		return boss;
 	}
-	
-	public void setBoss(boolean bool){
+
+	public void setBoss(boolean bool) {
 		boss = bool;
 	}
-	
-	public boolean shouldShowName(){
+
+	public boolean shouldShowName() {
 		return showname;
 	}
-	
-	public void setShowName(boolean bool){
+
+	public void setShowName(boolean bool) {
 		showname = bool;
 	}
-	
-	public boolean shouldIncludeNameInMessage(){
+
+	public boolean shouldIncludeNameInMessage() {
 		return namemsg;
 	}
-	
-	public void setNameInMessage(boolean bool){
+
+	public void setNameInMessage(boolean bool) {
 		namemsg = bool;
 	}
-	
-	public float getPitch(){
+
+	public float getPitch() {
 		return pitch;
 	}
-	
-	public void setPitch(float flt){
+
+	public void setPitch(float flt) {
 		pitch = flt;
 	}
 
-	public float getYaw(){
+	public float getYaw() {
 		return yaw;
 	}
-	
-	public void setYaw(float flt){
+
+	public void setYaw(float flt) {
 		yaw = flt;
 	}
-	
-	public float getDamage(){
+
+	public float getDamage() {
 		return attackDamage;
 	}
-	
-	public void setDamage(float flt){
+
+	public void setDamage(float flt) {
 		attackDamage = flt;
 	}
-	
-	public float getHealth(){
+
+	public float getHealth() {
 		return health;
 	}
-	
-	public void setHealth(float flt){
+
+	public void setHealth(float flt) {
 		health = flt;
 		npc.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getHealth());
 	}
-	
-	public EnumNPCSkin getSkin(){
+
+	public EnumNPCSkin getSkin() {
 		return skin;
 	}
-	
-	public void setSkin(EnumNPCSkin skn){
+
+	public void setSkin(EnumNPCSkin skn) {
 		skin = skn;
 	}
-	
-	public String getCustomSkin(){
+
+	public String getCustomSkin() {
 		return customskin;
 	}
-	
-	public void setCustomSkin(String cskn){
+
+	public void setCustomSkin(String cskn) {
 		customskin = cskn;
 	}
-	
-	public EnumNPCModel getModel(){
+
+	public EnumNPCModel getModel() {
 		return model;
 	}
-	
-	public void setModel(EnumNPCModel mdl){
+
+	public void setModel(EnumNPCModel mdl) {
 		model = mdl;
 	}
-	
-	public NPCType getType(){
+
+	public NPCType getType() {
 		return type;
 	}
-	
-	public void setType(NPCType typ){
+
+	public void setType(NPCType typ) {
 		type = typ;
 	}
-	
-	public TextFormatting getNameColor(){
+
+	public TextFormatting getNameColor() {
 		return nameColor;
 	}
-	
-	public void setNameColor(TextFormatting nameCol){
+
+	public void setNameColor(TextFormatting nameCol) {
 		nameColor = nameCol;
 	}
-	
-	public double getSpeed(){
+
+	public double getSpeed() {
 		return movementspeed;
 	}
-	
-	public void setSpeed(double dbl){
+
+	public void setSpeed(double dbl) {
 		movementspeed = dbl;
 		npc.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(getSpeed());
 	}
-	
-	public void setItem(EntityEquipmentSlot slot, ItemStack stack){
+
+	public void setItem(EntityEquipmentSlot slot, ItemStack stack) {
 		invdata.setItem(slot, stack);
 	}
-	
-	public ItemStack getInvStack(EntityEquipmentSlot slot){
+
+	public ItemStack getInvStack(EntityEquipmentSlot slot) {
 		return invdata.getItem(slot);
 	}
-	
-	public List<NPCDrop> getDrops(){
+
+	public List<NPCDrop> getDrops() {
 		return invdata.getDrops();
 	}
-	
-	public void setDrops(List<NPCDrop> drops){
+
+	public void setDrops(List<NPCDrop> drops) {
 		invdata.setDrops(drops);
 	}
-	
-	public boolean hasQuest(){
+
+	public boolean hasQuest() {
 		return quest != null;
 	}
-	
-	public void setQuest(NPCQuest quest){
+
+	public void setQuest(NPCQuest quest) {
 		this.quest = quest;
 	}
-	
-	public NBTTagCompound toNBT(){
+
+	public NBTTagCompound toNBT() {
 		NBTTagCompound tag = new NBTTagCompound();
 		tag.setBoolean("invulnerable", isInvulnerable());
 		tag.setString("name", getName());
@@ -299,13 +299,13 @@ public class NPCData {
 		tag.setString("namecolor", nameColor.name());
 		tag.setTag("shop", shop.toNBT());
 		tag.setString("interact_script", interact_script);
-		tag.setString("update_script",  update_script);
+		tag.setString("update_script", update_script);
 		tag.setString("death_script", death_script);
 		tag.setBoolean("movable", movable);
 		return tag;
 	}
-	
-	public static NPCData fromNBT(EntityNPC npc, NBTTagCompound tag){
+
+	public static NPCData fromNBT(EntityNPC npc, NBTTagCompound tag) {
 		NPCData data = new NPCData(npc);
 		data.setInvulnerable(tag.getBoolean("invulnerable"));
 		data.setName(tag.getString("name"));
@@ -319,12 +319,14 @@ public class NPCData {
 		data.setCustomSkin(tag.getString("customskin"));
 		data.setModel(EnumNPCModel.values()[tag.getInteger("model_id")]);
 		data.setType(NPCType.values()[tag.getInteger("type_id")]);
-		if(!tag.hasKey("namecolor")) tag.setString("namecolor", data.type.color.name());
+		if (!tag.hasKey("namecolor"))
+			tag.setString("namecolor", data.type.color.name());
 		data.setNameColor(TextFormatting.valueOf(tag.getString("namecolor")));
 		data.setDamage(tag.getFloat("attackdamage"));
 		data.setSpeed(tag.getDouble("movementspeed"));
 		data.setBoss(tag.getBoolean("boss"));
-		if(!tag.hasKey("health")) tag.setFloat("health", 10);//For backwards compatibility
+		if (!tag.hasKey("health"))
+			tag.setFloat("health", 10);// For backwards compatibility
 		data.setHealth(tag.getFloat("health"));
 		data.invdata = NPCInventoryData.fromNBT(tag.getCompoundTag("inventory"));
 		data.shop = NPCShop.getShop(tag.getCompoundTag("shop"), npc);
@@ -334,5 +336,5 @@ public class NPCData {
 		data.setMovable(tag.getBoolean("movable"));
 		return data;
 	}
-	
+
 }

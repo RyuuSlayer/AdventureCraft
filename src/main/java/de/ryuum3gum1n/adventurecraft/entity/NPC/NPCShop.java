@@ -17,16 +17,16 @@ import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
 
 public class NPCShop implements IMerchant {
-	
+
 	private List<NPCTrade> trades;
 	private EntityPlayer player;
 	private EntityNPC npc;
 
-	public NPCShop(EntityNPC npc){
+	public NPCShop(EntityNPC npc) {
 		this.npc = npc;
 		this.trades = new ArrayList<NPCTrade>();
 	}
-	
+
 	@Override
 	public void setCustomer(EntityPlayer player) {
 		this.player = player;
@@ -36,8 +36,8 @@ public class NPCShop implements IMerchant {
 	public EntityPlayer getCustomer() {
 		return player;
 	}
-	
-	public List<NPCTrade> getTrades(){
+
+	public List<NPCTrade> getTrades() {
 		return trades;
 	}
 
@@ -58,46 +58,48 @@ public class NPCShop implements IMerchant {
 	}
 
 	@Override
-	public void verifySellingItem(ItemStack stack) {}
+	public void verifySellingItem(ItemStack stack) {
+	}
 
 	@Override
 	public ITextComponent getDisplayName() {
-		return new TextComponentString(TextFormatting.getTextWithoutFormattingCodes(npc.getDisplayName().getUnformattedText()));
+		return new TextComponentString(
+				TextFormatting.getTextWithoutFormattingCodes(npc.getDisplayName().getUnformattedText()));
 	}
-	
-	public MerchantRecipeList toVanilla(){
+
+	public MerchantRecipeList toVanilla() {
 		MerchantRecipeList list = new MerchantRecipeList();
-		for(NPCTrade trade : trades){
+		for (NPCTrade trade : trades) {
 			list.add(trade.toVanilla());
 		}
 		return list;
 	}
-	
-	public static List<NPCTrade> fromVanilla(NPCShop shop, MerchantRecipeList trades){
+
+	public static List<NPCTrade> fromVanilla(NPCShop shop, MerchantRecipeList trades) {
 		List<NPCTrade> list = new ArrayList<NPCTrade>();
-		for(MerchantRecipe trade : trades){
+		for (MerchantRecipe trade : trades) {
 			list.add(NPCTrade.fromVanilla(shop, trade));
 		}
 		return list;
 	}
-	
-	public NBTTagCompound toNBT(){
+
+	public NBTTagCompound toNBT() {
 		NBTTagCompound tag = new NBTTagCompound();
 		tag.setInteger("size", trades.size());
-		for(int i = 0; i < trades.size(); i++){
+		for (int i = 0; i < trades.size(); i++) {
 			tag.setTag("trade_" + i, trades.get(i).toNBT());
 		}
 		return tag;
 	}
-	
-	public static NPCShop getShop(NBTTagCompound tag, EntityNPC npc){
+
+	public static NPCShop getShop(NBTTagCompound tag, EntityNPC npc) {
 		NPCShop shop = new NPCShop(npc);
-		for(int i = 0; i < tag.getInteger("size"); i++){
+		for (int i = 0; i < tag.getInteger("size"); i++) {
 			shop.trades.add(NPCTrade.fromNBT(tag.getCompoundTag("trade_" + i)));
 		}
 		return shop;
 	}
-	
+
 	@Override
 	public World getWorld() {
 		return npc.getEntityWorld();
@@ -107,91 +109,95 @@ public class NPCShop implements IMerchant {
 	public BlockPos getPos() {
 		return npc.getPosition();
 	}
-	
-	public static class NPCTrade{
-	
+
+	public static class NPCTrade {
+
 		private ItemStack item1;
 		private ItemStack item2;
 		private int stock;
-		
-		public NPCTrade(ItemStack item1, ItemStack item2){
+
+		public NPCTrade(ItemStack item1, ItemStack item2) {
 			this(item1, item2, -1);
 		}
-		
-		public NPCTrade(ItemStack item1, ItemStack item2, int stock){
+
+		public NPCTrade(ItemStack item1, ItemStack item2, int stock) {
 			this.item1 = item1;
 			this.item2 = item2;
 			this.stock = stock;
 		}
-		
-		public ItemStack getBuying(){
+
+		public ItemStack getBuying() {
 			return item1;
 		}
-		
-		public ItemStack getSelling(){
+
+		public ItemStack getSelling() {
 			return item2;
 		}
-		
-		public int getStock(){
+
+		public int getStock() {
 			return stock;
 		}
-		
-		public void setStock(int stock){
+
+		public void setStock(int stock) {
 			this.stock = stock;
 		}
-		
-		public boolean inStock(){
+
+		public boolean inStock() {
 			return stock > 0 || stock == -1;
 		}
-		
-		public void decrStock(){
-			if(inStock()) stock--;
+
+		public void decrStock() {
+			if (inStock())
+				stock--;
 		}
-		
-		public MerchantRecipe toVanilla(){
+
+		public MerchantRecipe toVanilla() {
 			ItemStack outOfStock = inStock() ? null : new ItemStack(Blocks.BARRIER);
-			if(outOfStock != null) outOfStock.setStackDisplayName(TextFormatting.RED + "Out Of Stock!");
+			if (outOfStock != null)
+				outOfStock.setStackDisplayName(TextFormatting.RED + "Out Of Stock!");
 			return new NPCMerchantRecipe(this, outOfStock);
 		}
-		
-		public static NPCTrade fromVanilla(NPCShop shop, MerchantRecipe recipe){
+
+		public static NPCTrade fromVanilla(NPCShop shop, MerchantRecipe recipe) {
 			NPCTrade trade = null;
-			for(NPCTrade trd : shop.trades){
-				if(ItemStack.areItemStacksEqual(trd.getBuying(), recipe.getItemToBuy()) && ItemStack.areItemStacksEqual(trd.getSelling(), recipe.getItemToSell())){
+			for (NPCTrade trd : shop.trades) {
+				if (ItemStack.areItemStacksEqual(trd.getBuying(), recipe.getItemToBuy())
+						&& ItemStack.areItemStacksEqual(trd.getSelling(), recipe.getItemToSell())) {
 					trade = trd;
 					break;
 				}
 			}
-			if(trade == null) trade = new NPCTrade(recipe.getItemToBuy(), recipe.getItemToSell());
+			if (trade == null)
+				trade = new NPCTrade(recipe.getItemToBuy(), recipe.getItemToSell());
 			return trade;
 		}
-		
-		public NBTTagCompound toNBT(){
+
+		public NBTTagCompound toNBT() {
 			NBTTagCompound tag = new NBTTagCompound();
 			tag.setTag("item1", item1.writeToNBT(new NBTTagCompound()));
 			tag.setTag("item2", item2.writeToNBT(new NBTTagCompound()));
 			tag.setInteger("stock", stock);
 			return tag;
 		}
-		
-		public static NPCTrade fromNBT(NBTTagCompound tag){
+
+		public static NPCTrade fromNBT(NBTTagCompound tag) {
 			ItemStack item1 = new ItemStack(tag.getCompoundTag("item1"));
 			ItemStack item2 = new ItemStack(tag.getCompoundTag("item2"));
 			return new NPCTrade(item1, item2, tag.getInteger("stock"));
 		}
-		
+
 	}
-	
-	public static class NPCMerchantRecipe extends MerchantRecipe{
+
+	public static class NPCMerchantRecipe extends MerchantRecipe {
 
 		private NPCTrade npctrade;
-		
-		 public NPCMerchantRecipe(NPCTrade trade, ItemStack outOfStock){
-		        super(trade.item1, outOfStock, trade.item2, 0, Integer.MAX_VALUE);
-		        this.npctrade = trade;
-		 }
-		 
-		 @Override
+
+		public NPCMerchantRecipe(NPCTrade trade, ItemStack outOfStock) {
+			super(trade.item1, outOfStock, trade.item2, 0, Integer.MAX_VALUE);
+			this.npctrade = trade;
+		}
+
+		@Override
 		public boolean isRecipeDisabled() {
 			return !npctrade.inStock();
 		}

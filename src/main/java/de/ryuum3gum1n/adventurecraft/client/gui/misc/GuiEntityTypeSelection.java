@@ -43,7 +43,8 @@ public class GuiEntityTypeSelection extends QADGuiScreen {
 		{
 			List<ResourceLocation> names2 = Lists.newArrayList(names);
 			names2.sort(new Comparator<ResourceLocation>() {
-				@Override public int compare(ResourceLocation o1, ResourceLocation o2) {
+				@Override
+				public int compare(ResourceLocation o1, ResourceLocation o2) {
 					return o1.toString().compareTo(o2.toString());
 				}
 			});
@@ -54,14 +55,16 @@ public class GuiEntityTypeSelection extends QADGuiScreen {
 		panel.allowLeftMouseButtonScrolling = true;
 
 		int yOff = 1;
-		for(final ResourceLocation typeName : names) {
+		for (final ResourceLocation typeName : names) {
 			QADButton component = QADFACTORY.createButton(typeName.toString(), 2, yOff, width);
 			component.simplified = true;
 			component.textAlignment = 0;
 			component.setHeight(12);
-			component.setAction( new Runnable() {
+			component.setAction(new Runnable() {
 				final String pt = typeName.toString();
-				@Override public void run() {
+
+				@Override
+				public void run() {
 					dataLink.setType(pt);
 					displayGuiScreen(getBehind());
 				}

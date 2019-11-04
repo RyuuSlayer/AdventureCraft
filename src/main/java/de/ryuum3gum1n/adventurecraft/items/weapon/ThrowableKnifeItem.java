@@ -22,39 +22,41 @@ import de.ryuum3gum1n.adventurecraft.AdventureCraftItems;
 import de.ryuum3gum1n.adventurecraft.entity.projectile.EntityBoomerang;
 
 public class ThrowableKnifeItem extends ACWeaponItem {
-	
+
 	public ThrowableKnifeItem() {
 		super();
-		this.addPropertyOverride(new ResourceLocation("thrown"), new IItemPropertyGetter(){
-            @Override
-						@SideOnly(Side.CLIENT)
-            public float apply(ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity)	{
-            	return isThrown(stack) ? 1.0F : 0.0F;
-            }
-        });
+		this.addPropertyOverride(new ResourceLocation("thrown"), new IItemPropertyGetter() {
+			@Override
+			@SideOnly(Side.CLIENT)
+			public float apply(ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity) {
+				return isThrown(stack) ? 1.0F : 0.0F;
+			}
+		});
 	}
-	
+
 	@Override
 	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
 		return !isThrown(item);
 	}
-	
+
 	@SubscribeEvent
-	public void onItemDrop(ItemTossEvent event){
-		if(!event.getPlayer().world.isRemote){
-			if(isThrown(event.getEntityItem().getItem())){
+	public void onItemDrop(ItemTossEvent event) {
+		if (!event.getPlayer().world.isRemote) {
+			if (isThrown(event.getEntityItem().getItem())) {
 				event.getEntityItem().getItem().getTagCompound().setBoolean("thrown", false);
 			}
 		}
 	}
-	
+
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.AMBIENT, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+		world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_SNOWBALL_THROW,
+				SoundCategory.AMBIENT, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 		if (!world.isRemote) {
-			if(!isThrown(stack)){
-				if(!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
+			if (!isThrown(stack)) {
+				if (!stack.hasTagCompound())
+					stack.setTagCompound(new NBTTagCompound());
 				stack.getTagCompound().setBoolean("thrown", true);
 				EntityBoomerang boomerang = new EntityBoomerang(world, player);
 				boomerang.setItemStack(stack);
@@ -65,12 +67,14 @@ public class ThrowableKnifeItem extends ACWeaponItem {
 
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 	}
-	
-	public static boolean isThrown(ItemStack stack){
-		if(stack == null || stack.getItem() != AdventureCraftItems.boomerang) return false;
-		if(!stack.hasTagCompound()) return false;
+
+	public static boolean isThrown(ItemStack stack) {
+		if (stack == null || stack.getItem() != AdventureCraftItems.boomerang)
+			return false;
+		if (!stack.hasTagCompound())
+			return false;
 		NBTTagCompound tag = stack.getTagCompound();
 		return tag.getBoolean("thrown");
 	}
-	
+
 }

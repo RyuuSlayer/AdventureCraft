@@ -18,25 +18,25 @@ import net.minecraft.world.World;
 import de.ryuum3gum1n.adventurecraft.blocks.ACITriggerableBlock;
 import de.ryuum3gum1n.adventurecraft.invoke.EnumTriggerState;
 
-public class TriggerItem extends ACItem implements ACITriggerableItem{
-	
+public class TriggerItem extends ACItem implements ACITriggerableItem {
+
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		
+
 		NBTTagCompound comp = stack.getTagCompound();
-		if(comp == null) {
+		if (comp == null) {
 			comp = new NBTTagCompound();
 			comp.setInteger("trigger", EnumTriggerState.ON.ordinal());
 			stack.setTagCompound(comp);
 		}
 	}
-	
+
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		if(world.isRemote)
+		if (world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
-		if(stack.hasTagCompound()){
+		if (stack.hasTagCompound()) {
 			NBTTagCompound tag = stack.getTagCompound();
 			EnumTriggerState state = EnumTriggerState.values()[tag.getInteger("trigger")];
 			float lerp = 1F;
@@ -45,11 +45,11 @@ public class TriggerItem extends ACItem implements ACITriggerableItem{
 			Vec3d direction = player.getLook(lerp);
 			Vec3d end = start.addVector(direction.x * dist, direction.y * dist, direction.z * dist);
 			RayTraceResult result = world.rayTraceBlocks(start, end, false, false, false);
-			if(result != null && result.typeOfHit != null && result.typeOfHit == Type.BLOCK){
+			if (result != null && result.typeOfHit != null && result.typeOfHit == Type.BLOCK) {
 				BlockPos pos = result.getBlockPos();
 				Block block = world.getBlockState(pos).getBlock();
-				if(block instanceof ACITriggerableBlock){
-					((ACITriggerableBlock)block).trigger(world, pos, state);
+				if (block instanceof ACITriggerableBlock) {
+					((ACITriggerableBlock) block).trigger(world, pos, state);
 					return ActionResult.newResult(EnumActionResult.PASS, stack);
 				}
 			}
@@ -62,9 +62,10 @@ public class TriggerItem extends ACItem implements ACITriggerableItem{
 		NBTTagCompound tag = stack.getTagCompound();
 		int current = tag.getInteger("trigger");
 		current++;
-		if(current >= EnumTriggerState.values().length) current = 0;
+		if (current >= EnumTriggerState.values().length)
+			current = 0;
 		player.sendMessage(new TextComponentString("Changed trigger to: " + EnumTriggerState.values()[current]));
 		tag.setInteger("trigger", current);
 	}
-	
+
 }

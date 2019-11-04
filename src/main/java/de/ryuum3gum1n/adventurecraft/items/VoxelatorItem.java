@@ -24,20 +24,21 @@ import de.ryuum3gum1n.adventurecraft.voxelator.VXPredicate;
 import de.ryuum3gum1n.adventurecraft.voxelator.VXShape;
 import de.ryuum3gum1n.adventurecraft.voxelator.Voxelator;
 
-public class VoxelatorItem extends ACItem implements ACITriggerableItem{
+public class VoxelatorItem extends ACItem implements ACITriggerableItem {
 
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-		if(world.isRemote)
+		if (world.isRemote)
 			return;
 
-		if(world.getGameRules().hasRule("disableTCVoxelBrush") && world.getGameRules().getBoolean("disableTCVoxelBrush")) {
+		if (world.getGameRules().hasRule("disableTCVoxelBrush")
+				&& world.getGameRules().getBoolean("disableTCVoxelBrush")) {
 			return;
 		}
 
 		NBTTagCompound stackCompound = stack.getTagCompound();
 
-		if(stackCompound == null) {
+		if (stackCompound == null) {
 			stackCompound = new NBTTagCompound();
 			stack.setTagCompound(stackCompound);
 		}
@@ -46,25 +47,25 @@ public class VoxelatorItem extends ACItem implements ACITriggerableItem{
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		if(world.isRemote)
+		if (world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
-		
-		if(!player.capabilities.isCreativeMode)
+
+		if (!player.capabilities.isCreativeMode)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
-		
-		if(!player.capabilities.allowEdit){
-			return ActionResult.newResult(EnumActionResult.PASS, stack);
-		}
-		
-		if(!stack.hasTagCompound()){
+
+		if (!player.capabilities.allowEdit) {
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 		}
-		
+
+		if (!stack.hasTagCompound()) {
+			return ActionResult.newResult(EnumActionResult.PASS, stack);
+		}
+
 		NBTTagCompound data = stack.getTagCompound().getCompoundTag("brush_data");
-		
-		if(data.hasNoTags())
+
+		if (data.hasNoTags())
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
-		
+
 		float lerp = 1F;
 		float dist = 256;
 		Vec3d start = this.getPositionEyes(lerp, player);
@@ -73,7 +74,7 @@ public class VoxelatorItem extends ACItem implements ACITriggerableItem{
 
 		RayTraceResult result = world.rayTraceBlocks(start, end, false, false, false);
 
-		if(result == null) {
+		if (result == null) {
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 		}
 		NBTTagCompound NBTshape = data.getCompoundTag("shape");
@@ -89,7 +90,7 @@ public class VoxelatorItem extends ACItem implements ACITriggerableItem{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
-		if(!stack.hasTagCompound()){
+		if (!stack.hasTagCompound()) {
 			super.addInformation(stack, player, tooltip, advanced);
 			return;
 		}
@@ -101,7 +102,7 @@ public class VoxelatorItem extends ACItem implements ACITriggerableItem{
 
 	@Override
 	public Vec3d getPositionEyes(float partialTicks, EntityPlayer player) {
-		if(partialTicks == 1.0F) {
+		if (partialTicks == 1.0F) {
 			return new Vec3d(player.posX, player.posY + player.getEyeHeight(), player.posZ);
 		} else {
 			double d0 = player.prevPosX + (player.posX - player.prevPosX) * partialTicks;
@@ -110,10 +111,10 @@ public class VoxelatorItem extends ACItem implements ACITriggerableItem{
 			return new Vec3d(d0, d1, d2);
 		}
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	private static void addDesc(NBTTagCompound data, List<String> tooltip) {
-		if(data.hasNoTags()){
+		if (data.hasNoTags()) {
 			tooltip.add(TextFormatting.RED + "Not Defined Yet");
 			return;
 		}
@@ -124,10 +125,11 @@ public class VoxelatorItem extends ACItem implements ACITriggerableItem{
 		tooltip.add(filter.getString("type"));
 		tooltip.add(action.getString("type"));
 	}
-	
+
 	@Override
 	public void trigger(World world, EntityPlayerMP player, ItemStack stack) {
-		AdventureCraft.network.sendTo(new VoxelatorGuiPacket(stack.getTagCompound().getCompoundTag("brush_data")), player);
+		AdventureCraft.network.sendTo(new VoxelatorGuiPacket(stack.getTagCompound().getCompoundTag("brush_data")),
+				player);
 	}
 
 }

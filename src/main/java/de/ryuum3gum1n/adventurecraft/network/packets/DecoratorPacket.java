@@ -67,9 +67,9 @@ public class DecoratorPacket implements IMessage {
 		public IMessage onMessage(DecoratorPacket message, MessageContext ctx) {
 			MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 			EntityPlayerMP player = server.getPlayerList().getPlayerByUUID(message.uuid);
-			
+
 			ItemStack item = player.inventory.getCurrentItem();
-			if(item.getItem() == AdventureCraftItems.decorator){
+			if (item.getItem() == AdventureCraftItems.decorator) {
 				NBTTagCompound tag = new NBTTagCompound();
 				tag.setInteger("xoff", message.xoff);
 				tag.setInteger("yoff", message.yoff);
@@ -78,7 +78,8 @@ public class DecoratorPacket implements IMessage {
 				tag.setInteger("amount", message.amount);
 				tag.setInteger("radius", message.radius);
 				item.getTagCompound().setTag("decorator_data", tag);
-			}else AdventureCraft.logger.error("Currently Held Item Is Not A Decorator");
+			} else
+				AdventureCraft.logger.error("Currently Held Item Is Not A Decorator");
 			return null;
 		}
 	}

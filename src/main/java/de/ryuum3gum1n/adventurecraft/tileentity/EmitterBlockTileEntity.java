@@ -9,7 +9,7 @@ import de.ryuum3gum1n.adventurecraft.blocks.ACTileEntity;
 import de.ryuum3gum1n.adventurecraft.invoke.IInvoke;
 import de.ryuum3gum1n.adventurecraft.util.GObjectTypeHelper;
 
-public class EmitterBlockTileEntity extends ACTileEntity{
+public class EmitterBlockTileEntity extends ACTileEntity {
 	private static final int[] NULL_PARAMS = new int[8];
 	NBTTagCompound emitterData;
 	boolean state = false;
@@ -66,7 +66,7 @@ public class EmitterBlockTileEntity extends ACTileEntity{
 
 	@Override
 	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
-		if(emitterData != null)
+		if (emitterData != null)
 			comp.setTag("emitter", emitterData);
 
 		comp.setBoolean("active", state);
@@ -75,17 +75,17 @@ public class EmitterBlockTileEntity extends ACTileEntity{
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
-		if(command.equals("trigger")) {
+		if (command.equals("trigger")) {
 			// toggle state
 			state ^= true;
-			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO Confirm
 			return;
 		}
 
-		if(command.equals("set_vars")) {
+		if (command.equals("set_vars")) {
 			data.removeTag("command");
 
-			if(emitterData == null)
+			if (emitterData == null)
 				emitterData = new NBTTagCompound();
 
 			emitterData.merge(data);
@@ -99,9 +99,12 @@ public class EmitterBlockTileEntity extends ACTileEntity{
 	@Override
 	public void update() {
 		super.update();
-		if(emitterData == null) return;
-		if(!world.isRemote) return;
-		if(!state) return;
+		if (emitterData == null)
+			return;
+		if (!world.isRemote)
+			return;
+		if (!state)
+			return;
 
 		float var_offsetX = emitterData.getFloat("var_offsetX");
 		float var_offsetY = emitterData.getFloat("var_offsetY");
@@ -118,10 +121,10 @@ public class EmitterBlockTileEntity extends ACTileEntity{
 
 		int spawnCount = emitterData.getInteger("var_spawnCount");
 
-		if(spawnCount < 1)
+		if (spawnCount < 1)
 			spawnCount = 1;
 
-		if(Boolean.FALSE.booleanValue()) {
+		if (Boolean.FALSE.booleanValue()) {
 			// For testing
 			var_offsetRandX = 16;
 			var_offsetRandZ = 16;
@@ -140,20 +143,22 @@ public class EmitterBlockTileEntity extends ACTileEntity{
 
 		int[] params = null;
 
-		if(emitterData.hasKey("params")) {
+		if (emitterData.hasKey("params")) {
 			params = emitterData.getIntArray("params");
 		} else {
 			params = NULL_PARAMS;
 		}
 
-
-		for(int i = 0; i < spawnCount; i++) {
-			float xCoord = getPos().getX() + 0.5f + var_offsetX + ((AdventureCraft.random.nextFloat()*2-1)*var_offsetRandX);
-			float yCoord = getPos().getY() + 0.5f + var_offsetY + ((AdventureCraft.random.nextFloat()*2-1)*var_offsetRandY);
-			float zCoord = getPos().getZ() + 0.5f + var_offsetZ + ((AdventureCraft.random.nextFloat()*2-1)*var_offsetRandZ);
-			float xVelocity = var_velocityRandX == 0 ? var_velocityX : (var_velocityX*var_velocityRandX);
-			float yVelocity = var_velocityRandY == 0 ? var_velocityY : (var_velocityY*var_velocityRandY);
-			float zVelocity = var_velocityRandZ == 0 ? var_velocityZ : (var_velocityZ*var_velocityRandZ);
+		for (int i = 0; i < spawnCount; i++) {
+			float xCoord = getPos().getX() + 0.5f + var_offsetX
+					+ ((AdventureCraft.random.nextFloat() * 2 - 1) * var_offsetRandX);
+			float yCoord = getPos().getY() + 0.5f + var_offsetY
+					+ ((AdventureCraft.random.nextFloat() * 2 - 1) * var_offsetRandY);
+			float zCoord = getPos().getZ() + 0.5f + var_offsetZ
+					+ ((AdventureCraft.random.nextFloat() * 2 - 1) * var_offsetRandZ);
+			float xVelocity = var_velocityRandX == 0 ? var_velocityX : (var_velocityX * var_velocityRandX);
+			float yVelocity = var_velocityRandY == 0 ? var_velocityY : (var_velocityY * var_velocityRandY);
+			float zVelocity = var_velocityRandZ == 0 ? var_velocityZ : (var_velocityZ * var_velocityRandZ);
 
 			world.spawnParticle(particleType, xCoord, yCoord, zCoord, xVelocity, yVelocity, zVelocity, params);
 		}
@@ -217,12 +222,12 @@ public class EmitterBlockTileEntity extends ACTileEntity{
 
 	public void setActive(boolean onoff) {
 		this.state = onoff;
-		this.world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
+		this.world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO Confirm
 	}
 
 	public void toggleActive() {
 		this.state ^= true;
-		this.world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
+		this.world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO Confirm
 	}
 
 }

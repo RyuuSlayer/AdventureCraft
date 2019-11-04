@@ -16,63 +16,66 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ReflectionUtil {
-	
+
 	private static HashMap<GuiListWorldSelectionEntry, File> worldfolder = new HashMap<GuiListWorldSelectionEntry, File>();
-	
-	public static File getWorldFolderFromSelection(GuiListWorldSelectionEntry entry){
-		if(worldfolder.containsKey(entry)){
+
+	public static File getWorldFolderFromSelection(GuiListWorldSelectionEntry entry) {
+		if (worldfolder.containsKey(entry)) {
 			return worldfolder.get(entry);
 		}
-		try{
+		try {
 			File image = null;
-			for(Field field : GuiListWorldSelectionEntry.class.getDeclaredFields()){
-				if(field.getType() == File.class){
+			for (Field field : GuiListWorldSelectionEntry.class.getDeclaredFields()) {
+				if (field.getType() == File.class) {
 					field.setAccessible(true);
 					image = (File) field.get(entry);
 					break;
 				}
 			}
-			if(image == null) return null;
+			if (image == null)
+				return null;
 			File folder = image.getParentFile();
 			worldfolder.put(entry, folder);
 			return folder;
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	private static Map<World, List<IEventListener>> eventlisteners = new HashMap<World, List<IEventListener>>();
-	
+
 	@SuppressWarnings("unchecked")
-	public static List<IEventListener> getEventListeners(World world){
-		if(eventlisteners.containsKey(world)) return eventlisteners.get(world);
-		try{
+	public static List<IEventListener> getEventListeners(World world) {
+		if (eventlisteners.containsKey(world))
+			return eventlisteners.get(world);
+		try {
 			List<IEventListener> list = null;
-			for(Field field : World.class.getDeclaredFields()){
-				if(field.getType() == World.class){
+			for (Field field : World.class.getDeclaredFields()) {
+				if (field.getType() == World.class) {
 					field.setAccessible(true);
 					list = (List<IEventListener>) field.get(world);
 					break;
 				}
 			}
-			
+
 			eventlisteners.put(world, list);
 			return list;
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	private static Map<GuiListWorldSelectionEntry, WorldSummary> worldSummaries = new HashMap<GuiListWorldSelectionEntry, WorldSummary>();
-	
-	public static WorldSummary getWorldSummary(GuiListWorldSelectionEntry world){
-		if(worldSummaries.containsKey(world)) return worldSummaries.get(world);
-		try{
+
+	public static WorldSummary getWorldSummary(GuiListWorldSelectionEntry world) {
+		if (worldSummaries.containsKey(world))
+			return worldSummaries.get(world);
+		try {
 			WorldSummary summary = null;
-			for(Field field : GuiListWorldSelectionEntry.class.getDeclaredFields()){
-				if(field.getType() == WorldSummary.class){
+			for (Field field : GuiListWorldSelectionEntry.class.getDeclaredFields()) {
+				if (field.getType() == WorldSummary.class) {
 					field.setAccessible(true);
 					summary = (WorldSummary) field.get(world);
 					break;
@@ -80,20 +83,20 @@ public class ReflectionUtil {
 			}
 			worldSummaries.put(world, summary);
 			return summary;
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
-	public static void replaceMusicTicker(){
+	public static void replaceMusicTicker() {
 		Minecraft mc = Minecraft.getMinecraft();
 		try {
 			Field[] fields = Minecraft.class.getDeclaredFields();
 			Field musicTickerF = null;
-			for(Field f : fields){
-				if(f.getType() == MusicTicker.class){
+			for (Field f : fields) {
+				if (f.getType() == MusicTicker.class) {
 					musicTickerF = f;
 					break;
 				}
@@ -108,5 +111,5 @@ public class ReflectionUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

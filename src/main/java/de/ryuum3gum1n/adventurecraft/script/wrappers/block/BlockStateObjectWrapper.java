@@ -35,24 +35,24 @@ public class BlockStateObjectWrapper implements IObjectWrapper {
 	public int hashCode() {
 		return state.hashCode();
 	}
-	
-	public BlockObjectWrapper getBlock(){
+
+	public BlockObjectWrapper getBlock() {
 		return new BlockObjectWrapper(state.getBlock());
 	}
-	
-	public boolean isFullCube(){
+
+	public boolean isFullCube() {
 		return state.isFullCube();
 	}
-	
-	public boolean isFullBlock(){
+
+	public boolean isFullBlock() {
 		return state.isFullBlock();
 	}
-	
-	public boolean isOpaqueCube(){
+
+	public boolean isOpaqueCube() {
 		return state.isOpaqueCube();
 	}
-	
-	public boolean isNormalCube(){
+
+	public boolean isNormalCube() {
 		return state.isNormalCube();
 	}
 

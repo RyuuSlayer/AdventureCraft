@@ -11,7 +11,7 @@ import de.ryuum3gum1n.adventurecraft.util.Vec2i;
 	according to coded in rules and parameters given to the layout-manager.
 */
 public interface QADLayoutManager {
-	
-	public void layout(QADComponentContainer container, List<QADComponent> components,Vec2i newContainerSize);
-	
+
+	public void layout(QADComponentContainer container, List<QADComponent> components, Vec2i newContainerSize);
+
 }

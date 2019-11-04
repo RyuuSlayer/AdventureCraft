@@ -81,7 +81,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 		}
 
 		addComponent(QADFACTORY.createLabel("Editing Entity: " + entityData.getString("UUID"), 2, 2));
-		addComponent(QADFACTORY.createLabel("Entity Type: " + entityData.getString("id"), 2, 2+10));
+		addComponent(QADFACTORY.createLabel("Entity Type: " + entityData.getString("id"), 2, 2 + 10));
 
 		// dont do anything, let the extended classes do their thing!
 		buttonRefresh = new QADButton(0, 0, 20, "R");
@@ -92,38 +92,46 @@ public class GuiEntityEditor extends QADGuiScreen {
 		addComponent(buttonApply);
 
 		buttonApply.setAction(new Runnable() {
-			@Override public void run() {
+			@Override
+			public void run() {
 				dataLink.updateData(entityData);
 				displayGuiScreen(null);
 			}
 		});
 
 		buttonCancel.setAction(new Runnable() {
-			@Override public void run() {
+			@Override
+			public void run() {
 				displayGuiScreen(null);
 			}
 		});
 
 		buttonRefresh.setAction(new Runnable() {
-			@Override public void run() {
+			@Override
+			public void run() {
 				generatePanels();
 				relayout();
 			}
 		});
 
-		rawDataTickBox = new QADTickBox(0, (20-14)/2, 14, 14);
+		rawDataTickBox = new QADTickBox(0, (20 - 14) / 2, 14, 14);
 		rawDataTickBox.setModel(new TickBoxModel() {
-			@Override public void toggleState() {
+			@Override
+			public void toggleState() {
 				GuiEntityEditor.this.showRawData ^= true;
 				generatePanels();
 				relayout();
 			}
-			@Override public void setState(boolean newState) {
+
+			@Override
+			public void setState(boolean newState) {
 				GuiEntityEditor.this.showRawData = newState;
 				generatePanels();
 				relayout();
 			}
-			@Override public boolean getState() {
+
+			@Override
+			public boolean getState() {
 				return GuiEntityEditor.this.showRawData;
 			}
 		});
@@ -148,13 +156,11 @@ public class GuiEntityEditor extends QADGuiScreen {
 			generatePanels$General();
 		}
 
-		if(entityData.hasKey("HealF"))
-		{ // Entity Living Base
+		if (entityData.hasKey("HealF")) { // Entity Living Base
 			generatePanels$EntityLivingBase();
 		}
 
-		if(entityData.getTagList("Attributes", NBT.TAG_COMPOUND).tagCount() > 0)
-		{ // Attributes
+		if (entityData.getTagList("Attributes", NBT.TAG_COMPOUND).tagCount() > 0) { // Attributes
 			generatePanels$Attributes();
 		}
 
@@ -162,74 +168,69 @@ public class GuiEntityEditor extends QADGuiScreen {
 			generatePanels$Inventory();
 		}
 
-		if(entityData.getString("id").equalsIgnoreCase("Villager"))
-		{ // Entity Villager
+		if (entityData.getString("id").equalsIgnoreCase("Villager")) { // Entity Villager
 			generatePanels$EntityVillager();
 		}
 
-		if(entityData.getString("id").equalsIgnoreCase("Creeper"))
-		{ // Entity Creeper
+		if (entityData.getString("id").equalsIgnoreCase("Creeper")) { // Entity Creeper
 			generatePanels$EntityCreeper();
 		}
 
-		if(entityData.getString("id").equalsIgnoreCase("Slime"))
-		{ // Entity Slime
+		if (entityData.getString("id").equalsIgnoreCase("Slime")) { // Entity Slime
 			generatePanels$EntitySlime();
 		}
 
-		if(entityData.getString("id").equalsIgnoreCase("Enderman"))
-		{ // Entity Enderman
+		if (entityData.getString("id").equalsIgnoreCase("Enderman")) { // Entity Enderman
 			generatePanels$EntityEnderman();
 		}
 
-		if(entityData.getString("id").equalsIgnoreCase("Sheep")) {
+		if (entityData.getString("id").equalsIgnoreCase("Sheep")) {
 			generatePanels$EntitySheep();
 		}
 
-		if(entityData.getString("id").equalsIgnoreCase("Pig")) {
+		if (entityData.getString("id").equalsIgnoreCase("Pig")) {
 			generatePanels$EntityPig();
 		}
 
-		if(entityData.getString("id").equalsIgnoreCase("Ozelot")) {
+		if (entityData.getString("id").equalsIgnoreCase("Ozelot")) {
 			generatePanels$EntityOzelot();
 		}
 
-		if(entityData.getString("id").equalsIgnoreCase("Wolf")) {
+		if (entityData.getString("id").equalsIgnoreCase("Wolf")) {
 			generatePanels$EntityWolf();
 		}
 
-		if(entityData.getString("id").equalsIgnoreCase("VillagerGolem")) {
+		if (entityData.getString("id").equalsIgnoreCase("VillagerGolem")) {
 			generatePanels$EntityVillagerGolem();
 		}
 
-		if(entityData.getString("id").equalsIgnoreCase("Zombie")) {
+		if (entityData.getString("id").equalsIgnoreCase("Zombie")) {
 			generatePanels$EntityZombie();
 		}
 
-		if(entityData.getString("id").equalsIgnoreCase("PigZombie")) {
+		if (entityData.getString("id").equalsIgnoreCase("PigZombie")) {
 			generatePanels$EntityZombie();
 			generatePanels$EntityPigZombie();
 		}
 
-		if(entityData.getString("id").equalsIgnoreCase("Guardian")) {
+		if (entityData.getString("id").equalsIgnoreCase("Guardian")) {
 			generatePanels$EntityGuardian();
 		}
 
-		if(entityData.getString("id").equalsIgnoreCase("EntityHorse")) {
+		if (entityData.getString("id").equalsIgnoreCase("EntityHorse")) {
 			generatePanels$EntityHorse();
 		}
 
-		if(entityData.hasKey("OwnerUUID"))
-		{ // Pet
+		if (entityData.hasKey("OwnerUUID")) { // Pet
 			generatePanels$Pet();
 		}
 
-		if(showRawData) { // NBT;
+		if (showRawData) { // NBT;
 			generatePanels$NBT();
 		}
 
 		int yOff = 6;
-		for(QADPanel panel : panels) {
+		for (QADPanel panel : panels) {
 			panel.setY(yOff);
 			panel.setX(4);
 			panel.setWidth(width);
@@ -245,34 +246,38 @@ public class GuiEntityEditor extends QADGuiScreen {
 		panels.add(panel);
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN+"Entity Horse", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN + "Entity Horse", 2, yOff));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Is tamed?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("Tame", entityData)));
+		panel.addComponent(new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("Tame", entityData)));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Has reproduced?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("HasReproduced", entityData)));
+		panel.addComponent(
+				new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("HasReproduced", entityData)));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Is bred?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("Bred", entityData)));
+		panel.addComponent(new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("Bred", entityData)));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Is eating haystack?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("EatingHaystack", entityData)));
+		panel.addComponent(
+				new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("EatingHaystack", entityData)));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Is chested?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("ChestedHorse", entityData)));
+		panel.addComponent(
+				new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("ChestedHorse", entityData)));
 		yOff += lineHeight;
 
 		{
 			panel.addComponent(QADFACTORY.createLabel("Variant", 2, yOff));
 			Number value = entityData.getInteger("Variant");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTIntegerTextFieldModel("Variant", entityData));
 			panel.addComponent(tf);
 			yOff += lineHeight;
@@ -282,7 +287,8 @@ public class GuiEntityEditor extends QADGuiScreen {
 			panel.addComponent(QADFACTORY.createLabel("Type", 2, yOff));
 			Number value = entityData.getInteger("Type");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTIntegerTextFieldModel("Type", entityData));
 			panel.addComponent(tf);
 			yOff += lineHeight;
@@ -292,12 +298,12 @@ public class GuiEntityEditor extends QADGuiScreen {
 			panel.addComponent(QADFACTORY.createLabel("Temper", 2, yOff));
 			Number value = entityData.getShort("Temper");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTShortTextFieldModel("Temper", entityData));
 			panel.addComponent(tf);
 			yOff += lineHeight;
 		}
-
 
 		panel.setHeight(yOff);
 	}
@@ -308,11 +314,12 @@ public class GuiEntityEditor extends QADGuiScreen {
 		panels.add(panel);
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN+"Entity Guardian", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN + "Entity Guardian", 2, yOff));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Is elder?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("Elder", entityData)));
+		panel.addComponent(
+				new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("Elder", entityData)));
 		yOff += lineHeight;
 
 		panel.setHeight(yOff);
@@ -324,11 +331,12 @@ public class GuiEntityEditor extends QADGuiScreen {
 		panels.add(panel);
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN+"Entity Zombie", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN + "Entity Zombie", 2, yOff));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Can break doors?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("CanBreakDoors", entityData)));
+		panel.addComponent(
+				new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("CanBreakDoors", entityData)));
 		yOff += lineHeight;
 
 		panel.setHeight(yOff);
@@ -340,14 +348,15 @@ public class GuiEntityEditor extends QADGuiScreen {
 		panels.add(panel);
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN+"Entity Pig Zombie", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN + "Entity Pig Zombie", 2, yOff));
 		yOff += lineHeight;
 
 		{
 			panel.addComponent(QADFACTORY.createLabel("Anger Time", 2, yOff));
 			Number value = entityData.getShort("Anger");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTShortTextFieldModel("Anger", entityData));
 			panel.addComponent(tf);
 			yOff += lineHeight;
@@ -357,7 +366,8 @@ public class GuiEntityEditor extends QADGuiScreen {
 			panel.addComponent(QADFACTORY.createLabel("Conversion Time", 2, yOff));
 			Number value = entityData.getInteger("ConversionTime");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTIntegerTextFieldModel("ConversionTime", entityData));
 			panel.addComponent(tf);
 			yOff += lineHeight;
@@ -372,11 +382,12 @@ public class GuiEntityEditor extends QADGuiScreen {
 		panels.add(panel);
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN+"Entity Villager Golem", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN + "Entity Villager Golem", 2, yOff));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Player created?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("PlayerCreated", entityData)));
+		panel.addComponent(
+				new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("PlayerCreated", entityData)));
 		yOff += lineHeight;
 
 		panel.setHeight(yOff);
@@ -388,21 +399,23 @@ public class GuiEntityEditor extends QADGuiScreen {
 		panels.add(panel);
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN+"Entity Wolf", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN + "Entity Wolf", 2, yOff));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Collar Color", 2, yOff));
 		{
 			Number value = entityData.getByte("CollarColor");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTByteTextFieldModel("CollarColor", entityData));
 			panel.addComponent(tf);
 		}
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Angry?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("Angry", entityData)));
+		panel.addComponent(
+				new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("Angry", entityData)));
 		yOff += lineHeight;
 
 		panel.setHeight(yOff);
@@ -414,14 +427,15 @@ public class GuiEntityEditor extends QADGuiScreen {
 		panels.add(panel);
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN+"Entity Ozelot", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN + "Entity Ozelot", 2, yOff));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Type", 2, yOff));
 		{
 			Number value = entityData.getByte("CatType");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTByteTextFieldModel("CatType", entityData));
 			panel.addComponent(tf);
 		}
@@ -437,15 +451,16 @@ public class GuiEntityEditor extends QADGuiScreen {
 
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN+"Pet", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN + "Pet", 2, yOff));
 		yOff += lineHeight;
 
 		{
 			panel.addComponent(QADFACTORY.createLabel("Owner UUID", 2, yOff));
-			QADTextField textField = new QADTextField(fontRenderer, rightColumnOffset, yOff-3, 140, 14);
+			QADTextField textField = new QADTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14);
 			textField.setModel(new NBTStringTextFieldModel("OwnerUUID", entityData));
-			textField.textChangedListener = new TextChangeListener(){
-				@Override public void call(QADTextField field, String text) {
+			textField.textChangedListener = new TextChangeListener() {
+				@Override
+				public void call(QADTextField field, String text) {
 					try {
 						field.setTextColor(0xFFFFFFFF);
 					} catch (IllegalArgumentException e) {
@@ -457,13 +472,12 @@ public class GuiEntityEditor extends QADGuiScreen {
 			yOff += lineHeight;
 		}
 
-		if(entityData.hasKey("Sitting")) {
+		if (entityData.hasKey("Sitting")) {
 			panel.addComponent(QADFACTORY.createLabel("Sitting?", 2, yOff));
-			panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("Sitting", entityData)));
+			panel.addComponent(
+					new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("Sitting", entityData)));
 			yOff += lineHeight;
 		}
-
-
 
 		panel.setHeight(yOff);
 	}
@@ -474,18 +488,20 @@ public class GuiEntityEditor extends QADGuiScreen {
 		panels.add(panel);
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN+"Entity Sheep", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN + "Entity Sheep", 2, yOff));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Sheared?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("Sheared", entityData)));
+		panel.addComponent(
+				new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("Sheared", entityData)));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Color", 2, yOff));
 		{
 			Number value = entityData.getByte("Color");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTByteTextFieldModel("Color", entityData));
 			panel.addComponent(tf);
 		}
@@ -500,15 +516,16 @@ public class GuiEntityEditor extends QADGuiScreen {
 		panels.add(panel);
 
 		int lines = 5;
-		panel.setHeight(lines*lineHeight+2);
+		panel.setHeight(lines * lineHeight + 2);
 
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN+"Entity Pig", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN + "Entity Pig", 2, yOff));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Saddled?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("Saddle", entityData)));
+		panel.addComponent(
+				new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("Saddle", entityData)));
 
 		yOff += lineHeight;
 
@@ -521,19 +538,19 @@ public class GuiEntityEditor extends QADGuiScreen {
 		panels.add(panel);
 
 		int lines = 5;
-		panel.setHeight(lines*lineHeight+2);
+		panel.setHeight(lines * lineHeight + 2);
 
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN+"Entity Enderman", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN + "Entity Enderman", 2, yOff));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Carry", 2, yOff));
-		panel.addComponent(QADFACTORY.createLabel(""+entityData.getShort("carried"), rightColumnOffset, yOff));
+		panel.addComponent(QADFACTORY.createLabel("" + entityData.getShort("carried"), rightColumnOffset, yOff));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Carry Data", 2, yOff));
-		panel.addComponent(QADFACTORY.createLabel(""+entityData.getShort("carriedData"), rightColumnOffset, yOff));
+		panel.addComponent(QADFACTORY.createLabel("" + entityData.getShort("carriedData"), rightColumnOffset, yOff));
 		yOff += lineHeight;
 
 		panel.setHeight(yOff);
@@ -545,18 +562,19 @@ public class GuiEntityEditor extends QADGuiScreen {
 		panels.add(panel);
 
 		int lines = 5;
-		panel.setHeight(lines*lineHeight+2);
+		panel.setHeight(lines * lineHeight + 2);
 
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN+"Entity Slime", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN + "Entity Slime", 2, yOff));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Size", 2, yOff));
 		{
 			Number value = entityData.getInteger("Size");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTIntegerTextFieldModel("Size", entityData));
 			panel.addComponent(tf);
 		}
@@ -571,22 +589,24 @@ public class GuiEntityEditor extends QADGuiScreen {
 		panels.add(panel);
 
 		int lines = 5;
-		panel.setHeight(lines*lineHeight+2);
+		panel.setHeight(lines * lineHeight + 2);
 
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN+"Entity Creeper", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN + "Entity Creeper", 2, yOff));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Ignited?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("ignited", entityData)));
+		panel.addComponent(
+				new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("ignited", entityData)));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Fuse", 2, yOff));
 		{
 			Number value = entityData.getShort("fuse");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTShortTextFieldModel("fuse", entityData));
 			panel.addComponent(tf);
 		}
@@ -596,7 +616,8 @@ public class GuiEntityEditor extends QADGuiScreen {
 		{
 			Number value = entityData.getShort("ExplosionRadius");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTShortTextFieldModel("ExplosionRadius", entityData));
 			panel.addComponent(tf);
 		}
@@ -612,16 +633,16 @@ public class GuiEntityEditor extends QADGuiScreen {
 		panels.add(panel);
 
 		int lines = 5;
-		panel.setHeight(lines*lineHeight+2);
+		panel.setHeight(lines * lineHeight + 2);
 
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN+"General Information", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN + "General Information", 2, yOff));
 		yOff += lineHeight;
 
 		{
 			panel.addComponent(QADFACTORY.createLabel("Custom Name", 2, yOff));
-			QADTextField textField = new QADTextField(fontRenderer, rightColumnOffset, yOff-3, 140, 14);
+			QADTextField textField = new QADTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14);
 			textField.setModel(new NBTStringTextFieldModel("CustomName", entityData));
 			panel.addComponent(textField);
 			yOff += lineHeight;
@@ -651,9 +672,9 @@ public class GuiEntityEditor extends QADGuiScreen {
 			panel.addComponent(QADFACTORY.createLabel("Position (block)", 2, yOff));
 			StringBuilder builder = new StringBuilder();
 			NBTTagList li = entityData.getTagList("Pos", NBT.TAG_DOUBLE);
-			builder.append((int)Math.floor(li.getDoubleAt(0))).append(", ");
-			builder.append((int)Math.floor(li.getDoubleAt(1))).append(", ");
-			builder.append((int)Math.floor(li.getDoubleAt(2)));
+			builder.append((int) Math.floor(li.getDoubleAt(0))).append(", ");
+			builder.append((int) Math.floor(li.getDoubleAt(1))).append(", ");
+			builder.append((int) Math.floor(li.getDoubleAt(2)));
 
 			panel.addComponent(QADFACTORY.createLabel(builder.toString(), rightColumnOffset, yOff));
 			yOff += lineHeight;
@@ -663,8 +684,8 @@ public class GuiEntityEditor extends QADGuiScreen {
 			panel.addComponent(QADFACTORY.createLabel("Rotation", 2, yOff));
 			StringBuilder builder = new StringBuilder();
 			NBTTagList li = entityData.getTagList("Rotation", NBT.TAG_DOUBLE);
-			builder.append((int)Math.round(li.getDoubleAt(0))).append(", ");
-			builder.append((int)Math.round(li.getDoubleAt(1)));
+			builder.append((int) Math.round(li.getDoubleAt(0))).append(", ");
+			builder.append((int) Math.round(li.getDoubleAt(1)));
 
 			panel.addComponent(QADFACTORY.createLabel(builder.toString(), rightColumnOffset, yOff));
 			yOff += lineHeight;
@@ -683,38 +704,35 @@ public class GuiEntityEditor extends QADGuiScreen {
 		}
 
 		panel.addComponent(QADFACTORY.createLabel("Persistence Required", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("PersistenceRequired", entityData)));
+		panel.addComponent(new QADTickBox(rightColumnOffset, yOff - 3,
+				new NBTBooleanTickBoxModel("PersistenceRequired", entityData)));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("No-Clip?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("TC_NoClip", entityData)));
+		panel.addComponent(
+				new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("TC_NoClip", entityData)));
 		yOff += lineHeight;
 
 		/*
-		{
-			panel.addComponent(QADFACTORY.createLabel("[TC] Width", 2, yOff));
-			Number value = entityData.getFloat("TC_Width");
-			NumberType type = NumberType.DECIMAL;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
-			tf.setModel(new NBTFloatTextFieldModel("TC_Width", entityData));
-			panel.addComponent(tf);
-			yOff += lineHeight;
-		}
-		{
-			panel.addComponent(QADFACTORY.createLabel("[TC] Height", 2, yOff));
-			Number value = entityData.getFloat("TC_Height");
-			NumberType type = NumberType.DECIMAL;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
-			tf.setModel(new NBTFloatTextFieldModel("TC_Height", entityData));
-			panel.addComponent(tf);
-			yOff += lineHeight;
-		}
-		//*/
+		 * { panel.addComponent(QADFACTORY.createLabel("[TC] Width", 2, yOff)); Number
+		 * value = entityData.getFloat("TC_Width"); NumberType type =
+		 * NumberType.DECIMAL; QADNumberTextField tf = new
+		 * QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+		 * type); tf.setModel(new NBTFloatTextFieldModel("TC_Width", entityData));
+		 * panel.addComponent(tf); yOff += lineHeight; } {
+		 * panel.addComponent(QADFACTORY.createLabel("[TC] Height", 2, yOff)); Number
+		 * value = entityData.getFloat("TC_Height"); NumberType type =
+		 * NumberType.DECIMAL; QADNumberTextField tf = new
+		 * QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+		 * type); tf.setModel(new NBTFloatTextFieldModel("TC_Height", entityData));
+		 * panel.addComponent(tf); yOff += lineHeight; } //
+		 */
 		{
 			panel.addComponent(QADFACTORY.createLabel("Step Height", 2, yOff));
 			Number value = entityData.getFloat("TC_StepHeight");
 			NumberType type = NumberType.DECIMAL;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTFloatTextFieldModel("TC_StepHeight", entityData));
 			panel.addComponent(tf);
 			yOff += lineHeight;
@@ -732,13 +750,14 @@ public class GuiEntityEditor extends QADGuiScreen {
 		int yOff = 2;
 		final int lineHeight = 14;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GOLD +"Raw NBT", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GOLD + "Raw NBT", 2, yOff));
 		yOff += lineHeight;
 
 		{
 			QADButton buttonAsJson = QADFACTORY.createButton("Copy to Clipboard as JSON", 2, yOff, rightColumnOffset);
 			buttonAsJson.setAction(new Runnable() {
-				@Override public void run() {
+				@Override
+				public void run() {
 					NBTTagCompound compound = (NBTTagCompound) entityData.copy();
 					compound.removeTag("Pos");
 					compound.removeTag("Motion");
@@ -746,60 +765,62 @@ public class GuiEntityEditor extends QADGuiScreen {
 
 					String nbtAsJson = NBTHelper.asJson(compound);
 
-					if(nbtAsJson != null) {
+					if (nbtAsJson != null) {
 						GuiScreen.setClipboardString(nbtAsJson);
 					}
 				}
 			});
-			buttonAsJson.setTooltip("Copies the entity data to the","clipboard as a string of JSON.");
+			buttonAsJson.setTooltip("Copies the entity data to the", "clipboard as a string of JSON.");
 			panel.addComponent(buttonAsJson);
 		}
-		yOff += lineHeight*2;
+		yOff += lineHeight * 2;
 
-		//		{
-		//			QADButton buttonEditRaw = QADFACTORY.createButton("Edit raw NBT", 2, yOff, rightColumnOffset);
-		//			buttonEditRaw.setAction(new Runnable() {
-		//				@Override public void run() {
-		//					GuiNBTEditor nbtEditor = new GuiNBTEditor(entityData);
-		//					nbtEditor.returnScreen = GuiEntityEditor.this;
-		//					displayGuiScreen(nbtEditor);
-		//				}
-		//			});
-		//			buttonEditRaw.setTooltip("Opens the NBT-Editor.");
-		//			panel.addComponent(buttonEditRaw);
-		//		}
-		//		yOff += lineHeight*2;
+		// {
+		// QADButton buttonEditRaw = QADFACTORY.createButton("Edit raw NBT", 2, yOff,
+		// rightColumnOffset);
+		// buttonEditRaw.setAction(new Runnable() {
+		// @Override public void run() {
+		// GuiNBTEditor nbtEditor = new GuiNBTEditor(entityData);
+		// nbtEditor.returnScreen = GuiEntityEditor.this;
+		// displayGuiScreen(nbtEditor);
+		// }
+		// });
+		// buttonEditRaw.setTooltip("Opens the NBT-Editor.");
+		// panel.addComponent(buttonEditRaw);
+		// }
+		// yOff += lineHeight*2;
 
 		final MutableInteger yOffMut = new MutableInteger(yOff);
 		RecursiveNBTIterator.iterate(entityData, new NBTTreeConsumer() {
-			@Override public void consume(int depth, String name, NBTBase tag, NBTTagCompound parent) {
+			@Override
+			public void consume(int depth, String name, NBTBase tag, NBTTagCompound parent) {
 				int x = 6 + depth * 6;
 
-				if(tag == null) {
-					panel.addComponent(QADFACTORY.createLabel("---", x, yOffMut.get()-7));
+				if (tag == null) {
+					panel.addComponent(QADFACTORY.createLabel("---", x, yOffMut.get() - 7));
 					return;
 				}
 
-				if(tag instanceof NBTTagCompound) {
+				if (tag instanceof NBTTagCompound) {
 					panel.addComponent(QADFACTORY.createLabel(name, x, yOffMut.get()));
 				} else if (tag instanceof NBTTagList) {
-					NBTTagList list = (NBTTagList)tag;
+					NBTTagList list = (NBTTagList) tag;
 
-					if(list.getTagType() == NBT.TAG_COMPOUND) {
+					if (list.getTagType() == NBT.TAG_COMPOUND) {
 						panel.addComponent(QADFACTORY.createLabel(name, x, yOffMut.get()));
 					}
 
-					if(list.getTagType() == NBT.TAG_DOUBLE) {
+					if (list.getTagType() == NBT.TAG_DOUBLE) {
 						StringBuilder builder = new StringBuilder();
 						builder.append(list.tagCount());
 						builder.append(" [");
-						for(int i = 0; i < list.tagCount(); i++) {
+						for (int i = 0; i < list.tagCount(); i++) {
 							builder.append(TextFormatting.DARK_GRAY);
 							builder.append(format.format(list.getDoubleAt(i)));
 							builder.append(TextFormatting.WHITE);
 							builder.append(", ");
 						}
-						builder.setLength(builder.length()-2);
+						builder.setLength(builder.length() - 2);
 						builder.append("]");
 
 						panel.addComponent(QADFACTORY.createLabel(name + " = " + builder.toString(), x, yOffMut.get()));
@@ -822,14 +843,14 @@ public class GuiEntityEditor extends QADGuiScreen {
 			NBTTagList __e = entityData.getTagList("Equipment", NBT.TAG_COMPOUND);
 			NBTTagList __i = entityData.getTagList("Inventory", NBT.TAG_COMPOUND);
 
-			if(__e.tagCount() > 0) {
+			if (__e.tagCount() > 0) {
 				inventory = __e;
 			}
-			if(__i.tagCount() > 0) {
+			if (__i.tagCount() > 0) {
 				inventory = __i;
 			}
 
-			if(inventory == null)
+			if (inventory == null)
 				return;
 		}
 
@@ -839,32 +860,34 @@ public class GuiEntityEditor extends QADGuiScreen {
 
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.BLUE+"Inventory", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.BLUE + "Inventory", 2, yOff));
 		yOff += lineHeight;
 
 		NBTTagList list = inventory;
-		for(int i = 0; i < list.tagCount(); i++) {
+		for (int i = 0; i < list.tagCount(); i++) {
 			final NBTTagCompound slot = list.getCompoundTagAt(i);
 
-			if(slot.hasNoTags()) {
+			if (slot.hasNoTags()) {
 				continue;
 			}
 
 			int slotID = slot.hasKey("Slot") ? slot.getByte("Slot") : -1;
 
 			panel.addComponent(QADFACTORY.createLabel("Item " + ((slotID == -1) ? i : slotID), 2, yOff));
-			panel.addComponent(QADFACTORY.createButton(NBTItemToString(slot), rightColumnOffset, yOff, 200, new Runnable() {
-				@Override public void run() {
-					QADGuiScreen guiScreen = new GuiItemStackEditor(slot);
-					guiScreen.setBehind(GuiEntityEditor.this);
-					displayGuiScreen(guiScreen);
-				}
-			})).textAlignment = 0;
+			panel.addComponent(
+					QADFACTORY.createButton(NBTItemToString(slot), rightColumnOffset, yOff, 200, new Runnable() {
+						@Override
+						public void run() {
+							QADGuiScreen guiScreen = new GuiItemStackEditor(slot);
+							guiScreen.setBehind(GuiEntityEditor.this);
+							displayGuiScreen(guiScreen);
+						}
+					})).textAlignment = 0;
 
 			yOff += lineHeight;
 		}
 
-		if(yOff <= lineHeight+3) {
+		if (yOff <= lineHeight + 3) {
 			return;
 		}
 
@@ -880,133 +903,148 @@ public class GuiEntityEditor extends QADGuiScreen {
 
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN+"Entity Villager", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN + "Entity Villager", 2, yOff));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Riches?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("Riches", entityData)));
+		panel.addComponent(
+				new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("Riches", entityData)));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Willing?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("Willing", entityData)));
+		panel.addComponent(
+				new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("Willing", entityData)));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Profession", 2, yOff));
-		panel.addComponent(QADFACTORY.createLabel(""+entityData.getInteger("Profession"), rightColumnOffset, yOff));
+		panel.addComponent(QADFACTORY.createLabel("" + entityData.getInteger("Profession"), rightColumnOffset, yOff));
 		{
 			Number value = entityData.getInteger("Profession");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTIntegerTextFieldModel("Profession", entityData));
 			panel.addComponent(tf);
 		}
 		yOff += lineHeight;
 
-		if(entityData.hasKey("Career")) {
+		if (entityData.hasKey("Career")) {
 			panel.addComponent(QADFACTORY.createLabel("Career Level", 2, yOff));
 			{
 				Number value = entityData.getInteger("CareerLevel");
 				NumberType type = NumberType.INTEGER;
-				QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+				QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14,
+						value, type);
 				tf.setModel(new NBTIntegerTextFieldModel("CareerLevel", entityData));
 				panel.addComponent(tf);
 			}
 			yOff += lineHeight;
 		}
 
-		if(entityData.hasKey("Offers")) {
-			panel.addComponent(QADFACTORY.createLabel(TextFormatting.YELLOW+"Offers", 2, yOff));
+		if (entityData.hasKey("Offers")) {
+			panel.addComponent(QADFACTORY.createLabel(TextFormatting.YELLOW + "Offers", 2, yOff));
 			yOff += lineHeight;
 
 			final NBTTagCompound offers = entityData.getCompoundTag("Offers");
 			final NBTTagList recipes = offers.getTagList("Recipes", NBT.TAG_COMPOUND);
 
 			panel.addComponent(QADFACTORY.createButton("Add Recipe", 2, yOff, 100, new Runnable() {
-				@Override public void run() {
+				@Override
+				public void run() {
 					NBTTagCompound compound = new NBTTagCompound();
 					compound.setInteger("uses", 0);
 					compound.setInteger("maxUses", 1);
 					compound.setBoolean("rewardExp", false);
 
 					NBTTagCompound compoundBUY = new NBTTagCompound();
-					compoundBUY.setShort("Damage", (short)0);
-					compoundBUY.setByte("Count", (byte)1);
+					compoundBUY.setShort("Damage", (short) 0);
+					compoundBUY.setByte("Count", (byte) 1);
 					compoundBUY.setString("id", "minecraft:emerald");
 
 					NBTTagCompound compoundSELL = new NBTTagCompound();
-					compoundSELL.setShort("Damage", (short)0);
-					compoundSELL.setByte("Count", (byte)1);
+					compoundSELL.setShort("Damage", (short) 0);
+					compoundSELL.setByte("Count", (byte) 1);
 					compoundSELL.setString("id", "minecraft:stone");
 
 					compound.setTag("buy", compoundBUY);
 					compound.setTag("sell", compoundSELL);
 
-					recipes.appendTag(compound);;
+					recipes.appendTag(compound);
+					;
 					generatePanels();
 					relayout();
 				}
 			}));
 			yOff += lineHeight;
 
-			for(int i = 0; i < recipes.tagCount(); i++) {
+			for (int i = 0; i < recipes.tagCount(); i++) {
 				final int index = i;
 				final NBTTagCompound recipe = recipes.getCompoundTagAt(i);
 
-				panel.addComponent(QADFACTORY.createLabel(TextFormatting.AQUA+"Recipe "+i, 2+8, yOff+6));
-				panel.addComponent(QADFACTORY.createButton("Remove Recipe", rightColumnOffset, yOff, 100, new Runnable() {
-					@Override public void run() {
-						recipes.removeTag(index);
-						generatePanels();
-						relayout();
-					}
-				}));
+				panel.addComponent(QADFACTORY.createLabel(TextFormatting.AQUA + "Recipe " + i, 2 + 8, yOff + 6));
+				panel.addComponent(
+						QADFACTORY.createButton("Remove Recipe", rightColumnOffset, yOff, 100, new Runnable() {
+							@Override
+							public void run() {
+								recipes.removeTag(index);
+								generatePanels();
+								relayout();
+							}
+						}));
 				yOff += lineHeight + 8;
 
-				panel.addComponent(QADFACTORY.createLabel("Times Used:", 2+8, yOff));
+				panel.addComponent(QADFACTORY.createLabel("Times Used:", 2 + 8, yOff));
 				{
 					Number value = recipe.getInteger("uses");
 					NumberType type = NumberType.INTEGER;
-					QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+					QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14,
+							value, type);
 					tf.setModel(new NBTIntegerTextFieldModel("uses", recipe));
 					panel.addComponent(tf);
 				}
 				yOff += lineHeight;
 
-				panel.addComponent(QADFACTORY.createLabel("Maximum Uses:", 2+8, yOff));
+				panel.addComponent(QADFACTORY.createLabel("Maximum Uses:", 2 + 8, yOff));
 				{
 					Number value = recipe.getInteger("maxUses");
 					NumberType type = NumberType.INTEGER;
-					QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+					QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14,
+							value, type);
 					tf.setModel(new NBTIntegerTextFieldModel("maxUses", recipe));
 					panel.addComponent(tf);
 				}
 				yOff += lineHeight;
 
-				panel.addComponent(QADFACTORY.createLabel("Reward Experience:", 2+8, yOff));
-				panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("rewardExp", recipe)));
+				panel.addComponent(QADFACTORY.createLabel("Reward Experience:", 2 + 8, yOff));
+				panel.addComponent(
+						new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("rewardExp", recipe)));
 				yOff += lineHeight;
 
 				final NBTTagCompound slotBuy = recipe.getCompoundTag("buy");
 				final NBTTagCompound slotSell = recipe.getCompoundTag("sell");
 
-				panel.addComponent(QADFACTORY.createLabel("Buys:", 2+8, yOff));
-				panel.addComponent(QADFACTORY.createButton(NBTItemToString(slotBuy), rightColumnOffset, yOff, 140, new Runnable() {
-					@Override public void run() {
-						QADGuiScreen guiScreen = new GuiItemStackEditor(slotBuy);
-						guiScreen.setBehind(GuiEntityEditor.this);
-						displayGuiScreen(guiScreen);
-					}
-				}));
+				panel.addComponent(QADFACTORY.createLabel("Buys:", 2 + 8, yOff));
+				panel.addComponent(
+						QADFACTORY.createButton(NBTItemToString(slotBuy), rightColumnOffset, yOff, 140, new Runnable() {
+							@Override
+							public void run() {
+								QADGuiScreen guiScreen = new GuiItemStackEditor(slotBuy);
+								guiScreen.setBehind(GuiEntityEditor.this);
+								displayGuiScreen(guiScreen);
+							}
+						}));
 				yOff += lineHeight;
 
-				panel.addComponent(QADFACTORY.createLabel("Sells:", 2+8, yOff));
-				panel.addComponent(QADFACTORY.createButton(NBTItemToString(slotSell), rightColumnOffset, yOff, 140, new Runnable() {
-					@Override public void run() {
-						QADGuiScreen guiScreen = new GuiItemStackEditor(slotSell);
-						guiScreen.setBehind(GuiEntityEditor.this);
-						displayGuiScreen(guiScreen);
-					}
-				}));
+				panel.addComponent(QADFACTORY.createLabel("Sells:", 2 + 8, yOff));
+				panel.addComponent(QADFACTORY.createButton(NBTItemToString(slotSell), rightColumnOffset, yOff, 140,
+						new Runnable() {
+							@Override
+							public void run() {
+								QADGuiScreen guiScreen = new GuiItemStackEditor(slotSell);
+								guiScreen.setBehind(GuiEntityEditor.this);
+								displayGuiScreen(guiScreen);
+							}
+						}));
 
 				yOff += lineHeight;
 				yOff += lineHeight;
@@ -1025,14 +1063,15 @@ public class GuiEntityEditor extends QADGuiScreen {
 
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN+"Entity Living", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GREEN + "Entity Living", 2, yOff));
 		yOff += lineHeight;
 
 		{
 			panel.addComponent(QADFACTORY.createLabel("Health", 2, yOff));
 			Number value = entityData.getFloat("HealF");
 			NumberType type = NumberType.DECIMAL;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTFloatTextFieldModel("HealF", entityData));
 			panel.addComponent(tf);
 			yOff += lineHeight;
@@ -1042,7 +1081,8 @@ public class GuiEntityEditor extends QADGuiScreen {
 		{
 			Number value = entityData.getInteger("Air");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTIntegerTextFieldModel("Air", entityData));
 			panel.addComponent(tf);
 		}
@@ -1052,7 +1092,8 @@ public class GuiEntityEditor extends QADGuiScreen {
 		{
 			Number value = entityData.getInteger("Fire");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTIntegerTextFieldModel("Fire", entityData));
 			panel.addComponent(tf);
 		}
@@ -1062,23 +1103,26 @@ public class GuiEntityEditor extends QADGuiScreen {
 		{
 			Number value = entityData.getInteger("Age");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value,
+					type);
 			tf.setModel(new NBTIntegerTextFieldModel("Age", entityData));
 			panel.addComponent(tf);
 		}
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("No AI?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("NoAI", entityData)));
+		panel.addComponent(new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("NoAI", entityData)));
 
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Invulnerable?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("Invulnerable", entityData)));
+		panel.addComponent(
+				new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("Invulnerable", entityData)));
 		yOff += lineHeight;
 
 		panel.addComponent(QADFACTORY.createLabel("Can pick up loot?", 2, yOff));
-		panel.addComponent(new QADTickBox(rightColumnOffset, yOff-3, new NBTBooleanTickBoxModel("CanPickUpLoot", entityData)));
+		panel.addComponent(
+				new QADTickBox(rightColumnOffset, yOff - 3, new NBTBooleanTickBoxModel("CanPickUpLoot", entityData)));
 		yOff += lineHeight;
 
 		panel.setHeight(yOff);
@@ -1092,11 +1136,11 @@ public class GuiEntityEditor extends QADGuiScreen {
 
 		int yOff = 2;
 
-		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GRAY+"Attributes", 2, yOff));
+		panel.addComponent(QADFACTORY.createLabel(TextFormatting.GRAY + "Attributes", 2, yOff));
 		yOff += lineHeight;
 
 		NBTTagList list = entityData.getTagList("Attributes", NBT.TAG_COMPOUND);
-		for(int i = 0; i < list.tagCount(); i++) {
+		for (int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound attribute = list.getCompoundTagAt(i);
 
 			{
@@ -1104,15 +1148,16 @@ public class GuiEntityEditor extends QADGuiScreen {
 				panel.addComponent(QADFACTORY.createLabel(name, 2, yOff));
 			}
 
-			if(attribute.hasKey("Base")) {
+			if (attribute.hasKey("Base")) {
 				Number value = entityData.getFloat("Base");
 				NumberType type = NumberType.DECIMAL;
-				QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
+				QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14,
+						value, type);
 				tf.setModel(new NBTDoubleTextFieldModel("Base", attribute));
 				panel.addComponent(tf);
 			}
 
-			yOff += lineHeight-3;
+			yOff += lineHeight - 3;
 		}
 
 		panel.setHeight(yOff);
@@ -1128,16 +1173,16 @@ public class GuiEntityEditor extends QADGuiScreen {
 
 	@Override
 	public void layoutGui() {
-		buttonCancel.setX(width-40);
-		buttonApply.setX(width-82);
-		buttonRefresh.setX(width-104);
+		buttonCancel.setX(width - 40);
+		buttonApply.setX(width - 82);
+		buttonRefresh.setX(width - 104);
 		rawDataTickBox.setX(width - 124);
 
-		scrollPanel.setSize(width, height-22);
+		scrollPanel.setSize(width, height - 22);
 
 		boolean fit = scrollPanel.getDoesViewportFit();
-		for(QADPanel panel : panels) {
-			panel.setWidth(width-(fit?8:12));
+		for (QADPanel panel : panels) {
+			panel.setWidth(width - (fit ? 8 : 12));
 		}
 	}
 

@@ -13,8 +13,9 @@ import de.ryuum3gum1n.adventurecraft.entity.EntityPoint;
 public class SpawnPointItem extends ACItem {
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side,
+			float hitX, float hitY, float hitZ) {
+		if (world.isRemote)
 			return EnumActionResult.PASS;
 		onItemRightClick(world, player, hand);
 		return EnumActionResult.SUCCESS;
@@ -23,14 +24,14 @@ public class SpawnPointItem extends ACItem {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		if(world.isRemote)
+		if (world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 
 		float x = (float) player.posX;
 		float y = (float) player.posY + player.getEyeHeight();
 		float z = (float) player.posZ;
 
-		if(player.isSneaking()) {
+		if (player.isSneaking()) {
 			BlockPos pos = player.getPosition();
 			x = pos.getX() + 0.5f;
 			y = pos.getY() + 0.5f;
@@ -41,10 +42,10 @@ public class SpawnPointItem extends ACItem {
 		float pitch = player.rotationPitch;
 
 		EntityPoint pointEntity = new EntityPoint(world);
-		pointEntity.setPositionAndRotation(x, y - pointEntity.height/2, z, yaw, pitch);
+		pointEntity.setPositionAndRotation(x, y - pointEntity.height / 2, z, yaw, pitch);
 		world.spawnEntity(pointEntity);
 
-		if(stack.hasDisplayName()) {
+		if (stack.hasDisplayName()) {
 			String name = stack.getDisplayName();
 			pointEntity.setCustomNameTag(name);
 		}

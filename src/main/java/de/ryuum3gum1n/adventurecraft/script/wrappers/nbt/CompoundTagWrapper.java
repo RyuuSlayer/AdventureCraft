@@ -36,8 +36,8 @@ public class CompoundTagWrapper implements IObjectWrapper {
 	public CompoundTagWrapper clone() {
 		return new CompoundTagWrapper(this);
 	}
-	
-	public boolean hasKey(String key){
+
+	public boolean hasKey(String key) {
 		return comp.hasKey(key);
 	}
 
@@ -100,12 +100,12 @@ public class CompoundTagWrapper implements IObjectWrapper {
 	public double getDouble(String name) {
 		return comp.getDouble(name);
 	}
-	
+
 	public String getString(String name) {
 		return comp.getString(name);
 	}
-	
-	public CompoundTagWrapper copy(){
+
+	public CompoundTagWrapper copy() {
 		return new CompoundTagWrapper(comp.copy());
 	}
 

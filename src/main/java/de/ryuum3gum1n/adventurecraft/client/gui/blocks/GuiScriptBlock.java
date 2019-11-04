@@ -17,7 +17,10 @@ public class GuiScriptBlock extends QADGuiScreen {
 	@Override
 	public void buildGui() {
 		final BlockPos position = tileEntity.getPos();
-		addComponent(new QADLabel("Script Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(), 2, 2));
-		InvokePanelBuilder.build(this, this, 2, 16, tileEntity.getInvoke(), new BlockInvokeHolder(position, "scriptInvoke"), InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOW_SCRIPTFILE | InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOW_SCRIPTEMBEDDED);
+		addComponent(new QADLabel("Script Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(),
+				2, 2));
+		InvokePanelBuilder.build(this, this, 2, 16, tileEntity.getInvoke(),
+				new BlockInvokeHolder(position, "scriptInvoke"), InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOW_SCRIPTFILE
+						| InvokePanelBuilder.INVOKE_TYPE_EDIT_ALLOW_SCRIPTEMBEDDED);
 	}
 }

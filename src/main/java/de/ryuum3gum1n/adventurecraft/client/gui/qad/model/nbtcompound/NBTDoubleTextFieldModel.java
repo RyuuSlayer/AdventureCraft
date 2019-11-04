@@ -16,7 +16,8 @@ public final class NBTDoubleTextFieldModel implements TextFieldModel {
 		this.valid = true;
 	}
 
-	@Override public void setText(String newText) {
+	@Override
+	public void setText(String newText) {
 		text = newText;
 		try {
 			double value = Double.parseDouble(text);
@@ -27,15 +28,18 @@ public final class NBTDoubleTextFieldModel implements TextFieldModel {
 		}
 	}
 
-	@Override public int getTextLength() {
+	@Override
+	public int getTextLength() {
 		return text.length();
 	}
 
-	@Override public String getText() {
+	@Override
+	public String getText() {
 		return text;
 	}
 
-	@Override public char getCharAt(int i) {
+	@Override
+	public char getCharAt(int i) {
 		return text.charAt(i);
 	}
 

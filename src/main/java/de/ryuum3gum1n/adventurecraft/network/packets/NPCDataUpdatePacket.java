@@ -13,7 +13,6 @@ public class NPCDataUpdatePacket implements IMessage {
 
 	NBTTagCompound data;
 	int id;
-	
 
 	public NPCDataUpdatePacket() {
 	}
@@ -40,7 +39,7 @@ public class NPCDataUpdatePacket implements IMessage {
 		@Override
 		public IMessage onMessage(NPCDataUpdatePacket message, MessageContext ctx) {
 			Minecraft mc = Minecraft.getMinecraft();
-			
+
 			EntityNPC npc = (EntityNPC) mc.world.getEntityByID(message.id);
 			npc.setNPCData(message.data);
 			return null;

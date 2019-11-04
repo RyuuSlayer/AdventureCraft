@@ -9,15 +9,16 @@ import net.minecraft.world.World;
 
 public class WorldFileDataHelper {
 
-	public static NBTTagCompound getTagFromFile(World world, String name){
-		//if(!world.getSaveHandler().getWorldDirectory().getParent().equals("saves"))return null;
+	public static NBTTagCompound getTagFromFile(World world, String name) {
+		// if(!world.getSaveHandler().getWorldDirectory().getParent().equals("saves"))return
+		// null;
 		File worldF = new File(world.getSaveHandler().getWorldDirectory(), "adventurecraft");
 		worldF.mkdir();
 		File dat = new File(worldF, name + ".dat");
 		System.out.println("save folder: " + dat);
-		if(!dat.exists()){
+		if (!dat.exists()) {
 			return new NBTTagCompound();
-		}else{
+		} else {
 			try {
 				return CompressedStreamTools.read(dat);
 			} catch (IOException e) {
@@ -26,13 +27,13 @@ public class WorldFileDataHelper {
 			}
 		}
 	}
-	
-	public static void saveNBTToWorld(World world, String name, NBTTagCompound tag){
-		//if(!world.getSaveHandler().getWorldDirectory().getParent().equals("saves"))return;
+
+	public static void saveNBTToWorld(World world, String name, NBTTagCompound tag) {
+		// if(!world.getSaveHandler().getWorldDirectory().getParent().equals("saves"))return;
 		File worldF = new File(world.getSaveHandler().getWorldDirectory(), "adventurecraft");
 		worldF.mkdir();
 		File dat = new File(worldF, name + ".dat");
-		if(!dat.exists()){
+		if (!dat.exists()) {
 			try {
 				dat.createNewFile();
 			} catch (IOException e) {

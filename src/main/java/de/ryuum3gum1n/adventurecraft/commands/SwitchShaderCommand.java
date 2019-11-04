@@ -27,11 +27,11 @@ public class SwitchShaderCommand extends ACCommandBase {
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		if(Boolean.TRUE.booleanValue()) {
+		if (Boolean.TRUE.booleanValue()) {
 			throw new CommandException("This command is not yet implemented. :(");
 		}
 
-		if(args.length != 2) {
+		if (args.length != 2) {
 			throw new CommandException("Wrong number of parameters: " + args.length + " given, 2 needed.");
 		}
 
@@ -42,7 +42,7 @@ public class SwitchShaderCommand extends ACCommandBase {
 		nbt.setString("shaderName", shaderName);
 		StringNBTCommandPacket pkt = new StringNBTCommandPacket("switchShader", nbt);
 
-		for(EntityPlayerMP entityPlayerMP : players) {
+		for (EntityPlayerMP entityPlayerMP : players) {
 			AdventureCraft.network.sendTo(pkt, entityPlayerMP);
 		}
 

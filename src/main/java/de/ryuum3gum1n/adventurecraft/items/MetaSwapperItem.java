@@ -46,21 +46,21 @@ public class MetaSwapperItem extends ACItem {
 	};
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing side,
+			float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
-		if(worldIn.isRemote)
+		if (worldIn.isRemote)
 			return EnumActionResult.PASS;
-		
-		if(!stack.hasTagCompound()) {
+
+		if (!stack.hasTagCompound()) {
 			stack.setTagCompound(new NBTTagCompound());
 		}
-		
-		if(hand.equals(EnumHand.OFF_HAND)) {
+
+		if (hand.equals(EnumHand.OFF_HAND)) {
 			swapFunctionDECR.$(worldIn, worldIn.getBlockState(pos), pos);
 		} else {
 			swapFunctionINCR.$(worldIn, worldIn.getBlockState(pos), pos);
 		}
-		
 
 		return EnumActionResult.SUCCESS;
 	}
@@ -68,20 +68,20 @@ public class MetaSwapperItem extends ACItem {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		if(world.isRemote)
+		if (world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 
-		if(player.isSneaking()) {
+		if (player.isSneaking()) {
 			int[] bounds = WandItem.getBoundsFromPlayerOrNull(player);
 
-			if(bounds == null) {
+			if (bounds == null) {
 				player.sendMessage(new TextComponentString("No region selected with wand."));
 			}
-			
+
 			WorldHelper.foreach(world, bounds, hand.equals(EnumHand.OFF_HAND) ? swapFunctionDECR : swapFunctionINCR);
 			return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 		}
-		
+
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 

@@ -13,18 +13,16 @@ import de.ryuum3gum1n.adventurecraft.voxelator.params.BooleanBrushParameter;
 import de.ryuum3gum1n.adventurecraft.voxelator.params.IntegerBrushParameter;
 
 public class VXShapeBox extends VXShape {
-	private static final BrushParameter[] PARAMS = new BrushParameter[]{
-		new IntegerBrushParameter("width" , 0, 64, 5),
-		new IntegerBrushParameter("height", 0, 64, 5),
-		new IntegerBrushParameter("length", 0, 64, 5),
-		new BooleanBrushParameter("hollow", false)
-	};
-	
+	private static final BrushParameter[] PARAMS = new BrushParameter[] { new IntegerBrushParameter("width", 0, 64, 5),
+			new IntegerBrushParameter("height", 0, 64, 5), new IntegerBrushParameter("length", 0, 64, 5),
+			new BooleanBrushParameter("hollow", false) };
+
 	public static ShapeFactory FACTORY = new ShapeFactory() {
 		@Override
 		public String getName() {
 			return "box";
 		}
+
 		@Override
 		public VXShape newShape(NBTTagCompound shapeData, BlockPos origin) {
 //			int px = shapeData.getInteger("position.x") + origin.getX();
@@ -39,10 +37,10 @@ public class VXShapeBox extends VXShape {
 			boolean hollow = shapeData.getBoolean("hollow");
 			return new VXShapeBox(new BlockPos(px, py, pz), w, h, l, hollow);
 		}
-		
+
 		@Override
 		public NBTTagCompound newShape(String[] parameters) {
-			if(parameters.length == 1) {
+			if (parameters.length == 1) {
 				NBTTagCompound shapeData = new NBTTagCompound();
 				shapeData.setString("type", getName());
 				shapeData.setInteger("width", Integer.parseInt(parameters[0]));
@@ -51,15 +49,16 @@ public class VXShapeBox extends VXShape {
 				shapeData.setBoolean("hollow", Boolean.parseBoolean(parameters[3]));
 				return shapeData;
 			}
-			
+
 			return null;
 		}
+
 		@Override
 		public BrushParameter[] getParameters() {
 			return PARAMS;
 		}
 	};
-	
+
 	private final BlockPos position;
 	private final int width;
 	private final int height;
@@ -89,7 +88,9 @@ public class VXShapeBox extends VXShape {
 		int diffx = MathHelper.abs(pos.getX() - position.getX());
 		int diffy = MathHelper.abs(pos.getY() - position.getY());
 		int diffz = MathHelper.abs(pos.getZ() - position.getZ());
-		return diffx < width && diffy < height && diffz < length && (hollow ? !(new VXShapeBox(position, width-1, height-1, length-1, false).test(pos, center, offset, fworld)) : true);
+		return diffx < width && diffy < height && diffz < length
+				&& (hollow ? !(new VXShapeBox(position, width - 1, height - 1, length - 1, false).test(pos, center,
+						offset, fworld)) : true);
 	}
 
 }

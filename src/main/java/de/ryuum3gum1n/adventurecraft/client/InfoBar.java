@@ -33,12 +33,12 @@ public class InfoBar {
 	private int lastHeight = 0;
 
 	public void display(Minecraft mc, WorldClient theWorld, ClientProxy clientProxy) {
-		if(!ClientProxy.settings.getBoolean("client.infobar.enabled")) {
+		if (!ClientProxy.settings.getBoolean("client.infobar.enabled")) {
 			lastHeight = 0;
 			return;
 		}
-		
-		if(!enabled) {
+
+		if (!enabled) {
 			lastHeight = 0;
 			return;
 		}
@@ -47,27 +47,28 @@ public class InfoBar {
 		builder.setLength(0);
 		writeModVersionInfo();
 
-		if(mc.player.inventory.getCurrentItem() != null && ClientProxy.settings.getBoolean("client.infobar.heldItemInfo")) {
+		if (mc.player.inventory.getCurrentItem() != null
+				&& ClientProxy.settings.getBoolean("client.infobar.heldItemInfo")) {
 			writeHeldItemInfo(mc.player.inventory.getCurrentItem());
 		}
 
-		if(mc.objectMouseOver != null && ClientProxy.settings.getBoolean("client.infobar.movingObjectPosition")) {
+		if (mc.objectMouseOver != null && ClientProxy.settings.getBoolean("client.infobar.movingObjectPosition")) {
 			writeRayTraceResultPositionInfo(mc, theWorld, mc.objectMouseOver);
 		}
 
-		if(ClientProxy.settings.getBoolean("client.infobar.visualizationMode")) {
-			if(clientProxy.getRenderer().getVisualizationMode() != VisualMode.Default) {
+		if (ClientProxy.settings.getBoolean("client.infobar.visualizationMode")) {
+			if (clientProxy.getRenderer().getVisualizationMode() != VisualMode.Default) {
 				writeVisualizationModeInfo(clientProxy.getRenderer().getVisualizationMode());
 			}
 		}
 
-		if(ClientProxy.settings.getBoolean("client.infobar.showFPS")) {
+		if (ClientProxy.settings.getBoolean("client.infobar.showFPS")) {
 			builder.append(' ');
 			builder.append(Minecraft.getDebugFPS());
 			builder.append(" FPS");
 		}
 
-		if(ClientProxy.settings.getBoolean("client.infobar.showRenderables")) {
+		if (ClientProxy.settings.getBoolean("client.infobar.showRenderables")) {
 			builder.append(" [");
 			builder.append(clientProxy.getRenderer().getStaticCount());
 			builder.append(", ");
@@ -76,25 +77,26 @@ public class InfoBar {
 		}
 
 		// Finally, draw the whole thing!
-		Gui.drawRect(0, 0, mc.displayWidth, mc.fontRenderer.FONT_HEIGHT+1, 0xAA000000);
+		Gui.drawRect(0, 0, mc.displayWidth, mc.fontRenderer.FONT_HEIGHT + 1, 0xAA000000);
 		mc.fontRenderer.drawString(builder.toString(), 1, 1, 14737632);
-		lastHeight = mc.fontRenderer.FONT_HEIGHT+1;
+		lastHeight = mc.fontRenderer.FONT_HEIGHT + 1;
 
-		if(mc.player != null && mc.player.getEntityData().hasKey("tcWand") && ClientProxy.settings.getBoolean("client.infobar.showWandInfo")) {
+		if (mc.player != null && mc.player.getEntityData().hasKey("tcWand")
+				&& ClientProxy.settings.getBoolean("client.infobar.showWandInfo")) {
 			NBTTagCompound tcWand = mc.player.getEntityData().getCompoundTag("tcWand");
 
 			builder.setLength(0);
 
-			if(tcWand.hasKey("boundsA") && tcWand.hasKey("boundsB")) {
+			if (tcWand.hasKey("boundsA") && tcWand.hasKey("boundsB")) {
 				builder.append(' ');
 
 				int[] a = tcWand.getIntArray("boundsA");
 				int[] b = tcWand.getIntArray("boundsB");
 
-				long volX = (Math.abs(b[0]-a[0])+1);
-				long volY = (Math.abs(b[1]-a[1])+1);
-				long volZ = (Math.abs(b[2]-a[2])+1);
-				long[] vol = new long[]{volX,volY,volZ};
+				long volX = (Math.abs(b[0] - a[0]) + 1);
+				long volY = (Math.abs(b[1] - a[1]) + 1);
+				long volZ = (Math.abs(b[2] - a[2]) + 1);
+				long[] vol = new long[] { volX, volY, volZ };
 
 				long volume = volX * volY * volZ;
 
@@ -115,9 +117,9 @@ public class InfoBar {
 				builder.append(TextFormatting.RESET);
 			}
 
-			Gui.drawRect(0, 10, mc.displayWidth, mc.fontRenderer.FONT_HEIGHT+11, 0xAA000000);
+			Gui.drawRect(0, 10, mc.displayWidth, mc.fontRenderer.FONT_HEIGHT + 11, 0xAA000000);
 			mc.fontRenderer.drawString(builder.toString(), 1, 11, 14737632);
-			lastHeight += mc.fontRenderer.FONT_HEIGHT+1;
+			lastHeight += mc.fontRenderer.FONT_HEIGHT + 1;
 		}
 	}
 
@@ -132,7 +134,7 @@ public class InfoBar {
 		builder.append(' ');
 		builder.append(TextFormatting.ITALIC);
 
-		if(Minecraft.getMinecraft().player.isSneaking())
+		if (Minecraft.getMinecraft().player.isSneaking())
 			builder.append(item);
 		else
 			builder.append(item.getDisplayName());
@@ -149,7 +151,7 @@ public class InfoBar {
 		builder.append(':');
 		builder.append(visualMode.getName());
 		builder.append(']');
-		
+
 		builder.append(TextFormatting.RESET);
 	}
 
@@ -173,17 +175,18 @@ public class InfoBar {
 				boolean b = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL);
 				IBlockState state = mc.world.getBlockState(lookAt);
 
-				if(b && state.getBlock().getRegistryName() != null) {
+				if (b && state.getBlock().getRegistryName() != null) {
 					ResourceLocation identifier = state.getBlock().getRegistryName();
-					builder.append(identifier.getResourceDomain()).append(":").append(identifier.getResourcePath()).append("/").append(state.getBlock().getMetaFromState(state));
+					builder.append(identifier.getResourceDomain()).append(":").append(identifier.getResourcePath())
+							.append("/").append(state.getBlock().getMetaFromState(state));
 				} else {
-					if(state == null) {
+					if (state == null) {
 						builder.append("NULL STATE");
-					} else if(state.getBlock() == null) {
+					} else if (state.getBlock() == null) {
 						builder.append("INVALID STATE");
-					} else if(Item.getItemFromBlock(state.getBlock()) == null) {
+					} else if (Item.getItemFromBlock(state.getBlock()) == null) {
 						String name = state.getBlock().getLocalizedName();
-						if(name == null)
+						if (name == null)
 							builder.append("NO ITEM");
 						else
 							builder.append(name);
@@ -199,9 +202,7 @@ public class InfoBar {
 
 			builder.append(']');
 			builder.append(TextFormatting.RESET);
-		}
-		else if (result.typeOfHit == RayTraceResult.Type.ENTITY && result.entityHit != null)
-		{
+		} else if (result.typeOfHit == RayTraceResult.Type.ENTITY && result.entityHit != null) {
 			builder.append(TextFormatting.RED);
 			Entity ent = result.entityHit;
 			builder.append(' ');
@@ -209,16 +210,16 @@ public class InfoBar {
 			builder.append(TextFormatting.getTextWithoutFormattingCodes(ent.getName()));
 			builder.append(' ');
 			builder.append('(');
-			builder.append((int)ent.lastTickPosX);
+			builder.append((int) ent.lastTickPosX);
 			builder.append(' ');
-			builder.append((int)ent.lastTickPosY);
+			builder.append((int) ent.lastTickPosY);
 			builder.append(' ');
-			builder.append((int)ent.lastTickPosZ);
+			builder.append((int) ent.lastTickPosZ);
 			builder.append(')');
 
-			if(ent instanceof EntityLivingBase) {
+			if (ent instanceof EntityLivingBase) {
 				builder.append(' ');
-				builder.append(((EntityLivingBase)ent).getHealth());
+				builder.append(((EntityLivingBase) ent).getHealth());
 			}
 
 			builder.append(']');
@@ -226,17 +227,16 @@ public class InfoBar {
 		}
 
 		// Look Direction
-		if(ClientProxy.settings.getBoolean("client.infobar.showLookDirectionInfo"))
-		{
+		if (ClientProxy.settings.getBoolean("client.infobar.showLookDirectionInfo")) {
 			EntityPlayer playerIn = mc.player;
 
 			EnumFacing directionSky = playerIn.getHorizontalFacing();
 			EnumFacing directionFull = null;
 			// EnumFacing direction = null;
 
-			if(playerIn.rotationPitch > 45) {
+			if (playerIn.rotationPitch > 45) {
 				directionFull = EnumFacing.DOWN;
-			} else if(playerIn.rotationPitch < -45) {
+			} else if (playerIn.rotationPitch < -45) {
 				directionFull = EnumFacing.UP;
 			} else {
 				directionFull = playerIn.getHorizontalFacing();
@@ -244,46 +244,67 @@ public class InfoBar {
 
 			builder.append(" [");
 
-			switch(directionFull) {
-			case EAST:	builder.append(TextFormatting.RED).append("+x"); break;
-			case WEST:	builder.append(TextFormatting.DARK_RED).append("-x"); break;
-			case UP:	builder.append(TextFormatting.GREEN).append("+y"); break;
-			case DOWN:	builder.append(TextFormatting.DARK_GREEN).append("-y"); break;
-			case SOUTH:	builder.append(TextFormatting.BLUE).append("+z"); break;
-			case NORTH:	builder.append(TextFormatting.DARK_AQUA).append("-z"); break;
+			switch (directionFull) {
+			case EAST:
+				builder.append(TextFormatting.RED).append("+x");
+				break;
+			case WEST:
+				builder.append(TextFormatting.DARK_RED).append("-x");
+				break;
+			case UP:
+				builder.append(TextFormatting.GREEN).append("+y");
+				break;
+			case DOWN:
+				builder.append(TextFormatting.DARK_GREEN).append("-y");
+				break;
+			case SOUTH:
+				builder.append(TextFormatting.BLUE).append("+z");
+				break;
+			case NORTH:
+				builder.append(TextFormatting.DARK_AQUA).append("-z");
+				break;
 			}
 
 			builder.append(TextFormatting.RESET).append(' ');
 
-			switch(directionSky) {
-			case EAST:	builder.append("E"); break;
-			case WEST:	builder.append("W"); break;
-			case SOUTH:	builder.append("S"); break;
-			case NORTH:	builder.append("N"); break;
-			default: break;
+			switch (directionSky) {
+			case EAST:
+				builder.append("E");
+				break;
+			case WEST:
+				builder.append("W");
+				break;
+			case SOUTH:
+				builder.append("S");
+				break;
+			case NORTH:
+				builder.append("N");
+				break;
+			default:
+				break;
 			}
 
 			builder.append(',');
 			builder.append(' ');
-			builder.append((int)playerIn.rotationPitch);
+			builder.append((int) playerIn.rotationPitch);
 			builder.append(' ');
-			builder.append((int)MathHelper.wrapDegrees(playerIn.rotationYaw));
-			
+			builder.append((int) MathHelper.wrapDegrees(playerIn.rotationYaw));
+
 			builder.append(']');
 		}
 	}
 
 	public boolean canDisplayInfoBar(Minecraft mc, ClientProxy clientProxy) {
-		if(!clientProxy.isBuildMode())
+		if (!clientProxy.isBuildMode())
 			return false;
 
-		if(mc.currentScreen == null)
+		if (mc.currentScreen == null)
 			return true;
 
-		if(mc.currentScreen instanceof GuiIngameMenu)
+		if (mc.currentScreen instanceof GuiIngameMenu)
 			return true;
 
-		if(mc.currentScreen instanceof GuiChat)
+		if (mc.currentScreen instanceof GuiChat)
 			return true;
 
 		return false;

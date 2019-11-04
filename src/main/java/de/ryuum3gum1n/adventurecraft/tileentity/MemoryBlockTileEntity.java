@@ -32,7 +32,7 @@ public class MemoryBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public String getName() {
-		return "MemoryBlock@"+this.getPos();
+		return "MemoryBlock@" + this.getPos();
 	}
 
 	public IInvoke getTriggerInvoke() {
@@ -54,14 +54,14 @@ public class MemoryBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
-		if(command.equals("trigger")) {
+		if (command.equals("trigger")) {
 			trigger(EnumTriggerState.ON);
 			return;
 		}
 
-		if(command.equals("reset")) {
+		if (command.equals("reset")) {
 			triggered = false;
-			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO Confirm
 			return;
 		}
 
@@ -70,33 +70,34 @@ public class MemoryBlockTileEntity extends ACTileEntity {
 	}
 
 	public void trigger(EnumTriggerState triggerState) {
-		switch(triggerState) {
-			case IGNORE:
-				// no op
-				break;
-			case INVERT:
-				trigger(triggered ? EnumTriggerState.OFF : EnumTriggerState.ON);
-				break;
-			case OFF:
-				// reset
-				if(triggered) {
-					triggered = false;
-					world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
-				}
-				break;
-			case ON:
-				if(!triggered) {
-					Invoke.invoke(triggerInvoke, this, null, triggerState);
-					triggered = true;
-					world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
-				}
-				break;
-			default:
-				// no op
-				break;
+		switch (triggerState) {
+		case IGNORE:
+			// no op
+			break;
+		case INVERT:
+			trigger(triggered ? EnumTriggerState.OFF : EnumTriggerState.ON);
+			break;
+		case OFF:
+			// reset
+			if (triggered) {
+				triggered = false;
+				world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO
+																											// Confirm
+			}
+			break;
+		case ON:
+			if (!triggered) {
+				Invoke.invoke(triggerInvoke, this, null, triggerState);
+				triggered = true;
+				world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO
+																											// Confirm
+			}
+			break;
+		default:
+			// no op
+			break;
 		}
-		
-		
+
 	}
 
 	public boolean getIsTriggered() {

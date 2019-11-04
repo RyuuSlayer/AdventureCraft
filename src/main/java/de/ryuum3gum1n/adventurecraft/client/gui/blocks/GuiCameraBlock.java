@@ -16,6 +16,7 @@ public class GuiCameraBlock extends QADGuiScreen {
 	public void buildGui() {
 		removeAllComponents();
 		BlockPos position = te.getPosition();
-		addComponent(new QADLabel("Camera Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(), 2, 2));
+		addComponent(new QADLabel("Camera Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(),
+				2, 2));
 	}
 }

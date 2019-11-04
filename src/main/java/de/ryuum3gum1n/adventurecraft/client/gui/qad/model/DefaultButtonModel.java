@@ -32,7 +32,17 @@ public class DefaultButtonModel implements ButtonModel {
 		this.icon = newIcon;
 	}
 
-	@Override public void onClick() {}
-	@Override public String getText() { return text; }
-	@Override public ResourceLocation getIcon() { return icon; }
+	@Override
+	public void onClick() {
+	}
+
+	@Override
+	public String getText() {
+		return text;
+	}
+
+	@Override
+	public ResourceLocation getIcon() {
+		return icon;
+	}
 }

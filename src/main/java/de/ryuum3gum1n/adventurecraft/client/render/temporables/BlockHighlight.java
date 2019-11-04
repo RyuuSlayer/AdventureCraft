@@ -18,17 +18,16 @@ public class BlockHighlight implements ITemporaryRenderable {
 
 	public BlockHighlight(BlockPos pos, double duration) {
 		position = pos;
-		dietime = System.currentTimeMillis() + (long)(duration * 1000d);
+		dietime = System.currentTimeMillis() + (long) (duration * 1000d);
 	}
 
 	@Override
-	public void render(Minecraft mc, ClientProxy clientProxy,
-			Tessellator tessellator, BufferBuilder vertexbuffer,
+	public void render(Minecraft mc, ClientProxy clientProxy, Tessellator tessellator, BufferBuilder vertexbuffer,
 			double partialTicks) {
 
-		float minX = position.getX()+1;
-		float minY = position.getY()+1;
-		float minZ = position.getZ()+1;
+		float minX = position.getX() + 1;
+		float minY = position.getY() + 1;
+		float minZ = position.getZ() + 1;
 		float maxX = position.getX();
 		float maxY = position.getY();
 		float maxZ = position.getZ();

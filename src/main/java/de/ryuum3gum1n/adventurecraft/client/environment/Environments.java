@@ -33,37 +33,38 @@ public class Environments {
 	private static final Map<String, Environment> mapping = new HashMap<String, Environment>();
 	private static final Gson gson = new Gson();
 	private static String currentEnvironment = null;
-	
+
 	public static final Environment getCurrent() {
 		Environment env = currentEnvironment == null ? null : mapping.get(currentEnvironment);
-		if(env == null) {
+		if (env == null) {
 			env = mapping.get("default");
 		}
 		return env;
 	}
-	
+
 	public static final boolean isNonDefault() {
 		return getCurrent() != null;
 	}
 
 	public static void reload(IResourceManager resourceManager) {
 		AdventureCraft.logger.info("Reloading environments...");
-		
+
 		InputStream input = null;
 		try {
 			input = resourceManager.getResource(environmentRes).getInputStream();
 			Reader reader = new InputStreamReader(input, StandardCharsets.UTF_8);
-			Type typeOfT = new TypeToken<HashMap<String, Environment>>(){}.getType();
-			
+			Type typeOfT = new TypeToken<HashMap<String, Environment>>() {
+			}.getType();
+
 			Map<String, Environment> newMapping = gson.fromJson(reader, typeOfT);
-			
+
 			mapping.clear();
 			mapping.putAll(newMapping);
 			System.out.println(newMapping);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			if(input != null) {
+			if (input != null) {
 				try {
 					input.close();
 				} catch (IOException e) {
@@ -71,30 +72,31 @@ public class Environments {
 				}
 			}
 		}
-		
+
 		AdventureCraft.logger.info("Done reloading environments.");
 	}
 
 	public static void render_sky(ClientRenderer instance, float partialTicks, WorldClient world, Minecraft mc) {
 		Environment env = getCurrent();
-		if(env == null) return;
+		if (env == null)
+			return;
 
-		for(SkyLayer skyLayer : env.sky) {
-			switch(skyLayer.blend) {
-				default:
-					GL11.glBlendFunc( GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-					break;
+		for (SkyLayer skyLayer : env.sky) {
+			switch (skyLayer.blend) {
+			default:
+				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+				break;
 			}
 
 			GL11.glDepthMask(skyLayer.depth);
 
-			if(skyLayer.cull)
+			if (skyLayer.cull)
 				GL11.glEnable(GL11.GL_CULL_FACE);
 			else
 				GL11.glDisable(GL11.GL_CULL_FACE);
 
 			Matrix4f skyMat = new Matrix4f();
-			skyLayer.getMatrix(skyMat, world.getWorldTime()/20f+partialTicks);
+			skyLayer.getMatrix(skyMat, world.getWorldTime() / 20f + partialTicks);
 
 			// TODO: Apply transformation matrix.
 

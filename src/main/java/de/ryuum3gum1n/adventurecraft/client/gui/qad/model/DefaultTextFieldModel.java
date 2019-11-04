@@ -16,16 +16,23 @@ public class DefaultTextFieldModel implements TextFieldModel {
 		this.color = 0xFFFFFFFF;
 	}
 
-	@Override public void setText(String text) {
+	@Override
+	public void setText(String text) {
 		this.text = text;
 	}
-	@Override public String getText() {
+
+	@Override
+	public String getText() {
 		return this.text;
 	}
-	@Override public int getTextLength() {
+
+	@Override
+	public int getTextLength() {
 		return this.text.length();
 	}
-	@Override public char getCharAt(int i) {
+
+	@Override
+	public char getCharAt(int i) {
 		return this.text.charAt(i);
 	}
 

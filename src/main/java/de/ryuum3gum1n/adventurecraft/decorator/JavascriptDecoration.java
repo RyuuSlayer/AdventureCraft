@@ -22,12 +22,12 @@ import de.ryuum3gum1n.adventurecraft.invoke.IInvoke;
 import de.ryuum3gum1n.adventurecraft.invoke.IInvokeSource;
 import de.ryuum3gum1n.adventurecraft.invoke.Invoke;
 
-public class JavascriptDecoration implements Decoration{
+public class JavascriptDecoration implements Decoration {
 
 	private final FileScriptInvoke invoke;
 	private Scriptable scope;
 	private final String name;
-	
+
 	public JavascriptDecoration(FileScriptInvoke invoke, String name) {
 		this.invoke = invoke;
 		this.name = name;
@@ -44,17 +44,17 @@ public class JavascriptDecoration implements Decoration{
 	public String name() {
 		return name;
 	}
-	
-	private class InvokeSource implements IInvokeSource, ICommandSender{
+
+	private class InvokeSource implements IInvokeSource, ICommandSender {
 
 		World world;
 		BlockPos[] positions;
-		
-		InvokeSource(World world, BlockPos[] positions){
+
+		InvokeSource(World world, BlockPos[] positions) {
 			this.world = world;
 			this.positions = positions;
 		}
-		
+
 		@Override
 		public Scriptable getInvokeScriptScope() {
 			return scope;
@@ -98,7 +98,8 @@ public class JavascriptDecoration implements Decoration{
 		}
 
 		@Override
-		public void sendMessage(ITextComponent component) {}
+		public void sendMessage(ITextComponent component) {
+		}
 
 		@Override
 		public boolean canUseCommand(int permLevel, String commandName) {

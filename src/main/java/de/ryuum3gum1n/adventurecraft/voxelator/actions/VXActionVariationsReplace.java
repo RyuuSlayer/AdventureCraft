@@ -18,50 +18,52 @@ import de.ryuum3gum1n.adventurecraft.voxelator.Voxelator.ActionFactory;
 import de.ryuum3gum1n.adventurecraft.voxelator.params.ListBrushParameter;
 
 public class VXActionVariationsReplace extends VXAction {
-	private static final BrushParameter[] PARAMS = new BrushParameter[]{
-		new ListBrushParameter("variants", 255, BPType.BLOCKSTATE)
-	};
-	
+	private static final BrushParameter[] PARAMS = new BrushParameter[] {
+			new ListBrushParameter("variants", 255, BPType.BLOCKSTATE) };
+
 	public static final ActionFactory FACTORY = new ActionFactory() {
-		@Override public String getName() {
+		@Override
+		public String getName() {
 			return "varreplace";
 		}
-		
-		@Override public VXAction newAction(NBTTagCompound actionData) {
+
+		@Override
+		public VXAction newAction(NBTTagCompound actionData) {
 			NBTTagList list = actionData.getTagList("variants", 8);
-			
+
 			int l = list.tagCount();
-			
+
 			IBlockState[] a = new IBlockState[l];
-			
-			for(int i = 0; i < l; i++) {
+
+			for (int i = 0; i < l; i++) {
 				NBTTagCompound tag = list.getCompoundTagAt(i);
 				ItemStack stack = new ItemStack(tag);
 				Block block = Block.getBlockFromItem(stack.getItem());
 				a[i] = block.getStateFromMeta(stack.getMetadata());
 			}
-			
+
 			return new VXActionVariationsReplace(a);
 		}
-		
-		@Override public NBTTagCompound newAction(String[] parameters) {
+
+		@Override
+		public NBTTagCompound newAction(String[] parameters) {
 			NBTTagCompound actionData = new NBTTagCompound();
 			actionData.setString("type", getName());
-			
+
 			NBTTagList list = new NBTTagList();
-			for(String p : parameters)
+			for (String p : parameters)
 				list.appendTag(new NBTTagString(p));
-			
+
 			actionData.setTag("variants", list);
 			return actionData;
 		}
-		
+
 		@Override
 		public BrushParameter[] getParameters() {
 			return PARAMS;
 		}
 	};
-	
+
 	private final IBlockState[] states;
 	private final Random random;
 

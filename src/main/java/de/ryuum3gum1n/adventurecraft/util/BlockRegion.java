@@ -5,7 +5,7 @@ import java.util.Iterator;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 
-public final class BlockRegion implements Iterable<BlockPos>{
+public final class BlockRegion implements Iterable<BlockPos> {
 	private final int minX;
 	private final int minY;
 	private final int minZ;
@@ -63,12 +63,12 @@ public final class BlockRegion implements Iterable<BlockPos>{
 		this.centerX = center.getX();
 		this.centerY = center.getY();
 		this.centerZ = center.getZ();
-		this.width  = extent*2+1;
-		this.height = extent*2+1;
-		this.length = extent*2+1;
+		this.width = extent * 2 + 1;
+		this.height = extent * 2 + 1;
+		this.length = extent * 2 + 1;
 
-		this.min = new BlockPos(centerX-extent, centerY-extent, centerZ-extent);
-		this.max = new BlockPos(centerX+extent, centerY+extent, centerZ+extent);
+		this.min = new BlockPos(centerX - extent, centerY - extent, centerZ - extent);
+		this.max = new BlockPos(centerX + extent, centerY + extent, centerZ + extent);
 		this.minX = min.getX();
 		this.minY = min.getY();
 		this.minZ = min.getZ();
@@ -78,7 +78,8 @@ public final class BlockRegion implements Iterable<BlockPos>{
 	}
 
 	public BlockRegion(BlockPos position, int width, int height, int length) {
-		this(position.getX(), position.getY(), position.getZ(), position.getX() + width, position.getY() + height, position.getZ() + length);
+		this(position.getX(), position.getY(), position.getZ(), position.getX() + width, position.getY() + height,
+				position.getZ() + length);
 	}
 
 	public final int getMinX() {
@@ -140,9 +141,9 @@ public final class BlockRegion implements Iterable<BlockPos>{
 	public final int getLength() {
 		return length;
 	}
-	
-	public final int getVolume(){
-		return getWidth()*getHeight()*getLength();
+
+	public final int getVolume() {
+		return getWidth() * getHeight() * getLength();
 	}
 
 	@Override
@@ -154,7 +155,7 @@ public final class BlockRegion implements Iterable<BlockPos>{
 		private final MutableBlockPos XYZ;
 
 		private BlockRegionIterator() {
-			this.XYZ = new MutableBlockPos(0,0,0);
+			this.XYZ = new MutableBlockPos(0, 0, 0);
 		}
 
 		@Override
@@ -174,7 +175,7 @@ public final class BlockRegion implements Iterable<BlockPos>{
 				x = minX;
 				y = minY;
 				++z;
-			}else{
+			} else {
 				return false;
 			}
 

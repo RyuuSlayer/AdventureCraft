@@ -33,7 +33,7 @@ public class ClientSettings {
 
 		File settingsFile = new File(Minecraft.getMinecraft().mcDataDir, "adventurecraft-client-settings.dat");
 
-		if(!settingsFile.exists()) {
+		if (!settingsFile.exists()) {
 			try {
 				CompressedStreamTools.write(settings, settingsFile);
 			} catch (IOException e) {
@@ -48,15 +48,16 @@ public class ClientSettings {
 			e.printStackTrace();
 		}
 
-
 	}
 
 	public void getSettingsForServer(NBTTagCompound settingsForServer) {
-		for(Object keyObj : settings.getKeySet()) {
-			String key = (String)keyObj;
+		for (Object keyObj : settings.getKeySet()) {
+			String key = (String) keyObj;
 
-			if(key.startsWith("client.")) continue;
-			if(key.startsWith("render.")) continue;
+			if (key.startsWith("client."))
+				continue;
+			if (key.startsWith("render."))
+				continue;
 
 			settingsForServer.setTag(key, settings.getTag(key));
 		}
@@ -94,7 +95,8 @@ public class ClientSettings {
 	}
 
 	public void send() {
-		if(mc.player == null) return;
+		if (mc.player == null)
+			return;
 
 		String tccommand = "server.client.settings.update";
 		NBTTagCompound settingsForServer = new NBTTagCompound();

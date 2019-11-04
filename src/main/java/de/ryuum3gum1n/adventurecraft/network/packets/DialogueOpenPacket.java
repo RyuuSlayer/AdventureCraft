@@ -15,14 +15,14 @@ import de.ryuum3gum1n.adventurecraft.network.handlers.client.DialogueOpenPacketH
 
 public class DialogueOpenPacket implements IMessage {
 	public NBTTagCompound tag;
-	
+
 	public DialogueOpenPacket() {
 	}
-	
-	public DialogueOpenPacket(String main_dialogue, UUID id, List<NPCDialogue> dialogue, UUID uuid){
+
+	public DialogueOpenPacket(String main_dialogue, UUID id, List<NPCDialogue> dialogue, UUID uuid) {
 		tag = new NBTTagCompound();
 		NBTTagList tl = new NBTTagList();
-		for(NPCDialogue d : dialogue){
+		for (NPCDialogue d : dialogue) {
 			tl.appendTag(d.getNBT());
 		}
 		tag.setTag("dialogue_list", tl);
@@ -40,9 +40,9 @@ public class DialogueOpenPacket implements IMessage {
 	public void toBytes(ByteBuf buf) {
 		ByteBufUtils.writeTag(buf, tag);
 	}
-	
+
 	public static class Handler implements IMessageHandler<DialogueOpenPacket, IMessage> {
-		
+
 		@Override
 		public IMessage onMessage(DialogueOpenPacket message, MessageContext ctx) {
 			DialogueOpenPacketHandler.handle(message);

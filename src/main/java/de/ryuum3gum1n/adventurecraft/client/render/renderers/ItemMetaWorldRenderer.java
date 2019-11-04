@@ -13,9 +13,9 @@ import de.ryuum3gum1n.adventurecraft.client.render.metaworld.IMetadataRender;
 import de.ryuum3gum1n.adventurecraft.proxy.ClientProxy;
 
 public class ItemMetaWorldRenderer {
-	
+
 	public static HashMap<Item, IMetadataRender> ITEM_RENDERS = new HashMap<Item, IMetadataRender>();
-	
+
 	// CLIENT
 	public static ClientProxy clientProxy;
 	public static Tessellator tessellator;
@@ -29,7 +29,7 @@ public class ItemMetaWorldRenderer {
 
 	// RENDER
 	public static void render(Item item, ItemStack stack) {
-		if(ITEM_RENDERS.containsKey(item)){
+		if (ITEM_RENDERS.containsKey(item)) {
 			IMetadataRender renderer = ITEM_RENDERS.get(item);
 			renderer.render(item, stack, tessellator, vertexbuffer, partialTicks, playerPosition, player, world);
 		}

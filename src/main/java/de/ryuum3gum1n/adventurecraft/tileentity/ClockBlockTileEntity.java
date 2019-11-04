@@ -11,7 +11,7 @@ import de.ryuum3gum1n.adventurecraft.invoke.EnumTriggerState;
 import de.ryuum3gum1n.adventurecraft.invoke.IInvoke;
 import de.ryuum3gum1n.adventurecraft.invoke.Invoke;
 
-public class ClockBlockTileEntity extends ACTileEntity  {
+public class ClockBlockTileEntity extends ACTileEntity {
 	IInvoke clockInvoke;
 	IInvoke clockStartInvoke;
 	IInvoke clockStopInvoke;
@@ -53,8 +53,7 @@ public class ClockBlockTileEntity extends ACTileEntity  {
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT_do(NBTTagCompound compound)
-	{
+	public NBTTagCompound writeToNBT_do(NBTTagCompound compound) {
 		compound.setBoolean("active", active);
 		compound.setInteger("repeat", repeat);
 		compound.setInteger("speed", speed);
@@ -126,25 +125,26 @@ public class ClockBlockTileEntity extends ACTileEntity  {
 	@Override
 	public void update() {
 		super.update();
-		if(world.isRemote)
+		if (world.isRemote)
 			return;
 
 		// UPDATE!
-		if(active) {
+		if (active) {
 			time -= speed;
 
-			if(time <= 0) {
+			if (time <= 0) {
 				// The clock reached its end, what happens now?
 
 				// execute
 				clockTick();
-				world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
+				world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO
+																											// Confirm
 
 				// repeat?
-				if(repeat > 0 || repeat == -1) {
+				if (repeat > 0 || repeat == -1) {
 					time = set_time;
 
-					if(repeat != -1)
+					if (repeat != -1)
 						repeat--;
 				} else {
 					clockStop();
@@ -156,23 +156,23 @@ public class ClockBlockTileEntity extends ACTileEntity  {
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
-		if("trigger".equals(command)) {
+		if ("trigger".equals(command)) {
 			Invoke.invoke(clockInvoke, this, null, EnumTriggerState.ON);
 		}
 
-		if("start".equals(command)) {
+		if ("start".equals(command)) {
 			clockStart();
 		}
 
-		if("pause".equals(command)) {
+		if ("pause".equals(command)) {
 			clockPause();
 		}
 
-		if("stop".equals(command)) {
+		if ("stop".equals(command)) {
 			clockStop();
 		}
 
-		world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
+		world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO Confirm
 
 		super.commandReceived(command, data);
 	}
@@ -187,7 +187,7 @@ public class ClockBlockTileEntity extends ACTileEntity  {
 
 	@Override
 	public String getName() {
-		return "ClockBlock@"+pos;
+		return "ClockBlock@" + pos;
 	}
 
 	@Override
@@ -209,10 +209,10 @@ public class ClockBlockTileEntity extends ACTileEntity  {
 		return clockStopInvoke;
 	}
 
-	//	@Override
-	//	public void getInvokesAsDataCompounds(List<NBTTagCompound> invokes) {
-	//		invokes.add(clockInvoke);
-	//	}
+	// @Override
+	// public void getInvokesAsDataCompounds(List<NBTTagCompound> invokes) {
+	// invokes.add(clockInvoke);
+	// }
 
 	@Override
 	public void getInvokeColor(float[] color) {

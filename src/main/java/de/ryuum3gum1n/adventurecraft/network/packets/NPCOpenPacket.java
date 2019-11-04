@@ -7,9 +7,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import de.ryuum3gum1n.adventurecraft.network.handlers.client.NPCOpenPacketHandler;
 
 public class NPCOpenPacket implements IMessage {
-	
+
 	public int id;
-	
+
 	public NPCOpenPacket() {
 	}
 
@@ -26,7 +26,7 @@ public class NPCOpenPacket implements IMessage {
 	public void toBytes(ByteBuf buf) {
 		buf.writeInt(id);
 	}
-	
+
 	public static class Handler implements IMessageHandler<NPCOpenPacket, IMessage> {
 		@Override
 		public IMessage onMessage(NPCOpenPacket message, MessageContext ctx) {

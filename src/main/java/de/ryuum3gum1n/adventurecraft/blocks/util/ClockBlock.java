@@ -30,29 +30,41 @@ public class ClockBlock extends ACBlockContainer implements ACITriggerableBlock 
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (!worldIn.isRemote)
 			return true;
-		if(!AdventureCraft.proxy.isBuildMode())
+		if (!AdventureCraft.proxy.isBuildMode())
 			return false;
-		if(playerIn.isSneaking())
+		if (playerIn.isSneaking())
 			return true;
 
 		Minecraft mc = Minecraft.getMinecraft();
-		mc.displayGuiScreen(new GuiClockBlock((ClockBlockTileEntity)worldIn.getTileEntity(pos)));
+		mc.displayGuiScreen(new GuiClockBlock((ClockBlockTileEntity) worldIn.getTileEntity(pos)));
 
 		return true;
 	}
 
 	@Override
 	public void trigger(World world, BlockPos position, EnumTriggerState triggerState) {
-		ClockBlockTileEntity tEntity = (ClockBlockTileEntity)world.getTileEntity(position);
-		if(tEntity != null) {
-			switch(triggerState) {
-			case ON: tEntity.clockStart(); break;
-			case OFF: tEntity.clockStop(); break;
-			case INVERT: tEntity.clockPause(); break;
-			case IGNORE: if(tEntity.isClockRunning()) tEntity.clockStop(); else tEntity.clockStart(); break;
+		ClockBlockTileEntity tEntity = (ClockBlockTileEntity) world.getTileEntity(position);
+		if (tEntity != null) {
+			switch (triggerState) {
+			case ON:
+				tEntity.clockStart();
+				break;
+			case OFF:
+				tEntity.clockStop();
+				break;
+			case INVERT:
+				tEntity.clockPause();
+				break;
+			case IGNORE:
+				if (tEntity.isClockRunning())
+					tEntity.clockStop();
+				else
+					tEntity.clockStart();
+				break;
 			}
 		}
 	}

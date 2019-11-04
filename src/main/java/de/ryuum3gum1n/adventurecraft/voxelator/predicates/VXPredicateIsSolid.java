@@ -16,18 +16,19 @@ public final class VXPredicateIsSolid extends VXPredicate {
 		public String getName() {
 			return "is_solid";
 		}
-		
+
 		@Override
 		public VXPredicate newFilter(NBTTagCompound filterData) {
 			return new VXPredicateIsSolid();
 		}
-		
+
 		@Override
 		public NBTTagCompound newFilter(String[] parameters) {
 			NBTTagCompound filterData = new NBTTagCompound();
 			filterData.setString("type", getName());
 			return filterData;
 		}
+
 		@Override
 		public BrushParameter[] getParameters() {
 			return BrushParameter.NO_PARAMETERS;

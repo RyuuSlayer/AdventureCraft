@@ -26,8 +26,9 @@ public class ACItem extends Item {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side,
+			float hitX, float hitY, float hitZ) {
+		if (world.isRemote)
 			return EnumActionResult.PASS;
 
 		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 0);
@@ -37,7 +38,7 @@ public class ACItem extends Item {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-		if(world.isRemote)
+		if (world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, player.getHeldItem(hand));
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, player.getHeldItem(hand));
@@ -47,7 +48,7 @@ public class ACItem extends Item {
 	public boolean canHarvestBlock(IBlockState state, ItemStack stack) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isDamageable() {
 		return false;
@@ -65,7 +66,7 @@ public class ACItem extends Item {
 	public boolean isFull3D() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean canHarvestBlock(IBlockState state) {
 		return false;
@@ -81,23 +82,22 @@ public class ACItem extends Item {
 		player.world.notifyBlockUpdate(pos, player.world.getBlockState(pos), player.world.getBlockState(pos), 0);
 		return false;
 	}
-	
+
 	public final NBTTagCompound getNBTfromItemStack(ItemStack stack) {
 		NBTTagCompound comp = null;
-		
-		if(stack.hasTagCompound()) {
+
+		if (stack.hasTagCompound()) {
 			comp = stack.getTagCompound();
 		} else {
 			comp = new NBTTagCompound();
 			stack.setTagCompound(comp);
 		}
-		
+
 		return comp;
 	}
-	
-	
+
 	protected Vec3d getPositionEyes(float partialTicks, EntityPlayer player) {
-		if(partialTicks == 1.0F) {
+		if (partialTicks == 1.0F) {
 			return new Vec3d(player.posX, player.posY + player.getEyeHeight(), player.posZ);
 		} else {
 			double d0 = player.prevPosX + (player.posX - player.prevPosX) * partialTicks;
@@ -106,22 +106,23 @@ public class ACItem extends Item {
 			return new Vec3d(d0, d1, d2);
 		}
 	}
-	
-	public RayTraceResult rayTrace(double blockReachDistance, EntityPlayer player){
+
+	public RayTraceResult rayTrace(double blockReachDistance, EntityPlayer player) {
 		Vec3d vec3d = getPositionEyes(1.0F, player);
 		Vec3d vec3d1 = player.getLook(1.0F);
-		Vec3d vec3d2 = vec3d.addVector(vec3d1.x * blockReachDistance, vec3d1.y * blockReachDistance, vec3d1.z * blockReachDistance);
+		Vec3d vec3d2 = vec3d.addVector(vec3d1.x * blockReachDistance, vec3d1.y * blockReachDistance,
+				vec3d1.z * blockReachDistance);
 		return player.world.rayTraceBlocks(vec3d, vec3d2, false, false, true);
 	}
-	
+
 	public static final boolean isDoubleCall(ItemStack stack, long currentWorldTime) {
 		NBTTagCompound compound = stack.getTagCompound();
-		if(compound!=null){
+		if (compound != null) {
 			// Double Call Prevention Hack
 			long timeNow = currentWorldTime;
 			long timePre = compound.getLong("DCPH");
-			
-			if(timeNow == timePre) {
+
+			if (timeNow == timePre) {
 				return true;
 			} else {
 				compound.setLong("DCPH", timeNow);

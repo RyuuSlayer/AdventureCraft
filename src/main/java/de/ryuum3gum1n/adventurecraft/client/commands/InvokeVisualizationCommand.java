@@ -25,7 +25,7 @@ public final class InvokeVisualizationCommand extends CommandBase {
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		if(args.length != 1) {
+		if (args.length != 1) {
 			sender.sendMessage(new TextComponentString("Enables/Disables the invoke visualization."));
 			return;
 		}

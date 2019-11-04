@@ -23,10 +23,12 @@ public class AdventureCraftEntities {
 		register("knife", EntityKnife.class, 128, 1, true);
 		register("movingblock", EntityMovingBlock.class, 128, 1, true);
 	}
-	
+
 	private static int ID = 0;
-	
-	private static void register(String name, Class<? extends Entity> entity, int trackingrange, int updatefrequency, boolean sendVelocityUpdates){
-		EntityRegistry.registerModEntity(new ResourceLocation("adventurecraft", name), entity, "ac_" + name, ID++, "adventurecraft", trackingrange, updatefrequency, sendVelocityUpdates);
+
+	private static void register(String name, Class<? extends Entity> entity, int trackingrange, int updatefrequency,
+			boolean sendVelocityUpdates) {
+		EntityRegistry.registerModEntity(new ResourceLocation("adventurecraft", name), entity, "ac_" + name, ID++,
+				"adventurecraft", trackingrange, updatefrequency, sendVelocityUpdates);
 	}
 }

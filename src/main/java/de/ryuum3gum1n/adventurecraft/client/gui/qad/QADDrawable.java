@@ -45,22 +45,29 @@ public abstract class QADDrawable extends QADComponent {
 	public abstract void paint(int localMouseX, int localMouseY, float partialTicks, VCUIRenderer renderer);
 
 	@Override
-	public void onMouseClicked(int localMouseX, int localMouseY, int mouseButton) {}
+	public void onMouseClicked(int localMouseX, int localMouseY, int mouseButton) {
+	}
 
 	@Override
-	public void onMouseReleased(int localMouseX, int localMouseY, int state) {}
+	public void onMouseReleased(int localMouseX, int localMouseY, int state) {
+	}
 
 	@Override
-	public void onMouseClickMove(int localMouseX, int localMouseY, int clickedMouseButton, long timeSinceLastClick) {}
+	public void onMouseClickMove(int localMouseX, int localMouseY, int clickedMouseButton, long timeSinceLastClick) {
+	}
 
 	@Override
-	public void onKeyTyped(char typedChar, int typedCode) {}
+	public void onKeyTyped(char typedChar, int typedCode) {
+	}
 
 	@Override
-	public void onTickUpdate() {}
+	public void onTickUpdate() {
+	}
 
 	@Override
-	public boolean isPointInside(int mouseX, int mouseY) {return false;}
+	public boolean isPointInside(int mouseX, int mouseY) {
+		return false;
+	}
 
 	@Override
 	public boolean transferFocus() {

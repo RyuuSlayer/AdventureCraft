@@ -10,11 +10,11 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class ForceF1Packet implements IMessage {
 
 	boolean f1;
-	
+
 	public ForceF1Packet() {
 	}
-	
-	public ForceF1Packet(boolean f1){
+
+	public ForceF1Packet(boolean f1) {
 		this.f1 = f1;
 	}
 
@@ -33,7 +33,7 @@ public class ForceF1Packet implements IMessage {
 		@Override
 		public IMessage onMessage(ForceF1Packet message, MessageContext ctx) {
 			Minecraft mc = Minecraft.getMinecraft();
-			if(message.f1){
+			if (message.f1) {
 				mc.gameSettings.thirdPersonView = 0;
 			}
 			mc.gameSettings.hideGUI = message.f1;

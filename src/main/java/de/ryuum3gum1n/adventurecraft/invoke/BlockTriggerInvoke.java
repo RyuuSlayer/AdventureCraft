@@ -48,9 +48,9 @@ public class BlockTriggerInvoke implements IInvoke {
 		triggerState = EnumTriggerState.get(compound.hasKey("state") ? compound.getInteger("state") : 1);
 		bounds = compound.getIntArray("bounds");
 
-		if(bounds == null)
+		if (bounds == null)
 			bounds = new int[6];
-		else if(bounds.length != 6)
+		else if (bounds.length != 6)
 			bounds = Arrays.copyOf(bounds, 6);
 	}
 

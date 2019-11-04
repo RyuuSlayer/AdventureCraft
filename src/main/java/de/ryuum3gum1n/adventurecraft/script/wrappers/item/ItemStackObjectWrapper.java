@@ -15,10 +15,10 @@ public class ItemStackObjectWrapper implements IObjectWrapper {
 	public ItemStackObjectWrapper(ItemStack stack) {
 		this.stack = stack;
 	}
-	
-	public static ItemStackObjectWrapper[] createArray(NonNullList<ItemStack> stacks){
+
+	public static ItemStackObjectWrapper[] createArray(NonNullList<ItemStack> stacks) {
 		ItemStackObjectWrapper[] newList = new ItemStackObjectWrapper[stacks.size()];
-		for(int i = 0; i < stacks.size(); i++){
+		for (int i = 0; i < stacks.size(); i++) {
 			newList[i] = new ItemStackObjectWrapper(stacks.get(i));
 		}
 		return newList;
@@ -34,8 +34,7 @@ public class ItemStackObjectWrapper implements IObjectWrapper {
 		return AdventureCraft.globalScriptManager.getOwnPropertyNames(this);
 	}
 
-	
-	public ItemObjectWrapper getItem(){
+	public ItemObjectWrapper getItem() {
 		return new ItemObjectWrapper(stack.getItem());
 	}
 
@@ -62,8 +61,8 @@ public class ItemStackObjectWrapper implements IObjectWrapper {
 	public void setStackSize(int size) {
 		stack.setCount(size);
 	}
-	
-	public void incStackSize(int amount){
+
+	public void incStackSize(int amount) {
 		setStackSize(getStackSize() + amount);
 	}
 
@@ -94,16 +93,16 @@ public class ItemStackObjectWrapper implements IObjectWrapper {
 		stack = new ItemStack(tagCompound);
 	}
 
-	public CompoundTagWrapper getNBT(){
+	public CompoundTagWrapper getNBT() {
 		return new CompoundTagWrapper(stack.getTagCompound());
 	}
-	
-	public boolean hasNBT(){
+
+	public boolean hasNBT() {
 		return stack.hasTagCompound();
 	}
-	
-	public void setNBT(CompoundTagWrapper nbt){
+
+	public void setNBT(CompoundTagWrapper nbt) {
 		stack.setTagCompound(nbt.internal());
 	}
-	
+
 }

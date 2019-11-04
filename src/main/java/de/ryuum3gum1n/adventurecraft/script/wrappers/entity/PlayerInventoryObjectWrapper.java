@@ -7,52 +7,52 @@ import de.ryuum3gum1n.adventurecraft.AdventureCraft;
 import de.ryuum3gum1n.adventurecraft.script.wrappers.IObjectWrapper;
 import de.ryuum3gum1n.adventurecraft.script.wrappers.item.ItemStackObjectWrapper;
 
-public class PlayerInventoryObjectWrapper implements IObjectWrapper{
+public class PlayerInventoryObjectWrapper implements IObjectWrapper {
 
 	InventoryPlayer inv;
-	
-	public PlayerInventoryObjectWrapper(InventoryPlayer inv){
+
+	public PlayerInventoryObjectWrapper(InventoryPlayer inv) {
 		this.inv = inv;
 	}
-	
+
 	@Override
 	public Object internal() {
 		return inv;
 	}
-	
-	public boolean isHeldNull(){
+
+	public boolean isHeldNull() {
 		return inv.getCurrentItem() == null;
 	}
-	
-	public void clearHeldItem(){
+
+	public void clearHeldItem() {
 		inv.setInventorySlotContents(inv.currentItem, null);
 	}
-	
-	public ItemStackObjectWrapper getItemAt(int index){
+
+	public ItemStackObjectWrapper getItemAt(int index) {
 		return new ItemStackObjectWrapper(inv.getStackInSlot(index));
 	}
-	
-	public ItemStackObjectWrapper[] getOffHandInventory(){
+
+	public ItemStackObjectWrapper[] getOffHandInventory() {
 		return ItemStackObjectWrapper.createArray(inv.offHandInventory);
 	}
-	
-	public ItemStackObjectWrapper[] getMainInventory(){
+
+	public ItemStackObjectWrapper[] getMainInventory() {
 		return ItemStackObjectWrapper.createArray(inv.mainInventory);
 	}
-	
-	public ItemStackObjectWrapper[] getArmorInventory(){
+
+	public ItemStackObjectWrapper[] getArmorInventory() {
 		return ItemStackObjectWrapper.createArray(inv.armorInventory);
 	}
-	
-	public void setCurrentItem(int slot){
+
+	public void setCurrentItem(int slot) {
 		inv.currentItem = slot;
 	}
-	
-	public int getHeldSlot(){
+
+	public int getHeldSlot() {
 		return inv.currentItem;
 	}
-	
-	public int getFirstEmptySlot(){
+
+	public int getFirstEmptySlot() {
 		return inv.getFirstEmptyStack();
 	}
 

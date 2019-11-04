@@ -18,11 +18,11 @@ public class WorkbenchCraftingPacket implements IMessage {
 	boolean add;
 	boolean clear;
 	IRecipe recipe;
-	
+
 	public WorkbenchCraftingPacket() {
 		clear = true;
 	}
-	
+
 	public WorkbenchCraftingPacket(IRecipe recipe, boolean add) {
 		this.add = add;
 		this.clear = false;
@@ -31,9 +31,9 @@ public class WorkbenchCraftingPacket implements IMessage {
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		if(buf.readBoolean()){
+		if (buf.readBoolean()) {
 			clear = true;
-		}else{
+		} else {
 			clear = false;
 			add = buf.readBoolean();
 			NBTTagCompound tag = ByteBufUtils.readTag(buf);
@@ -43,9 +43,9 @@ public class WorkbenchCraftingPacket implements IMessage {
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		if(clear){
+		if (clear) {
 			buf.writeBoolean(true);
-		}else{
+		} else {
 			buf.writeBoolean(false);
 			buf.writeBoolean(add);
 			ByteBufUtils.writeTag(buf, WorkbenchManager.recipeToNBT(recipe));
@@ -56,33 +56,34 @@ public class WorkbenchCraftingPacket implements IMessage {
 
 		@Override
 		public IMessage onMessage(WorkbenchCraftingPacket message, MessageContext ctx) {
-			if(message.clear){
+			if (message.clear) {
 				WorkbenchManager.getInstance().clear();
 				return null;
 			}
 			IRecipe recipe = message.recipe;
-			if(message.add){
+			if (message.add) {
 				WorkbenchBlock.recipes.add(recipe);
-			}else{
-				for(IRecipe frec : WorkbenchManager.getInstance()){
-					if(frec instanceof ShapedRecipes && recipe instanceof ShapedRecipes){
+			} else {
+				for (IRecipe frec : WorkbenchManager.getInstance()) {
+					if (frec instanceof ShapedRecipes && recipe instanceof ShapedRecipes) {
 						ShapedRecipes rec = (ShapedRecipes) frec;
 						ShapedRecipes cur = (ShapedRecipes) recipe;
-						if(ItemStack.areItemStacksEqual(rec.getRecipeOutput(), cur.getRecipeOutput())){
+						if (ItemStack.areItemStacksEqual(rec.getRecipeOutput(), cur.getRecipeOutput())) {
 							boolean equal = true;
-							for(int i = 0; i < 9; i++){
+							for (int i = 0; i < 9; i++) {
 								Ingredient grid1 = rec.recipeItems.get(i);
 								Ingredient grid2 = cur.recipeItems.get(i);
-								if((grid1 == Ingredient.EMPTY && grid2 != Ingredient.EMPTY) || (grid1 != Ingredient.EMPTY && grid2 == Ingredient.EMPTY)){
+								if ((grid1 == Ingredient.EMPTY && grid2 != Ingredient.EMPTY)
+										|| (grid1 != Ingredient.EMPTY && grid2 == Ingredient.EMPTY)) {
 									equal = false;
 									break;
 								}
-								if(!grid1.equals(grid2)){
+								if (!grid1.equals(grid2)) {
 									equal = false;
 									break;
 								}
 							}
-							if(equal){
+							if (equal) {
 								WorkbenchManager.getInstance().remove(frec);
 								break;
 							}

@@ -27,26 +27,28 @@ public class GuiMessageBlock extends QADGuiScreen {
 	public void buildGui() {
 		final BlockPos position = tileEntity.getPos();
 
-		addComponent(new QADLabel("Message Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(), 2, 2));
+		addComponent(new QADLabel("Message Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(),
+				2, 2));
 
-		textField_message = new QADTextField(fontRenderer, 3, 14+20+4, width-6, 20);
+		textField_message = new QADTextField(fontRenderer, 3, 14 + 20 + 4, width - 6, 20);
 		textField_message.setText(tileEntity.getMessage());
 		textField_message.setTooltip("The message to send.");
 		addComponent(textField_message);
 
-		textField_selector = new QADTextField(fontRenderer, 3, 14+20+4+20+4, width-6, 20);
+		textField_selector = new QADTextField(fontRenderer, 3, 14 + 20 + 4 + 20 + 4, width - 6, 20);
 		textField_selector.setText(tileEntity.getPlayerSelector());
 		textField_selector.setTooltip("Selector to select players to send the message to.", "Default: @a");
 		addComponent(textField_selector);
 
-		final QADTickBox tickBox_tellraw = new QADTickBox(2+60+2, 14, 20, 20);
+		final QADTickBox tickBox_tellraw = new QADTickBox(2 + 60 + 2, 14, 20, 20);
 		tickBox_tellraw.getModel().setState(tileEntity.getTellRaw());
-		tickBox_tellraw.setTooltip("Should the message be parsed as raw json?","Default: Off");
+		tickBox_tellraw.setTooltip("Should the message be parsed as raw json?", "Default: Off");
 		addComponent(tickBox_tellraw);
 
 		QADButton setDataButton = QADFACTORY.createButton("Apply", 2, 14, 60, null);
 		setDataButton.setAction(new Runnable() {
-			@Override public void run() {
+			@Override
+			public void run() {
 				String commandString = ClientNetworkHandler.makeBlockDataMergeCommand(position);
 				NBTTagCompound commandData = new NBTTagCompound();
 
@@ -66,8 +68,8 @@ public class GuiMessageBlock extends QADGuiScreen {
 
 	@Override
 	public void layoutGui() {
-		textField_message.setWidth(width-6);
-		textField_selector.setWidth(width-6);
+		textField_message.setWidth(width - 6);
+		textField_selector.setWidth(width - 6);
 	}
 
 }

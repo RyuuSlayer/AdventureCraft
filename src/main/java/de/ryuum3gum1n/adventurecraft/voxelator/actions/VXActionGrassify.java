@@ -10,25 +10,31 @@ import de.ryuum3gum1n.adventurecraft.voxelator.VXAction;
 import de.ryuum3gum1n.adventurecraft.voxelator.Voxelator.ActionFactory;
 
 public class VXActionGrassify extends VXAction {
-	
+
 	public static final ActionFactory FACTORY = new ActionFactory() {
-		@Override public String getName() {
+		@Override
+		public String getName() {
 			return "grassify";
 		}
-		@Override public VXAction newAction(NBTTagCompound actionData) {
+
+		@Override
+		public VXAction newAction(NBTTagCompound actionData) {
 			return new VXActionGrassify();
 		}
-		@Override public NBTTagCompound newAction(String[] parameters) {
+
+		@Override
+		public NBTTagCompound newAction(String[] parameters) {
 			NBTTagCompound actionData = new NBTTagCompound();
 			actionData.setString("type", getName());
 			return actionData;
 		}
+
 		@Override
 		public BrushParameter[] getParameters() {
 			return BrushParameter.NO_PARAMETERS;
 		}
 	};
-	
+
 	public VXActionGrassify() {
 	}
 

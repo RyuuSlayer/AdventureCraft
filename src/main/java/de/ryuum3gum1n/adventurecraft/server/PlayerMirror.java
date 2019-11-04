@@ -7,7 +7,6 @@ import de.ryuum3gum1n.adventurecraft.invoke.IInvoke;
 import de.ryuum3gum1n.adventurecraft.invoke.IInvokeSource;
 import de.ryuum3gum1n.adventurecraft.network.packets.StringNBTCommandPacket;
 
-
 public class PlayerMirror {
 	public EntityPlayerMP player;
 	public NBTTagCompound settings;
@@ -28,7 +27,8 @@ public class PlayerMirror {
 	}
 
 	public void trackInvoke(IInvokeSource source, IInvoke invoke) {
-		if(!trackInvokes) return;
+		if (!trackInvokes)
+			return;
 
 		float[] colorS = new float[3];
 		float[] colorT = new float[3];

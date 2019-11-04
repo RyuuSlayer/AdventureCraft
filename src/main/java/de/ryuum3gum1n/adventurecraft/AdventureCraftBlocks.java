@@ -92,7 +92,7 @@ public class AdventureCraftBlocks {
 	public static SummonBlock summonBlock;
 	public static MusicBlock musicBlock;
 	public static CameraBlock cameraBlock;
-	
+
 	// WORLD
 	public static LockedDoorBlock lockedDoorBlock;
 	public static SpikeBlock spikeBlock;
@@ -101,7 +101,7 @@ public class AdventureCraftBlocks {
 	@SubscribeEvent
 	public static void init(final RegistryEvent.Register<Block> event) {
 		registry = event.getRegistry();
-		
+
 		blocksMap = Maps.newHashMap();
 		blocks = Lists.newArrayList();
 
@@ -112,13 +112,14 @@ public class AdventureCraftBlocks {
 	private static void init_world() {
 		lockedDoorBlock = registerWithTE("lockeddoorblock", new LockedDoorBlock(), LockedDoorTileEntity.class);
 	}
-	
+
 	private static void init_utility() {
 		killBlock = register("killblock", new KillBlock());
 
 		clockBlock = registerWithTE("clockblock", new ClockBlock(), ClockBlockTileEntity.class);
 
-		redstoneTrigger = registerWithTE("redstone_trigger", new RedstoneTriggerBlock(), RedstoneTriggerBlockTileEntity.class);
+		redstoneTrigger = registerWithTE("redstone_trigger", new RedstoneTriggerBlock(),
+				RedstoneTriggerBlockTileEntity.class);
 
 		redstoneActivator = register("redstone_activator", new RedstoneActivatorBlock());
 
@@ -126,15 +127,18 @@ public class AdventureCraftBlocks {
 
 		scriptBlock = registerWithTE("scriptblock", new ScriptBlock(), ScriptBlockTileEntity.class);
 
-		updateDetectorBlock = registerWithTE("updatedetectorblock", new BlockUpdateDetector(), BlockUpdateDetectorTileEntity.class);
+		updateDetectorBlock = registerWithTE("updatedetectorblock", new BlockUpdateDetector(),
+				BlockUpdateDetectorTileEntity.class);
 
 		storageBlock = registerWithTE("storageblock", new StorageBlock(), StorageBlockTileEntity.class);
 
 		emitterBlock = registerWithTE("emitterblock", new EmitterBlock(), EmitterBlockTileEntity.class);
 
-		imageHologramBlock = registerWithTE("imagehologramblock", new ImageHologramBlock(), ImageHologramBlockTileEntity.class);
+		imageHologramBlock = registerWithTE("imagehologramblock", new ImageHologramBlock(),
+				ImageHologramBlockTileEntity.class);
 
-		collisionTriggerBlock = registerWithTE("collisiontriggerblock", new CollisionTriggerBlock(), CollisionTriggerBlockTileEntity.class);
+		collisionTriggerBlock = registerWithTE("collisiontriggerblock", new CollisionTriggerBlock(),
+				CollisionTriggerBlockTileEntity.class);
 
 		lightBlock = registerWithTE("lightblock", new LightBlock(), LightBlockTileEntity.class);
 
@@ -146,18 +150,19 @@ public class AdventureCraftBlocks {
 
 		memoryBlock = registerWithTE("memoryblock", new MemoryBlock(), MemoryBlockTileEntity.class);
 
-		triggerFilterBlock = registerWithTE("triggerfilterblock", new TriggerFilterBlock(), TriggerFilterBlockTileEntity.class);
+		triggerFilterBlock = registerWithTE("triggerfilterblock", new TriggerFilterBlock(),
+				TriggerFilterBlockTileEntity.class);
 
 		delayBlock = registerWithTE("delayblock", new DelayBlock(), DelayBlockTileEntity.class);
 
 		urlBlock = registerWithTE("urlblock", new URLBlock(), URLBlockTileEntity.class);
 
 		summonBlock = registerWithTE("summonblock", new SummonBlock(), SummonBlockTileEntity.class);
-		
+
 		musicBlock = registerWithTE("musicblock", new MusicBlock(), MusicBlockTileEntity.class);
-		
+
 		cameraBlock = registerWithTE("camerablock", new CameraBlock(), CameraBlockTileEntity.class);
-		
+
 		spikeBlock = register("spikeblock", new SpikeBlock());
 		workbench = register("workbench", new WorkbenchBlock());
 	}
@@ -169,49 +174,36 @@ public class AdventureCraftBlocks {
 		addToMaps(block, name);
 		return block;
 	}
-	
+
 	private static <T extends Block> T register(String name, T block, boolean customItemBlock) {
 		block.setUnlocalizedName("adventurecraft:" + name);
 		block.setRegistryName(Reference.MOD_ID, name);
 		registry.register(block);
 		addToMaps(block, name);
-		if(customItemBlock) customItemBlocks.add(block);
+		if (customItemBlock)
+			customItemBlocks.add(block);
 		return block;
 	}
-	
-	private static <T extends Block, E extends TileEntity> T registerWithTE(String name, T block, Class<E> tileEntityClass) {
+
+	private static <T extends Block, E extends TileEntity> T registerWithTE(String name, T block,
+			Class<E> tileEntityClass) {
 		T returnBlock = register(name, block);
 		GameRegistry.registerTileEntity(tileEntityClass, new ResourceLocation("adventurecraft", name));
 		return returnBlock;
 	}
-	
+
 	private static void addToMaps(Block block, String name) {
 		blocksMap.put(name, block);
 		blocks.add(block);
 		Item item = Item.getItemFromBlock(block);
-		if(item != null)AdventureCraftItems.ALL_AC_ITEMS.add(item);
+		if (item != null)
+			AdventureCraftItems.ALL_AC_ITEMS.add(item);
 	}
 
 	public static class ItemBlockBlankBlock extends ItemMultiTexture {
 		public ItemBlockBlankBlock(Block block) {
-			super(block, block, new String[] {
-					"0",
-					"1",
-					"2",
-					"3",
-					"4",
-					"5",
-					"6",
-					"7",
-					"8",
-					"9",
-					"10",
-					"11",
-					"12",
-					"13",
-					"14",
-					"15"
-			});
+			super(block, block, new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13",
+					"14", "15" });
 		}
 
 		@Override

@@ -50,37 +50,37 @@ public class WorldObjectWrapper implements IObjectWrapper {
 	}
 
 	public EntityObjectWrapper newEntity(String identifier) {
-		if(identifier == null)
+		if (identifier == null)
 			return null;
 
 		Entity entity = EntityList.createEntityByIDFromName(new ResourceLocation(identifier), world);
 		this.world.spawnEntity(entity);
-		if(entity == null)
+		if (entity == null)
 			return null;
 		return EntityObjectWrapper.transform(entity);
 	}
 
 	public EntityObjectWrapper newEntity(CompoundTagWrapper nbt) {
-		if(nbt == null)
+		if (nbt == null)
 			return null;
 
 		Entity entity = EntityList.createEntityFromNBT(nbt.internal(), world);
 
-		if(entity == null)
+		if (entity == null)
 			return null;
 
 		return EntityObjectWrapper.transform(entity);
 	}
 
 	public EntityObjectWrapper newEntity(String identifier, CompoundTagWrapper nbt) {
-		if(identifier == null)
+		if (identifier == null)
 			return null;
-		if(nbt == null)
+		if (nbt == null)
 			return null;
 
 		Entity entity = EntityList.createEntityByIDFromName(new ResourceLocation(identifier), world);
 
-		if(entity == null)
+		if (entity == null)
 			return null;
 
 		EntityObjectWrapper wrap = EntityObjectWrapper.transform(entity);
@@ -89,7 +89,7 @@ public class WorldObjectWrapper implements IObjectWrapper {
 	}
 
 	public Object eval(String script) {
-		if(worldScope == null) {
+		if (worldScope == null) {
 			worldScope = AdventureCraft.globalScriptManager.createNewWorldScope(world);
 		}
 
@@ -97,15 +97,16 @@ public class WorldObjectWrapper implements IObjectWrapper {
 	}
 
 	public int command(String command) {
-		if(worldCommandSender == null) {
+		if (worldCommandSender == null) {
 			worldCommandSender = new WorldCommandSender(world);
 		}
 
-		return FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager().executeCommand(worldCommandSender, command);
+		return FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager()
+				.executeCommand(worldCommandSender, command);
 	}
 
 	public List<EntityObjectWrapper> getEntities(String selector) {
-		if(worldCommandSender == null) {
+		if (worldCommandSender == null) {
 			worldCommandSender = new WorldCommandSender(world);
 		}
 
@@ -117,13 +118,13 @@ public class WorldObjectWrapper implements IObjectWrapper {
 		}
 		return EntityObjectWrapper.transform(entities);
 	}
-	
-	public WorkbenchObjectWrapper getWorkbenchManager(){
+
+	public WorkbenchObjectWrapper getWorkbenchManager() {
 		return new WorkbenchObjectWrapper(WorkbenchManager.getInstance());
 	}
 
 	public EntityObjectWrapper getEntity(String selector) {
-		if(worldCommandSender == null) {
+		if (worldCommandSender == null) {
 			worldCommandSender = new WorldCommandSender(world);
 		}
 
@@ -138,21 +139,22 @@ public class WorldObjectWrapper implements IObjectWrapper {
 
 	public List<EntityObjectWrapper> getEntitiesByName(final String name) {
 		List<Entity> entities = world.getEntities(Entity.class, new Predicate<Entity>() {
-			@Override public boolean apply(Entity input) {
+			@Override
+			public boolean apply(Entity input) {
 				return input.getName().equals(name);
 			}
 		});
 
 		return EntityObjectWrapper.transform(entities);
 	}
-	
+
 	public EntityObjectWrapper getEntityByUUID(int id) {
 		return new EntityObjectWrapper(world.getEntityByID(id));
 	}
-	
+
 	public EntityObjectWrapper getEntityByName(final String name) {
-		for(Entity ent : world.loadedEntityList) {
-			if(ent.getName().equals(name)) {
+		for (Entity ent : world.loadedEntityList) {
+			if (ent.getName().equals(name)) {
 				return EntityObjectWrapper.transform(ent);
 			}
 		}

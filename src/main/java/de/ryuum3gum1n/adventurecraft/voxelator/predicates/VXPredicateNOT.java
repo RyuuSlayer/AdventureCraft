@@ -15,25 +15,25 @@ public final class VXPredicateNOT extends VXPredicate {
 		public String getName() {
 			return "not";
 		}
-		
+
 		@Override
 		public VXPredicate newFilter(NBTTagCompound filterData) {
 			VXPredicate filter = Voxelator.newFilter(filterData.getCompoundTag("filter"));
-			
+
 			return new VXPredicateNOT(filter);
 		}
-		
+
 		@Override
 		public NBTTagCompound newFilter(String[] parameters) {
 			throw new UnsupportedOperationException("Not Yet Implemented!");
 		}
-		
+
 		@Override
 		public BrushParameter[] getParameters() {
 			return BrushParameter.NO_PARAMETERS;
 		}
 	};
-	
+
 	private final VXPredicate predicate;
 
 	public VXPredicateNOT(VXPredicate predicate) {

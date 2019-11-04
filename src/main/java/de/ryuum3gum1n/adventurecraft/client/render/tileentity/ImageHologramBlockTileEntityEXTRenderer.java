@@ -16,36 +16,37 @@ import de.ryuum3gum1n.adventurecraft.proxy.ClientProxy;
 import de.ryuum3gum1n.adventurecraft.tileentity.ImageHologramBlockTileEntity;
 import de.ryuum3gum1n.adventurecraft.util.Vec3f;
 
-public class ImageHologramBlockTileEntityEXTRenderer implements
-IEXTTileEntityRenderer<ImageHologramBlockTileEntity> {
+public class ImageHologramBlockTileEntityEXTRenderer implements IEXTTileEntityRenderer<ImageHologramBlockTileEntity> {
 
 	@Override
-	public void render(ImageHologramBlockTileEntity tileentity, TileEntityRendererDispatcher dispatcher, double posX, double posY, double posZ, float partialTicks) {
-		if(!tileentity.isActive()) return;
+	public void render(ImageHologramBlockTileEntity tileentity, TileEntityRendererDispatcher dispatcher, double posX,
+			double posY, double posZ, float partialTicks) {
+		if (!tileentity.isActive())
+			return;
 
 		String locationStr = tileentity.getTextureLocation();
 
-		if(locationStr.equalsIgnoreCase("#atlas")) {
+		if (locationStr.equalsIgnoreCase("#atlas")) {
 			ClientProxy.mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		} else {
 			ResourceLocation location = new ResourceLocation(locationStr);
 
 			ITextureObject texture = ClientProxy.mc.renderEngine.getTexture(location);
 
-			if(texture != null)
+			if (texture != null)
 				GlStateManager.bindTexture(texture.getGlTextureId());
 			else {
 				ClientProxy.mc.renderEngine.bindTexture(location);
 				ClientProxy.mc.renderEngine.bindTexture(ClientResources.textureSelectionBoxFF);
 			}
 		}
-		
+
 		final BlockPos teorigin = tileentity.getPos();
-		
-		final Vec3f origin = tileentity.getHologramOffsetRelative() ?
-			new Vec3f((float)dispatcher.entityX, (float)dispatcher.entityY, (float)dispatcher.entityZ) :
-			new Vec3f(teorigin.getX(), teorigin.getY(), teorigin.getZ());
-		
+
+		final Vec3f origin = tileentity.getHologramOffsetRelative()
+				? new Vec3f((float) dispatcher.entityX, (float) dispatcher.entityY, (float) dispatcher.entityZ)
+				: new Vec3f(teorigin.getX(), teorigin.getY(), teorigin.getZ());
+
 		float x = origin.x + tileentity.getHologramOffsetX();
 		float y = origin.y + tileentity.getHologramOffsetY();
 		float z = origin.z + tileentity.getHologramOffsetZ();
@@ -57,21 +58,21 @@ IEXTTileEntityRenderer<ImageHologramBlockTileEntity> {
 		float h = tileentity.getHologramHeight() / 2f;
 
 		float u = 1 * tileentity.getHologramUscale();
-		if(w < 0) {
-			u = (w = w*-1) * 2f;
+		if (w < 0) {
+			u = (w = w * -1) * 2f;
 		}
 
 		float v = 1 * tileentity.getHologramVscale();
-		if(h < 0) {
-			v = (h = h*-1) * 2f;
+		if (h < 0) {
+			v = (h = h * -1) * 2f;
 		}
-		
+
 		int argb = tileentity.getHologramColor();
-		float a = (float)((argb>>24) & 0xFF) / 256F;
-		float r = (float)((argb>>16) & 0xFF) / 256F;
-		float g = (float)((argb>>8) & 0xFF) / 256F;
-		float b = (float)(argb & 0xFF) / 256F;
-		
+		float a = (float) ((argb >> 24) & 0xFF) / 256F;
+		float r = (float) ((argb >> 16) & 0xFF) / 256F;
+		float g = (float) ((argb >> 8) & 0xFF) / 256F;
+		float b = (float) (argb & 0xFF) / 256F;
+
 		GlStateManager.pushMatrix();
 
 		GlStateManager.translate(x, y, z);
@@ -107,10 +108,10 @@ IEXTTileEntityRenderer<ImageHologramBlockTileEntity> {
 
 		GlStateManager.popMatrix();
 
-		if(Boolean.FALSE.booleanValue()) { // Debug
+		if (Boolean.FALSE.booleanValue()) { // Debug
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(x, y, z);
-			GlStateManager.scale(1f/32f, -1f/32f, 1f/32f);
+			GlStateManager.scale(1f / 32f, -1f / 32f, 1f / 32f);
 			ClientProxy.mc.fontRenderer.drawString("PATH " + locationStr, 0, 32, 0xFFFFFFFF);
 			GlStateManager.popMatrix();
 		}

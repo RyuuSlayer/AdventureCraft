@@ -7,13 +7,13 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import de.ryuum3gum1n.adventurecraft.util.UndoTask;
 
 public class UndoPacket implements IMessage {
-	
+
 	public int index;
-	
+
 	public UndoPacket() {
 	}
-	
-	public UndoPacket(int index){
+
+	public UndoPacket(int index) {
 		this.index = index;
 	}
 
@@ -26,7 +26,7 @@ public class UndoPacket implements IMessage {
 	public void toBytes(ByteBuf buf) {
 		buf.writeInt(index);
 	}
-	
+
 	public static class Handler implements IMessageHandler<UndoPacket, IMessage> {
 		@Override
 		public IMessage onMessage(UndoPacket message, MessageContext ctx) {

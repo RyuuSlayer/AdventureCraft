@@ -1,6 +1,6 @@
 package de.ryuum3gum1n.adventurecraft.util;
 
-public final class Either<A,B> {
+public final class Either<A, B> {
 	private final A a;
 	private final B b;
 

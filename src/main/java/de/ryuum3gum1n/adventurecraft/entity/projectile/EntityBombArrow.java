@@ -29,20 +29,20 @@ public class EntityBombArrow extends EntityArrow {
 	protected ItemStack getArrowStack() {
 		return new ItemStack(AdventureCraftItems.bombArrow);
 	}
-	
+
 	@Override
 	protected void onHit(RayTraceResult result) {
 		super.onHit(result);
-		if(!world.isRemote){
+		if (!world.isRemote) {
 			EntityBomb bomb = new EntityBomb(world, this.posX, this.posY, this.posZ);
 			bomb.setFuse(0);
 			world.spawnEntity(bomb);
 			setDead();
 		}
 	}
-	
+
 	@SuppressWarnings("rawtypes")
-	public static class EntityBombArrowRenderFactory implements IRenderFactory{
+	public static class EntityBombArrowRenderFactory implements IRenderFactory {
 		@Override
 		public Render createRenderFor(RenderManager manager) {
 			return new RenderBombArrow(manager);

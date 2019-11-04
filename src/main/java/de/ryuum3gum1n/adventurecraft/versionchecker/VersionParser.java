@@ -9,7 +9,7 @@ import com.google.gson.JsonParser;
 
 public class VersionParser {
 
-	public static ACVersion getLatestVersion(){
+	public static ACVersion getLatestVersion() {
 		try {
 			InputStreamReader r = new InputStreamReader(new URL("").openStream());
 			JsonParser jsonParser = new JsonParser();
@@ -23,5 +23,5 @@ public class VersionParser {
 			return null;
 		}
 	}
-	
+
 }

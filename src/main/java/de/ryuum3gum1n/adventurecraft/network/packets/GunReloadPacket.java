@@ -42,20 +42,23 @@ public class GunReloadPacket implements IMessage {
 			MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 			EntityPlayerMP player = server.getPlayerList().getPlayerByUUID(message.uuid);
 			ItemStack item = player.inventory.getCurrentItem();
-			if(item == null) return null;
-			if(item.getItem() instanceof ACGunItem){
+			if (item == null)
+				return null;
+			if (item.getItem() instanceof ACGunItem) {
 				ACGunItem gun = (ACGunItem) item.getItem();
 				int index = gun.getClipInInventory(player.inventory);
-				if(index != -1){
-					if(!item.hasTagCompound())item.setTagCompound(new NBTTagCompound());
+				if (index != -1) {
+					if (!item.hasTagCompound())
+						item.setTagCompound(new NBTTagCompound());
 					ItemStack clipStack = player.inventory.getStackInSlot(index);
-					if(item.getItemDamage() == 0){
+					if (item.getItemDamage() == 0) {
 						return null;
 					}
 					item.setItemDamage(0);
 					item.getTagCompound().setLong("reloading", player.world.getTotalWorldTime() + 45);
 					clipStack.shrink(1);
-					if(clipStack.getCount() <= 0) clipStack = ItemStack.EMPTY;
+					if (clipStack.getCount() <= 0)
+						clipStack = ItemStack.EMPTY;
 					player.inventory.setInventorySlotContents(index, clipStack);
 				}
 			}

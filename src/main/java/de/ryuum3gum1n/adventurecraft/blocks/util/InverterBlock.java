@@ -32,22 +32,23 @@ public class InverterBlock extends ACBlockContainer implements ACITriggerableBlo
 		TileEntity tileentity = world.getTileEntity(position);
 
 		if (tileentity instanceof InverterBlockTileEntity) {
-			((InverterBlockTileEntity)tileentity).trigger(triggerState);
+			((InverterBlockTileEntity) tileentity).trigger(triggerState);
 		}
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (!worldIn.isRemote)
 			return true;
-		if(!AdventureCraft.proxy.isBuildMode())
+		if (!AdventureCraft.proxy.isBuildMode())
 			return false;
-		if(playerIn.isSneaking())
+		if (playerIn.isSneaking())
 			return true;
 
 		Minecraft mc = Minecraft.getMinecraft();
-		mc.displayGuiScreen(new GuiInverterBlock((InverterBlockTileEntity)worldIn.getTileEntity(pos)));
+		mc.displayGuiScreen(new GuiInverterBlock((InverterBlockTileEntity) worldIn.getTileEntity(pos)));
 
 		return true;
 	}

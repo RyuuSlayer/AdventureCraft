@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 public abstract class StaticDecoration implements Decoration {
 
 	protected final Random rand;
-	
+
 	public StaticDecoration() {
 		rand = new Random();
 	}

@@ -27,7 +27,7 @@ public class EntityLivingObjectWrapper extends EntityObjectWrapper {
 	public boolean navigateTo(double x, double y, double z) {
 		return entity.getNavigator().tryMoveToXYZ(x, y, z, 0.3D);
 	}
-	
+
 	public boolean navigateTo(double x, double y, double z, double speed) {
 		return entity.getNavigator().tryMoveToXYZ(x, y, z, speed);
 	}
@@ -37,7 +37,8 @@ public class EntityLivingObjectWrapper extends EntityObjectWrapper {
 	}
 
 	public void setHealth(float health) {
-		entity.setHealth(health);;
+		entity.setHealth(health);
+		;
 	}
 
 	public float getHealth() {
@@ -47,16 +48,16 @@ public class EntityLivingObjectWrapper extends EntityObjectWrapper {
 	public void addPotionEffect(PotionEffectObjectWrapper potionEffect) {
 		entity.addPotionEffect(potionEffect.internal());
 	}
-	
-	public void clearActivePotions(){
+
+	public void clearActivePotions() {
 		entity.clearActivePotions();
 	}
-	
-	public boolean canBeHitWithPotion(){
+
+	public boolean canBeHitWithPotion() {
 		return entity.canBeHitWithPotion();
 	}
-	
-	public boolean canBePushed(){
+
+	public boolean canBePushed() {
 		return entity.canBePushed();
 	}
 

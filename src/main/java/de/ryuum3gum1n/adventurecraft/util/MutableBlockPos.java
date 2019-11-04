@@ -4,16 +4,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 
 /**
- * This is a actual mutable BlockPos class with a public constructor.
- * Use this whenever the creation of thousands of BlockPos is otherwise necessary.
+ * This is a actual mutable BlockPos class with a public constructor. Use this
+ * whenever the creation of thousands of BlockPos is otherwise necessary.
  */
 public class MutableBlockPos extends BlockPos {
 	public int x;
 	public int y;
 	public int z;
 
-	public MutableBlockPos(int x, int y, int z)
-	{
+	public MutableBlockPos(int x, int y, int z) {
 		super(0, 0, 0);
 		this.x = x;
 		this.y = y;

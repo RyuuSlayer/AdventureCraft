@@ -30,7 +30,7 @@ public final class TeleportToOriginCommand extends CommandBase {
 			@Override
 			public void run() {
 				EntityPlayerSP player = Minecraft.getMinecraft().player;
-				if(player != null) {
+				if (player != null) {
 					player.sendChatMessage("/tp 0 255 0");
 				}
 			}

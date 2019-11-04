@@ -25,7 +25,7 @@ public class Vec2i {
 	}
 
 	public Vec2i copy() {
-		return new Vec2i(x,y);
+		return new Vec2i(x, y);
 	}
 
 	public Vec2i setX(final int X) {
@@ -69,7 +69,9 @@ public class Vec2i {
 	}
 
 	/**
-	 * Returns a new blockpos were the y-Axis of this point is swapped to the z-Axis.
+	 * Returns a new blockpos were the y-Axis of this point is swapped to the
+	 * z-Axis.
+	 * 
 	 * @return A new BlockPos that has the coordinates (x,0,y).
 	 **/
 	public MutableBlockPos getAsBlockPos() {

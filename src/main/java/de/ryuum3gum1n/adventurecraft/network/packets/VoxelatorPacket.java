@@ -46,11 +46,12 @@ public class VoxelatorPacket implements IMessage {
 		public IMessage onMessage(VoxelatorPacket message, MessageContext ctx) {
 			MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 			EntityPlayerMP player = server.getPlayerList().getPlayerByUUID(message.uuid);
-			
+
 			ItemStack item = player.inventory.getCurrentItem();
-			if(item.getItem() == AdventureCraftItems.voxelbrush){
+			if (item.getItem() == AdventureCraftItems.voxelbrush) {
 				item.getTagCompound().setTag("brush_data", message.data);
-			}else AdventureCraft.logger.error("Currently Held Item Is Not A VoxelBrush");
+			} else
+				AdventureCraft.logger.error("Currently Held Item Is Not A VoxelBrush");
 			return null;
 		}
 	}

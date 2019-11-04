@@ -21,14 +21,15 @@ public class GuiStorageBlock extends QADGuiScreen {
 	@Override
 	public void buildGui() {
 		final BlockPos position = tileEntity.getPos();
-		addComponent(new QADLabel("Storage Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(), 2, 2));
+		addComponent(new QADLabel("Storage Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(),
+				2, 2));
 
-		addComponent(QADFACTORY.createButton("Set Region & Store", 2, 16 + (22*0), 100, new Runnable() {
+		addComponent(QADFACTORY.createButton("Set Region & Store", 2, 16 + (22 * 0), 100, new Runnable() {
 			@Override
 			public void run() {
 				int[] bounds = WandItem.getBoundsFromPlayerOrNull(mc.player);
 
-				if(bounds == null)
+				if (bounds == null)
 					return;
 
 				String commandString = ClientNetworkHandler.makeBlockCommand(position);
@@ -40,7 +41,7 @@ public class GuiStorageBlock extends QADGuiScreen {
 			}
 		}));
 
-		addComponent(QADFACTORY.createButton("Store", 2, 16+(22*1), 100, new Runnable() {
+		addComponent(QADFACTORY.createButton("Store", 2, 16 + (22 * 1), 100, new Runnable() {
 			@Override
 			public void run() {
 				String commandString = ClientNetworkHandler.makeBlockCommand(position);
@@ -51,7 +52,7 @@ public class GuiStorageBlock extends QADGuiScreen {
 			}
 		}));
 
-		addComponent(QADFACTORY.createButton("Trigger (Paste)", 2, 16+(22*2), 100, new Runnable() {
+		addComponent(QADFACTORY.createButton("Trigger (Paste)", 2, 16 + (22 * 2), 100, new Runnable() {
 			@Override
 			public void run() {
 				String commandString = ClientNetworkHandler.makeBlockCommand(position);

@@ -16,7 +16,8 @@ public class NPCModelLoader {
 
 	private static NPCModelPattern loadInternal(String model) {
 		try {
-			String json = new String(Files.readAllBytes(Paths.get(NPCModelLoader.class.getResource("internal/" + model + ".json").toURI())));
+			String json = new String(Files
+					.readAllBytes(Paths.get(NPCModelLoader.class.getResource("internal/" + model + ".json").toURI())));
 			NPCModelPattern pat = AdventureCraft.gson.fromJson(json, NPCModelPattern.class);
 			pat.file = "internal:" + model;
 			return pat;

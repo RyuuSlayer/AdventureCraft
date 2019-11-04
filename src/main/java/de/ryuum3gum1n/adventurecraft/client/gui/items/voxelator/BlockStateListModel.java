@@ -20,10 +20,10 @@ public class BlockStateListModel implements ListModel {
 	private final NBTTagCompound tag;
 	private String name;
 	// private ItemStack current;
-	
+
 	private List<ListModelItem> items;
 	private List<ListModelItem> filtered;
-	
+
 	public BlockStateListModel(NBTTagCompound compound, BlockstateBrushParameter param) {
 		this.tag = compound;
 		name = param.getName();
@@ -32,16 +32,18 @@ public class BlockStateListModel implements ListModel {
 		items = new ArrayList<ListModelItem>();
 		filtered = new ArrayList<ListModelItem>();
 		List<ItemStack> stacks = new ArrayList<ItemStack>();
-		for(Object block : Block.REGISTRY){
-			stacks.add(new ItemStack((Block)block));
+		for (Object block : Block.REGISTRY) {
+			stacks.add(new ItemStack((Block) block));
 		}
-		for(ItemStack item : stacks){
+		for (ItemStack item : stacks) {
 			Item itm = item.getItem();
-			if(itm == null) continue;
+			if (itm == null)
+				continue;
 			NonNullList<ItemStack> subitems = NonNullList.create();
 			itm.getSubItems(CreativeTabs.INVENTORY, subitems);
-			for(final ItemStack stack : subitems){
-				if(!stack.isEmpty())items.add(new BlockStateItem(stack));
+			for (final ItemStack stack : subitems) {
+				if (!stack.isEmpty())
+					items.add(new BlockStateItem(stack));
 			}
 		}
 	}
@@ -70,9 +72,10 @@ public class BlockStateListModel implements ListModel {
 	@Override
 	public void applyFilter(String filterString) {
 		filtered.clear();
-		for(ListModelItem lmi : items){
+		for (ListModelItem lmi : items) {
 			BlockStateItem bsi = (BlockStateItem) lmi;
-			if(bsi.stack.getItem().getItemStackDisplayName(bsi.stack).toLowerCase().contains(filterString.toLowerCase())){
+			if (bsi.stack.getItem().getItemStackDisplayName(bsi.stack).toLowerCase()
+					.contains(filterString.toLowerCase())) {
 				filtered.add(lmi);
 			}
 		}
@@ -90,29 +93,27 @@ public class BlockStateListModel implements ListModel {
 
 	@Override
 	public void drawIcon(VCUIRenderer renderer, float partialTicks, boolean light, ListModelItem item) {
-		renderer.drawItemStack(((BlockStateItem)item).stack, 2, 2);
+		renderer.drawItemStack(((BlockStateItem) item).stack, 2, 2);
 	}
-	
-	private static class BlockStateItem implements ListModelItem{
+
+	private static class BlockStateItem implements ListModelItem {
 
 		private ItemStack stack;
-		
-		public BlockStateItem(ItemStack stack){
+
+		public BlockStateItem(ItemStack stack) {
 			this.stack = stack;
 		}
-		
+
 		/*
-		public BlockStateItem(IBlockState state){
-			Block block = state.getBlock();
-			stack = new ItemStack(block, 1, block.getMetaFromState(state));
-		}
-		*/
-		
+		 * public BlockStateItem(IBlockState state){ Block block = state.getBlock();
+		 * stack = new ItemStack(block, 1, block.getMetaFromState(state)); }
+		 */
+
 		@Override
 		public String getText() {
 			return stack.getItem().getItemStackDisplayName(stack);
 		}
-		
+
 	}
 
 }

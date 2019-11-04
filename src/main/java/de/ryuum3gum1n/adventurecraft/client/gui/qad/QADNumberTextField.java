@@ -13,7 +13,8 @@ public class QADNumberTextField extends QADTextField implements TextChangeListen
 	private double MIN;
 	private double MAX;
 
-	public QADNumberTextField(FontRenderer FNTREN, int xPos, int yPos, int width, int height, Number value, NumberType type) {
+	public QADNumberTextField(FontRenderer FNTREN, int xPos, int yPos, int width, int height, Number value,
+			NumberType type) {
 		super(FNTREN, xPos, yPos, width, height);
 		super.textChangedListener = this;
 
@@ -23,8 +24,8 @@ public class QADNumberTextField extends QADTextField implements TextChangeListen
 		super.setText(this.valueLast.toString());
 		super.setTextColor(COLOR_OKAY);
 
-		this.MIN = Double.MIN_VALUE/2;
-		this.MAX = Double.MAX_VALUE/2;
+		this.MIN = Double.MIN_VALUE / 2;
+		this.MAX = Double.MAX_VALUE / 2;
 	}
 
 	public QADNumberTextField(FontRenderer FNTREN, int xPos, int yPos, int width, int height, Number value) {
@@ -42,17 +43,22 @@ public class QADNumberTextField extends QADTextField implements TextChangeListen
 	@Override
 	public void call(QADTextField qadTextField, String text) {
 		try {
-			switch(valueType) {
-			case DECIMAL: valueLast = Double.parseDouble(text); break;
-			case INTEGER: valueLast = Long.parseLong(text); break;
-			default: break;
+			switch (valueType) {
+			case DECIMAL:
+				valueLast = Double.parseDouble(text);
+				break;
+			case INTEGER:
+				valueLast = Long.parseLong(text);
+				break;
+			default:
+				break;
 			}
 
-			if(valueLast.doubleValue() > MAX) {
+			if (valueLast.doubleValue() > MAX) {
 				throw new NumberFormatException("VALUE is bigger than MAX!");
 			}
 
-			if(valueLast.doubleValue() < MIN) {
+			if (valueLast.doubleValue() < MIN) {
 				throw new NumberFormatException("VALUE is smaller than MIN!");
 			}
 

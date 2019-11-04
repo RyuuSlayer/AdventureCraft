@@ -29,7 +29,7 @@ public class MessageBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
-		if(command.equals("trigger")) {
+		if (command.equals("trigger")) {
 			trigger();
 			return;
 		}
@@ -39,21 +39,21 @@ public class MessageBlockTileEntity extends ACTileEntity {
 	}
 
 	private void trigger() {
-		if(this.world.isRemote) {
+		if (this.world.isRemote) {
 			return;
 		}
 
-		if(message == null || message.isEmpty()) {
+		if (message == null || message.isEmpty()) {
 			return;
 		}
 
 		ITextComponent[] textComponent = null;
 
 		// compose chat message depending on the TELLRAW flag
-		if(tellraw) {
+		if (tellraw) {
 			// chat message consists of a raw json message
 			try {
-				textComponent = new ITextComponent[]{ITextComponent.Serializer.jsonToComponent(message)};
+				textComponent = new ITextComponent[] { ITextComponent.Serializer.jsonToComponent(message) };
 			} catch (JsonParseException e) {
 				Throwable throwable = ExceptionUtils.getRootCause(e);
 				e.printStackTrace();
@@ -62,16 +62,16 @@ public class MessageBlockTileEntity extends ACTileEntity {
 			}
 		} else {
 			// is there a line break in the message?
-			if(message.contains("\\")) {
+			if (message.contains("\\")) {
 				// split the message into multiple lines
 				String[] lines = StringUtils.split(message, "\\");
 				textComponent = new ITextComponent[lines.length];
 
-				for(int i = 0; i < lines.length; i++) {
+				for (int i = 0; i < lines.length; i++) {
 					textComponent[i] = new TextComponentString(lines[i]);
 				}
 			} else {
-				textComponent = new ITextComponent[]{new TextComponentString(message)};
+				textComponent = new ITextComponent[] { new TextComponentString(message) };
 			}
 		}
 
@@ -82,17 +82,17 @@ public class MessageBlockTileEntity extends ACTileEntity {
 			e.printStackTrace();
 		}
 
-		if(players == null) {
+		if (players == null) {
 			return;
 		}
 
-		if(players.isEmpty()) {
+		if (players.isEmpty()) {
 			return;
 		}
 
 		// SEND THE MESSAGE(S) TO ALL PLAYERS
-		for(EntityPlayer player : players) {
-			for(ITextComponent component : textComponent) {
+		for (EntityPlayer player : players) {
+			for (ITextComponent component : textComponent) {
 				player.sendMessage(component);
 			}
 		}
@@ -112,7 +112,7 @@ public class MessageBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public String getName() {
-		return "MessageBlock@"+this.getPos();
+		return "MessageBlock@" + this.getPos();
 	}
 
 	@Override

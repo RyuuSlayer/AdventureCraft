@@ -20,13 +20,15 @@ import de.ryuum3gum1n.adventurecraft.client.gui.qad.model.DefaultTextFieldModel;
 import de.ryuum3gum1n.adventurecraft.client.gui.vcui.VCUIRenderer;
 
 /**
- * This entire class is simply a full-on copy of GuiTextField from the decompiled Minecraft Sourcecode.
- * There is no other way to replicate the behavior of the GuiTextField then to copy it.
+ * This entire class is simply a full-on copy of GuiTextField from the
+ * decompiled Minecraft Sourcecode. There is no other way to replicate the
+ * behavior of the GuiTextField then to copy it.
  */
 public class QADTextField extends QADRectangularComponent {
 	public static interface TextFieldModel {
 		// get text
 		public String getText();
+
 		public int getTextLength();
 
 		// specific get
@@ -37,13 +39,14 @@ public class QADTextField extends QADRectangularComponent {
 
 		// color
 		public void setTextColor(int color);
+
 		public int getTextColor();
 	}
 
-	//	private final int ID;
+	// private final int ID;
 	private final FontRenderer fontRendererInstance;
 	private Predicate<String> field_175209_y = Predicates.alwaysTrue();
-	//  private GuiPageButtonList.GuiResponder field_175210_x;
+	// private GuiPageButtonList.GuiResponder field_175210_x;
 
 	public String[] autoCompleteOptions = null;
 	public TextChangeListener textChangedListener;
@@ -65,7 +68,7 @@ public class QADTextField extends QADRectangularComponent {
 	private int disabledColor = 7368816;
 	private boolean visible = true;
 
-	public QADTextField(/*int __id__, */ FontRenderer FNTREN, int xPos, int yPos, int width, int height) {
+	public QADTextField(/* int __id__, */ FontRenderer FNTREN, int xPos, int yPos, int width, int height) {
 		// this.ID = __id__;
 		this.model = new DefaultTextFieldModel();
 		this.fontRendererInstance = FNTREN;
@@ -75,7 +78,7 @@ public class QADTextField extends QADRectangularComponent {
 		this.height = height;
 
 		// Tiny ugly bug fix
-		this.onMouseClicked(2, height/2, 0);
+		this.onMouseClicked(2, height / 2, 0);
 		this.isFocused = false;
 	}
 
@@ -89,10 +92,10 @@ public class QADTextField extends QADRectangularComponent {
 		this.height = height;
 
 		// Tiny ugly bug fix
-		this.onMouseClicked(2, height/2, 0);
+		this.onMouseClicked(2, height / 2, 0);
 		this.isFocused = false;
 	}
-	
+
 	public QADTextField(int xPos, int yPos, int width, int height, String text) {
 		// this.ID = __id__;
 		this.model = new DefaultTextFieldModel(text);
@@ -103,7 +106,7 @@ public class QADTextField extends QADRectangularComponent {
 		this.height = height;
 
 		// Tiny ugly bug fix
-		this.onMouseClicked(2, height/2, 0);
+		this.onMouseClicked(2, height / 2, 0);
 		this.isFocused = false;
 	}
 
@@ -117,7 +120,7 @@ public class QADTextField extends QADRectangularComponent {
 		this.height = 20;
 
 		// Tiny ugly bug fix
-		this.onMouseClicked(2, height/2, 0);
+		this.onMouseClicked(2, height / 2, 0);
 		this.isFocused = false;
 	}
 
@@ -131,12 +134,12 @@ public class QADTextField extends QADRectangularComponent {
 		this.height = 20;
 
 		// Tiny ugly bug fix
-		this.onMouseClicked(2, height/2, 0);
+		this.onMouseClicked(2, height / 2, 0);
 		this.isFocused = false;
 	}
 
 	public void setModel(TextFieldModel newModel) {
-		if(newModel == null)
+		if (newModel == null)
 			throw new IllegalArgumentException("'newModel' must not be null.");
 
 		this.model = newModel;
@@ -175,14 +178,13 @@ public class QADTextField extends QADRectangularComponent {
 	@Override
 	public void draw(int localMouseX, int localMouseY, float partialTicks, VCUIRenderer renderer) {
 		// Culling on the Y-Axis
-		if(renderer.getOffsetY()+yPosition > renderer.getHeight()) {
+		if (renderer.getOffsetY() + yPosition > renderer.getHeight()) {
 			return;
-		} else if(renderer.getOffsetY()+yPosition+height < 0) {
+		} else if (renderer.getOffsetY() + yPosition + height < 0) {
 			return;
 		}
 
-		if (this.getVisible())
-		{
+		if (this.getVisible()) {
 			final int left = xPosition;
 			final int right = xPosition + width;
 			final int top = yPosition - 1;
@@ -190,10 +192,12 @@ public class QADTextField extends QADRectangularComponent {
 
 			if (this.getEnableBackgroundDrawing()) {
 				renderer.drawRectangle(left, top, right, bottom, isFocused ? 0xFFFFF055 : -6250336);
-				renderer.drawRectangle(left+1, top+1, right-1, bottom-1, -16777216);
+				renderer.drawRectangle(left + 1, top + 1, right - 1, bottom - 1, -16777216);
 
-				//				renderer.drawRectangle(this.xPosition, this.yPosition, this.xPosition + this.width, this.yPosition + this.height, -6250336);
-				//				renderer.drawRectangle(this.xPosition + 1, this.yPosition + 1, this.xPosition + this.width - 1, this.yPosition + this.height - 1, -16777216);
+				// renderer.drawRectangle(this.xPosition, this.yPosition, this.xPosition +
+				// this.width, this.yPosition + this.height, -6250336);
+				// renderer.drawRectangle(this.xPosition + 1, this.yPosition + 1, this.xPosition
+				// + this.width - 1, this.yPosition + this.height - 1, -16777216);
 			}
 
 			// renderer.pushScissor(left+1, top, right-left-1, bottom-top);
@@ -208,18 +212,18 @@ public class QADTextField extends QADRectangularComponent {
 			boolean cursorOffsetInText = cursorOffset >= 0 && cursorOffset <= s.length();
 			boolean cursorVisible = this.isFocused && this.cursorCounter / 6 % 2 == 0 && cursorOffsetInText;
 			int textDrawRegionLeft = this.enableBackgroundDrawing ? this.xPosition + 4 : this.xPosition;
-			int textDrawRegionRight = this.enableBackgroundDrawing ? this.yPosition + (this.height - 8) / 2 : this.yPosition;
+			int textDrawRegionRight = this.enableBackgroundDrawing ? this.yPosition + (this.height - 8) / 2
+					: this.yPosition;
 			int textDrawPos = textDrawRegionLeft;
 
-			if (selectionOffset > s.length())
-			{
+			if (selectionOffset > s.length()) {
 				selectionOffset = s.length();
 			}
 
-			if (s.length() > 0)
-			{
+			if (s.length() > 0) {
 				String leftOfCursorText = cursorOffsetInText ? s.substring(0, cursorOffset) : s;
-				textDrawPos = renderer.drawStringWithShadow(leftOfCursorText, textDrawRegionLeft, textDrawRegionRight, textColor);
+				textDrawPos = renderer.drawStringWithShadow(leftOfCursorText, textDrawRegionLeft, textDrawRegionRight,
+						textColor);
 			}
 
 			// XXX: Fix this stupid hack!
@@ -240,52 +244,43 @@ public class QADTextField extends QADRectangularComponent {
 				cursorPos -= -1;
 			}
 
-			if (s.length() > 0 && cursorOffsetInText && cursorOffset < s.length())
-			{
+			if (s.length() > 0 && cursorOffsetInText && cursorOffset < s.length()) {
 				String rightOfCursor = s.substring(cursorOffset);
 				textDrawPos = renderer.drawStringWithShadow(rightOfCursor, textDrawPos, textDrawRegionRight, textColor);
 			}
 
-			if (cursorVisible)
-			{
-				if (flag2)
-				{
-					renderer.drawRectangle(cursorPos, textDrawRegionRight-1, cursorPos+1, textDrawRegionRight+1+this.fontRendererInstance.FONT_HEIGHT, -3092272);
-				}
-				else
-				{
+			if (cursorVisible) {
+				if (flag2) {
+					renderer.drawRectangle(cursorPos, textDrawRegionRight - 1, cursorPos + 1,
+							textDrawRegionRight + 1 + this.fontRendererInstance.FONT_HEIGHT, -3092272);
+				} else {
 					renderer.drawStringWithShadow("_", cursorPos, textDrawRegionRight, textColor);
 				}
 			}
 
-			if (selectionOffset != cursorOffset)
-			{
+			if (selectionOffset != cursorOffset) {
 				int l1 = textDrawRegionLeft + this.fontRendererInstance.getStringWidth(s.substring(0, selectionOffset));
-				this.drawCursorVertical(cursorPos, textDrawRegionRight - 1, l1 - 1, textDrawRegionRight + 1 + this.fontRendererInstance.FONT_HEIGHT, renderer);
+				this.drawCursorVertical(cursorPos, textDrawRegionRight - 1, l1 - 1,
+						textDrawRegionRight + 1 + this.fontRendererInstance.FONT_HEIGHT, renderer);
 			}
 
-			if(autoCompleteOptions != null && isFocused) {
-				int lh = (fontRendererInstance.FONT_HEIGHT+2);
+			if (autoCompleteOptions != null && isFocused) {
+				int lh = (fontRendererInstance.FONT_HEIGHT + 2);
 				int lw = 0;
 				// int h = autoCompleteOptions.length * lh;
 				int count = 0;
 
 				{
-					for(String string : autoCompleteOptions)
+					for (String string : autoCompleteOptions)
 						lw = Math.max(lw, fontRendererInstance.getStringWidth(string));
 				}
 
 				int yOff = this.yPosition + this.height + 2;
-				for(String str : autoCompleteOptions) {
-					renderer.drawRectangle(
-							this.xPosition - 1,
-							yOff + lh - 1,
-							this.xPosition + lw + 1,
-							yOff - 1,
-							(count % 2) != 0 ? 0x90102010 : 0x90113311
-							);
+				for (String str : autoCompleteOptions) {
+					renderer.drawRectangle(this.xPosition - 1, yOff + lh - 1, this.xPosition + lw + 1, yOff - 1,
+							(count % 2) != 0 ? 0x90102010 : 0x90113311);
 
-					fontRendererInstance.drawString(str, xPosition, yOff+1, 0xFF555555);
+					fontRendererInstance.drawString(str, xPosition, yOff + 1, 0xFF555555);
 					yOff += lh;
 					count++;
 				}
@@ -301,24 +296,23 @@ public class QADTextField extends QADRectangularComponent {
 		localMouseX += xPosition;
 		localMouseY += yPosition;
 
-		boolean flag = localMouseX >= this.xPosition && localMouseX < this.xPosition + this.width && localMouseY >= this.yPosition && localMouseY < this.yPosition + this.height;
+		boolean flag = localMouseX >= this.xPosition && localMouseX < this.xPosition + this.width
+				&& localMouseY >= this.yPosition && localMouseY < this.yPosition + this.height;
 
-		if (this.canLoseFocus)
-		{
+		if (this.canLoseFocus) {
 			this.setFocused(flag);
 		}
 
-		if (this.isFocused && flag && mouseButton == 0)
-		{
+		if (this.isFocused && flag && mouseButton == 0) {
 			int l = localMouseX - this.xPosition;
 
-			if (this.enableBackgroundDrawing)
-			{
+			if (this.enableBackgroundDrawing) {
 				l -= 4;
 			}
 
 			final String text = model.getText();
-			String s = this.fontRendererInstance.trimStringToWidth(text.substring(this.lineScrollOffset), this.getWidth());
+			String s = this.fontRendererInstance.trimStringToWidth(text.substring(this.lineScrollOffset),
+					this.getWidth());
 			this.setCursorPosition(this.fontRendererInstance.trimStringToWidth(s, l).length() + this.lineScrollOffset);
 		}
 	}
@@ -335,151 +329,103 @@ public class QADTextField extends QADRectangularComponent {
 
 	@Override
 	public void onKeyTyped(char p_146201_1_, int p_146201_2_) {
-		if (!this.isFocused)
-		{
+		if (!this.isFocused) {
 			return;
-		}
-		else if (GuiScreen.isKeyComboCtrlA(p_146201_2_))
-		{
+		} else if (GuiScreen.isKeyComboCtrlA(p_146201_2_)) {
 			this.setCursorPositionEnd();
 			this.setSelectionPos(0);
 			return;
-		}
-		else if (GuiScreen.isKeyComboCtrlC(p_146201_2_))
-		{
+		} else if (GuiScreen.isKeyComboCtrlC(p_146201_2_)) {
 			GuiScreen.setClipboardString(this.getSelectedText());
 			return;
-		}
-		else if (GuiScreen.isKeyComboCtrlV(p_146201_2_))
-		{
-			if (this.isEnabled)
-			{
+		} else if (GuiScreen.isKeyComboCtrlV(p_146201_2_)) {
+			if (this.isEnabled) {
 				this.writeText(GuiScreen.getClipboardString());
 			}
 
 			return;
-		}
-		else if (GuiScreen.isKeyComboCtrlX(p_146201_2_))
-		{
+		} else if (GuiScreen.isKeyComboCtrlX(p_146201_2_)) {
 			GuiScreen.setClipboardString(this.getSelectedText());
 
-			if (this.isEnabled)
-			{
+			if (this.isEnabled) {
 				this.writeText("");
 			}
 
 			return;
-		}
-		else
-		{
-			switch (p_146201_2_)
-			{
+		} else {
+			switch (p_146201_2_) {
 			case 14:
-				if (GuiScreen.isCtrlKeyDown())
-				{
-					if (this.isEnabled)
-					{
+				if (GuiScreen.isCtrlKeyDown()) {
+					if (this.isEnabled) {
 						this.deleteWords(-1);
 					}
-				}
-				else if (this.isEnabled)
-				{
+				} else if (this.isEnabled) {
 					this.deleteFromCursor(-1);
 				}
 
 				return;
 			case 199:
-				if (GuiScreen.isShiftKeyDown())
-				{
+				if (GuiScreen.isShiftKeyDown()) {
 					this.setSelectionPos(0);
-				}
-				else
-				{
+				} else {
 					this.setCursorPositionZero();
 				}
 
 				return;
 			case 203:
-				if (GuiScreen.isShiftKeyDown())
-				{
-					if (GuiScreen.isCtrlKeyDown())
-					{
+				if (GuiScreen.isShiftKeyDown()) {
+					if (GuiScreen.isCtrlKeyDown()) {
 						this.setSelectionPos(this.getNthWordFromPos(-1, this.getSelectionEnd()));
-					}
-					else
-					{
+					} else {
 						this.setSelectionPos(this.getSelectionEnd() - 1);
 					}
-				}
-				else if (GuiScreen.isCtrlKeyDown())
-				{
+				} else if (GuiScreen.isCtrlKeyDown()) {
 					this.setCursorPosition(this.getNthWordFromCursor(-1));
-				}
-				else
-				{
+				} else {
 					this.moveCursorBy(-1);
 				}
 
 				return;
 			case 205:
-				if (GuiScreen.isShiftKeyDown())
-				{
-					if (GuiScreen.isCtrlKeyDown())
-					{
+				if (GuiScreen.isShiftKeyDown()) {
+					if (GuiScreen.isCtrlKeyDown()) {
 						this.setSelectionPos(this.getNthWordFromPos(1, this.getSelectionEnd()));
-					}
-					else
-					{
+					} else {
 						this.setSelectionPos(this.getSelectionEnd() + 1);
 					}
-				}
-				else if (GuiScreen.isCtrlKeyDown())
-				{
+				} else if (GuiScreen.isCtrlKeyDown()) {
 					this.setCursorPosition(this.getNthWordFromCursor(1));
-				}
-				else
-				{
+				} else {
 					this.moveCursorBy(1);
 				}
 
 				return;
 			case 207:
-				if (GuiScreen.isShiftKeyDown())
-				{
+				if (GuiScreen.isShiftKeyDown()) {
 					this.setSelectionPos(model.getText().length());
-				}
-				else
-				{
+				} else {
 					this.setCursorPositionEnd();
 				}
 
 				return;
 			case 211:
-				if (GuiScreen.isCtrlKeyDown())
-				{
-					if (this.isEnabled)
-					{
+				if (GuiScreen.isCtrlKeyDown()) {
+					if (this.isEnabled) {
 						this.deleteWords(1);
 					}
-				}
-				else if (this.isEnabled)
-				{
+				} else if (this.isEnabled) {
 					this.deleteFromCursor(1);
 				}
 
 				return;
 			default:
-				if (ChatAllowedCharacters.isAllowedCharacter(p_146201_1_))
-				{
-					if (this.isEnabled)
-					{
+				if (ChatAllowedCharacters.isAllowedCharacter(p_146201_1_)) {
+					if (this.isEnabled) {
 						this.writeText(Character.toString(p_146201_1_));
 					}
 
 					return;
-				}
-				else
-				{
+				} else {
 					return;
 				}
 			}
@@ -491,32 +437,21 @@ public class QADTextField extends QADRectangularComponent {
 		updateCursorCounter();
 	}
 
-
-
-
-
-
-	public void updateCursorCounter()
-	{
+	public void updateCursorCounter() {
 		++this.cursorCounter;
 	}
 
-	public void setText(String newText)
-	{
-		if (this.field_175209_y.apply(newText))
-		{
-			if (newText.length() > this.maxStringLength)
-			{
+	public void setText(String newText) {
+		if (this.field_175209_y.apply(newText)) {
+			if (newText.length() > this.maxStringLength) {
 				model.setText(newText.substring(0, this.maxStringLength));
-			}
-			else
-			{
+			} else {
 				model.setText(newText);
 			}
 
 			this.setCursorPositionEnd();
 		}
-		if(textChangedListener != null)
+		if (textChangedListener != null)
 			textChangedListener.call(this, model.getText());
 	}
 
@@ -538,145 +473,113 @@ public class QADTextField extends QADRectangularComponent {
 		int k = this.maxStringLength - model.getTextLength() - (i - j);
 		// boolean flag = false;
 
-		if (model.getTextLength() > 0)
-		{
+		if (model.getTextLength() > 0) {
 			s1 = s1 + model.getText().substring(0, i);
 		}
 
 		int l;
 
-		if (k < s2.length())
-		{
+		if (k < s2.length()) {
 			s1 = s1 + s2.substring(0, k);
 			l = k;
-		}
-		else
-		{
+		} else {
 			s1 = s1 + s2;
 			l = s2.length();
 		}
 
-		if (model.getTextLength() > 0 && j < model.getTextLength())
-		{
+		if (model.getTextLength() > 0 && j < model.getTextLength()) {
 			s1 = s1 + model.getText().substring(j);
 		}
 
-		if (this.field_175209_y.apply(s1))
-		{
+		if (this.field_175209_y.apply(s1)) {
 			model.setText(s1);
 			this.moveCursorBy(i - this.selectionEnd + l);
 
-			//            if (this.field_175210_x != null)
-			//            {
-			//                this.field_175210_x.func_175319_a(this.ID, this.text);
-			//            }
+			// if (this.field_175210_x != null)
+			// {
+			// this.field_175210_x.func_175319_a(this.ID, this.text);
+			// }
 		}
 
-		if(textChangedListener != null)
+		if (textChangedListener != null)
 			textChangedListener.call(this, model.getText());
 	}
 
-	public void deleteWords(int p_146177_1_)
-	{
-		if (model.getTextLength() != 0)
-		{
-			if (this.selectionEnd != this.cursorPosition)
-			{
+	public void deleteWords(int p_146177_1_) {
+		if (model.getTextLength() != 0) {
+			if (this.selectionEnd != this.cursorPosition) {
 				this.writeText("");
-			}
-			else
-			{
+			} else {
 				this.deleteFromCursor(this.getNthWordFromCursor(p_146177_1_) - this.cursorPosition);
 			}
 		}
 	}
 
-	public void deleteFromCursor(int p_146175_1_)
-	{
-		if (model.getTextLength() != 0)
-		{
-			if (this.selectionEnd != this.cursorPosition)
-			{
+	public void deleteFromCursor(int p_146175_1_) {
+		if (model.getTextLength() != 0) {
+			if (this.selectionEnd != this.cursorPosition) {
 				this.writeText("");
-			}
-			else
-			{
+			} else {
 				boolean flag = p_146175_1_ < 0;
 				int j = flag ? this.cursorPosition + p_146175_1_ : this.cursorPosition;
 				int k = flag ? this.cursorPosition : this.cursorPosition + p_146175_1_;
 				String s = "";
 
-				if (j >= 0)
-				{
+				if (j >= 0) {
 					s = model.getText().substring(0, j);
 				}
 
-				if (k < model.getTextLength())
-				{
+				if (k < model.getTextLength()) {
 					s = s + model.getText().substring(k);
 				}
 
 				model.setText(s);
 
-				if (flag)
-				{
+				if (flag) {
 					this.moveCursorBy(p_146175_1_);
 				}
 
-				//                if (this.field_175210_x != null)
-				//                {
-				//                    this.field_175210_x.func_175319_a(this.ID, this.text);
-				//                }
+				// if (this.field_175210_x != null)
+				// {
+				// this.field_175210_x.func_175319_a(this.ID, this.text);
+				// }
 			}
 		}
 
-		if(textChangedListener != null)
+		if (textChangedListener != null)
 			textChangedListener.call(this, model.getText());
 	}
 
-	public int getNthWordFromCursor(int p_146187_1_)
-	{
+	public int getNthWordFromCursor(int p_146187_1_) {
 		return this.getNthWordFromPos(p_146187_1_, this.getCursorPosition());
 	}
 
-	public int getNthWordFromPos(int p_146183_1_, int p_146183_2_)
-	{
+	public int getNthWordFromPos(int p_146183_1_, int p_146183_2_) {
 		return this.getNthWord_do(p_146183_1_, p_146183_2_, true);
 	}
 
-	public int getNthWord_do(int p_146197_1_, int p_146197_2_, boolean p_146197_3_)
-	{
+	public int getNthWord_do(int p_146197_1_, int p_146197_2_, boolean p_146197_3_) {
 		int k = p_146197_2_;
 		boolean flag1 = p_146197_1_ < 0;
 		int l = Math.abs(p_146197_1_);
 
-		for (int i1 = 0; i1 < l; ++i1)
-		{
-			if (flag1)
-			{
-				while (p_146197_3_ && k > 0 && model.getCharAt(k - 1) == 32)
-				{
+		for (int i1 = 0; i1 < l; ++i1) {
+			if (flag1) {
+				while (p_146197_3_ && k > 0 && model.getCharAt(k - 1) == 32) {
 					--k;
 				}
 
-				while (k > 0 && model.getCharAt(k - 1) != 32)
-				{
+				while (k > 0 && model.getCharAt(k - 1) != 32) {
 					--k;
 				}
-			}
-			else
-			{
+			} else {
 				int j1 = model.getTextLength();
 				k = model.getText().indexOf(32, k);
 
-				if (k == -1)
-				{
+				if (k == -1) {
 					k = j1;
-				}
-				else
-				{
-					while (p_146197_3_ && k < j1 && model.getCharAt(k) == 32)
-					{
+				} else {
+					while (p_146197_3_ && k < j1 && model.getCharAt(k) == 32) {
 						++k;
 					}
 				}
@@ -686,26 +589,21 @@ public class QADTextField extends QADRectangularComponent {
 		return k;
 	}
 
-	public void setSelectionPos(int p_146199_1_)
-	{
+	public void setSelectionPos(int p_146199_1_) {
 		int j = model.getTextLength();
 
-		if (p_146199_1_ > j)
-		{
+		if (p_146199_1_ > j) {
 			p_146199_1_ = j;
 		}
 
-		if (p_146199_1_ < 0)
-		{
+		if (p_146199_1_ < 0) {
 			p_146199_1_ = 0;
 		}
 
 		this.selectionEnd = p_146199_1_;
 
-		if (this.fontRendererInstance != null)
-		{
-			if (this.lineScrollOffset > j)
-			{
+		if (this.fontRendererInstance != null) {
+			if (this.lineScrollOffset > j) {
 				this.lineScrollOffset = j;
 			}
 
@@ -713,17 +611,13 @@ public class QADTextField extends QADRectangularComponent {
 			String s = this.fontRendererInstance.trimStringToWidth(model.getText().substring(this.lineScrollOffset), k);
 			int l = s.length() + this.lineScrollOffset;
 
-			if (p_146199_1_ == this.lineScrollOffset)
-			{
+			if (p_146199_1_ == this.lineScrollOffset) {
 				this.lineScrollOffset -= this.fontRendererInstance.trimStringToWidth(model.getText(), k, true).length();
 			}
 
-			if (p_146199_1_ > l)
-			{
+			if (p_146199_1_ > l) {
 				this.lineScrollOffset += p_146199_1_ - l;
-			}
-			else if (p_146199_1_ <= this.lineScrollOffset)
-			{
+			} else if (p_146199_1_ <= this.lineScrollOffset) {
 				this.lineScrollOffset -= this.lineScrollOffset - p_146199_1_;
 			}
 
@@ -731,69 +625,58 @@ public class QADTextField extends QADRectangularComponent {
 		}
 	}
 
-	public void setCanLoseFocus(boolean p_146205_1_)
-	{
+	public void setCanLoseFocus(boolean p_146205_1_) {
 		this.canLoseFocus = p_146205_1_;
 	}
 
-	public boolean getVisible()
-	{
+	public boolean getVisible() {
 		return this.visible;
 	}
 
-	public void setVisible(boolean p_146189_1_)
-	{
+	public void setVisible(boolean p_146189_1_) {
 		this.visible = p_146189_1_;
 	}
 
-	public void moveCursorBy(int p_146182_1_)
-	{
+	public void moveCursorBy(int p_146182_1_) {
 		this.setCursorPosition(this.selectionEnd + p_146182_1_);
 	}
 
-	public void setCursorPosition(int p_146190_1_)
-	{
+	public void setCursorPosition(int p_146190_1_) {
 		this.cursorPosition = p_146190_1_;
 		int j = model.getTextLength();
 		this.cursorPosition = MathHelper.clamp(this.cursorPosition, 0, j);
 		this.setSelectionPos(this.cursorPosition);
 	}
 
-	public void setCursorPositionZero()
-	{
+	public void setCursorPositionZero() {
 		this.setCursorPosition(0);
 	}
 
-	public void setCursorPositionEnd()
-	{
+	public void setCursorPositionEnd() {
 		this.setCursorPosition(model.getTextLength());
 	}
 
-	private void drawCursorVertical(int p_146188_1_, int p_146188_2_, int p_146188_3_, int p_146188_4_, VCUIRenderer renderer)
-	{
+	private void drawCursorVertical(int p_146188_1_, int p_146188_2_, int p_146188_3_, int p_146188_4_,
+			VCUIRenderer renderer) {
 		int i1;
 
-		if (p_146188_1_ < p_146188_3_)
-		{
+		if (p_146188_1_ < p_146188_3_) {
 			i1 = p_146188_1_;
 			p_146188_1_ = p_146188_3_;
 			p_146188_3_ = i1;
 		}
 
-		if (p_146188_2_ < p_146188_4_)
-		{
+		if (p_146188_2_ < p_146188_4_) {
 			i1 = p_146188_2_;
 			p_146188_2_ = p_146188_4_;
 			p_146188_4_ = i1;
 		}
 
-		if (p_146188_3_ > this.xPosition + this.width)
-		{
+		if (p_146188_3_ > this.xPosition + this.width) {
 			p_146188_3_ = this.xPosition + this.width;
 		}
 
-		if (p_146188_1_ > this.xPosition + this.width)
-		{
+		if (p_146188_1_ > this.xPosition + this.width) {
 			p_146188_1_ = this.xPosition + this.width;
 		}
 
@@ -810,38 +693,32 @@ public class QADTextField extends QADRectangularComponent {
 		vertexbuffer.pos(p_146188_3_, p_146188_2_, 0.0D).endVertex();
 		vertexbuffer.pos(p_146188_1_, p_146188_2_, 0.0D).endVertex();
 		tessellator.draw();
-		vertexbuffer.setTranslation(0,0,0);
+		vertexbuffer.setTranslation(0, 0, 0);
 		GlStateManager.disableColorLogic();
 		GlStateManager.enableTexture2D();
 	}
 
-	public void setMaxStringLength(int p_146203_1_)
-	{
+	public void setMaxStringLength(int p_146203_1_) {
 		this.maxStringLength = p_146203_1_;
 
-		if (model.getTextLength() > p_146203_1_)
-		{
+		if (model.getTextLength() > p_146203_1_) {
 			model.setText(model.getText().substring(0, p_146203_1_));
 		}
 	}
 
-	public int getMaxStringLength()
-	{
+	public int getMaxStringLength() {
 		return this.maxStringLength;
 	}
 
-	public int getCursorPosition()
-	{
+	public int getCursorPosition() {
 		return this.cursorPosition;
 	}
 
-	public boolean getEnableBackgroundDrawing()
-	{
+	public boolean getEnableBackgroundDrawing() {
 		return this.enableBackgroundDrawing;
 	}
 
-	public void setEnableBackgroundDrawing(boolean flag)
-	{
+	public void setEnableBackgroundDrawing(boolean flag) {
 		this.enableBackgroundDrawing = flag;
 	}
 
@@ -849,15 +726,12 @@ public class QADTextField extends QADRectangularComponent {
 		this.model.setTextColor(color);
 	}
 
-	public void setDisabledTextColour(int color)
-	{
+	public void setDisabledTextColour(int color) {
 		this.disabledColor = color;
 	}
 
-	public void setFocused(boolean flag)
-	{
-		if (flag && !this.isFocused)
-		{
+	public void setFocused(boolean flag) {
+		if (flag && !this.isFocused) {
 			this.cursorCounter = 0;
 		}
 
@@ -865,24 +739,20 @@ public class QADTextField extends QADRectangularComponent {
 	}
 
 	@Override
-	public boolean isFocused()
-	{
+	public boolean isFocused() {
 		return this.isFocused;
 	}
 
-	public void setEnabled(boolean flag)
-	{
+	public void setEnabled(boolean flag) {
 		this.isEnabled = flag;
 	}
 
-	public int getSelectionEnd()
-	{
+	public int getSelectionEnd() {
 		return this.selectionEnd;
 	}
 
 	@Override
-	public int getWidth()
-	{
+	public int getWidth() {
 		return this.width;
 	}
 
@@ -953,7 +823,7 @@ public class QADTextField extends QADRectangularComponent {
 
 	@Override
 	public boolean transferFocus() {
-		if(isFocused) {
+		if (isFocused) {
 			isFocused = false;
 			return false;
 		} else {

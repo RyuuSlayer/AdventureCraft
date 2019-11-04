@@ -31,7 +31,7 @@ public class StringNBTCommandPacket implements IMessage {
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		command = ByteBufUtils.readUTF8String(buf);
-		if(!buf.readBoolean()){
+		if (!buf.readBoolean()) {
 			data = ByteBufUtils.readTag(buf);
 		}
 	}

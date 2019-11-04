@@ -35,7 +35,7 @@ public class SummonBlockTileEntity extends ACTileEntity {
 
 		int j = 3;
 		summonOptions = new SummonOption[j];
-		for(int i = 0; i < j; i++) {
+		for (int i = 0; i < j; i++) {
 			summonOptions[i] = new SummonOption();
 			summonOptions[i].summonWeight = 1f;
 			summonOptions[i].summonData = new NBTTagCompound();
@@ -45,7 +45,7 @@ public class SummonBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public void init() {
-		if(Arrays.equals(summonRegionBounds, ZEROBOUNDS)) {
+		if (Arrays.equals(summonRegionBounds, ZEROBOUNDS)) {
 			summonRegionBounds[0] = this.pos.getX() - 2;
 			summonRegionBounds[1] = this.pos.getY() - 0;
 			summonRegionBounds[2] = this.pos.getZ() - 2;
@@ -69,7 +69,7 @@ public class SummonBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public String getName() {
-		return "SummonBlock@"+this.getPos();
+		return "SummonBlock@" + this.getPos();
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class SummonBlockTileEntity extends ACTileEntity {
 		NBTTagList list = comp.getTagList("summonOptions", NBT.TAG_COMPOUND);
 		summonOptions = new SummonOption[list.tagCount()];
 
-		for(int i = 0; i < list.tagCount(); i++) {
+		for (int i = 0; i < list.tagCount(); i++) {
 			summonOptions[i] = new SummonOption().read(list.getCompoundTagAt(i));
 		}
 	}
@@ -93,10 +93,10 @@ public class SummonBlockTileEntity extends ACTileEntity {
 		comp.setBoolean("useWeightAsCount", useWeightAsCount);
 
 		NBTTagList list = new NBTTagList();
-		for(int i = 0; i < summonOptions.length; i++) {
+		for (int i = 0; i < summonOptions.length; i++) {
 			SummonOption option = summonOptions[i];
 
-			if(option != null)
+			if (option != null)
 				list.appendTag(option.write());
 			else
 				AdventureCraft.logger.error(getName() + " : Option #" + i + " is NULL! -> " + list);
@@ -108,7 +108,7 @@ public class SummonBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
-		if(command.equals("trigger")) {
+		if (command.equals("trigger")) {
 			trigger(EnumTriggerState.ON);
 			return;
 		}
@@ -118,32 +118,36 @@ public class SummonBlockTileEntity extends ACTileEntity {
 	}
 
 	public void trigger(EnumTriggerState on) {
-		if(summonOptions == null) {
+		if (summonOptions == null) {
 			return;
 		}
 
-		if(summonOptions.length == 0) {
+		if (summonOptions.length == 0) {
 			return;
 		}
 
-		if(useWeightAsCount) {
+		if (useWeightAsCount) {
 			// Spawns: (foreach OPTION in OPTIONS do SPAWN(option,option[X].WEIGHT as count)
 			// ...entities randomly selecting them from a weighted list.
 
 			// for(int i = 0; i < summonCount; i++)
 			{
-				for(SummonOption option : summonOptions) {
-					for(int j = 0; j < option.getWeight(); j++) {
-						if(!option.isStable() || stableCheck(EntityList.createEntityFromNBT(option.getData(), world), (int) option.getWeight()))summonEntity(option);
+				for (SummonOption option : summonOptions) {
+					for (int j = 0; j < option.getWeight(); j++) {
+						if (!option.isStable() || stableCheck(EntityList.createEntityFromNBT(option.getData(), world),
+								(int) option.getWeight()))
+							summonEntity(option);
 					}
 				}
 			}
 		} else {
 			// Spawns: SUMMONCOUNT
 			// ...entities randomly selecting them from a weighted list.
-			for(int i = 0; i < summonCount; i++) {
+			for (int i = 0; i < summonCount; i++) {
 				SummonOption option = selectRandomWeightedOption();
-				if(!option.isStable() || stableCheck(EntityList.createEntityFromNBT(option.getData(), world), summonCount))summonEntity(option);
+				if (!option.isStable()
+						|| stableCheck(EntityList.createEntityFromNBT(option.getData(), world), summonCount))
+					summonEntity(option);
 			}
 		}
 	}
@@ -161,27 +165,25 @@ public class SummonBlockTileEntity extends ACTileEntity {
 		entityNBT.setUniqueId("UUID", UUID.randomUUID());
 		Entity entity = EntityList.createEntityFromNBT(entityNBT, world);
 
-		if(entity == null) {
+		if (entity == null) {
 			AdventureCraft.logger.error("FAILED TO SUMMON ENTITY: " + option.getData());
 			return;
 		}
 
 		entity.setLocationAndAngles(posX, posY, posZ, entity.rotationYaw, entity.rotationPitch);
-		((WorldServer)world).spawnEntity(entity);
-		
+		((WorldServer) world).spawnEntity(entity);
+
 		// This takes care of 'riding' entities.
 		{
 			Entity mountEntity = entity;
 
-			for (
-					NBTTagCompound mountEntityNBT = entityNBT;
-					mountEntity != null && mountEntityNBT.hasKey("Riding", 10);
-					mountEntityNBT = mountEntityNBT.getCompoundTag("Riding")
-					) {
+			for (NBTTagCompound mountEntityNBT = entityNBT; mountEntity != null
+					&& mountEntityNBT.hasKey("Riding", 10); mountEntityNBT = mountEntityNBT.getCompoundTag("Riding")) {
 				Entity ridingEntity = EntityList.createEntityFromNBT(mountEntityNBT.getCompoundTag("Riding"), world);
 
 				if (ridingEntity != null) {
-					ridingEntity.setLocationAndAngles(posX, posY, posZ, ridingEntity.rotationYaw, ridingEntity.rotationPitch);
+					ridingEntity.setLocationAndAngles(posX, posY, posZ, ridingEntity.rotationYaw,
+							ridingEntity.rotationPitch);
 					world.spawnEntity(ridingEntity);
 					mountEntity.startRiding(ridingEntity);
 				}
@@ -191,14 +193,15 @@ public class SummonBlockTileEntity extends ACTileEntity {
 		}
 
 	}
-	
-	private boolean stableCheck(Entity entity, int max){
+
+	private boolean stableCheck(Entity entity, int max) {
 		BlockPos bp1 = new BlockPos(summonRegionBounds[0], summonRegionBounds[1], summonRegionBounds[2]);
 		BlockPos bp2 = new BlockPos(summonRegionBounds[3], summonRegionBounds[4], summonRegionBounds[5]);
 		List<Entity> entities = world.getEntitiesWithinAABB(entity.getClass(), new AxisAlignedBB(bp1, bp2));
 		int count = 0;
-		for(Entity ent: entities){
-			if(ent.getClass().equals(entity.getClass())) count++;
+		for (Entity ent : entities) {
+			if (ent.getClass().equals(entity.getClass()))
+				count++;
 		}
 		int canSpawn = max - count;
 		return canSpawn >= 1;
@@ -247,7 +250,7 @@ public class SummonBlockTileEntity extends ACTileEntity {
 		return items[randomIndex];
 	}
 
-	//SummonOption class START
+	// SummonOption class START
 	public static class SummonOption {
 		private float summonWeight;
 		private NBTTagCompound summonData;
@@ -263,12 +266,12 @@ public class SummonBlockTileEntity extends ACTileEntity {
 		public void setWeight(float f) {
 			summonWeight = f;
 		}
-		
-		public void setStable(boolean bool){
+
+		public void setStable(boolean bool) {
 			stable = bool;
 		}
-		
-		public boolean isStable(){
+
+		public boolean isStable() {
 			return stable;
 		}
 
@@ -277,11 +280,11 @@ public class SummonBlockTileEntity extends ACTileEntity {
 		}
 
 		public void setData(NBTTagCompound entityData) {
-			if(entityData == null) {
+			if (entityData == null) {
 				AdventureCraft.logger.error("'entityData' is null!");
 			}
 
-			if(summonData == null) {
+			if (summonData == null) {
 				summonData = entityData;
 				return;
 			}
@@ -296,9 +299,9 @@ public class SummonBlockTileEntity extends ACTileEntity {
 
 			String ID = summonData.getString("id");
 
-			if(ID != null && !ID.isEmpty() && summonData.getKeySet().size() < 3) {
+			if (ID != null && !ID.isEmpty() && summonData.getKeySet().size() < 3) {
 				Entity entity = EntityList.createEntityByIDFromName(new ResourceLocation(ID), null);
-				if(entity != null) {
+				if (entity != null) {
 					NBTTagCompound mergecompound = new NBTTagCompound();
 					entity.writeToNBT(mergecompound);
 
@@ -337,7 +340,7 @@ public class SummonBlockTileEntity extends ACTileEntity {
 			return compound;
 		}
 	}
-	//SummonOption class END
+	// SummonOption class END
 
 	public int[] getSummonRegionBounds() {
 		return summonRegionBounds;

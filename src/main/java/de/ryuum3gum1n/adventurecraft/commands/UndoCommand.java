@@ -13,7 +13,7 @@ import de.ryuum3gum1n.adventurecraft.util.UndoTask;
 public class UndoCommand extends ACCommandBase {
 
 	@Override
-	public String getName(){
+	public String getName() {
 		return "ac_undo";
 	}
 
@@ -24,10 +24,10 @@ public class UndoCommand extends ACCommandBase {
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		if(sender instanceof EntityPlayerMP){
+		if (sender instanceof EntityPlayerMP) {
 			NBTTagCompound tag = new NBTTagCompound();
 			NBTTagList list = new NBTTagList();
-			for(UndoTask task : UndoTask.TASKS){
+			for (UndoTask task : UndoTask.TASKS) {
 				NBTTagCompound taskTag = new NBTTagCompound();
 				taskTag.setString("tool", task.tool);
 				taskTag.setString("user", task.user);

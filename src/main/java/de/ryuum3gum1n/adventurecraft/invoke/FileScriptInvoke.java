@@ -25,7 +25,7 @@ public class FileScriptInvoke implements IScriptInvoke {
 		fileName = name;
 		bufferedScript = null;
 	}
-	
+
 	public FileScriptInvoke(File file) {
 		fileName = file.getName();
 		try {
@@ -49,11 +49,11 @@ public class FileScriptInvoke implements IScriptInvoke {
 
 	@Override
 	public String getScript() {
-		if(bufferedScript == null) {
+		if (bufferedScript == null) {
 			loadScript();
 		}
 
-		if(bufferedScript == null) {
+		if (bufferedScript == null) {
 			return "";
 		}
 

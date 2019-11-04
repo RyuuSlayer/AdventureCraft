@@ -27,7 +27,7 @@ public class RelayBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public String getName() {
-		return "RelayBlock@"+pos;
+		return "RelayBlock@" + pos;
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class RelayBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
-		if(command.equals("invoke_add")) {
+		if (command.equals("invoke_add")) {
 			String keyString = null;
 
 			// Generate a unique ID between 0 and 1000.
@@ -56,15 +56,15 @@ public class RelayBlockTileEntity extends ACTileEntity {
 			// No, I don't care about that.
 			do {
 				keyString = "rix" + (System.currentTimeMillis() % 1000);
-			} while(invokes.containsKey(keyString));
+			} while (invokes.containsKey(keyString));
 
 			invokes.put(keyString, BlockTriggerInvoke.ZEROINSTANCE);
-			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO Confirm
 		}
 
-		if(command.equals("invoke_remove")) {
+		if (command.equals("invoke_remove")) {
 			invokes.remove(data.getString("invokeToRemove"));
-			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); // TODO Confirm
 		}
 
 		super.commandReceived(command, data);
@@ -74,10 +74,10 @@ public class RelayBlockTileEntity extends ACTileEntity {
 	public void readFromNBT_do(NBTTagCompound comp) {
 		invokes.clear();
 
-		for(Object obj : comp.getKeySet()) {
+		for (Object obj : comp.getKeySet()) {
 			String key = (String) obj;
 
-			if(key.startsWith("rix")) {
+			if (key.startsWith("rix")) {
 				NBTTagCompound rawinvoke = comp.getCompoundTag(key);
 				IInvoke invoke = IInvoke.Serializer.read(rawinvoke);
 				invokes.put(key, invoke);
@@ -87,8 +87,8 @@ public class RelayBlockTileEntity extends ACTileEntity {
 
 	@Override
 	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
-		for(Entry<String, IInvoke> entry : invokes.entrySet()) {
-			comp.setTag(entry.getKey(),IInvoke.Serializer.write(entry.getValue()));
+		for (Entry<String, IInvoke> entry : invokes.entrySet()) {
+			comp.setTag(entry.getKey(), IInvoke.Serializer.write(entry.getValue()));
 		}
 		return comp;
 	}

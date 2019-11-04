@@ -9,7 +9,7 @@ import de.ryuum3gum1n.adventurecraft.util.WorkbenchManager;
 public class WorkbenchObjectWrapper implements IObjectWrapper {
 
 	private WorkbenchManager manager;
-	
+
 	public WorkbenchObjectWrapper(WorkbenchManager manager) {
 		this.manager = manager;
 	}
@@ -23,8 +23,8 @@ public class WorkbenchObjectWrapper implements IObjectWrapper {
 	public List<String> getOwnPropertyNames() {
 		return AdventureCraft.globalScriptManager.getOwnPropertyNames(this);
 	}
-	
-	public void removeRecipe(int index){
+
+	public void removeRecipe(int index) {
 		manager.remove(index);
 	}
 

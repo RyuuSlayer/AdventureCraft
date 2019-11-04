@@ -33,42 +33,44 @@ public class ScriptCommand extends ACCommandBase {
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		if(args.length == 0) {
-			throw new WrongUsageException("Not enough parameters for meaningful action. ("+args.length+")");
+		if (args.length == 0) {
+			throw new WrongUsageException("Not enough parameters for meaningful action. (" + args.length + ")");
 		}
 
-		if(sender.getCommandSenderEntity() == null) {
+		if (sender.getCommandSenderEntity() == null) {
 			throw new WrongUsageException("ICommandSender does not have a entity assigned! Bug?");
 		}
 		boolean cmd = sender instanceof BlockCommandBlock;
-		if(!(sender.getCommandSenderEntity() instanceof EntityPlayerMP || cmd)) {
+		if (!(sender.getCommandSenderEntity() instanceof EntityPlayerMP || cmd)) {
 			throw new WrongUsageException("This command can only be executed by a opped player or command block.");
 		}
 		EntityPlayerMP player = null;
-		if(!cmd){
+		if (!cmd) {
 			player = (EntityPlayerMP) sender.getCommandSenderEntity();
 
-			if(!PlayerHelper.isOp(player)) {
+			if (!PlayerHelper.isOp(player)) {
 				throw new WrongUsageException("This command can only be executed by a opped player.");
 			}
 		}
 
-		if(args[0].equals("run")) {
-			if(args.length == 2) {
+		if (args[0].equals("run")) {
+			if (args.length == 2) {
 				// Runs a script
 				String script = args[1];
 
-				if(script != null && !script.isEmpty()) {
-					Invoke.invoke(new FileScriptInvoke(script), new CommandSenderInvokeSource(sender), null, EnumTriggerState.ON);
+				if (script != null && !script.isEmpty()) {
+					Invoke.invoke(new FileScriptInvoke(script), new CommandSenderInvokeSource(sender), null,
+							EnumTriggerState.ON);
 				}
 			} else {
 				throw new WrongUsageException("Wrong parameter count: /ac_script run <scriptname>");
 			}
 		}
 
-		if(args[0].equals("edit")) {
-			if(cmd) throw new WrongUsageException("Edit can only be run by a player.");
-			if(args.length == 2) {
+		if (args[0].equals("edit")) {
+			if (cmd)
+				throw new WrongUsageException("Edit can only be run by a player.");
+			if (args.length == 2) {
 				// Get Script name
 				String fileName = args[1];
 
@@ -89,8 +91,8 @@ public class ScriptCommand extends ACCommandBase {
 
 	@Override
 	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
-		if(args.length == 0) {
-			return getListOfStringsMatchingLastWord(args, new String[]{"run","edit"});
+		if (args.length == 0) {
+			return getListOfStringsMatchingLastWord(args, new String[] { "run", "edit" });
 		}
 
 		return Collections.emptyList();

@@ -7,16 +7,17 @@ import de.ryuum3gum1n.adventurecraft.client.render.renderers.BoxRenderer;
 import de.ryuum3gum1n.adventurecraft.proxy.ClientProxy;
 import de.ryuum3gum1n.adventurecraft.tileentity.SummonBlockTileEntity;
 
-public class SummonBlockTileEntityEXTRenderer implements
-IEXTTileEntityRenderer<SummonBlockTileEntity> {
+public class SummonBlockTileEntityEXTRenderer implements IEXTTileEntityRenderer<SummonBlockTileEntity> {
 
 	@Override
-	public void render(SummonBlockTileEntity tileentity, TileEntityRendererDispatcher dispatcher, double posX, double posY, double posZ, float partialTicks) {
-		if(!ClientProxy.isInBuildMode())return;
+	public void render(SummonBlockTileEntity tileentity, TileEntityRendererDispatcher dispatcher, double posX,
+			double posY, double posZ, float partialTicks) {
+		if (!ClientProxy.isInBuildMode())
+			return;
 
 		int[] bounds = tileentity.getSummonRegionBounds();
 
-		if(bounds != null && bounds.length >=4) {
+		if (bounds != null && bounds.length >= 4) {
 
 			ClientProxy.mc.renderEngine.bindTexture(ClientResources.texColorWhite);
 			GlStateManager.disableCull();
@@ -24,9 +25,9 @@ IEXTTileEntityRenderer<SummonBlockTileEntity> {
 			float minX = bounds[0];
 			float minY = bounds[1];
 			float minZ = bounds[2];
-			float maxX = bounds[3]+1;
-			float maxY = bounds[4]+1;
-			float maxZ = bounds[5]+1;
+			float maxX = bounds[3] + 1;
+			float maxY = bounds[4] + 1;
+			float maxZ = bounds[5] + 1;
 
 			float error = 1f / 1024f;
 

@@ -55,10 +55,10 @@ public class NPCDialogueOptionPacket implements IMessage {
 			MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 			EntityNPC npc = (EntityNPC) server.getEntityFromUuid(message.npcid);
 			List<NPCDialogue> dialogues = NPCObjectWrapper.created_dialogues_map.get(message.id);
-			for(NPCDialogue dlog : dialogues){
-				if(dlog.getName().equals(message.dialogue)){
-					for(NPCDialogueOption opt : dlog.getOptions()){
-						if(opt.option.equals(message.option)){
+			for (NPCDialogue dlog : dialogues) {
+				if (dlog.getName().equals(message.dialogue)) {
+					for (NPCDialogueOption opt : dlog.getOptions()) {
+						if (opt.option.equals(message.option)) {
 							opt.handleClickServer(npc);
 							break;
 						}

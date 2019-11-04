@@ -37,63 +37,72 @@ public class KillBlock extends ACBlock {
 
 	@Override
 	public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
-		if(entity instanceof EntityPlayerSP) {
+		if (entity instanceof EntityPlayerSP) {
 			return;
 		}
 
-		if(entity instanceof EntityPlayerMP) {
+		if (entity instanceof EntityPlayerMP) {
 			EntityPlayerMP p = (EntityPlayerMP) entity;
-			if(p.capabilities.isCreativeMode)
+			if (p.capabilities.isCreativeMode)
 				return;
 		}
 
 		int type = state.getValue(KILLTYPE).intValue();
 
 		/*
-			0 "all",
-			1 "npc",
-			2 "items",
-			3 "living",
-			4 "player",
-			5 "monster",
-			6 "xor_player"
+		 * 0 "all", 1 "npc", 2 "items", 3 "living", 4 "player", 5 "monster", 6
+		 * "xor_player"
 		 */
 
-		switch(type) {
-		case 1: if(entity instanceof EntityNPC) {
-			entity.setPosition(entity.posX, -1024, entity.posZ);
-			entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
-		} break;
+		switch (type) {
+		case 1:
+			if (entity instanceof EntityNPC) {
+				entity.setPosition(entity.posX, -1024, entity.posZ);
+				entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
+			}
+			break;
 
-		case 2: if(entity instanceof EntityItem) {
-			entity.setPosition(entity.posX, -1024, entity.posZ);
-			entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
-		} break;
+		case 2:
+			if (entity instanceof EntityItem) {
+				entity.setPosition(entity.posX, -1024, entity.posZ);
+				entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
+			}
+			break;
 
-		case 3: if(entity instanceof EntityLivingBase) {
-			entity.setPosition(entity.posX, -1024, entity.posZ);
-			entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
-		} break;
+		case 3:
+			if (entity instanceof EntityLivingBase) {
+				entity.setPosition(entity.posX, -1024, entity.posZ);
+				entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
+			}
+			break;
 
-		case 4: if(entity instanceof EntityPlayer) {
-			entity.setPosition(entity.posX, -1024, entity.posZ);
-			entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
-		} break;
+		case 4:
+			if (entity instanceof EntityPlayer) {
+				entity.setPosition(entity.posX, -1024, entity.posZ);
+				entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
+			}
+			break;
 
-		case 5: if(entity instanceof EntityMob) {
-			entity.setPosition(entity.posX, -1024, entity.posZ);
-			entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
-		} break;
+		case 5:
+			if (entity instanceof EntityMob) {
+				entity.setPosition(entity.posX, -1024, entity.posZ);
+				entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
+			}
+			break;
 
-		case 6: if(!(entity instanceof EntityPlayer)) {
-			entity.setPosition(entity.posX, -1024, entity.posZ);
-			entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
-		} break;
+		case 6:
+			if (!(entity instanceof EntityPlayer)) {
+				entity.setPosition(entity.posX, -1024, entity.posZ);
+				entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
+			}
+			break;
 
-		case 0: default: {
+		case 0:
+		default: {
 			entity.setPosition(entity.posX, -1024, entity.posZ);
 			entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
-		} break;
+		}
+			break;
 		}
 
 	}
@@ -107,35 +116,37 @@ public class KillBlock extends ACBlock {
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
 		float f = 0.45f;
-		return new AxisAlignedBB(
-				pos.getX() + f,
-				pos.getY() + f,
-				pos.getZ() + f,
-				(pos.getX() + 1) - f,
-				(pos.getY() + 1) - f,
-				(pos.getZ() + 1) - f
-				);
+		return new AxisAlignedBB(pos.getX() + f, pos.getY() + f, pos.getZ() + f, (pos.getX() + 1) - f,
+				(pos.getY() + 1) - f, (pos.getZ() + 1) - f);
 	}
-	
+
 	@Override
 	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
 		int meta = stack.getMetadata();
 		String type = "";
-		switch(meta) {
+		switch (meta) {
 		case 1:
-			type = "NPC"; break;
+			type = "NPC";
+			break;
 		case 2:
-			type = "Item"; break;
+			type = "Item";
+			break;
 		case 3:
-			type = "Living"; break;
+			type = "Living";
+			break;
 		case 4:
-			type = "Player"; break;
+			type = "Player";
+			break;
 		case 5:
-			type = "Monster"; break;
+			type = "Monster";
+			break;
 		case 6:
-			type = "Non-Player"; break;
-		case 0: default:
-			type = "All"; break;
+			type = "Non-Player";
+			break;
+		case 0:
+		default:
+			type = "All";
+			break;
 		}
 		tooltip.add(type);
 	}
@@ -143,7 +154,7 @@ public class KillBlock extends ACBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
-		for(int j = 0; j < 7; ++j) {
+		for (int j = 0; j < 7; ++j) {
 			list.add(new ItemStack(this, 1, j));
 		}
 	}
@@ -161,7 +172,7 @@ public class KillBlock extends ACBlock {
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {KILLTYPE});
+		return new BlockStateContainer(this, new IProperty[] { KILLTYPE });
 	}
 
 	@Override

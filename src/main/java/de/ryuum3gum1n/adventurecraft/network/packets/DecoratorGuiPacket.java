@@ -15,13 +15,13 @@ import de.ryuum3gum1n.adventurecraft.network.handlers.client.DecoratorGuiPacketH
 
 public class DecoratorGuiPacket implements IMessage {
 	public NBTTagCompound tag;
-	
+
 	public DecoratorGuiPacket() {
 	}
-	
-	public DecoratorGuiPacket(List<Decoration> decor, NBTTagCompound tag){
+
+	public DecoratorGuiPacket(List<Decoration> decor, NBTTagCompound tag) {
 		NBTTagList tl = new NBTTagList();
-		for(Decoration d : decor){
+		for (Decoration d : decor) {
 			tl.appendTag(new NBTTagString(d.name()));
 		}
 		tag.setTag("decorations_list", tl);
@@ -37,9 +37,9 @@ public class DecoratorGuiPacket implements IMessage {
 	public void toBytes(ByteBuf buf) {
 		ByteBufUtils.writeTag(buf, tag);
 	}
-	
+
 	public static class Handler implements IMessageHandler<DecoratorGuiPacket, IMessage> {
-		
+
 		@Override
 		public IMessage onMessage(DecoratorGuiPacket message, MessageContext ctx) {
 			DecoratorGuiPacketHandler.handle(message);

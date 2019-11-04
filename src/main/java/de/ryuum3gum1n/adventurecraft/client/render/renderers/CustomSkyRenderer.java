@@ -21,24 +21,24 @@ public class CustomSkyRenderer extends IRenderHandler {
 	@Override
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
 		final ClientRenderer instance = AdventureCraft.asClient().getRenderer();
-		
-		if(useDebugSky) {
+
+		if (useDebugSky) {
 			renderDebugSky(partialTicks, world, mc);
-			
+
 			// handle currently active VisualMode
-			if(mc.player != null) {
+			if (mc.player != null) {
 				RenderModeHelper.ENABLE(instance.getVisualizationMode());
 			}
-			
+
 			return;
 		}
-		
-		if(Environments.isNonDefault()) {
+
+		if (Environments.isNonDefault()) {
 			Environments.render_sky(instance, partialTicks, world, mc);
 		}
-		
+
 		// handle currently active VisualMode
-		if(mc.player != null) {
+		if (mc.player != null) {
 			RenderModeHelper.ENABLE(instance.getVisualizationMode());
 		}
 	}

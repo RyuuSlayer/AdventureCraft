@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import de.ryuum3gum1n.adventurecraft.entity.EntityMovingBlock;
 
-public class CreateMovingBlockPacket implements IMessage{
+public class CreateMovingBlockPacket implements IMessage {
 
 	private double x;
 	private double y;
@@ -24,9 +24,11 @@ public class CreateMovingBlockPacket implements IMessage{
 	private float MOUNT_Y_OFFSET;
 	private String[] SCRIPTS;
 
-	public CreateMovingBlockPacket() {}
-	
-	public CreateMovingBlockPacket(double x, double y, double z, int world, IBlockState state, boolean invisible, boolean pushable, boolean collision, boolean no_gravity, float mount_y_offset, String[] scripts){
+	public CreateMovingBlockPacket() {
+	}
+
+	public CreateMovingBlockPacket(double x, double y, double z, int world, IBlockState state, boolean invisible,
+			boolean pushable, boolean collision, boolean no_gravity, float mount_y_offset, String[] scripts) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -53,7 +55,7 @@ public class CreateMovingBlockPacket implements IMessage{
 		MOUNT_Y_OFFSET = buf.readFloat();
 		STATE = Block.getStateById(buf.readInt());
 		SCRIPTS = new String[4];
-		for(int i = 0; i < 4; i++){
+		for (int i = 0; i < 4; i++) {
 			SCRIPTS[i] = ByteBufUtils.readUTF8String(buf);
 		}
 	}
@@ -70,7 +72,7 @@ public class CreateMovingBlockPacket implements IMessage{
 		buf.writeBoolean(NO_GRAVITY);
 		buf.writeFloat(MOUNT_Y_OFFSET);
 		buf.writeInt(Block.getStateId(STATE));
-		for(int i = 0; i < 4; i++){
+		for (int i = 0; i < 4; i++) {
 			ByteBufUtils.writeUTF8String(buf, SCRIPTS[i]);
 		}
 	}
@@ -100,6 +102,5 @@ public class CreateMovingBlockPacket implements IMessage{
 			return null;
 		}
 	}
-	
-	
+
 }

@@ -12,19 +12,23 @@ import de.ryuum3gum1n.adventurecraft.entity.NPC.EntityNPC;
 
 public interface INPCAnimationInternal {
 
-	public void animate(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn, NPCModel model, NPCModelData data);
+	public void animate(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch,
+			float scaleFactor, Entity entityIn, NPCModel model, NPCModelData data);
 
 	public static class ZombieAnimation extends BipedAnimation {
 
 		@Override
-		public void animate(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn, NPCModel model, NPCModelData data) {
-			super.animate(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn, model, data);
+		public void animate(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch,
+				float scaleFactor, Entity entityIn, NPCModel model, NPCModelData data) {
+			super.animate(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn, model,
+					data);
 			ModelRenderer bipedRightArm = data.animation.get("rightarm");
 			ModelRenderer bipedLeftArm = data.animation.get("leftarm");
 
 			boolean flag = false; // Raise arms
 			float f = MathHelper.sin(model.swingProgress * (float) Math.PI);
-			float f1 = MathHelper.sin((1.0F - (1.0F - model.swingProgress) * (1.0F - model.swingProgress)) * (float) Math.PI);
+			float f1 = MathHelper
+					.sin((1.0F - (1.0F - model.swingProgress) * (1.0F - model.swingProgress)) * (float) Math.PI);
 
 			bipedRightArm.rotateAngleZ = 0.0F;
 			bipedLeftArm.rotateAngleZ = 0.0F;
@@ -46,8 +50,10 @@ public interface INPCAnimationInternal {
 	public static class PlayerAnimation extends BipedAnimation {
 
 		@Override
-		public void animate(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn, NPCModel model, NPCModelData data) {
-			super.animate(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn, model, data);
+		public void animate(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch,
+				float scaleFactor, Entity entityIn, NPCModel model, NPCModelData data) {
+			super.animate(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn, model,
+					data);
 			ModelBiped.copyModelAngles(data.animation.get("leftleg"), data.animation.get("leftlegwear"));
 			ModelBiped.copyModelAngles(data.animation.get("rightleg"), data.animation.get("rightlegwear"));
 			ModelBiped.copyModelAngles(data.animation.get("leftarm"), data.animation.get("leftarmwear"));
@@ -61,11 +67,13 @@ public interface INPCAnimationInternal {
 	public static class BipedAnimation implements INPCAnimationInternal {
 
 		@Override
-		public void animate(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn, NPCModel model, NPCModelData data) {
+		public void animate(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch,
+				float scaleFactor, Entity entityIn, NPCModel model, NPCModelData data) {
 
 			EntityNPC npc = (EntityNPC) entityIn;
 
-			boolean flag = entityIn instanceof EntityLivingBase && ((EntityLivingBase) entityIn).getTicksElytraFlying() > 4;
+			boolean flag = entityIn instanceof EntityLivingBase
+					&& ((EntityLivingBase) entityIn).getTicksElytraFlying() > 4;
 
 			ModelRenderer bipedRightArm = data.animation.get("rightarm");
 			ModelRenderer bipedLeftArm = data.animation.get("leftarm");
@@ -91,7 +99,8 @@ public interface INPCAnimationInternal {
 			float f = 1.0F;
 
 			if (flag) {
-				f = (float) (entityIn.motionX * entityIn.motionX + entityIn.motionY * entityIn.motionY + entityIn.motionZ * entityIn.motionZ);
+				f = (float) (entityIn.motionX * entityIn.motionX + entityIn.motionY * entityIn.motionY
+						+ entityIn.motionZ * entityIn.motionZ);
 				f = f / 0.2F;
 				f = f * f * f;
 			}
@@ -100,12 +109,14 @@ public interface INPCAnimationInternal {
 				f = 1.0F;
 			}
 
-			bipedRightArm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F / f;
+			bipedRightArm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount
+					* 0.5F / f;
 			bipedLeftArm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F / f;
 			bipedRightArm.rotateAngleZ = 0.0F;
 			bipedLeftArm.rotateAngleZ = 0.0F;
 			bipedRightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
-			bipedLeftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / f;
+			bipedLeftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount
+					/ f;
 			bipedRightLeg.rotateAngleY = 0.0F;
 			bipedLeftLeg.rotateAngleY = 0.0F;
 			bipedRightLeg.rotateAngleZ = 0.0F;
@@ -173,8 +184,10 @@ public interface INPCAnimationInternal {
 				f1 = f1 * f1;
 				f1 = 1.0F - f1;
 				float f2 = MathHelper.sin(f1 * (float) Math.PI);
-				float f3 = MathHelper.sin(model.swingProgress * (float) Math.PI) * -(bipedHead.rotateAngleX - 0.7F) * 0.75F;
-				modelrenderer.rotateAngleX = (float) ((double) modelrenderer.rotateAngleX - ((double) f2 * 1.2D + (double) f3));
+				float f3 = MathHelper.sin(model.swingProgress * (float) Math.PI) * -(bipedHead.rotateAngleX - 0.7F)
+						* 0.75F;
+				modelrenderer.rotateAngleX = (float) ((double) modelrenderer.rotateAngleX
+						- ((double) f2 * 1.2D + (double) f3));
 				modelrenderer.rotateAngleY += bipedBody.rotateAngleY * 2.0F;
 				modelrenderer.rotateAngleZ += MathHelper.sin(model.swingProgress * (float) Math.PI) * -0.4F;
 			}

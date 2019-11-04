@@ -17,7 +17,7 @@ import de.ryuum3gum1n.adventurecraft.entity.NPC.EnumNPCModel;
 import de.ryuum3gum1n.adventurecraft.entity.NPC.EnumNPCSkin;
 import de.ryuum3gum1n.adventurecraft.entity.NPC.NPCData;
 
-public class PanelGeneral extends NPCPanel{
+public class PanelGeneral extends NPCPanel {
 
 	private QADTextField NAME_FIELD;
 	private QADTickBox NAME_SHOWN;
@@ -32,10 +32,9 @@ public class PanelGeneral extends NPCPanel{
 	private QADTickBox MOVABLE;
 	private QADTickBox BOSS;
 
-	
-	public PanelGeneral(NPCData data, int width, int height){
+	public PanelGeneral(NPCData data, int width, int height) {
 		super(data, width, height);
-		
+
 		addComponent(new QADLabel("Name", 4, 0));
 		NAME_FIELD = new QADTextField(2, 10, 75, 20);
 		NAME_FIELD.setText(data.getName());
@@ -44,7 +43,7 @@ public class PanelGeneral extends NPCPanel{
 		NAME_SHOWN.getModel().setState(data.shouldShowName());
 		NAME_SHOWN.setTooltip("Should the name be shown?");
 		addComponent(NAME_SHOWN);
-		
+
 		addComponent(new QADLabel("Message", 82, 0));
 		MSG_FIELD = new QADTextField(80, 10, width - 105 - 45, 20);
 		MSG_FIELD.setMaxStringLength(1024);
@@ -54,30 +53,32 @@ public class PanelGeneral extends NPCPanel{
 		INCLUDE_NAME.getModel().setState(data.shouldIncludeNameInMessage());
 		INCLUDE_NAME.setTooltip("Should the name be included in the message?");
 		addComponent(INCLUDE_NAME);
-		
+
 		addComponent(new QADLabel("Model", 152, 35));
-		QADDropdownBox model_selector = new QADDropdownBox(new ModelListModel(), new ModelListModelItem(data.getModel()));
-		model_selector.setBounds(150, 45, width/5, 20);
+		QADDropdownBox model_selector = new QADDropdownBox(new ModelListModel(),
+				new ModelListModelItem(data.getModel()));
+		model_selector.setBounds(150, 45, width / 5, 20);
 		addComponent(model_selector);
-		
-		addComponent(new QADLabel("Skin", 157 + width/5, 35));
+
+		addComponent(new QADLabel("Skin", 157 + width / 5, 35));
 		SKIN_SELECTOR = new QADDropdownBox(new SkinListModel(), new SkinListModelItem(data.getSkin()));
-		SKIN_SELECTOR.setBounds(155 + width/5, 45, width - (155 + width/5) - 5, 20);
+		SKIN_SELECTOR.setBounds(155 + width / 5, 45, width - (155 + width / 5) - 5, 20);
 		addComponent(SKIN_SELECTOR);
-		CUSTOMSKIN = new QADTextField(155 + width/5, 70, width - (155 + width/5) - 5, 20);
-		EnumNPCSkin slec_skin = ((SkinListModelItem)SKIN_SELECTOR.getSelected()).skin;
-		if(slec_skin == EnumNPCSkin.Custom)CUSTOMSKIN.setText(data.getCustomSkin());
-		else{
+		CUSTOMSKIN = new QADTextField(155 + width / 5, 70, width - (155 + width / 5) - 5, 20);
+		EnumNPCSkin slec_skin = ((SkinListModelItem) SKIN_SELECTOR.getSelected()).skin;
+		if (slec_skin == EnumNPCSkin.Custom)
+			CUSTOMSKIN.setText(data.getCustomSkin());
+		else {
 			CUSTOMSKIN.setText(formatSkinLocation(slec_skin.getResourceLocation()));
 			CUSTOMSKIN.setEnabled(false);
 		}
 		addComponent(CUSTOMSKIN);
-		
+
 		addComponent(new QADLabel("Max Health", 4, 70));
 		HEALTH_FIELD = new QADNumberTextField(2, 80, 100, 20, data.getHealth(), NumberType.DECIMAL);
 		HEALTH_FIELD.setRange(0.1D, 1000000D);
 		addComponent(HEALTH_FIELD);
-		
+
 		INVERLNERABLE = new QADTickBox(105, 80, 20, 20);
 		INVERLNERABLE.getModel().setState(data.isInvulnerable());
 		INVERLNERABLE.setTooltip("Is the NPC Invurnerable?");
@@ -106,169 +107,197 @@ public class PanelGeneral extends NPCPanel{
 		data.setBoss(BOSS.getState());
 		data.setCustomSkin(CUSTOMSKIN.getText());
 	}
-	
-	private String formatSkinLocation(ResourceLocation loc){
+
+	private String formatSkinLocation(ResourceLocation loc) {
 		String locStr = loc.toString();
 		locStr = locStr.replace("minecraft:", "mc:");
 		locStr = locStr.replace("adventurecraft:", "");
 		locStr = locStr.replace("textures/entity/", "");
 		return locStr;
 	}
-	
-	private class ModelListModel implements ListModel{
+
+	private class ModelListModel implements ListModel {
 
 		private List<ListModelItem> items = new ArrayList<ListModelItem>();
 		private List<ListModelItem> filtered = new ArrayList<ListModelItem>();
-		
+
 		public ModelListModel() {
-			for(EnumNPCModel model : EnumNPCModel.values()){
+			for (EnumNPCModel model : EnumNPCModel.values()) {
 				items.add(new ModelListModelItem(model));
 			}
 			filtered.addAll(items);
 		}
-		
-		
+
 		@Override
 		public void onSelection(ListModelItem item) {
 			MODEL = ((ModelListModelItem) item).model;
 			SKIN = MODEL.getDefaultSkin();
-			if(SKIN_SELECTOR != null) SKIN_SELECTOR.setSelected(new SkinListModelItem(SKIN));
+			if (SKIN_SELECTOR != null)
+				SKIN_SELECTOR.setSelected(new SkinListModelItem(SKIN));
 		}
 
 		@Override
-		public boolean hasItems() {return true;}
+		public boolean hasItems() {
+			return true;
+		}
 
 		@Override
-		public int getItemCount() {return items.size();}
+		public int getItemCount() {
+			return items.size();
+		}
 
 		@Override
-		public List<ListModelItem> getItems() {return items;}
+		public List<ListModelItem> getItems() {
+			return items;
+		}
 
 		@Override
 		public void applyFilter(String filter) {
 			filtered.clear();
-			for(ListModelItem item : items){
+			for (ListModelItem item : items) {
 				ModelListModelItem model = (ModelListModelItem) item;
-				if(model.getText().toLowerCase().contains(filter.toLowerCase())) filtered.add(item);
+				if (model.getText().toLowerCase().contains(filter.toLowerCase()))
+					filtered.add(item);
 			}
 		}
 
 		@Override
-		public List<ListModelItem> getFilteredItems() {return filtered;}
+		public List<ListModelItem> getFilteredItems() {
+			return filtered;
+		}
 
 		@Override
-		public boolean hasIcons() {return false;}
+		public boolean hasIcons() {
+			return false;
+		}
 
 		@Override
-		public void drawIcon(VCUIRenderer renderer, float partialTicks, boolean light, ListModelItem item) {}
+		public void drawIcon(VCUIRenderer renderer, float partialTicks, boolean light, ListModelItem item) {
+		}
 	}
-	
-	private static class ModelListModelItem implements ListModelItem{
+
+	private static class ModelListModelItem implements ListModelItem {
 
 		private final EnumNPCModel model;
-		
+
 		public ModelListModelItem(EnumNPCModel model) {
 			this.model = model;
 		}
-		
+
 		@Override
 		public String getText() {
 			return model.toString();
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
-			if(!(obj instanceof ModelListModelItem)) return false;
-			return ((ModelListModelItem)obj).model.equals(model);
+			if (!(obj instanceof ModelListModelItem))
+				return false;
+			return ((ModelListModelItem) obj).model.equals(model);
 		}
 
 		@Override
 		public int hashCode() {
 			return super.hashCode();
 		}
-		
+
 	}
-	
-	private class SkinListModel implements ListModel{
+
+	private class SkinListModel implements ListModel {
 
 		private List<ListModelItem> items = new ArrayList<ListModelItem>();
 		private List<ListModelItem> filtered = new ArrayList<ListModelItem>();
-		
+
 		public SkinListModel() {
-			for(EnumNPCSkin skin : EnumNPCSkin.values()){
+			for (EnumNPCSkin skin : EnumNPCSkin.values()) {
 				items.add(new SkinListModelItem(skin));
 			}
 			filtered.addAll(items);
 		}
-		
-		
+
 		@Override
 		public void onSelection(ListModelItem item) {
 			SKIN = ((SkinListModelItem) item).skin;
-			if(CUSTOMSKIN != null){
-				if(SKIN == EnumNPCSkin.Custom){
+			if (CUSTOMSKIN != null) {
+				if (SKIN == EnumNPCSkin.Custom) {
 					CUSTOMSKIN.setText("");
 					CUSTOMSKIN.setEnabled(true);
-				}else{
+				} else {
 					CUSTOMSKIN.setEnabled(false);
-					if(SKIN == EnumNPCSkin.Invisible) CUSTOMSKIN.setText("null");
-					else CUSTOMSKIN.setText(formatSkinLocation(SKIN.getResourceLocation()));
+					if (SKIN == EnumNPCSkin.Invisible)
+						CUSTOMSKIN.setText("null");
+					else
+						CUSTOMSKIN.setText(formatSkinLocation(SKIN.getResourceLocation()));
 				}
-				
+
 			}
 		}
 
 		@Override
-		public boolean hasItems() {return true;}
+		public boolean hasItems() {
+			return true;
+		}
 
 		@Override
-		public int getItemCount() {return items.size();}
+		public int getItemCount() {
+			return items.size();
+		}
 
 		@Override
-		public List<ListModelItem> getItems() {return items;}
+		public List<ListModelItem> getItems() {
+			return items;
+		}
 
 		@Override
 		public void applyFilter(String filter) {
 			filtered.clear();
 			List<ListModelItem> blanks = new ArrayList<ListModelItem>();
-			for(ListModelItem item : items){
+			for (ListModelItem item : items) {
 				SkinListModelItem skin = (SkinListModelItem) item;
-				if(skin.getText().toLowerCase().contains(filter.toLowerCase())){
+				if (skin.getText().toLowerCase().contains(filter.toLowerCase())) {
 					EnumNPCSkin skn = skin.skin;
-					if(skn.getModelType() == MODEL) filtered.add(item);
-					else if(skn.getModelType() == null) blanks.add(item);
+					if (skn.getModelType() == MODEL)
+						filtered.add(item);
+					else if (skn.getModelType() == null)
+						blanks.add(item);
 				}
 			}
 			filtered.addAll(blanks);
 		}
 
 		@Override
-		public List<ListModelItem> getFilteredItems() {return filtered;}
+		public List<ListModelItem> getFilteredItems() {
+			return filtered;
+		}
 
 		@Override
-		public boolean hasIcons() {return false;}
+		public boolean hasIcons() {
+			return false;
+		}
 
 		@Override
-		public void drawIcon(VCUIRenderer renderer, float partialTicks, boolean light, ListModelItem item) {}
+		public void drawIcon(VCUIRenderer renderer, float partialTicks, boolean light, ListModelItem item) {
+		}
 	}
-	
-	private static class SkinListModelItem implements ListModelItem{
+
+	private static class SkinListModelItem implements ListModelItem {
 
 		private final EnumNPCSkin skin;
-		
+
 		public SkinListModelItem(EnumNPCSkin skin) {
 			this.skin = skin;
 		}
-		
+
 		@Override
-		public String getText(){
+		public String getText() {
 			return skin.toString() + (skin.hasAuthor() ? (" (" + skin.getAuthor() + ")") : "");
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
-			if(!(obj instanceof SkinListModelItem)) return false;
-			return ((SkinListModelItem)obj).skin.equals(skin);
+			if (!(obj instanceof SkinListModelItem))
+				return false;
+			return ((SkinListModelItem) obj).skin.equals(skin);
 		}
 
 		@Override
@@ -276,7 +305,7 @@ public class PanelGeneral extends NPCPanel{
 			// TODO Auto-generated method stub
 			return super.hashCode();
 		}
-		
+
 	}
-	
+
 }

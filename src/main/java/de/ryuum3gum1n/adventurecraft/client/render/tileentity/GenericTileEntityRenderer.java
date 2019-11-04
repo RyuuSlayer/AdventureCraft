@@ -56,9 +56,9 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder vertexbuffer = tessellator.getBuffer();
 
-		if(ClientProxy.isInBuildMode()) {
+		if (ClientProxy.isInBuildMode()) {
 			GlStateManager.pushMatrix();
-			GlStateManager.translate((float)posX, (float)posY, (float)posZ);
+			GlStateManager.translate((float) posX, (float) posY, (float) posZ);
 
 			// bounds
 			final float D = 2f / 64f;
@@ -72,7 +72,7 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
 
 			// top
 			vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-			//vertexbuffer.setBrightness(0xEE); //TODO: FIX
+			// vertexbuffer.setBrightness(0xEE); //TODO: FIX
 
 			vertexbuffer.pos(I, A, A).tex(1, 0).endVertex();
 			vertexbuffer.pos(A, A, A).tex(0, 0).endVertex();
@@ -109,37 +109,30 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
 		}
 
 		/*
-		final String TEXT = tile.getBlockType().getLocalizedName(); // tile.getStateAsString();
-		if(TEXT != null || Boolean.FALSE) {
-			final int TEXT_W = this.getFontRenderer().getStringWidth(TEXT);
-			final float HEX = 1f / 32f;
-			GlStateManager.translate(0.5f, 1.75f, 0.5f);
-			GlStateManager.rotate(180, 1, 0, 0);
-			GlStateManager.scale(HEX, HEX, HEX);
-			GlStateManager.rotate((float)(Minecraft.getMinecraft().player.rotationYawHead + 180), 0, 1, 0);
-			this.getFontRenderer().drawString(TEXT, -TEXT_W/2, 0, 0xFFFFFFFF);
-		}
-		//*/
+		 * final String TEXT = tile.getBlockType().getLocalizedName(); //
+		 * tile.getStateAsString(); if(TEXT != null || Boolean.FALSE) { final int TEXT_W
+		 * = this.getFontRenderer().getStringWidth(TEXT); final float HEX = 1f / 32f;
+		 * GlStateManager.translate(0.5f, 1.75f, 0.5f); GlStateManager.rotate(180, 1, 0,
+		 * 0); GlStateManager.scale(HEX, HEX, HEX);
+		 * GlStateManager.rotate((float)(Minecraft.getMinecraft().player.rotationYawHead
+		 * + 180), 0, 1, 0); this.getFontRenderer().drawString(TEXT, -TEXT_W/2, 0,
+		 * 0xFFFFFFFF); } //
+		 */
 
-		if(extRenderer != null) {
+		if (extRenderer != null) {
 			GlStateManager.pushMatrix();
-			GlStateManager.translate(
-					(float) -this.rendererDispatcher.entityX,
-					(float) -this.rendererDispatcher.entityY,
-					(float) -this.rendererDispatcher.entityZ
-					);
+			GlStateManager.translate((float) -this.rendererDispatcher.entityX, (float) -this.rendererDispatcher.entityY,
+					(float) -this.rendererDispatcher.entityZ);
 
 			extRenderer.render(tile, rendererDispatcher, posX, posY, posZ, partialTicks);
 			GlStateManager.popMatrix();
 		}
 
-		if(ClientProxy.isInBuildMode() && tile instanceof IInvokeSource && ClientProxy.settings.getBoolean("client.render.invokeVisualize")) {
+		if (ClientProxy.isInBuildMode() && tile instanceof IInvokeSource
+				&& ClientProxy.settings.getBoolean("client.render.invokeVisualize")) {
 			GlStateManager.pushMatrix();
-			GlStateManager.translate(
-					(float) -this.rendererDispatcher.entityX,
-					(float) -this.rendererDispatcher.entityY,
-					(float) -this.rendererDispatcher.entityZ
-					);
+			GlStateManager.translate((float) -this.rendererDispatcher.entityX, (float) -this.rendererDispatcher.entityY,
+					(float) -this.rendererDispatcher.entityZ);
 
 			invokes.clear();
 			((IInvokeSource) tile).getInvokes(invokes);
@@ -165,7 +158,7 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
 
 			final float error = 1f / 128f;
 
-			if(!invokes.isEmpty()) {
+			if (!invokes.isEmpty()) {
 				GlStateManager.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
 				this.bindTexture(ClientResources.texColorWhite);
 				GlStateManager.disableCull();
@@ -179,25 +172,24 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
 				g = color[1];
 				b = color[2];
 
-				for(IInvoke invoke : invokes) {
-					if(invoke instanceof BlockTriggerInvoke) {
+				for (IInvoke invoke : invokes) {
+					if (invoke instanceof BlockTriggerInvoke) {
 						int[] bounds = ((BlockTriggerInvoke) invoke).getBounds();
 
-						if(bounds != null) {
-							minX = bounds[0]   - error;
-							minY = bounds[1]   - error;
-							minZ = bounds[2]   - error;
-							maxX = bounds[3]+1 + error;
-							maxY = bounds[4]+1 + error;
-							maxZ = bounds[5]+1 + error;
+						if (bounds != null) {
+							minX = bounds[0] - error;
+							minY = bounds[1] - error;
+							minZ = bounds[2] - error;
+							maxX = bounds[3] + 1 + error;
+							maxY = bounds[4] + 1 + error;
+							maxZ = bounds[5] + 1 + error;
 
 							x1 = ((bounds[3] + bounds[0]) / 2f) + 0.5f;
 							y1 = ((bounds[4] + bounds[1]) / 2f) + 0.5f;
 							z1 = ((bounds[5] + bounds[2]) / 2f) + 0.5f;
 
-							BoxRenderer.renderBox(tessellator, vertexbuffer, minX, minY, minZ, maxX, maxY, maxZ, r, g, b, a);
-
-
+							BoxRenderer.renderBox(tessellator, vertexbuffer, minX, minY, minZ, maxX, maxY, maxZ, r, g,
+									b, a);
 
 							GlStateManager.glBegin(GL11.GL_LINES);
 							GlStateManager.color(color[0], color[1], color[2], 1f);
@@ -211,11 +203,12 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
 								GlStateManager.glVertex3f(minX, minY, minZ);
 								GlStateManager.glVertex3f(minX, minY, minZ);
 							}
-							GlStateManager.color(1,1,1,1f);
+							GlStateManager.color(1, 1, 1, 1f);
 							GlStateManager.glVertex3f(x1, y1, z1);
 							GlStateManager.glEnd();
 
-							// BoxRenderer.renderBoxLine(tessellator, vertexbuffer, x0, y0, z0, x1, y1, z1, r, g, b, a);
+							// BoxRenderer.renderBoxLine(tessellator, vertexbuffer, x0, y0, z0, x1, y1, z1,
+							// r, g, b, a);
 						}
 					}
 				}

@@ -32,21 +32,21 @@ public class ScoreObjectWrapper implements IObjectWrapper {
 	}
 
 	public void setScore(int value) {
-		if(!score.getObjective().getCriteria().isReadOnly())
+		if (!score.getObjective().getCriteria().isReadOnly())
 			score.setScorePoints(value);
 	}
 
 	public void increaseScore(int amount) {
-		if(!score.getObjective().getCriteria().isReadOnly())
+		if (!score.getObjective().getCriteria().isReadOnly())
 			score.increaseScore(amount);
 	}
 
 	public void decreaseScore(int amount) {
-		if(!score.getObjective().getCriteria().isReadOnly())
+		if (!score.getObjective().getCriteria().isReadOnly())
 			score.decreaseScore(amount);
 	}
-	
-	public boolean isReadOnly(){
+
+	public boolean isReadOnly() {
 		return score.getObjective().getCriteria().isReadOnly();
 	}
 }

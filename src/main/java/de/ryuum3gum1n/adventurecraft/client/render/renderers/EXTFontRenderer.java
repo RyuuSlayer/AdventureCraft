@@ -9,7 +9,7 @@ public class EXTFontRenderer {
 	public FontRenderer fr;
 
 	public EXTFontRenderer(FontRenderer fr) {
-		if(fr == null)
+		if (fr == null)
 			throw new IllegalArgumentException("'fr' may not be null.");
 
 		this.fr = fr;
@@ -20,7 +20,7 @@ public class EXTFontRenderer {
 	}
 
 	public void setFontRenderer(FontRenderer fr) {
-		if(fr == null)
+		if (fr == null)
 			throw new IllegalArgumentException("'fr' may not be null.");
 
 		this.fr = fr;
@@ -29,33 +29,50 @@ public class EXTFontRenderer {
 	/**
 	 * This is the ultimate string drawing function.
 	 *
-	 * @param str The string to draw. May contain formatting.
-	 * @param x The top-left corner of the box.
-	 * @param y The top-left corner of the box.
-	 * @param width The width of the box.
+	 * @param str    The string to draw. May contain formatting.
+	 * @param x      The top-left corner of the box.
+	 * @param y      The top-left corner of the box.
+	 * @param width  The width of the box.
 	 * @param height The height of the box.
-	 * @param color The color fo the box. Default is 0xFFFFFFFF (white).
+	 * @param color  The color fo the box. Default is 0xFFFFFFFF (white).
 	 * @param shadow Should a shadow be drawn?
-	 * @param align Horizontal Alignment of the string in the box. 0=left, 1=center, 2=right.
-	 * @param valign  Vertical Alignment of the string in the box. 0=top, 1=center, 2=bottom.
+	 * @param align  Horizontal Alignment of the string in the box. 0=left,
+	 *               1=center, 2=right.
+	 * @param valign Vertical Alignment of the string in the box. 0=top, 1=center,
+	 *               2=bottom.
 	 **/
-	public int drawStringInBox(String str, int x, int y, int width, int height, int color, boolean shadow, int align, int valign) {
+	public int drawStringInBox(String str, int x, int y, int width, int height, int color, boolean shadow, int align,
+			int valign) {
 		int str_w = fr.getStringWidth(str);
 		int str_h = fr.FONT_HEIGHT;
 
 		int finalX = x;
 		int finalY = y;
 
-		switch(align) {
-		case 2: finalX = x + (width    -  str_w); break;
-		case 1: finalX = x + (width/2) - (str_w/2); break;
-		default: case 0: finalX = x; break;
+		switch (align) {
+		case 2:
+			finalX = x + (width - str_w);
+			break;
+		case 1:
+			finalX = x + (width / 2) - (str_w / 2);
+			break;
+		default:
+		case 0:
+			finalX = x;
+			break;
 		}
 
-		switch(valign) {
-		case 2: finalY = y + (height    -  str_h); break;
-		case 1: finalY = y + (height/2) - (str_h/2); break;
-		default: case 0: finalY = y; break;
+		switch (valign) {
+		case 2:
+			finalY = y + (height - str_h);
+			break;
+		case 1:
+			finalY = y + (height / 2) - (str_h / 2);
+			break;
+		default:
+		case 0:
+			finalY = y;
+			break;
 		}
 
 		return fr.drawString(str, finalX, finalY, color, shadow);

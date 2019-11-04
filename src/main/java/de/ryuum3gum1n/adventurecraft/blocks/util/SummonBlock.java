@@ -36,25 +36,27 @@ public class SummonBlock extends ACBlockContainer implements ACITriggerableBlock
 	public void trigger(World world, BlockPos position, EnumTriggerState triggerState) {
 		if (world.isRemote)
 			return;
-		if(!triggerState.equals(EnumTriggerState.ON)) return;
+		if (!triggerState.equals(EnumTriggerState.ON))
+			return;
 		TileEntity tileentity = world.getTileEntity(position);
 
 		if (tileentity instanceof SummonBlockTileEntity) {
-			((SummonBlockTileEntity)tileentity).trigger(triggerState);
+			((SummonBlockTileEntity) tileentity).trigger(triggerState);
 		}
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand,
+			EnumFacing facing, float hitX, float hitY, float hitZ) {
 		ItemStack heldItem = playerIn.getHeldItem(hand);
-		if(heldItem != null && heldItem.getItem() == AdventureCraftItems.entityclone && !world.isRemote){
-			if(heldItem.hasTagCompound()){
-				if(heldItem.getTagCompound().hasKey("entity_data")){
+		if (heldItem != null && heldItem.getItem() == AdventureCraftItems.entityclone && !world.isRemote) {
+			if (heldItem.hasTagCompound()) {
+				if (heldItem.getTagCompound().hasKey("entity_data")) {
 					SummonBlockTileEntity te = (SummonBlockTileEntity) world.getTileEntity(pos);
 					NBTTagCompound entitydat = heldItem.getTagCompound().getCompoundTag("entity_data");
 					entitydat.setUniqueId("UUID", UUID.randomUUID());
 					SummonOption[] oldArray = te.getSummonOptions();
-					SummonOption[] newArray = new SummonOption[oldArray.length+1];
+					SummonOption[] newArray = new SummonOption[oldArray.length + 1];
 					System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
 					SummonOption option = new SummonOption();
 					option.setWeight(1F);
@@ -64,29 +66,32 @@ public class SummonBlock extends ACBlockContainer implements ACITriggerableBlock
 					newArray[oldArray.length] = option;
 					te.setSummonOptions(newArray);
 					te.markDirty();
-					if(!world.isRemote)playerIn.sendMessage(new TextComponentString("Entity data has been added to summon block!"));
+					if (!world.isRemote)
+						playerIn.sendMessage(new TextComponentString("Entity data has been added to summon block!"));
 					return true;
-				}else{
-					if(!world.isRemote)playerIn.sendMessage(new TextComponentString("No entity has been selected!"));
+				} else {
+					if (!world.isRemote)
+						playerIn.sendMessage(new TextComponentString("No entity has been selected!"));
 					return true;
 				}
 			}
 		}
-		if(!world.isRemote){
+		if (!world.isRemote) {
 			return true;
 		}
 		return openGui(world, pos, state, playerIn, hand, heldItem, facing, hitX, hitY, hitZ);
 	}
-	
+
 	@SideOnly(Side.CLIENT)
-	private boolean openGui(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
-		if(!AdventureCraft.proxy.isBuildMode())
+	private boolean openGui(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand,
+			ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (!AdventureCraft.proxy.isBuildMode())
 			return false;
-		if(playerIn.isSneaking())
+		if (playerIn.isSneaking())
 			return true;
-		if(heldItem == null || heldItem.getItem() != AdventureCraftItems.entityclone){
+		if (heldItem == null || heldItem.getItem() != AdventureCraftItems.entityclone) {
 			Minecraft mc = Minecraft.getMinecraft();
-			mc.displayGuiScreen(new GuiSummonBlock((SummonBlockTileEntity)world.getTileEntity(pos)));
+			mc.displayGuiScreen(new GuiSummonBlock((SummonBlockTileEntity) world.getTileEntity(pos)));
 		}
 		return true;
 	}

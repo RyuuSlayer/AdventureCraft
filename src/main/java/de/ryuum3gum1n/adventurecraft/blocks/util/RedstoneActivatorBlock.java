@@ -41,7 +41,7 @@ public class RedstoneActivatorBlock extends ACBlock implements ACITriggerableBlo
 		if (world.isRemote)
 			return;
 
-		switch(triggerState) {
+		switch (triggerState) {
 		case ON:
 			world.setBlockState(pos, this.getDefaultState().withProperty(POWERED, Boolean.valueOf(true)));
 			break;
@@ -74,8 +74,7 @@ public class RedstoneActivatorBlock extends ACBlock implements ACITriggerableBlo
 	public int getMetaFromState(IBlockState state) {
 		int i = 0;
 
-		if (state.getValue(POWERED).booleanValue())
-		{
+		if (state.getValue(POWERED).booleanValue()) {
 			i |= 1;
 		}
 
@@ -84,11 +83,12 @@ public class RedstoneActivatorBlock extends ACBlock implements ACITriggerableBlo
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {POWERED});
+		return new BlockStateContainer(this, new IProperty[] { POWERED });
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY,
+			float hitZ, int meta, EntityLivingBase placer) {
 		return this.getDefaultState().withProperty(POWERED, Boolean.valueOf(false));
 	}
 

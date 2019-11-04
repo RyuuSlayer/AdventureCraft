@@ -8,7 +8,9 @@ import de.ryuum3gum1n.adventurecraft.client.gui.vcui.VCUIRenderer;
 public class QADLabel extends QADRectangularComponent {
 	public static interface LabelModel {
 		public String getText();
+
 		public int getTextLength();
+
 		public int getColor();
 	}
 
@@ -53,8 +55,8 @@ public class QADLabel extends QADRectangularComponent {
 		this.y = y;
 		this.shadow = shadow;
 	}
-	
-	public void setCentered(){
+
+	public void setCentered() {
 		centered = true;
 	}
 
@@ -89,23 +91,23 @@ public class QADLabel extends QADRectangularComponent {
 		int normFontHeight = renderer.getFontRenderer().fr.FONT_HEIGHT;
 		int drawFontHeight = renderer.getFontRenderer().fr.FONT_HEIGHT;
 
-		if(fontHeight != -1) {
+		if (fontHeight != -1) {
 			drawFontHeight = fontHeight;
 			renderer.getFontRenderer().fr.FONT_HEIGHT = drawFontHeight;
 		}
 
 		// Culling on the Y-Axis
-		if(renderer.getOffsetY()+y > renderer.getHeight()) {
+		if (renderer.getOffsetY() + y > renderer.getHeight()) {
 			return;
-		} else if(renderer.getOffsetY()+y+drawFontHeight+1 < 0) {
+		} else if (renderer.getOffsetY() + y + drawFontHeight + 1 < 0) {
 			return;
 		}
 
 		lastKnownWidth = renderer.getFontRenderer().stringWidth(model.getText());
 		lastKnownHeight = renderer.getFontRenderer().fr.FONT_HEIGHT;
-		if(centered){
+		if (centered) {
 			renderer.drawCenteredString(model.getText(), x, y, model.getColor(), shadow);
-		}else{
+		} else {
 			renderer.drawString(model.getText(), x, y, model.getColor(), shadow);
 		}
 
@@ -113,12 +115,13 @@ public class QADLabel extends QADRectangularComponent {
 	}
 
 	@Override
-	public void onMouseClicked(int i, int j, int mouseButton) {}
+	public void onMouseClicked(int i, int j, int mouseButton) {
+	}
 
 	@Override
 	public void onMouseReleased(int mouseX, int mouseY, int state) {
-		if(isPointInside(mouseX+x, mouseY+y)) {
-			if(onClick != null) {
+		if (isPointInside(mouseX + x, mouseY + y)) {
+			if (onClick != null) {
 				playPressSound(1f);
 				onClick.run();
 			}
@@ -126,17 +129,20 @@ public class QADLabel extends QADRectangularComponent {
 	}
 
 	@Override
-	public void onMouseClickMove(int i, int j, int clickedMouseButton, long timeSinceLastClick) {}
+	public void onMouseClickMove(int i, int j, int clickedMouseButton, long timeSinceLastClick) {
+	}
 
 	@Override
-	public void onKeyTyped(char typedChar, int typedCode) {}
+	public void onKeyTyped(char typedChar, int typedCode) {
+	}
 
 	@Override
-	public void onTickUpdate() {}
+	public void onTickUpdate() {
+	}
 
 	@Override
 	public boolean isPointInside(int mouseX, int mouseY) {
-		if(lastKnownWidth == 0 || lastKnownHeight == 0)
+		if (lastKnownWidth == 0 || lastKnownHeight == 0)
 			return false;
 
 		int localMouseX = mouseX - x;
@@ -166,17 +172,20 @@ public class QADLabel extends QADRectangularComponent {
 
 	@Override
 	public void setWidth(int newWidth) {
-		throw new UnsupportedOperationException("Cannot change string component's width as that is a property of the font-renderer.");
+		throw new UnsupportedOperationException(
+				"Cannot change string component's width as that is a property of the font-renderer.");
 	}
 
 	@Override
 	public void setHeight(int newHeight) {
-		throw new UnsupportedOperationException("Cannot change string component's height as that is a property of the font-renderer.");
+		throw new UnsupportedOperationException(
+				"Cannot change string component's height as that is a property of the font-renderer.");
 	}
 
 	@Override
 	public void setSize(int newWidth, int newHeight) {
-		throw new UnsupportedOperationException("Cannot change string component's size as that is a property of the font-renderer.");
+		throw new UnsupportedOperationException(
+				"Cannot change string component's size as that is a property of the font-renderer.");
 	}
 
 	public void setFontHeight(int height) {

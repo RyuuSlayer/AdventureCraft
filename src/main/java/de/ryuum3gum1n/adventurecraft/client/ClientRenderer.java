@@ -86,26 +86,25 @@ public class ClientRenderer {
 
 	private VisualMode visualizationMode;
 	private float partialTicks;
-	
-	public static enum VisualMode{
-		Default("default"),
-		Lighting("lighting"),
-		Nightvision("nightvision"),
-		Wireframe("wireframe");
+
+	public static enum VisualMode {
+		Default("default"), Lighting("lighting"), Nightvision("nightvision"), Wireframe("wireframe");
+
 		String name;
-		
+
 		VisualMode(String n) {
 			name = n;
 		}
-		
+
 		public String getName() {
 			return name;
 		}
-		
-		public VisualMode next(){
+
+		public VisualMode next() {
 			int current = ordinal();
 			current++;
-			if(current >= values().length) current = 0;
+			if (current >= values().length)
+				current = 0;
 			Minecraft.getMinecraft().player.getActivePotionEffects().clear();
 			return values()[current];
 		}
@@ -125,7 +124,6 @@ public class ClientRenderer {
 		staticRenderers = new ConcurrentLinkedDeque<>();
 	}
 
-	
 	@SuppressWarnings("unchecked")
 	public void preInit() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityPoint.class, PointEntityRenderer.FACTORY);
@@ -137,7 +135,7 @@ public class ClientRenderer {
 		RenderingRegistry.registerEntityRenderingHandler(EntityKnife.class, new EntityKnifeRenderFactory());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMovingBlock.class, new EntityMovingBlockRenderFactory());
 	}
-	
+
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
 		init_render_item();
@@ -150,7 +148,8 @@ public class ClientRenderer {
 				new GenericTileEntityRenderer<ClockBlockTileEntity>("adventurecraft:textures/blocks/util/timer.png"));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(RedstoneTriggerBlockTileEntity.class,
-				new GenericTileEntityRenderer<RedstoneTriggerBlockTileEntity>("adventurecraft:textures/blocks/util/redstoneTrigger.png"));
+				new GenericTileEntityRenderer<RedstoneTriggerBlockTileEntity>(
+						"adventurecraft:textures/blocks/util/redstoneTrigger.png"));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(RelayBlockTileEntity.class,
 				new GenericTileEntityRenderer<RelayBlockTileEntity>("adventurecraft:textures/blocks/util/relay.png"));
@@ -159,36 +158,41 @@ public class ClientRenderer {
 				new GenericTileEntityRenderer<ScriptBlockTileEntity>("adventurecraft:textures/blocks/util/script.png"));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(BlockUpdateDetectorTileEntity.class,
-				new GenericTileEntityRenderer<BlockUpdateDetectorTileEntity>("adventurecraft:textures/blocks/util/bud.png"));
+				new GenericTileEntityRenderer<BlockUpdateDetectorTileEntity>(
+						"adventurecraft:textures/blocks/util/bud.png"));
 
-		ClientRegistry.bindTileEntitySpecialRenderer(StorageBlockTileEntity.class,
-				new GenericTileEntityRenderer<>("adventurecraft:textures/blocks/util/storage.png",
-						new StorageBlockTileEntityEXTRenderer()));
+		ClientRegistry.bindTileEntitySpecialRenderer(StorageBlockTileEntity.class, new GenericTileEntityRenderer<>(
+				"adventurecraft:textures/blocks/util/storage.png", new StorageBlockTileEntityEXTRenderer()));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(EmitterBlockTileEntity.class,
-				new GenericTileEntityRenderer<EmitterBlockTileEntity>("adventurecraft:textures/blocks/util/emitter.png"));
+				new GenericTileEntityRenderer<EmitterBlockTileEntity>(
+						"adventurecraft:textures/blocks/util/emitter.png"));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(ImageHologramBlockTileEntity.class,
 				new GenericTileEntityRenderer<>("adventurecraft:textures/blocks/util/texture.png",
 						new ImageHologramBlockTileEntityEXTRenderer()));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(CollisionTriggerBlockTileEntity.class,
-				new GenericTileEntityRenderer<CollisionTriggerBlockTileEntity>("adventurecraft:textures/blocks/util/trigger.png"));
+				new GenericTileEntityRenderer<CollisionTriggerBlockTileEntity>(
+						"adventurecraft:textures/blocks/util/trigger.png"));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(LightBlockTileEntity.class,
 				new GenericTileEntityRenderer<LightBlockTileEntity>("adventurecraft:textures/blocks/util/light.png"));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(MessageBlockTileEntity.class,
-				new GenericTileEntityRenderer<MessageBlockTileEntity>("adventurecraft:textures/blocks/util/message.png"));
+				new GenericTileEntityRenderer<MessageBlockTileEntity>(
+						"adventurecraft:textures/blocks/util/message.png"));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(InverterBlockTileEntity.class,
-				new GenericTileEntityRenderer<InverterBlockTileEntity>("adventurecraft:textures/blocks/util/inverter.png"));
+				new GenericTileEntityRenderer<InverterBlockTileEntity>(
+						"adventurecraft:textures/blocks/util/inverter.png"));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(MemoryBlockTileEntity.class,
 				new GenericTileEntityRenderer<MemoryBlockTileEntity>("adventurecraft:textures/blocks/util/memory.png"));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TriggerFilterBlockTileEntity.class,
-				new GenericTileEntityRenderer<TriggerFilterBlockTileEntity>("adventurecraft:textures/blocks/util/filter.png"));
+				new GenericTileEntityRenderer<TriggerFilterBlockTileEntity>(
+						"adventurecraft:textures/blocks/util/filter.png"));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(DelayBlockTileEntity.class,
 				new GenericTileEntityRenderer<DelayBlockTileEntity>("adventurecraft:textures/blocks/util/delay.png"));
@@ -196,40 +200,48 @@ public class ClientRenderer {
 		ClientRegistry.bindTileEntitySpecialRenderer(URLBlockTileEntity.class,
 				new GenericTileEntityRenderer<URLBlockTileEntity>("adventurecraft:textures/blocks/util/url.png"));
 
-		ClientRegistry.bindTileEntitySpecialRenderer(SummonBlockTileEntity.class,
-				new GenericTileEntityRenderer<>("adventurecraft:textures/blocks/util/spawner.png",
-						new SummonBlockTileEntityEXTRenderer()));
-		
+		ClientRegistry.bindTileEntitySpecialRenderer(SummonBlockTileEntity.class, new GenericTileEntityRenderer<>(
+				"adventurecraft:textures/blocks/util/spawner.png", new SummonBlockTileEntityEXTRenderer()));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(LockedDoorTileEntity.class, new LockedDoorRenderer());
-		
+
 		ClientRegistry.bindTileEntitySpecialRenderer(URLBlockTileEntity.class,
 				new GenericTileEntityRenderer<URLBlockTileEntity>("adventurecraft:textures/blocks/util/url.png"));
-		
+
 		ClientRegistry.bindTileEntitySpecialRenderer(MusicBlockTileEntity.class,
 				new GenericTileEntityRenderer<MusicBlockTileEntity>("adventurecraft:textures/blocks/util/music.png"));
-		
+
 		ClientRegistry.bindTileEntitySpecialRenderer(CameraBlockTileEntity.class,
 				new GenericTileEntityRenderer<CameraBlockTileEntity>("adventurecraft:textures/blocks/util/camera.png"));
 	}
 
 	private static void init_render_item() {
-		for(Item item : AdventureCraftItems.ALL_AC_ITEMS){
-			if(!(item instanceof ItemBlock)) ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation("adventurecraft:" + item.getUnlocalizedName().replace("item.", ""), "inventory"));
+		for (Item item : AdventureCraftItems.ALL_AC_ITEMS) {
+			if (!(item instanceof ItemBlock))
+				ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(
+						"adventurecraft:" + item.getUnlocalizedName().replace("item.", ""), "inventory"));
 		}
 	}
 
 	private static void init_render_block() {
-		for(String name : AdventureCraftBlocks.blocksMap.keySet()){
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(AdventureCraftBlocks.blocksMap.get(name)), 0, new ModelResourceLocation("adventurecraft:" + name, "inventory"));
+		for (String name : AdventureCraftBlocks.blocksMap.keySet()) {
+			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(AdventureCraftBlocks.blocksMap.get(name)),
+					0, new ModelResourceLocation("adventurecraft:" + name, "inventory"));
 		}
-		
+
 		// killblock (why?!)
-		for(int i = 0; i < 7; i++) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(AdventureCraftBlocks.killBlock), i, new ModelResourceLocation("adventurecraft:killblock", "inventory"));
-		
-		//Locked Door Block
-		for(int i = 0; i < 8; i++)ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(AdventureCraftBlocks.lockedDoorBlock), i, new ModelResourceLocation("adventurecraft:lockeddoorblock", "inventory"));
-		
-		for(int i = 0; i < 12; i++) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(AdventureCraftBlocks.spikeBlock), i, new ModelResourceLocation("adventurecraft:spikeblock", "inventory"));
+		for (int i = 0; i < 7; i++)
+			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(AdventureCraftBlocks.killBlock), i,
+					new ModelResourceLocation("adventurecraft:killblock", "inventory"));
+
+		// Locked Door Block
+		for (int i = 0; i < 8; i++)
+			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(AdventureCraftBlocks.lockedDoorBlock), i,
+					new ModelResourceLocation("adventurecraft:lockeddoorblock", "inventory"));
+
+		for (int i = 0; i < 12; i++)
+			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(AdventureCraftBlocks.spikeBlock), i,
+					new ModelResourceLocation("adventurecraft:spikeblock", "inventory"));
 
 	}
 
@@ -270,30 +282,24 @@ public class ClientRenderer {
 		return partialTicks;
 	}
 
-
-
-
 	// some empty space here
-
-
-
-
 
 	public void on_render_world_post(RenderWorldLastEvent event) {
 		RenderModeHelper.DISABLE();
 		partialTicks = event.getPartialTicks();
 
-		// Iterate trough all ITemporaryRenderables and remove the ones that can be removed.
+		// Iterate trough all ITemporaryRenderables and remove the ones that can be
+		// removed.
 		Iterator<ITemporaryRenderable> iterator = temporaryRenderers.iterator();
-		while(iterator.hasNext()) {
+		while (iterator.hasNext()) {
 			ITemporaryRenderable itr = iterator.next();
-			if(itr.canRemove()) {
+			if (itr.canRemove()) {
 				iterator.remove();
 			}
 		}
 
 		// If the world and the player exist, call the worldPostRender-method.
-		if(mc.world != null && mc.player != null) {
+		if (mc.world != null && mc.player != null) {
 			GlStateManager.pushMatrix();
 
 			Tessellator tessellator = Tessellator.getInstance();
@@ -304,7 +310,8 @@ public class ClientRenderer {
 			GlStateManager.popMatrix();
 		}
 
-		// Enable textures again, since the GUI-prerender doesn't enable it again by itself.
+		// Enable textures again, since the GUI-prerender doesn't enable it again by
+		// itself.
 		GlStateManager.enableTexture2D();
 	}
 
@@ -323,7 +330,7 @@ public class ClientRenderer {
 		RenderHelper.enableStandardItemLighting();
 
 		// Render all the renderables
-		for(IRenderable renderable : staticRenderers) {
+		for (IRenderable renderable : staticRenderers) {
 			renderable.render(mc, proxy, tessellator, vertexbuffer, partialTicks);
 		}
 
@@ -336,7 +343,7 @@ public class ClientRenderer {
 		RenderHelper.enableStandardItemLighting();
 
 		// Render all the temporary renderables
-		for(ITemporaryRenderable renderable : temporaryRenderers) {
+		for (ITemporaryRenderable renderable : temporaryRenderers) {
 			renderable.render(mc, proxy, tessellator, vertexbuffer, partialTicks);
 		}
 
@@ -349,7 +356,7 @@ public class ClientRenderer {
 		RenderHelper.enableStandardItemLighting();
 
 		// Render Item Meta Renderables
-		if(mc.player != null && mc.player.getHeldItemMainhand() != null) {
+		if (mc.player != null && mc.player.getHeldItemMainhand() != null) {
 			ItemStack stack = mc.player.getHeldItemMainhand();
 			Item item = stack.getItem();
 
@@ -364,7 +371,7 @@ public class ClientRenderer {
 			ItemMetaWorldRenderer.render(item, stack);
 		}
 
-		if(mc.player != null && mc.player.getHeldItemOffhand() != null) {
+		if (mc.player != null && mc.player.getHeldItemOffhand() != null) {
 			ItemStack stack = mc.player.getHeldItemOffhand();
 			Item item = stack.getItem();
 
@@ -379,7 +386,8 @@ public class ClientRenderer {
 			ItemMetaWorldRenderer.render(item, stack);
 		}
 
-		GlStateManager.enableCull();;
+		GlStateManager.enableCull();
+		;
 		GlStateManager.enableLighting();
 		GlStateManager.enableTexture2D();
 		GlStateManager.color(1, 1, 1, 1);
@@ -390,25 +398,25 @@ public class ClientRenderer {
 		temporaryRenderers.clear();
 		visualizationMode = VisualMode.Default;
 	}
-	
+
 	public void on_render_world_terrain_pre(RenderTickEvent revt) {
-		if(mc.world != null) {
+		if (mc.world != null) {
 			// Which VisualMode should we use?
 			VisualMode visMode = visualizationMode;
-			
+
 			// Prevent non-creative players from using the visualization modes.
-			if(!proxy.isBuildMode()) {
+			if (!proxy.isBuildMode()) {
 				visMode = VisualMode.Default;
 			}
-			
+
 			// this takes care of the CUSTOM SKY RENDERING
-			if(mc.world.provider != null) {
+			if (mc.world.provider != null) {
 				boolean debugSkyActive = visMode != VisualMode.Default;
-				
-				if(debugSkyActive) {
+
+				if (debugSkyActive) {
 					CustomSkyRenderer.instance.setDebugSky(true);
 					mc.world.provider.setSkyRenderer(CustomSkyRenderer.instance);
-				} else if(Environments.isNonDefault()) {
+				} else if (Environments.isNonDefault()) {
 					CustomSkyRenderer.instance.setDebugSky(false);
 					mc.world.provider.setSkyRenderer(CustomSkyRenderer.instance);
 				} else {
@@ -416,17 +424,17 @@ public class ClientRenderer {
 					mc.world.provider.setSkyRenderer(null);
 				}
 			}
-			
+
 			// handle currently active VisualMode
-			if(mc.player != null) {
+			if (mc.player != null) {
 				RenderModeHelper.ENABLE(visMode);
 			}
 		}
 	}
 
 	public void on_render_world_terrain_post(RenderTickEvent revt) {
-		if(mc.ingameGUI != null && mc.world != null) {
-			if(proxy.getInfoBar().canDisplayInfoBar(mc, proxy)) {
+		if (mc.ingameGUI != null && mc.world != null) {
+			if (proxy.getInfoBar().canDisplayInfoBar(mc, proxy)) {
 				proxy.getInfoBar().display(mc, mc.world, proxy);
 
 				// XXX: Move this to its own IF
@@ -436,18 +444,16 @@ public class ClientRenderer {
 	}
 
 	public static ClientFadeEffect fadeEffect = null;
-	
+
 	public void on_render_world_hand_post(RenderHandEvent event) {
-		if(fadeEffect != null && mc.ingameGUI != null){
+		if (fadeEffect != null && mc.ingameGUI != null) {
 			fadeEffect.render();
 
 			// Do NOT draw the hand!
 			event.setCanceled(true);
 		}
-		
+
 		GlStateManager.enableTexture2D();
 	}
-
-
 
 }

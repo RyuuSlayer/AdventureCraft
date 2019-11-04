@@ -12,7 +12,7 @@ import net.minecraft.server.MinecraftServer;
 public class RenameCommand extends ACCommandBase {
 
 	@Override
-	public String getName(){
+	public String getName() {
 		return "ac_rename";
 	}
 
@@ -24,20 +24,20 @@ public class RenameCommand extends ACCommandBase {
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		EntityPlayerMP player = CommandBase.getCommandSenderAsPlayer(sender);
-		
-		if(args.length == 0) {
+
+		if (args.length == 0) {
 			throw new WrongUsageException("No parameters given!");
 		}
-		
+
 		String newName = Strings.join(args, " ").trim();
-		
-		if(newName.isEmpty()) {
+
+		if (newName.isEmpty()) {
 			return;
 		}
-		
+
 		ItemStack itemStack = player.getHeldItemMainhand();
-		
-		if(itemStack != null) {
+
+		if (itemStack != null) {
 			itemStack.setStackDisplayName(newName);
 		}
 	}

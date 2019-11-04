@@ -26,16 +26,17 @@ public class ImageHologramBlock extends ACBlockContainer implements ACITriggerab
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (!worldIn.isRemote)
 			return true;
-		if(!AdventureCraft.proxy.isBuildMode())
+		if (!AdventureCraft.proxy.isBuildMode())
 			return false;
-		if(playerIn.isSneaking())
+		if (playerIn.isSneaking())
 			return true;
 
 		Minecraft mc = Minecraft.getMinecraft();
-		mc.displayGuiScreen(new GuiImageHologramBlock((ImageHologramBlockTileEntity)worldIn.getTileEntity(pos)));
+		mc.displayGuiScreen(new GuiImageHologramBlock((ImageHologramBlockTileEntity) worldIn.getTileEntity(pos)));
 
 		return true;
 	}
@@ -49,11 +50,20 @@ public class ImageHologramBlock extends ACBlockContainer implements ACITriggerab
 
 		if (tileentity instanceof ImageHologramBlockTileEntity) {
 			switch (triggerState) {
-			case ON: ((ImageHologramBlockTileEntity) tileentity).setActive(true); break;
-			case OFF: ((ImageHologramBlockTileEntity) tileentity).setActive(false); break;
-			case INVERT: ((ImageHologramBlockTileEntity) tileentity).toggleActive(); break;
-			case IGNORE: ((ImageHologramBlockTileEntity) tileentity).setActive(true); break;
-			default: break;
+			case ON:
+				((ImageHologramBlockTileEntity) tileentity).setActive(true);
+				break;
+			case OFF:
+				((ImageHologramBlockTileEntity) tileentity).setActive(false);
+				break;
+			case INVERT:
+				((ImageHologramBlockTileEntity) tileentity).toggleActive();
+				break;
+			case IGNORE:
+				((ImageHologramBlockTileEntity) tileentity).setActive(true);
+				break;
+			default:
+				break;
 			}
 		}
 	}

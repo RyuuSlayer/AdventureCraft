@@ -32,7 +32,7 @@ public class RightClickCommand extends CommandBase {
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		if(args.length != 3) {
+		if (args.length != 3) {
 			return;
 		}
 
@@ -45,7 +45,7 @@ public class RightClickCommand extends CommandBase {
 
 		// <x> <y> <z>
 		final double xCoord = CommandBase.parseDouble(baseX, args[0], min, max, true);
-		final double yCoord = CommandBase.parseDouble(baseY, args[1],   0, 255, true);
+		final double yCoord = CommandBase.parseDouble(baseY, args[1], 0, 255, true);
 		final double zCoord = CommandBase.parseDouble(baseZ, args[2], min, max, true);
 
 		final BlockPos pos = new BlockPos(xCoord, yCoord, zCoord);

@@ -22,162 +22,172 @@ import de.ryuum3gum1n.adventurecraft.items.world.KeyItem;
 import de.ryuum3gum1n.adventurecraft.tileentity.LockedDoorTileEntity;
 import de.ryuum3gum1n.adventurecraft.tileentity.LockedDoorTileEntity.DoorCorner;
 
-public class LockedDoorBlock extends ACWorldBlock implements ITileEntityProvider{
+public class LockedDoorBlock extends ACWorldBlock implements ITileEntityProvider {
 
 	@SuppressWarnings("rawtypes")
 	public static final PropertyEnum CORNER = PropertyEnum.create("corner", DoorCorner.class);
-	
+
 	@SuppressWarnings("unchecked")
-	public LockedDoorBlock(){
+	public LockedDoorBlock() {
 		super();
 		this.setDefaultState(this.blockState.getBaseState().withProperty(CORNER, DoorCorner.BottomLeftX));
 	}
-	
+
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand,
+			EnumFacing facing, float hitX, float hitY, float hitZ) {
 		LockedDoorTileEntity te = (LockedDoorTileEntity) world.getTileEntity(pos);
 		DoorCorner corner = te.corner;
-		if(playerIn.isSneaking() && playerIn.isCreative() && !world.isRemote){
-			if(corner == DoorCorner.BottomLeftX){
+		if (playerIn.isSneaking() && playerIn.isCreative() && !world.isRemote) {
+			if (corner == DoorCorner.BottomLeftX) {
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(1, 0, 0))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(0, 1, 0))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(1, 1, 0))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos)).toggleKey();
 			}
-			if(corner == DoorCorner.BottomRightX){
+			if (corner == DoorCorner.BottomRightX) {
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(-1, 0, 0))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(0, 1, 0))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(-1, 1, 0))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos)).toggleKey();
 			}
-			if(corner == DoorCorner.TopLeftX){
+			if (corner == DoorCorner.TopLeftX) {
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(1, 0, 0))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(0, -1, 0))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(1, -1, 0))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos)).toggleKey();
 			}
-			if(corner == DoorCorner.TopRightX){
+			if (corner == DoorCorner.TopRightX) {
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(-1, 0, 0))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(0, -1, 0))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(-1, -1, 0))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos)).toggleKey();
 			}
-			
-			if(corner == DoorCorner.BottomLeftZ){
+
+			if (corner == DoorCorner.BottomLeftZ) {
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(0, 0, 1))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(0, 1, 0))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(0, 1, 1))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos)).toggleKey();
 			}
-			if(corner == DoorCorner.BottomRightZ){
+			if (corner == DoorCorner.BottomRightZ) {
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(0, 0, -1))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(0, 1, 0))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(0, 1, -1))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos)).toggleKey();
 			}
-			if(corner == DoorCorner.TopLeftZ){
+			if (corner == DoorCorner.TopLeftZ) {
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(0, 0, 1))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(0, -1, 0))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(0, -1, 1))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos)).toggleKey();
 			}
-			if(corner == DoorCorner.TopRightZ){
+			if (corner == DoorCorner.TopRightZ) {
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(0, 0, -1))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(0, -1, 0))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos.add(0, -1, -1))).toggleKey();
 				((LockedDoorTileEntity) world.getTileEntity(pos)).toggleKey();
 			}
-			LockedDoorTileEntity tehere = (LockedDoorTileEntity)world.getTileEntity(pos);
+			LockedDoorTileEntity tehere = (LockedDoorTileEntity) world.getTileEntity(pos);
 			String keyName = tehere.useSilverKey ? TextFormatting.DARK_GRAY + "silver " : TextFormatting.GOLD + "gold ";
-			playerIn.sendMessage(new TextComponentString("This door now takes the " + keyName + TextFormatting.RESET + "key."));
+			playerIn.sendMessage(
+					new TextComponentString("This door now takes the " + keyName + TextFormatting.RESET + "key."));
 			return true;
 		}
 		ItemStack heldItem = playerIn.getHeldItem(hand);
-		if(world.isRemote){
-			if(heldItem != null && heldItem.getItem() instanceof KeyItem){
-				if((heldItem.getItem() == AdventureCraftItems.silverKey && te.useSilverKey) || (heldItem.getItem() == AdventureCraftItems.goldKey && !te.useSilverKey))world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 100f, 1f, false);
+		if (world.isRemote) {
+			if (heldItem != null && heldItem.getItem() instanceof KeyItem) {
+				if ((heldItem.getItem() == AdventureCraftItems.silverKey && te.useSilverKey)
+						|| (heldItem.getItem() == AdventureCraftItems.goldKey && !te.useSilverKey))
+					world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_CHEST_OPEN,
+							SoundCategory.BLOCKS, 100f, 1f, false);
 			}
 			return true;
 		}
-		if(heldItem != null && heldItem.getItem() instanceof KeyItem){
-			if((heldItem.getItem() == AdventureCraftItems.silverKey && te.useSilverKey) || (heldItem.getItem() == AdventureCraftItems.goldKey && !te.useSilverKey)){
+		if (heldItem != null && heldItem.getItem() instanceof KeyItem) {
+			if ((heldItem.getItem() == AdventureCraftItems.silverKey && te.useSilverKey)
+					|| (heldItem.getItem() == AdventureCraftItems.goldKey && !te.useSilverKey)) {
 				world.setBlockToAir(pos);
 				onBlockDestroyedByPlayer(world, pos, state);
-				if(!playerIn.isCreative())heldItem.shrink(1);
+				if (!playerIn.isCreative())
+					heldItem.shrink(1);
 				return true;
 			}
 		}
 		return true;
 	}
-	
+
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+			float hitZ, int meta, EntityLivingBase placer) {
 		facing = EnumFacing.fromAngle(placer.rotationYawHead);
 		boolean ZAxis = facing == EnumFacing.WEST || facing == EnumFacing.EAST;
-		
-		if(ZAxis){
-			
-		}else{
-			
+
+		if (ZAxis) {
+
+		} else {
+
 		}
-		
+
 		world.setBlockState(pos.add(0, 1, 0), getStateFromMeta(DoorCorner.TopLeftX.ordinal() + (ZAxis ? 4 : 0)));
-		world.setBlockState(pos.add(ZAxis ? 0 : 1, 0, ZAxis ? 1 : 0), getStateFromMeta(DoorCorner.BottomRightX.ordinal() + (ZAxis ? 4 : 0)));
-		world.setBlockState(pos.add(ZAxis ? 0 : 1, 1, ZAxis ? 1 : 0), getStateFromMeta(DoorCorner.TopRightX.ordinal() + (ZAxis ? 4 : 0)));
+		world.setBlockState(pos.add(ZAxis ? 0 : 1, 0, ZAxis ? 1 : 0),
+				getStateFromMeta(DoorCorner.BottomRightX.ordinal() + (ZAxis ? 4 : 0)));
+		world.setBlockState(pos.add(ZAxis ? 0 : 1, 1, ZAxis ? 1 : 0),
+				getStateFromMeta(DoorCorner.TopRightX.ordinal() + (ZAxis ? 4 : 0)));
 		return this.getStateFromMeta(meta + (ZAxis ? 4 : 0));
 	}
-	
+
 	@Override
-	public void onBlockDestroyedByPlayer(World world, BlockPos pos, IBlockState state){
+	public void onBlockDestroyedByPlayer(World world, BlockPos pos, IBlockState state) {
 		DoorCorner corner = DoorCorner.values()[getMetaFromState(state)];
-		if(corner == DoorCorner.BottomLeftX){
+		if (corner == DoorCorner.BottomLeftX) {
 			world.setBlockToAir(pos.add(1, 0, 0));
 			world.setBlockToAir(pos.add(0, 1, 0));
 			world.setBlockToAir(pos.add(1, 1, 0));
 		}
-		if(corner == DoorCorner.BottomRightX){
+		if (corner == DoorCorner.BottomRightX) {
 			world.setBlockToAir(pos.add(-1, 0, 0));
 			world.setBlockToAir(pos.add(0, 1, 0));
 			world.setBlockToAir(pos.add(-1, 1, 0));
 		}
-		if(corner == DoorCorner.TopLeftX){
+		if (corner == DoorCorner.TopLeftX) {
 			world.setBlockToAir(pos.add(1, 0, 0));
 			world.setBlockToAir(pos.add(0, -1, 0));
 			world.setBlockToAir(pos.add(1, -1, 0));
 		}
-		if(corner == DoorCorner.TopRightX){
+		if (corner == DoorCorner.TopRightX) {
 			world.setBlockToAir(pos.add(-1, 0, 0));
 			world.setBlockToAir(pos.add(0, -1, 0));
 			world.setBlockToAir(pos.add(-1, -1, 0));
 		}
-		
-		if(corner == DoorCorner.BottomLeftZ){
+
+		if (corner == DoorCorner.BottomLeftZ) {
 			world.setBlockToAir(pos.add(0, 0, 1));
 			world.setBlockToAir(pos.add(0, 1, 0));
 			world.setBlockToAir(pos.add(0, 1, 1));
 		}
-		if(corner == DoorCorner.BottomRightZ){
+		if (corner == DoorCorner.BottomRightZ) {
 			world.setBlockToAir(pos.add(0, 0, -1));
 			world.setBlockToAir(pos.add(0, 1, 0));
 			world.setBlockToAir(pos.add(0, 1, -1));
 		}
-		if(corner == DoorCorner.TopLeftZ){
+		if (corner == DoorCorner.TopLeftZ) {
 			world.setBlockToAir(pos.add(0, 0, 1));
 			world.setBlockToAir(pos.add(0, -1, 0));
 			world.setBlockToAir(pos.add(0, -1, 1));
 		}
-		if(corner == DoorCorner.TopRightZ){
+		if (corner == DoorCorner.TopRightZ) {
 			world.setBlockToAir(pos.add(0, 0, -1));
 			world.setBlockToAir(pos.add(0, -1, 0));
 			world.setBlockToAir(pos.add(0, -1, -1));
 		}
 	}
-	
+
 	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, new IProperty[] { CORNER });
 	}
-	
+
 	@Deprecated
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
@@ -189,7 +199,7 @@ public class LockedDoorBlock extends ACWorldBlock implements ITileEntityProvider
 		DoorCorner type = (DoorCorner) state.getValue(CORNER);
 		return type.ordinal();
 	}
-	
+
 	@Override
 	public int damageDropped(IBlockState state) {
 		return getMetaFromState(state);
@@ -201,5 +211,5 @@ public class LockedDoorBlock extends ACWorldBlock implements ITileEntityProvider
 		te.setDoorCorner((DoorCorner) getStateFromMeta(meta).getValue(CORNER));
 		return te;
 	}
-	
+
 }

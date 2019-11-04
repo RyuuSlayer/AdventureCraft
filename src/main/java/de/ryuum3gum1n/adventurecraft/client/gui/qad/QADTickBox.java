@@ -6,7 +6,9 @@ import de.ryuum3gum1n.adventurecraft.client.gui.vcui.VCUIRenderer;
 public class QADTickBox extends QADRectangularComponent {
 	public static interface TickBoxModel {
 		public void setState(boolean newState);
+
 		public boolean getState();
+
 		public void toggleState();
 	}
 
@@ -58,7 +60,7 @@ public class QADTickBox extends QADRectangularComponent {
 	}
 
 	public QADTickBox setModel(TickBoxModel newModel) {
-		if(newModel == null)
+		if (newModel == null)
 			throw new IllegalArgumentException("'newModel' must not be null!");
 
 		this.model = newModel;
@@ -97,37 +99,41 @@ public class QADTickBox extends QADRectangularComponent {
 
 	@Override
 	public void draw(int localMouseX, int localMouseY, float partialTicks, VCUIRenderer renderer) {
-		renderer.drawRectangle(x, y, x+w, y+h, 0xFF7F7F7F);
-		renderer.drawRectangle(x+1, y+1, x+w-1, y+h-1, 0xFF000000);
+		renderer.drawRectangle(x, y, x + w, y + h, 0xFF7F7F7F);
+		renderer.drawRectangle(x + 1, y + 1, x + w - 1, y + h - 1, 0xFF000000);
 
-		if(model.getState()) {
-			renderer.drawRectangle(x+3, y+3, x+w-3, y+h-3, 0xFFF0F0F0);
+		if (model.getState()) {
+			renderer.drawRectangle(x + 3, y + 3, x + w - 3, y + h - 3, 0xFFF0F0F0);
 		}
 	}
 
 	@Override
 	public void onMouseClicked(int localMouseX, int localMouseY, int mouseButton) {
-		if(localMouseX > 0 && localMouseY > 0 && localMouseX < w && localMouseY < h) {
+		if (localMouseX > 0 && localMouseY > 0 && localMouseX < w && localMouseY < h) {
 			model.toggleState();
 			playPressSound(model.getState() ? 1f : 0.8f);
 		}
 	}
 
 	@Override
-	public void onMouseReleased(int localMouseX, int localMouseY, int state) {}
+	public void onMouseReleased(int localMouseX, int localMouseY, int state) {
+	}
 
 	@Override
-	public void onMouseClickMove(int localMouseX, int localMouseY, int clickedMouseButton, long timeSinceLastClick) {}
+	public void onMouseClickMove(int localMouseX, int localMouseY, int clickedMouseButton, long timeSinceLastClick) {
+	}
 
 	@Override
-	public void onKeyTyped(char typedChar, int typedCode) {}
+	public void onKeyTyped(char typedChar, int typedCode) {
+	}
 
 	@Override
-	public void onTickUpdate() {}
+	public void onTickUpdate() {
+	}
 
 	@Override
 	public boolean isPointInside(int mouseX, int mouseY) {
-		return mouseX > x && mouseY > y && mouseX-x < w && mouseY-y < h;
+		return mouseX > x && mouseY > y && mouseX - x < w && mouseY - y < h;
 	}
 
 	@Override
@@ -172,7 +178,7 @@ public class QADTickBox extends QADRectangularComponent {
 
 	@Override
 	public boolean transferFocus() {
-		if(isFocused) {
+		if (isFocused) {
 			isFocused = false;
 			return false;// jump to next focus
 		} else {
