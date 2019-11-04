@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "ktype=0": { "model": "adventurecraft:killblock_t0" },
+        "ktype=1": { "model": "adventurecraft:killblock_t0" },
+        "ktype=2": { "model": "adventurecraft:killblock_t0" },
+        "ktype=3": { "model": "adventurecraft:killblock_t0" },
+        "ktype=4": { "model": "adventurecraft:killblock_t0" },
+        "ktype=5": { "model": "adventurecraft:killblock_t0" },
+        "ktype=6": { "model": "adventurecraft:killblock_t0" },
+        "ktype=7": { "model": "adventurecraft:killblock_t0" },
+        "ktype=8": { "model": "adventurecraft:killblock_t0" },
+        "ktype=9": { "model": "adventurecraft:killblock_t0" },
+        "ktype=10": { "model": "adventurecraft:killblock_t0" },
+        "ktype=11": { "model": "adventurecraft:killblock_t0" },
+        "ktype=12": { "model": "adventurecraft:killblock_t0" },
+        "ktype=13": { "model": "adventurecraft:killblock_t0" },
+        "ktype=14": { "model": "adventurecraft:killblock_t0" },
+        "ktype=15": { "model": "adventurecraft:killblock_t0" }
+    }
+}

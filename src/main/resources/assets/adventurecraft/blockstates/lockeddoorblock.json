@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "corner=bottomleftx": { "model":"adventurecraft:lockeddoorblock" },
+        "corner=bottomleftz": { "model":"adventurecraft:lockeddoorblock" },
+        "corner=bottomrightx": { "model":"adventurecraft:lockeddoorblock" },
+        "corner=bottomrightz": { "model":"adventurecraft:lockeddoorblock" },
+        "corner=topleftx": { "model":"adventurecraft:lockeddoorblock" },
+        "corner=topleftz": { "model":"adventurecraft:lockeddoorblock" },
+        "corner=toprightx": { "model":"adventurecraft:lockeddoorblock" },
+        "corner=toprightz": { "model":"adventurecraft:lockeddoorblock" }
+    }
+}

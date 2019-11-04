@@ -1,0 +1,7 @@
+{
+  "variants" : {
+    "normal" : {"model" : "adventurecraft:redstone_activator"},
+    "powered=true" : {"model" : "adventurecraft:redstone_activator"},
+    "powered=false" : {"model" : "adventurecraft:redstone_activator"}
+  }
+}

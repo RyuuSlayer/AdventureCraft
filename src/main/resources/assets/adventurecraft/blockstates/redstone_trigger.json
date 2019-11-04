@@ -1,0 +1,7 @@
+{
+  "variants" : {
+    "normal" : {"model" : "adventurecraft:redstone_trigger"},
+    "triggered=true" : {"model" : "adventurecraft:redstone_trigger"},
+    "triggered=false" : {"model" : "adventurecraft:redstone_trigger"}
+  }
+}

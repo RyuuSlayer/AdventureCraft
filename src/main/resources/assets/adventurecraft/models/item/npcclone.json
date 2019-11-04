@@ -1,0 +1,14 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "adventurecraft:items/npcclone"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "full": 1
+            },
+            "model": "adventurecraft:item/npcclone_full"
+        }
+    ]
+}

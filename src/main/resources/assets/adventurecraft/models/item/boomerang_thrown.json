@@ -1,0 +1,6 @@
+{
+    "parent": "adventurecraft:item/boomerang",
+    "textures": {
+        "layer0": "adventurecraft:items/weapons/boomerang_thrown"
+    }
+}
