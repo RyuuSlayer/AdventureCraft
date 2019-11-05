@@ -20,7 +20,6 @@ import de.ryuum3gum1n.adventurecraft.items.CutItem;
 import de.ryuum3gum1n.adventurecraft.items.DecoratorItem;
 import de.ryuum3gum1n.adventurecraft.items.EraserItem;
 import de.ryuum3gum1n.adventurecraft.items.FillerItem;
-import de.ryuum3gum1n.adventurecraft.items.InstaKillItem;
 import de.ryuum3gum1n.adventurecraft.items.MetaSwapperItem;
 import de.ryuum3gum1n.adventurecraft.items.MovingBlockCreator;
 import de.ryuum3gum1n.adventurecraft.items.EntityCloneItem;
@@ -56,7 +55,6 @@ public class AdventureCraftItems {
 	public static FillerItem filler;
 	public static EraserItem eraser;
 	public static TeleporterItem teleporter;
-	public static InstaKillItem instakill;
 	public static VoxelatorItem voxelbrush;
 	public static NudgeItem nudger;
 	public static CopyItem copy;
@@ -103,7 +101,6 @@ public class AdventureCraftItems {
 		filler = register(new FillerItem(), "filler");
 		eraser = register(new EraserItem(), "eraser");
 		teleporter = register(new TeleporterItem(), "teleporter");
-		instakill = register(new InstaKillItem(), "instakill");
 		voxelbrush = register(new VoxelatorItem(), "voxelbrush");
 		nudger = register(new NudgeItem(), "nudger");
 		copy = register(new CopyItem(), "copy");

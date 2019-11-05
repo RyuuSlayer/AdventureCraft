@@ -31,8 +31,8 @@ public class VoxelatorItem extends ACItem implements ACITriggerableItem {
 		if (world.isRemote)
 			return;
 
-		if (world.getGameRules().hasRule("disableTCVoxelBrush")
-				&& world.getGameRules().getBoolean("disableTCVoxelBrush")) {
+		if (world.getGameRules().hasRule("disableACVoxelBrush")
+				&& world.getGameRules().getBoolean("disableACVoxelBrush")) {
 			return;
 		}
 

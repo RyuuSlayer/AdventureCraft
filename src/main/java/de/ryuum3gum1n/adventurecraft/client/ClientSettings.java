@@ -98,10 +98,10 @@ public class ClientSettings {
 		if (mc.player == null)
 			return;
 
-		String tccommand = "server.client.settings.update";
+		String accommand = "server.client.settings.update";
 		NBTTagCompound settingsForServer = new NBTTagCompound();
 		getSettingsForServer(settingsForServer);
-		AdventureCraft.network.sendToServer(new StringNBTCommandPacket(tccommand, settingsForServer));
+		AdventureCraft.network.sendToServer(new StringNBTCommandPacket(accommand, settingsForServer));
 	}
 
 }

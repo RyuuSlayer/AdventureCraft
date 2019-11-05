@@ -42,7 +42,7 @@ public class SelectionBoxRenderer implements IRenderable {
 		// Wand Selection Rendering
 		NBTTagCompound playerData = mc.player.getEntityData();
 		if (playerData.hasKey("acWand")) {
-			NBTTagCompound acWand = playerData.getCompoundTag("tcWand");
+			NBTTagCompound acWand = playerData.getCompoundTag("acWand");
 
 			if (acWand.hasKey("cursor")) {
 				final float E = -1f / 64f;

@@ -32,19 +32,7 @@ public class AdventureCraftTabs {
 		}
 	};
 
-	public static CreativeTabs tab_AdventureCraftDecorationTab = new CreativeTabs("adventurecraftDecoTab") {
-		@Override
-		public ItemStack getTabIconItem() {
-			return new ItemStack(Items.DYE, 1, this.getIconItemDamage());
-		}
-
-		@SideOnly(Side.CLIENT)
-		public int getIconItemDamage() {
-			return (int) ((Minecraft.getSystemTime() / 100D) % 16);
-		}
-	};
-
-	public static CreativeTabs tab_AdventureCraftWorldTab = new CreativeTabs("adventurecrafttWorldTab") {
+	public static CreativeTabs tab_AdventureCraftWorldTab = new CreativeTabs("adventurecraftWorldTab") {
 		@Override
 		public ItemStack getTabIconItem() {
 			return new ItemStack(AdventureCraftItems.goldKey);

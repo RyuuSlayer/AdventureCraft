@@ -81,17 +81,17 @@ public class InfoBar {
 		mc.fontRenderer.drawString(builder.toString(), 1, 1, 14737632);
 		lastHeight = mc.fontRenderer.FONT_HEIGHT + 1;
 
-		if (mc.player != null && mc.player.getEntityData().hasKey("tcWand")
+		if (mc.player != null && mc.player.getEntityData().hasKey("acWand")
 				&& ClientProxy.settings.getBoolean("client.infobar.showWandInfo")) {
-			NBTTagCompound tcWand = mc.player.getEntityData().getCompoundTag("tcWand");
+			NBTTagCompound acWand = mc.player.getEntityData().getCompoundTag("acWand");
 
 			builder.setLength(0);
 
-			if (tcWand.hasKey("boundsA") && tcWand.hasKey("boundsB")) {
+			if (acWand.hasKey("boundsA") && acWand.hasKey("boundsB")) {
 				builder.append(' ');
 
-				int[] a = tcWand.getIntArray("boundsA");
-				int[] b = tcWand.getIntArray("boundsB");
+				int[] a = acWand.getIntArray("boundsA");
+				int[] b = acWand.getIntArray("boundsB");
 
 				long volX = (Math.abs(b[0] - a[0]) + 1);
 				long volY = (Math.abs(b[1] - a[1]) + 1);

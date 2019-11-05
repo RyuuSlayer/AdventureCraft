@@ -13,7 +13,7 @@ public class GlobalClassShutter implements ClassShutter {
 			return true;
 
 		// this is kinda obvious
-		if (fullClassName.startsWith("de.longor.adventurecraft.script."))
+		if (fullClassName.startsWith("de.ryuum3gum1n.adventurecraft.script."))
 			return true;
 
 		// basic security measures

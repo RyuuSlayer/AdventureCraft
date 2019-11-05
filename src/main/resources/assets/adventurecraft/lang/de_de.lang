@@ -1,0 +1,83 @@
+key.categories.adventurecraft=AdventureCraft
+key.toggleBuildMode=Aktiviere Baumodus
+key.toggleWireframe=Aktiviere Rendermodus
+key.mapSettings=Öffne Map Einstellungen
+key.nbt=Item NBT Bearbeiten
+key.reload=Waffe nachladen
+key.triggeritem=Item aktivieren
+
+itemGroup.adventurecraftTab=AdventureCraft [Utensilien]
+itemGroup.adventurecraftWorldTab=AdventureCraft [Welt]
+itemGroup.adventurecraftWeaponTab=AdventureCraft [Waffen]
+
+entity.adventurecraft.ac_point.name=Punkt Wesen
+entity.adventurecraft.ac_NPC.name=NPC
+entity.adventurecraft.ac_movingblock.name=Beweglicher Block
+
+item.wand.name=Zauberstab
+item.filler.name=Füller
+item.eraser.name=Radierer
+item.nudger.name=Nudger
+item.paste.name=Einfüger
+item.copy.name=Kopierer
+item.cut.name=Ausschneider
+item.spawnpoint.name=Spawnpunkt-Wesen
+item.metaswapper.name=Meta Wechsler
+item.teleporter.name=Teleportierer
+item.voxelbrush.name=Voxelator
+item.terrainbrush.name=Terrain-Pinsel
+item.npceditor.name=NPC Editierer
+item.npcclone.name=Wesen Kloner
+item.camera.name=Kamera
+item.decorator.name=Dekorierer
+item.trigger.name=Block Auslöser
+item.custompainting.name=Spezifisches Gemälde
+item.movingblockcreator.name=Beweglicher Block Ersteller
+
+item.silverkey.name=Silberschlüssel
+item.goldkey.name=Goldschlüssel
+item.bomb.name=Werfbare Bombe
+item.goldcoin.name=Gold Münze
+item.silvercoin.name=Silber Münze
+item.emeraldcoin.name=Smaragd Münze
+item.heart.name=Herz
+
+item.pistol.name=Pistole
+item.pistolclip.name=Pistolen Munition
+item.rifle.name=Gewehr
+item.rifleclip.name=Gewehr Munition
+item.shotgun.name=Shotgun
+item.shotgunclip.name=Shotgun Munition
+item.bombarrow.name=Explosiver Pfeil
+item.boomerang.name=Boomerang
+item.knife.name=Wurfmesser
+
+item.harp.name=Harfe
+item.guitar.name=Gitarre
+item.drums.name=Trommel
+
+tile.adventurecraft:clockblock.name=Clock Block
+tile.adventurecraft:redstone_trigger.name=Redstone Auslöser Block
+tile.adventurecraft:redstone_activator.name=Redstone Aktivierer Block
+tile.adventurecraft:relayblock.name=Relais Block
+tile.adventurecraft:scriptblock.name=Skript Block
+tile.adventurecraft:updatedetectorblock.name=Aktualisierungs Erkennungs Auslöser Block
+tile.adventurecraft:storageblock.name=Lager Block
+tile.adventurecraft:emitterblock.name=Emitter Block
+tile.adventurecraft:imagehologramblock.name=Hologram Block (I)
+tile.adventurecraft:collisiontriggerblock.name=Kollisions Auslöser Block
+tile.adventurecraft:lightblock.name=Licht Block
+tile.adventurecraft:hiddenblock.name=Versteckter Block
+tile.adventurecraft:messageblock.name=Nachrichten Block
+tile.adventurecraft:inverterblock.name=Invertierer Block
+tile.adventurecraft:memoryblock.name=Speicher Block
+tile.adventurecraft:triggerfilterblock.name=Auslöser Filter Block
+tile.adventurecraft:delayblock.name=Verzögerungs Block
+tile.adventurecraft:urlblock.name=URL Block
+tile.adventurecraft:summonblock.name=Beschwör Block
+tile.adventurecraft:musicblock.name=Musik Block
+tile.adventurecraft:camerablock.name=Kamera Block
+tile.adventurecraft:spikeblock.name=Stacheln
+tile.adventurecraft:lockeddoorblock.name=Verschlossene Tür
+tile.adventurecraft:workbench.name=Werkbank
+tile.adventurecraft:killblock.name=Tötungs Block

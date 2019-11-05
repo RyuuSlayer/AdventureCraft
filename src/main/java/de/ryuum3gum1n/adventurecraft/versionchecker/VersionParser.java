@@ -13,11 +13,11 @@ public class VersionParser {
 		try {
 			InputStreamReader r = new InputStreamReader(new URL("").openStream());
 			JsonParser jsonParser = new JsonParser();
-			JsonObject tc = (JsonObject) jsonParser.parse(r);
-			JsonObject versiondetails = tc.getAsJsonObject("download");
+			JsonObject ac = (JsonObject) jsonParser.parse(r);
+			JsonObject versiondetails = ac.getAsJsonObject("download");
 			String name = versiondetails.getAsJsonPrimitive("name").getAsString();
-			ACVersion tcv = new ACVersion(name);
-			return tcv;
+			ACVersion acv = new ACVersion(name);
+			return acv;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;

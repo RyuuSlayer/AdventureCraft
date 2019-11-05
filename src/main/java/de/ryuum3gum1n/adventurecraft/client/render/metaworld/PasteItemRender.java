@@ -75,8 +75,8 @@ public class PasteItemRender implements IMetadataRender {
 		if (entity != null) {
 			color = -3;
 
-			float width = entity.getFloat("tc_width");
-			float height = entity.getFloat("tc_height");
+			float width = entity.getFloat("ac_width");
+			float height = entity.getFloat("ac_height");
 
 			dimX = width;
 			dimY = height;

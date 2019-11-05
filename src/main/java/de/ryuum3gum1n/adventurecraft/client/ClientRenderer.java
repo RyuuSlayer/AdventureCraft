@@ -387,7 +387,6 @@ public class ClientRenderer {
 		}
 
 		GlStateManager.enableCull();
-		;
 		GlStateManager.enableLighting();
 		GlStateManager.enableTexture2D();
 		GlStateManager.color(1, 1, 1, 1);
