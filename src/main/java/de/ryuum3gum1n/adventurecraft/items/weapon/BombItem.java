@@ -1,5 +1,6 @@
 package de.ryuum3gum1n.adventurecraft.items.weapon;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -8,6 +9,9 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+
+import java.util.List;
+
 import de.ryuum3gum1n.adventurecraft.entity.projectile.EntityBomb;
 
 public class BombItem extends ACWeaponItem {
@@ -30,5 +34,12 @@ public class BombItem extends ACWeaponItem {
 
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 	}
+	
+	@Override
+	public void addInformation(ItemStack itemstack, World world, List<String> list, ITooltipFlag flag) {
+		super.addInformation(itemstack, world, list, flag);
+		list.add("Can destroy broken walls");
+	}
+
 
 }
