@@ -81,7 +81,7 @@ public abstract class ACGunItem extends ACWeaponItem {
 	protected void fire(World world, EntityPlayer player) {
 		EntityBullet bullet = new EntityBullet(world, player, getDamage(), range());
 		world.playSound(null, player.getPosition(), fireSound(), SoundCategory.AMBIENT, 3F, 1F);
-		bullet.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+		bullet.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 5F, 1.0F);
 		world.spawnEntity(bullet);
 	}
 

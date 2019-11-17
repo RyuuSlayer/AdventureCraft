@@ -25,7 +25,7 @@ public class KnifeItem extends ACWeaponItem {
 
 		if (!worldIn.isRemote) {
 			EntityKnife knife = new EntityKnife(worldIn, player);
-			knife.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 0.7F, 1F);
+			knife.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1F);
 			worldIn.spawnEntity(knife);
 		}
 

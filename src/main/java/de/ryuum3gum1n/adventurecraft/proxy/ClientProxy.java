@@ -18,6 +18,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.resource.IResourceType;
 import net.minecraftforge.client.resource.ISelectiveResourceReloadListener;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -91,7 +92,7 @@ public class ClientProxy extends CommonProxy implements ISelectiveResourceReload
 
 		// add all static renderers
 		clientRenderer.addStaticRenderer(new SelectionBoxRenderer());
-
+		//ClientRegistry.bindTileEntitySpecialRenderer(tileEntityClass, specialRenderer);
 		ReflectionUtil.replaceMusicTicker();
 
 	} // init(..){}

@@ -1,14 +1,17 @@
 package de.ryuum3gum1n.adventurecraft.tileentity;
 
+import java.io.Console;
 import java.text.DecimalFormat;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.client.renderer.tileentity.TileEntitySkullRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec3d;
 import de.ryuum3gum1n.adventurecraft.AdventureCraft;
 import de.ryuum3gum1n.adventurecraft.blocks.ACTileEntity;
@@ -44,10 +47,18 @@ public class CameraBlockTileEntity extends ACTileEntity {
 
 	public CameraPos addPos(EntityPlayer player) {
 		CameraPos pos = new CameraPos(player);
+		//System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		cpos.add(pos);
 		return pos;
 	}
 
+	/*
+	public void spawnEntityHead(CameraPos pos, EntityPlayer player) {
+		TileEntitySkullRenderer renderer = new TileEntitySkullRenderer();
+		renderer.renderSkull((float)pos.x, (float)pos.x, (float)pos.z, EnumFacing.DOWN, player.getRotationYawHead(), 1, null, 0, 0.0F);
+		
+	}
+	*/
 	@Override
 	public String getName() {
 		return "CameraBlock@" + this.getPos();
@@ -245,6 +256,8 @@ public class CameraBlockTileEntity extends ACTileEntity {
 			double arg3 = zDiff * zDiff;
 			return Math.sqrt(arg1 + arg2 + arg3);
 		}
+		
+		
 
 	}
 

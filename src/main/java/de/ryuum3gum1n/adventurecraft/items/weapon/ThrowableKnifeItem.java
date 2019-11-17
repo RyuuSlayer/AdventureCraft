@@ -1,10 +1,7 @@
 package de.ryuum3gum1n.adventurecraft.items.weapon;
 
-import java.util.List;
-
 import javax.annotation.Nullable;
 
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -78,12 +75,6 @@ public class ThrowableKnifeItem extends ACWeaponItem {
 			return false;
 		NBTTagCompound tag = stack.getTagCompound();
 		return tag.getBoolean("thrown");
-	}
-	
-	@Override
-	public void addInformation(ItemStack itemstack, World world, List<String> list, ITooltipFlag flag) {
-		super.addInformation(itemstack, world, list, flag);
-		list.add("Short range throwable");
 	}
 
 }

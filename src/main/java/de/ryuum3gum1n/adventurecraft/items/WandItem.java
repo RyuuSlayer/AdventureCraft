@@ -74,43 +74,43 @@ public class WandItem extends ACItem implements ACITriggerableItem {
 
 	public static final void applyWand(EntityPlayer player, BlockPos pos) {
 		NBTTagCompound compound = player.getEntityData();
-		NBTTagCompound acWand = null;
+		NBTTagCompound tcWand = null;
 
 		if (!compound.hasKey("acWand")) {
-			acWand = new NBTTagCompound();
-			compound.setTag("acWand", acWand);
+			tcWand = new NBTTagCompound();
+			compound.setTag("acWand", tcWand);
 		} else {
-			acWand = compound.getCompoundTag("acWand");
+			tcWand = compound.getCompoundTag("acWand");
 		}
 
 		{
 			// Double Call Prevention Hack
 			long timeNow = player.world.getTotalWorldTime();
-			long timePre = acWand.getLong("DCPH");
+			long timePre = tcWand.getLong("DCPH");
 
 			if (timeNow == timePre) {
 				return;
 			} else {
-				acWand.setLong("DCPH", timeNow);
+				tcWand.setLong("DCPH", timeNow);
 			}
 		}
 
 		int[] pos$$ = new int[] { pos.getX(), pos.getY(), pos.getZ() };
 
-		acWand.setIntArray("cursor", Arrays.copyOf(pos$$, 3));
+		tcWand.setIntArray("cursor", Arrays.copyOf(pos$$, 3));
 
-		if (!acWand.hasKey("boundsA") || !acWand.getBoolean("enabled")) {
-			acWand.setIntArray("boundsA", pos$$);
-			acWand.setIntArray("boundsB", pos$$);
-			acWand.setBoolean("enabled", true);
+		if (!tcWand.hasKey("boundsA") || !tcWand.getBoolean("enabled")) {
+			tcWand.setIntArray("boundsA", pos$$);
+			tcWand.setIntArray("boundsB", pos$$);
+			tcWand.setBoolean("enabled", true);
 		} else {
-			boolean flip = acWand.getBoolean("flip");
+			boolean flip = tcWand.getBoolean("flip");
 			if (flip) {
-				acWand.setIntArray("boundsB", pos$$);
+				tcWand.setIntArray("boundsB", pos$$);
 			} else {
-				acWand.setIntArray("boundsA", pos$$);
+				tcWand.setIntArray("boundsA", pos$$);
 			}
-			acWand.setBoolean("flip", !flip);
+			tcWand.setBoolean("flip", !flip);
 		}
 
 		AdventureCraft.network.sendTo(new PlayerNBTDataMergePacket(compound), (EntityPlayerMP) player);
@@ -122,17 +122,17 @@ public class WandItem extends ACItem implements ACITriggerableItem {
 
 	public static final int[] getBoundsFromPlayerDataOrNull(NBTTagCompound playerData) {
 		if (playerData.hasKey("acWand"))
-			return getBoundsFromAcWandOrNull(playerData.getCompoundTag("acWand"));
+			return getBoundsFromTcWandOrNull(playerData.getCompoundTag("acWand"));
 		return null;
 	}
 
-	public static final int[] getBoundsFromAcWandOrNull(NBTTagCompound acWand) {
-		if (!acWand.hasKey("boundsA") || !acWand.hasKey("boundsB")) {
+	public static final int[] getBoundsFromTcWandOrNull(NBTTagCompound tcWand) {
+		if (!tcWand.hasKey("boundsA") || !tcWand.hasKey("boundsB")) {
 			return null;
 		}
 
-		int[] a = acWand.getIntArray("boundsA");
-		int[] b = acWand.getIntArray("boundsB");
+		int[] a = tcWand.getIntArray("boundsA");
+		int[] b = tcWand.getIntArray("boundsB");
 
 		int ix = Math.min(a[0], b[0]);
 		int iy = Math.min(a[1], b[1]);
@@ -176,9 +176,9 @@ public class WandItem extends ACItem implements ACITriggerableItem {
 	@Override
 	public void trigger(World world, EntityPlayerMP player, ItemStack stack) {
 		NBTTagCompound compound = player.getEntityData();
-		compound.getCompoundTag("acWand").setBoolean("enabled", false);
-		compound.getCompoundTag("acWand").setIntArray("boundsA", new int[] { 0, 0, 0 });
-		compound.getCompoundTag("acWand").setIntArray("boundsB", new int[] { 0, 0, 0 });
+		compound.getCompoundTag("tcWand").setBoolean("enabled", false);
+		compound.getCompoundTag("tcWand").setIntArray("boundsA", new int[] { 0, 0, 0 });
+		compound.getCompoundTag("tcWand").setIntArray("boundsB", new int[] { 0, 0, 0 });
 		player.sendMessage(new TextComponentString("Wand selection has been cleared!"));
 		AdventureCraft.network.sendTo(new PlayerNBTDataMergePacket(compound), player);
 	}

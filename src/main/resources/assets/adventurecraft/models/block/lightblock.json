@@ -1,7 +1,6 @@
 {
-    "parent": "block/cross",
+    "parent": "block/cube_all",
     "textures": {
-	"cross": "adventurecraft:blocks/util/light",
-    	"particle": "adventurecraft:blocks/util/light"
+        "all": "adventurecraft:blocks/util/light"
     }
 }
