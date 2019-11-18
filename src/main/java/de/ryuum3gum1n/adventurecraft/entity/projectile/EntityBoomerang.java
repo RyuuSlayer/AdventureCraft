@@ -6,17 +6,22 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.lwjgl.util.vector.Quaternion;
 
@@ -28,6 +33,8 @@ public class EntityBoomerang extends EntityThrowable {
 	private ItemStack stack;
 	private boolean isReturning = false;
 	public EntityPlayerSP player = Minecraft.getMinecraft().player;
+	public EntityItem carryitem = null;
+	public List<Entity> items = new ArrayList<>();
 	int i = 0;
 
 	public EntityBoomerang(World world) {
@@ -48,9 +55,12 @@ public class EntityBoomerang extends EntityThrowable {
 
 	@Override
 	protected void onImpact(RayTraceResult result) {
-		if (world.isRemote)
+		if (world.isRemote) {
 			return;
-		if (result.typeOfHit == Type.ENTITY) {
+		
+		}
+		
+		if (result.typeOfHit == Type.ENTITY) {	
 			Entity ent = result.entityHit;
 			if (ent == getThrower()) {
 				setDead();
@@ -72,6 +82,30 @@ public class EntityBoomerang extends EntityThrowable {
 		if (rotation > 360) {
 			rotation = 0;
 		}
+		
+//		creates a new boomerang hitbox for better item collecting
+		AxisAlignedBB newAABB = this.getEntityBoundingBox().grow(0.5);
+//		detects items in the hitbox, then adds them to a list to allow pickung up multiple items
+		if (this.world.findNearestEntityWithinAABB(EntityItem.class, newAABB, this) != null) {
+			Entity item = this.world.findNearestEntityWithinAABB(EntityItem.class, newAABB, this);
+			item.setNoGravity(true);
+			items.add(item);
+		}
+		
+//		applies the attributes to the item that allow the carry effect
+		if (!items.isEmpty()) {
+			for (Entity item : items) {
+				item.posX = this.posX + this.motionX;
+				item.motionX = this.motionX;
+				item.posY = this.posY;
+				item.motionY = this.motionY ;
+				item.posZ = this.posZ + this.motionZ;
+				item.motionZ = this.motionZ;
+			}
+		}
+		
+		
+		
 		if (ticksExisted > 20) {
 			ticksExisted = 0;
 			if (isReturning) {
@@ -80,11 +114,18 @@ public class EntityBoomerang extends EntityThrowable {
 					onUpdate();
 				} else {
 					setDead();
+					
+//					sets item gravity, so item does not float off if boomerang misses
+					if (!items.isEmpty()) {
+						for (Entity item : items) {
+							if (item.hasNoGravity()) {
+								item.setNoGravity(true);
+							}
+						}
+					}
 				}
 				
 			} else {
-				System.out.println(this.getPosition());
-				System.out.println("mx: "+this.motionX+", "+"my: "+this.motionY+", "+"mz: "+this.motionZ);
 				returnToThrower();
 				
 			}
@@ -124,6 +165,16 @@ public class EntityBoomerang extends EntityThrowable {
 		this.motionX = ((dx*(double)xm*0.08)+player.motionX*2);
 		this.motionY = (dy*(double)ym*0.08);
 		this.motionZ = ((dz*(double)zm*0.08)+player.motionZ*2);
+//		if (!items.isEmpty()) {
+//			for (Entity item : items) {
+//				item.posX = this.posX;
+//				item.motionX = this.motionX;
+//				item.posY = this.posY+0.5;
+//				item.motionY = this.motionY;
+//				item.posZ = this.posZ;
+//				item.motionZ = this.motionZ;
+//			}
+//		}
 	}
 
 	@Override
