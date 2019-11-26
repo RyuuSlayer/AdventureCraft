@@ -61,6 +61,7 @@ public class BoomerangItem extends ACWeaponItem {
 				stack.getTagCompound().setBoolean("thrown", true);
 				EntityBoomerang boomerang = new EntityBoomerang(world, player);
 				boomerang.setItemStack(stack);
+				boomerang.noClip = false;
 				boomerang.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
 				world.spawnEntity(boomerang);
 			}

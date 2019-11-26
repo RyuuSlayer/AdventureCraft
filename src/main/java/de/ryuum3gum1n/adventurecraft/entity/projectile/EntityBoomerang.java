@@ -1,5 +1,7 @@
 package de.ryuum3gum1n.adventurecraft.entity.projectile;
 
+import net.minecraft.block.BlockLever;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.entity.Render;
@@ -7,11 +9,15 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -35,12 +41,15 @@ public class EntityBoomerang extends EntityThrowable {
 	public EntityPlayerSP player = Minecraft.getMinecraft().player;
 	public EntityItem carryitem = null;
 	public List<Entity> items = new ArrayList<>();
+	public boolean changedLever = false;
 	int i = 0;
-
+	
+	
 	public EntityBoomerang(World world) {
 		super(world);
 	}
 
+	
 	public EntityBoomerang(World world, EntityLivingBase thrower) {
 		super(world, thrower);
 	}
@@ -52,12 +61,12 @@ public class EntityBoomerang extends EntityThrowable {
 	public void setItemStack(ItemStack stack) {
 		this.stack = stack;
 	}
-
+	
+	
 	@Override
 	protected void onImpact(RayTraceResult result) {
 		if (world.isRemote) {
 			return;
-		
 		}
 		
 		if (result.typeOfHit == Type.ENTITY) {	
@@ -67,7 +76,23 @@ public class EntityBoomerang extends EntityThrowable {
 			} else {
 				ent.attackEntityFrom(DamageSource.causeIndirectDamage(this, getThrower()), 4F);
 			}
-		} else {
+		} 
+		else if(this.world.getBlockState(result.getBlockPos()).getBlock() == Blocks.LEVER) {
+			if (!changedLever) {
+				IBlockState leverstate = this.world.getBlockState(result.getBlockPos());
+				leverstate = leverstate.cycleProperty(BlockLever.POWERED);
+				this.world.setBlockState(result.getBlockPos(), leverstate);
+				this.world.playSound((EntityPlayer)null, result.getBlockPos(), SoundEvents.BLOCK_LEVER_CLICK, SoundCategory.BLOCKS, 0.3F, 0F);
+				this.world.notifyNeighborsOfStateChange(result.getBlockPos(), leverstate.getBlock(), false);
+				EnumFacing enumfacing = ((BlockLever.EnumOrientation)leverstate.getValue(BlockLever.FACING)).getFacing();
+				this.world.notifyNeighborsOfStateChange(result.getBlockPos().offset(enumfacing.getOpposite()), leverstate.getBlock(), false);
+				System.out.println("lever! @ "+result.getBlockPos());
+				System.out.println("lever check @ "+leverstate.getValue(BlockLever.POWERED));
+				changedLever = true;
+			}
+				
+		}
+		else {
 			if (isReturning) {
 				setDead();
 			} else {
@@ -91,7 +116,6 @@ public class EntityBoomerang extends EntityThrowable {
 			item.setNoGravity(true);
 			items.add(item);
 		}
-		
 //		applies the attributes to the item that allow the carry effect
 		if (!items.isEmpty()) {
 			for (Entity item : items) {
@@ -143,6 +167,7 @@ public class EntityBoomerang extends EntityThrowable {
 		int xm = 0;
 		int zm = 0;
 		int ym = 0;
+		
 		if (this.motionX < 0) {
 			xm = 1;
 		}
