@@ -16,9 +16,25 @@ import de.ryuum3gum1n.adventurecraft.util.MissingNBTTagException;
 import de.ryuum3gum1n.adventurecraft.util.MutableBlockPos;
 import de.ryuum3gum1n.adventurecraft.util.UndoRegion;
 import de.ryuum3gum1n.adventurecraft.util.UndoTask;
-import de.ryuum3gum1n.adventurecraft.voxelator.actions.*;
-import de.ryuum3gum1n.adventurecraft.voxelator.predicates.*;
-import de.ryuum3gum1n.adventurecraft.voxelator.shapes.*;
+import de.ryuum3gum1n.adventurecraft.voxelator.actions.VXActionGrassify;
+import de.ryuum3gum1n.adventurecraft.voxelator.actions.VXActionReplace;
+import de.ryuum3gum1n.adventurecraft.voxelator.actions.VXActionVariationsReplace;
+import de.ryuum3gum1n.adventurecraft.voxelator.predicates.VXPredicateAND;
+import de.ryuum3gum1n.adventurecraft.voxelator.predicates.VXPredicateAlways;
+import de.ryuum3gum1n.adventurecraft.voxelator.predicates.VXPredicateAverageSmooth;
+import de.ryuum3gum1n.adventurecraft.voxelator.predicates.VXPredicateBoxSmooth;
+import de.ryuum3gum1n.adventurecraft.voxelator.predicates.VXPredicateHasAirAbove;
+import de.ryuum3gum1n.adventurecraft.voxelator.predicates.VXPredicateHeightLimit;
+import de.ryuum3gum1n.adventurecraft.voxelator.predicates.VXPredicateIsAir;
+import de.ryuum3gum1n.adventurecraft.voxelator.predicates.VXPredicateIsSolid;
+import de.ryuum3gum1n.adventurecraft.voxelator.predicates.VXPredicateIsState;
+import de.ryuum3gum1n.adventurecraft.voxelator.predicates.VXPredicateIsType;
+import de.ryuum3gum1n.adventurecraft.voxelator.predicates.VXPredicateNOT;
+import de.ryuum3gum1n.adventurecraft.voxelator.predicates.VXPredicateOR;
+import de.ryuum3gum1n.adventurecraft.voxelator.predicates.VXPredicateRandom;
+import de.ryuum3gum1n.adventurecraft.voxelator.shapes.VXShapeBox;
+import de.ryuum3gum1n.adventurecraft.voxelator.shapes.VXShapeCylinder;
+import de.ryuum3gum1n.adventurecraft.voxelator.shapes.VXShapeSphere;
 
 // TODO: Create (de)serialization and a GUI for the VOXELATOR system.
 // TODO: Create a VXAction that repeats another VXAction multiple times.

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
+
 import org.lwjgl.input.Mouse;
 
 import com.google.common.collect.Lists;

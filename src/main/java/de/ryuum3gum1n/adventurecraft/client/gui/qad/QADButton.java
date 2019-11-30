@@ -1,47 +1,40 @@
 package de.ryuum3gum1n.adventurecraft.client.gui.qad;
 
-import java.util.List;
-
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import de.ryuum3gum1n.adventurecraft.client.gui.qad.model.DefaultButtonModel;
 import de.ryuum3gum1n.adventurecraft.client.gui.vcui.VCUIRenderer;
 import de.ryuum3gum1n.adventurecraft.client.render.renderers.EXTFontRenderer;
 
+import java.util.List;
+
+@SuppressWarnings("ConstantConditions")
 public class QADButton extends QADRectangularComponent {
-	public static interface ButtonModel {
-		public void onClick();
-
-		public String getText();
-
-		public ResourceLocation getIcon(); // Can be null.
-
-		public void setText(String newText);
-
-		public void setIcon(ResourceLocation newIcon); // Can be null.
-	}
-
-	protected static final ResourceLocation buttonTextures = new ResourceLocation("minecraft:textures/gui/widgets.png");
-
-	public static final ResourceLocation ICON_ADD = new ResourceLocation("adventurecraft:textures/gui/add.png");
-	public static final ResourceLocation ICON_DELETE = new ResourceLocation("adventurecraft:textures/gui/delete.png");
-	public static final ResourceLocation ICON_INVEDIT = new ResourceLocation(
-			"adventurecraft:textures/gui/invokeedit.png");
-	public static final ResourceLocation ICON_PAUSE = new ResourceLocation("adventurecraft:textures/gui/pause.png");
-	public static final ResourceLocation ICON_PLAY = new ResourceLocation("adventurecraft:textures/gui/play.png");
-	public static final ResourceLocation ICON_STOP = new ResourceLocation("adventurecraft:textures/gui/stop.png");
-	public static final ResourceLocation ICON_SAVE = new ResourceLocation("adventurecraft:textures/gui/save.png");
-	public static final ResourceLocation ICON_NEW = new ResourceLocation("adventurecraft:textures/gui/new.png");
-
+	public static final ResourceLocation ICON_ADD = new ResourceLocation("talecraft:textures/gui/add.png");
+	public static final ResourceLocation ICON_DELETE = new ResourceLocation("talecraft:textures/gui/delete.png");
+	public static final ResourceLocation ICON_INVEDIT = new ResourceLocation("talecraft:textures/gui/invokeedit.png");
+	public static final ResourceLocation ICON_PAUSE = new ResourceLocation("talecraft:textures/gui/pause.png");
+	public static final ResourceLocation ICON_PLAY = new ResourceLocation("talecraft:textures/gui/play.png");
+	public static final ResourceLocation ICON_STOP = new ResourceLocation("talecraft:textures/gui/stop.png");
+	public static final ResourceLocation ICON_SAVE = new ResourceLocation("talecraft:textures/gui/save.png");
+	public static final ResourceLocation ICON_NEW = new ResourceLocation("talecraft:textures/gui/new.png");
 	public static final ResourceLocation ICON_EDITOR_TXT = new ResourceLocation(
-			"adventurecraft:textures/gui/file/editors/txt.png");
+			"talecraft:textures/gui/file/editors/txt.png");
 	public static final ResourceLocation ICON_EDITOR_NBT = new ResourceLocation(
-			"adventurecraft:textures/gui/file/editors/nbt.png");
+			"talecraft:textures/gui/file/editors/nbt.png");
 	public static final ResourceLocation ICON_EDITOR_BIN = new ResourceLocation(
-			"adventurecraft:textures/gui/file/editors/bin.png");
+			"talecraft:textures/gui/file/editors/bin.png");
 	public static final ResourceLocation ICON_EDITOR_NIL = new ResourceLocation(
-			"adventurecraft:textures/gui/file/editors/none.png");
-
+			"talecraft:textures/gui/file/editors/none.png");
+	protected static final ResourceLocation buttonTextures = new ResourceLocation("minecraft:textures/gui/widgets.png");
+	/**
+	 * 0 = Left, 1 = Center, 2 = Right
+	 **/
+	public int textAlignment = 1;
+	/**
+	 * Simplified rendering for buttons.
+	 **/
+	public boolean simplified = true;
 	protected Runnable clickRunnable = null;
 	protected ButtonModel model;
 	protected int x;
@@ -50,13 +43,9 @@ public class QADButton extends QADRectangularComponent {
 	protected int height;
 	protected boolean enabled = true;
 	protected boolean hovered = false;
-	protected boolean focused = false;
 
 	// STYLE OPTIONS
-	/** 0 = Left, 1 = Center, 2 = Right **/
-	public int textAlignment = 1;
-	/** Simplified rendering for buttons. **/
-	public boolean simplified = true;
+	protected boolean focused = false;
 
 	public QADButton(String text) {
 		this.model = new DefaultButtonModel(text);
@@ -124,11 +113,6 @@ public class QADButton extends QADRectangularComponent {
 		this.enabled = true;
 	}
 
-	public QADButton setAction(Runnable handler) {
-		clickRunnable = handler;
-		return this;
-	}
-
 	protected int getHoverState(boolean mouseOver) {
 		byte b0 = 1; // Normal
 
@@ -147,13 +131,13 @@ public class QADButton extends QADRectangularComponent {
 	}
 
 	@Override
-	public int getY() {
-		return y;
+	public void setX(int x) {
+		this.x = x;
 	}
 
 	@Override
-	public void setX(int x) {
-		this.x = x;
+	public int getY() {
+		return y;
 	}
 
 	@Override
@@ -177,23 +161,23 @@ public class QADButton extends QADRectangularComponent {
 	}
 
 	@Override
-	public int getHeight() {
-		return this.height;
-	}
-
-	@Override
-	public boolean canResize() {
-		return true;
-	}
-
-	@Override
 	public void setWidth(int width) {
 		this.width = width;
 	}
 
 	@Override
+	public int getHeight() {
+		return this.height;
+	}
+
+	@Override
 	public void setHeight(int newHeight) {
 		this.height = newHeight;
+	}
+
+	@Override
+	public boolean canResize() {
+		return true;
 	}
 
 	@Override
@@ -303,12 +287,7 @@ public class QADButton extends QADRectangularComponent {
 	}
 
 	@Override
-	public void onMouseClicked(int i, int j, int mouseButton) {
-
-	}
-
-	@Override
-	public void onMouseReleased(int localMouseX, int localMouseY, int state) {
+	public void onMouseClicked(int localMouseX, int localMouseY, int state) {
 		boolean hit = localMouseX >= 0 && localMouseY >= 0 && localMouseX < this.width && localMouseY < this.height;
 
 		if (state != 0 || !hit)
@@ -318,8 +297,14 @@ public class QADButton extends QADRectangularComponent {
 
 		model.onClick();
 
-		if (clickRunnable != null)
+		if (clickRunnable != null && this.enabled)
 			clickRunnable.run();
+	}
+
+	@Override
+	public void onMouseReleased(int localMouseX, int localMouseY, int state) {
+		// Moved to onMouseClicked to prevent instant click when this button was on the
+		// same position as one in the previous GUI
 	}
 
 	@Override
@@ -344,11 +329,6 @@ public class QADButton extends QADRectangularComponent {
 	@Override
 	public List<String> getTooltip(int mouseX, int mouseY) {
 		return isPointInside(mouseX, mouseY) ? getTooltip() : null;
-	}
-
-	public QADButton setText(String newText) {
-		this.model.setText(newText);
-		return this;
 	}
 
 	public QADButton setIcon(ResourceLocation newIcon) {
@@ -394,6 +374,47 @@ public class QADButton extends QADRectangularComponent {
 	@Override
 	public void removeFocus() {
 		focused = false;
+	}
+
+	public String getText() {
+		// TODO Auto-generated method stub
+		return this.model.getText();
+	}
+
+	public QADButton setText(String newText) {
+		this.model.setText(newText);
+		return this;
+	}
+
+	public Runnable getAction() {
+		// TODO Auto-generated method stub
+		return clickRunnable;
+	}
+
+	public QADButton setAction(Runnable handler) {
+		clickRunnable = handler;
+		return this;
+	}
+
+	public boolean isMouserOver() {
+		return this.hovered;
+	}
+
+	public boolean isEnabeld() {
+		// TODO Auto-generated method stub
+		return this.enabled;
+	}
+
+	public interface ButtonModel {
+		void onClick();
+
+		String getText();
+
+		void setText(String newText);
+
+		ResourceLocation getIcon(); // Can be null.
+
+		void setIcon(ResourceLocation newIcon); // Can be null.
 	}
 
 }

@@ -227,7 +227,7 @@ public class PanelTrades extends NPCPanel {
 			filtered.clear();
 			for (ListModelItem lmi : items) {
 				ItemItem ii = (ItemItem) lmi;
-				if (ii.stack != null && (ii.stack.getItem().getItemStackDisplayName(ii.stack).toLowerCase()
+				if (!ii.stack.isEmpty() && (ii.stack.getItem().getItemStackDisplayName(ii.stack).toLowerCase()
 						.contains(filterString.toLowerCase()))) {
 					filtered.add(lmi);
 				}

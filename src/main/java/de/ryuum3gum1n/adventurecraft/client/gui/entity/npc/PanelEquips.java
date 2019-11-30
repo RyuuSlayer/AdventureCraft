@@ -84,7 +84,7 @@ public class PanelEquips extends NPCPanel {
 				Item item = Item.REGISTRY.getObject(rl);
 				stacks.add(new ItemStack(item));
 			}
-			items.add(new ItemItem(null));
+			items.add(new ItemItem(ItemStack.EMPTY));
 			for (ItemStack item : stacks) {
 				Item itm = item.getItem();
 				if (itm == null)
@@ -122,10 +122,10 @@ public class PanelEquips extends NPCPanel {
 		@Override
 		public void applyFilter(String filterString) {
 			filtered.clear();
-			filtered.add(new ItemItem(null));
+			filtered.add(new ItemItem(ItemStack.EMPTY));
 			for (ListModelItem lmi : items) {
 				ItemItem ii = (ItemItem) lmi;
-				if (ii.stack != null && (ii.stack.getItem().getItemStackDisplayName(ii.stack).toLowerCase()
+				if (!ii.stack.isEmpty() && (ii.stack.getItem().getItemStackDisplayName(ii.stack).toLowerCase()
 						.contains(filterString.toLowerCase()))) {
 					filtered.add(lmi);
 				}
@@ -144,7 +144,7 @@ public class PanelEquips extends NPCPanel {
 
 		@Override
 		public void drawIcon(VCUIRenderer renderer, float partialTicks, boolean light, ListModelItem item) {
-			if (((ItemItem) item).stack != null)
+			if (!((ItemItem) item).stack.isEmpty())
 				renderer.drawItemStack(((ItemItem) item).stack, 2, 2);
 		}
 
@@ -155,7 +155,7 @@ public class PanelEquips extends NPCPanel {
 
 	class ItemItem implements ListModelItem {
 
-		private ItemStack stack;
+		private ItemStack stack = ItemStack.EMPTY;
 
 		public ItemItem(ItemStack stack) {
 			this.stack = stack;
@@ -163,15 +163,15 @@ public class PanelEquips extends NPCPanel {
 
 		@Override
 		public String getText() {
-			return stack == null ? "None" : stack.getItem().getItemStackDisplayName(stack);
+			return stack.isEmpty() ? "None" : stack.getItem().getItemStackDisplayName(stack);
 		}
 
 		@Override
 		public boolean equals(Object obj) {
 			if (!(obj instanceof ItemItem))
 				return false;
-			return ItemStack.areItemStacksEqual(stack == null ? new ItemStack((Item) null) : stack,
-					((ItemItem) obj).stack == null ? new ItemStack((Item) null) : ((ItemItem) obj).stack);
+			return ItemStack.areItemStacksEqual(stack.isEmpty() ? ItemStack.EMPTY : stack,
+					((ItemItem) obj).stack.isEmpty() ? ItemStack.EMPTY : ((ItemItem) obj).stack);
 		}
 
 		@Override

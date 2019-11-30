@@ -1,6 +1,10 @@
 package de.ryuum3gum1n.adventurecraft.voxelator;
 
-import de.ryuum3gum1n.adventurecraft.voxelator.params.*;
+import de.ryuum3gum1n.adventurecraft.voxelator.params.BlockstateBrushParameter;
+import de.ryuum3gum1n.adventurecraft.voxelator.params.BooleanBrushParameter;
+import de.ryuum3gum1n.adventurecraft.voxelator.params.FloatBrushParameter;
+import de.ryuum3gum1n.adventurecraft.voxelator.params.IntegerBrushParameter;
+import de.ryuum3gum1n.adventurecraft.voxelator.params.ListBrushParameter;
 
 public abstract class BrushParameter {
 	public static final BrushParameter[] NO_PARAMETERS = new BrushParameter[0];

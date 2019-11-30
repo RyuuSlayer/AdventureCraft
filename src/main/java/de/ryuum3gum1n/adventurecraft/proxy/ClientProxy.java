@@ -1,13 +1,11 @@
 package de.ryuum3gum1n.adventurecraft.proxy;
 
-import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.function.Predicate;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMerchant;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.GameRules;
@@ -15,10 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.client.resource.IResourceType;
-import net.minecraftforge.client.resource.ISelectiveResourceReloadListener;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -29,12 +24,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import de.ryuum3gum1n.adventurecraft.AdventureCraft;
 import de.ryuum3gum1n.adventurecraft.AdventureCraftItems;
-import de.ryuum3gum1n.adventurecraft.client.ClientKeyboardHandler;
-import de.ryuum3gum1n.adventurecraft.client.ClientNetworkHandler;
-import de.ryuum3gum1n.adventurecraft.client.ClientRenderer;
-import de.ryuum3gum1n.adventurecraft.client.ClientSettings;
-import de.ryuum3gum1n.adventurecraft.client.InfoBar;
-import de.ryuum3gum1n.adventurecraft.client.InvokeTracker;
+import de.ryuum3gum1n.adventurecraft.client.*;
 import de.ryuum3gum1n.adventurecraft.client.commands.AdventureCraftClientCommands;
 import de.ryuum3gum1n.adventurecraft.client.environment.Environments;
 import de.ryuum3gum1n.adventurecraft.client.gui.entity.npc.GuiNPCMerchant;
@@ -46,12 +36,16 @@ import de.ryuum3gum1n.adventurecraft.clipboard.ClipboardItem;
 import de.ryuum3gum1n.adventurecraft.entity.NPC.NPCShop;
 import de.ryuum3gum1n.adventurecraft.util.ReflectionUtil;
 
-public class ClientProxy extends CommonProxy implements ISelectiveResourceReloadListener {
+import java.util.concurrent.ConcurrentLinkedDeque;
+
+@SuppressWarnings("SameReturnValue")
+public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
 	// All the singletons!
 	public static final Minecraft mc = Minecraft.getMinecraft();
 	public static final ClientSettings settings = new ClientSettings();
 	public static ClientProxy proxy = (ClientProxy) AdventureCraft.proxy;
-
+	// Client settings
+	public GameRules gamerules;
 	// ac internals
 	private ClipboardItem currentClipboardItem;
 	private InfoBar infoBarInstance;
@@ -60,9 +54,19 @@ public class ClientProxy extends CommonProxy implements ISelectiveResourceReload
 	private ClientKeyboardHandler clientKeyboardHandler;
 	private ClientRenderer clientRenderer;
 	private ConcurrentLinkedDeque<Runnable> clientTickQeue;
+	private NPCShop lastOpened;
 
-	// Client settings
-	public GameRules gamerules;
+	/****/
+	public static boolean isInBuildMode() {
+		if (proxy == null)
+			proxy = AdventureCraft.proxy.asClient();
+
+		return proxy.isBuildMode();
+	}
+
+	public static void shedule(Runnable runnable) {
+		proxy.sheduleClientTickTask(runnable);
+	}
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
@@ -78,7 +82,7 @@ public class ClientProxy extends CommonProxy implements ISelectiveResourceReload
 		IReloadableResourceManager resManager = (IReloadableResourceManager) mc.getResourceManager();
 		resManager.registerReloadListener(this);
 
-		clientTickQeue = new ConcurrentLinkedDeque<Runnable>();
+		clientTickQeue = new ConcurrentLinkedDeque<>();
 		clientRenderer = new ClientRenderer(this);
 		clientRenderer.preInit();
 	}
@@ -92,7 +96,7 @@ public class ClientProxy extends CommonProxy implements ISelectiveResourceReload
 
 		// add all static renderers
 		clientRenderer.addStaticRenderer(new SelectionBoxRenderer());
-		//ClientRegistry.bindTileEntitySpecialRenderer(tileEntityClass, specialRenderer);
+
 		ReflectionUtil.replaceMusicTicker();
 
 	} // init(..){}
@@ -122,8 +126,6 @@ public class ClientProxy extends CommonProxy implements ISelectiveResourceReload
 	public void worldPass(RenderWorldLastEvent event) {
 		clientRenderer.on_render_world_post(event);
 	}
-
-	private NPCShop lastOpened;
 
 	@SubscribeEvent
 	public void npcTradeOpen(GuiOpenEvent event) {
@@ -155,11 +157,17 @@ public class ClientProxy extends CommonProxy implements ISelectiveResourceReload
 			clientRenderer.on_world_unload();
 
 			// This is stupid but,
-			// Save the AdventureCraft settings on World unload.
+			// Save the TaleCraft settings on World unload.
 			// Just to be sure...
 			settings.save();
 		}
 	}
+
+	/********************************/
+	/*                               **/
+	/*                               **/
+	/*                               **/
+	/********************************/
 
 	/**
 	 * @return TRUE, if the client is in build-mode (aka: creative-mode), FALSE if
@@ -192,12 +200,6 @@ public class ClientProxy extends CommonProxy implements ISelectiveResourceReload
 		}
 	}
 
-	/***********************************/
-	/**                               **/
-	/**                               **/
-	/**                               **/
-	/***********************************/
-
 	/****/
 	@Override
 	public NBTTagCompound getSettings(EntityPlayer playerIn) {
@@ -226,21 +228,13 @@ public class ClientProxy extends CommonProxy implements ISelectiveResourceReload
 	}
 
 	/****/
-	public void setClipboard(ClipboardItem item) {
-		currentClipboardItem = item;
-	}
-
-	/****/
 	public ClipboardItem getClipboard() {
 		return currentClipboardItem;
 	}
 
 	/****/
-	public static final boolean isInBuildMode() {
-		if (proxy == null)
-			proxy = AdventureCraft.proxy.asClient();
-
-		return proxy.isBuildMode();
+	public void setClipboard(ClipboardItem item) {
+		currentClipboardItem = item;
 	}
 
 	/****/
@@ -252,18 +246,8 @@ public class ClientProxy extends CommonProxy implements ISelectiveResourceReload
 		this.clientTickQeue.push(runnable);
 	}
 
-	public static void shedule(Runnable runnable) {
-		proxy.sheduleClientTickTask(runnable);
-	}
-
 	public ClientKeyboardHandler getKeyboardHandler() {
 		return clientKeyboardHandler;
-	}
-
-	@Override
-	public void onResourceManagerReload(IResourceManager resourceManager, Predicate<IResourceType> resourcePredicate) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -3,6 +3,7 @@ package de.ryuum3gum1n.adventurecraft.client.gui.misc;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
+
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.gui.GuiScreen;
@@ -15,12 +16,12 @@ import de.ryuum3gum1n.adventurecraft.client.gui.qad.QADButton;
 import de.ryuum3gum1n.adventurecraft.client.gui.qad.QADFACTORY;
 import de.ryuum3gum1n.adventurecraft.client.gui.qad.QADGuiScreen;
 import de.ryuum3gum1n.adventurecraft.client.gui.qad.QADNumberTextField;
+import de.ryuum3gum1n.adventurecraft.client.gui.qad.QADNumberTextField.NumberType;
 import de.ryuum3gum1n.adventurecraft.client.gui.qad.QADPanel;
 import de.ryuum3gum1n.adventurecraft.client.gui.qad.QADScrollPanel;
 import de.ryuum3gum1n.adventurecraft.client.gui.qad.QADTextField;
-import de.ryuum3gum1n.adventurecraft.client.gui.qad.QADTickBox;
-import de.ryuum3gum1n.adventurecraft.client.gui.qad.QADNumberTextField.NumberType;
 import de.ryuum3gum1n.adventurecraft.client.gui.qad.QADTextField.TextChangeListener;
+import de.ryuum3gum1n.adventurecraft.client.gui.qad.QADTickBox;
 import de.ryuum3gum1n.adventurecraft.client.gui.qad.QADTickBox.TickBoxModel;
 import de.ryuum3gum1n.adventurecraft.client.gui.qad.model.nbtcompound.NBTBooleanTickBoxModel;
 import de.ryuum3gum1n.adventurecraft.client.gui.qad.model.nbtcompound.NBTByteTextFieldModel;

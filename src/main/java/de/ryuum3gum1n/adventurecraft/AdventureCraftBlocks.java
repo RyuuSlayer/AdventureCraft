@@ -1,11 +1,7 @@
 package de.ryuum3gum1n.adventurecraft;
 
-import java.util.HashMap;
-import java.util.List;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMultiTexture;
@@ -16,57 +12,20 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
-import de.ryuum3gum1n.adventurecraft.blocks.util.BlockUpdateDetector;
-import de.ryuum3gum1n.adventurecraft.blocks.util.CameraBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.ClockBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.CollisionTriggerBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.DelayBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.EmitterBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.HiddenBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.ImageHologramBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.InverterBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.KillBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.LightBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.MemoryBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.MessageBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.MusicBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.RedstoneActivatorBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.RedstoneTriggerBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.RelayBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.ScriptBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.StorageBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.SummonBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.TriggerFilterBlock;
-import de.ryuum3gum1n.adventurecraft.blocks.util.URLBlock;
+import de.ryuum3gum1n.adventurecraft.blocks.util.*;
 import de.ryuum3gum1n.adventurecraft.blocks.world.LockedDoorBlock;
 import de.ryuum3gum1n.adventurecraft.blocks.world.SpikeBlock;
 import de.ryuum3gum1n.adventurecraft.blocks.world.WorkbenchBlock;
-import de.ryuum3gum1n.adventurecraft.tileentity.BlockUpdateDetectorTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.CameraBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.ClockBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.CollisionTriggerBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.DelayBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.EmitterBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.ImageHologramBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.InverterBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.LightBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.LockedDoorTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.MemoryBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.MessageBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.MusicBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.RedstoneTriggerBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.RelayBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.ScriptBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.StorageBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.SummonBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.TriggerFilterBlockTileEntity;
-import de.ryuum3gum1n.adventurecraft.tileentity.URLBlockTileEntity;
+import de.ryuum3gum1n.adventurecraft.tileentity.*;
+
+import java.util.HashMap;
+import java.util.List;
 
 @EventBusSubscriber
 public class AdventureCraftBlocks {
 	public static HashMap<String, Block> blocksMap = Maps.newHashMap();
 	public static List<Block> blocks = Lists.newArrayList();
-	public static List<Block> customItemBlocks = Lists.newArrayList();
+	public static final List<Block> customItemBlocks = Lists.newArrayList();
 	private static IForgeRegistry<Block> registry;
 
 	// UTILITY
@@ -196,6 +155,7 @@ public class AdventureCraftBlocks {
 		blocksMap.put(name, block);
 		blocks.add(block);
 		Item item = Item.getItemFromBlock(block);
+		// noinspection ConstantConditions
 		if (item != null)
 			AdventureCraftItems.ALL_AC_ITEMS.add(item);
 	}

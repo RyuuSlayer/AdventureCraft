@@ -1,12 +1,7 @@
 package de.ryuum3gum1n.adventurecraft;
 
-import java.util.Random;
-
-import org.apache.logging.log4j.Logger;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import net.minecraft.command.CommandHandler;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -14,26 +9,19 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.datafix.FixTypes;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.CompoundDataFixer;
 import net.minecraftforge.common.util.ModFixs;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ModContainer;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraftforge.fml.common.*;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import de.ryuum3gum1n.adventurecraft.client.gui.worlddesc.WorldSelectorInjector;
+import org.apache.logging.log4j.Logger;
+import de.ryuum3gum1n.adventurecraft.client.gui.replaced_guis.GuiReplacer;
 import de.ryuum3gum1n.adventurecraft.managers.ACWorldsManager;
 import de.ryuum3gum1n.adventurecraft.network.AdventureCraftNetwork;
 import de.ryuum3gum1n.adventurecraft.proxy.ClientProxy;
@@ -45,6 +33,8 @@ import de.ryuum3gum1n.adventurecraft.util.GuiHandler;
 import de.ryuum3gum1n.adventurecraft.util.ACDataFixer;
 import de.ryuum3gum1n.adventurecraft.util.TimedExecutor;
 import de.ryuum3gum1n.adventurecraft.versionchecker.SendMessage;
+
+import java.util.Random;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION)
 public class AdventureCraft {
@@ -59,12 +49,33 @@ public class AdventureCraft {
 	public static Logger logger;
 	public static Random random;
 	public static Gson gson;
-
+	public static World lastVisitedWorld = null;
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY, serverSide = Reference.SERVER_PROXY, modId = Reference.MOD_ID)
 	public static CommonProxy proxy;
 
+	@SideOnly(Side.CLIENT)
+	public static ClientProxy asClient() {
+		return proxy.asClient();
+	}
+
+	public static NBTTagCompound getSettings(EntityPlayer player) {
+		return proxy.getSettings(player);
+	}
+
+	// public TaleCraft() {
+//		// TODO Auto-generated constructor stub
+//		System.out.println(System.getProperty("java.class.path"));
+//		System.exit(0);
+//	}
+	@Mod.EventHandler
+	public void modConstructing(FMLConstructionEvent event) {
+		if (Loader.isModLoaded("discordrpc")) {
+		}
+	}
+
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+
 		logger = event.getModLog();
 		container = FMLCommonHandler.instance().findContainerFor(instance);
 		logger.info("AdventureCraft initialization...");
@@ -76,7 +87,6 @@ public class AdventureCraft {
 		config.save();
 		logger.info("Configuration loaded!");
 		MinecraftForge.EVENT_BUS.register(this);
-
 		AdventureCraftNetwork.preInit();
 		random = new Random(42);
 
@@ -98,7 +108,7 @@ public class AdventureCraft {
 		MinecraftForge.EVENT_BUS.register(new SendMessage());
 
 		if (ConfigurationManager.USE_VERSION_CHECKER && event.getSide() == Side.CLIENT)
-			MinecraftForge.EVENT_BUS.register(new WorldSelectorInjector());
+			MinecraftForge.EVENT_BUS.register(new GuiReplacer());
 		logger.info("AdventureCraft Event Handler @" + eventHandler.hashCode());
 		// Initialize all the Tabs/Blocks/Items/Commands etc.
 		logger.info("Loading Tabs, Blocks, Items, Entities and Commands");
@@ -117,7 +127,6 @@ public class AdventureCraft {
 	public void init(FMLInitializationEvent event) {
 		proxy.init(event);
 		NetworkRegistry.INSTANCE.registerGuiHandler(AdventureCraft.instance, new GuiHandler());
-
 		// Convert tile entity IDs
 		CompoundDataFixer compoundDataFixer = FMLCommonHandler.instance().getDataFixer();
 		ModFixs dataFixer = compoundDataFixer.init(Reference.MOD_ID, 1);
@@ -135,6 +144,7 @@ public class AdventureCraft {
 		MinecraftServer server = event.getServer();
 
 		ICommandManager cmdmng = server.getCommandManager();
+		// noinspection ConstantConditions
 		if (cmdmng instanceof ServerCommandManager && cmdmng instanceof CommandHandler) {
 			CommandHandler cmdhnd = (CommandHandler) cmdmng;
 			AdventureCraftCommands.register(cmdhnd);
@@ -162,15 +172,6 @@ public class AdventureCraft {
 	@Mod.EventHandler
 	public void serverStopped(FMLServerStoppedEvent event) {
 		// logger.info("Server stopped: " + event + " [ACINFO]");
-	}
-
-	@SideOnly(Side.CLIENT)
-	public static ClientProxy asClient() {
-		return proxy.asClient();
-	}
-
-	public static NBTTagCompound getSettings(EntityPlayer player) {
-		return proxy.getSettings(player);
 	}
 
 }

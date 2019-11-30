@@ -14,57 +14,59 @@ import de.ryuum3gum1n.adventurecraft.AdventureCraft;
 import de.ryuum3gum1n.adventurecraft.managers.ACWorldManager;
 
 public abstract class CommonProxy {
-	@SideOnly(Side.CLIENT)
-	public final ClientProxy asClient() {
-		return (ClientProxy) this;
-	}
+    /**
+     * The one and only instance of 'adventurecraft'.
+     **/
+    public AdventureCraft adventureCraft;
 
-	public final ServerProxy asServer() {
-		return (ServerProxy) this;
-	}
+    @SideOnly(Side.CLIENT)
+    public final ClientProxy asClient() {
+        return (ClientProxy) this;
+    }
 
-	/** The one and only instance of 'adventurecraft'. **/
-	public AdventureCraft adventureCraft;
+    public final ServerProxy asServer() {
+        return (ServerProxy) this;
+    }
 
-	public void preInit(FMLPreInitializationEvent event) {
-	};
+    public void preInit(FMLPreInitializationEvent event) {
+    }
 
-	public void init(FMLInitializationEvent event) {
-	};
+    public void init(FMLInitializationEvent event) {
+    }
 
-	public void postInit(FMLPostInitializationEvent event) {
-	}
+    public void postInit(FMLPostInitializationEvent event) {
+    }
 
-	public boolean isBuildMode() {
-		return true; // Just say its true!
-	}
+    public boolean isBuildMode() {
+        return true; // Just say its true!
+    }
 
-	public void tick(TickEvent event) {
-		// We don't do anything, but the proxy-implementations do!
-		// System.out.println("TICKING -> @" + event);
-	}
+    public void tick(TickEvent event) {
+        // We don't do anything, but the proxy-implementations do!
+        // System.out.println("TICKING -> @" + event);
+    }
 
-	public void tickWorld(WorldTickEvent event) {
-		ACWorldManager mng = AdventureCraft.worldsManager.fetchManager(event.world);
+    public void tickWorld(WorldTickEvent event) {
+        ACWorldManager mng = AdventureCraft.worldsManager.fetchManager(event.world);
 
-		if (mng == null) {
-			AdventureCraft.logger.error("No WorldManager for @" + event.world.hashCode());
-			return;
-		}
+        if (mng == null) {
+        	AdventureCraft.logger.error("No WorldManager for @" + event.world.hashCode());
+            return;
+        }
 
-		mng.tickWorld(event);
-	}
+        mng.tickWorld(event);
+    }
 
-	public void unloadWorld(World world) {
+    public void unloadWorld(World world) {
 
-	}
+    }
 
-	public void loadWorld(World world) {
+    public void loadWorld(World world) {
 
-	}
+    }
 
-	public NBTTagCompound getSettings(EntityPlayer playerIn) {
-		return new NBTTagCompound();
-	}
+    public NBTTagCompound getSettings(EntityPlayer playerIn) {
+        return new NBTTagCompound();
+    }
 
 }

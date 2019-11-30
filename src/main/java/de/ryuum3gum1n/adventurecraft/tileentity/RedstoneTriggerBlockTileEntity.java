@@ -1,14 +1,11 @@
 package de.ryuum3gum1n.adventurecraft.tileentity;
 
-import java.util.List;
-
 import net.minecraft.nbt.NBTTagCompound;
+import de.ryuum3gum1n.adventurecraft.AdventureCraft;
 import de.ryuum3gum1n.adventurecraft.blocks.ACTileEntity;
-import de.ryuum3gum1n.adventurecraft.invoke.BlockTriggerInvoke;
-import de.ryuum3gum1n.adventurecraft.invoke.EnumTriggerState;
-import de.ryuum3gum1n.adventurecraft.invoke.FileScriptInvoke;
-import de.ryuum3gum1n.adventurecraft.invoke.IInvoke;
-import de.ryuum3gum1n.adventurecraft.invoke.Invoke;
+import de.ryuum3gum1n.adventurecraft.invoke.*;
+
+import java.util.List;
 
 public class RedstoneTriggerBlockTileEntity extends ACTileEntity {
 	IInvoke triggerInvokeOn;
@@ -45,16 +42,17 @@ public class RedstoneTriggerBlockTileEntity extends ACTileEntity {
 	public void invokeFromUpdateTick(EnumTriggerState triggerState, boolean onOff) {
 		if (this.world.isRemote)
 			return;
-
-		if (onOff)
-			Invoke.invoke(triggerInvokeOn, this, null, triggerState);
-		else
-			Invoke.invoke(triggerInvokeOff, this, null, triggerState);
+		if (!AdventureCraft.proxy.isBuildMode())
+			if (onOff)
+				Invoke.invoke(triggerInvokeOn, this, null, triggerState);
+			else
+				Invoke.invoke(triggerInvokeOff, this, null, triggerState);
 	}
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
 		if (command.equals("trigger")) {
+
 			Invoke.invoke(triggerInvokeOn, this, null, EnumTriggerState.ON);
 			Invoke.invoke(triggerInvokeOff, this, null, EnumTriggerState.ON);
 			return;

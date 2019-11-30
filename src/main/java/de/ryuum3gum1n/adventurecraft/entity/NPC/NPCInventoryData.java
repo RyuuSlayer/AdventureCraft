@@ -15,12 +15,12 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class NPCInventoryData {
 
-	private ItemStack mainHand;
-	private ItemStack offHand;
-	private ItemStack helmet;
-	private ItemStack chestplate;
-	private ItemStack leggings;
-	private ItemStack boots;
+	private ItemStack mainHand = ItemStack.EMPTY;
+	private ItemStack offHand = ItemStack.EMPTY;
+	private ItemStack helmet = ItemStack.EMPTY;
+	private ItemStack chestplate = ItemStack.EMPTY;
+	private ItemStack leggings = ItemStack.EMPTY;
+	private ItemStack boots = ItemStack.EMPTY;
 
 	private List<NPCDrop> drops;
 
@@ -97,7 +97,7 @@ public class NPCInventoryData {
 		case OFFHAND:
 			return offHand;
 		default:
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
@@ -127,7 +127,7 @@ public class NPCInventoryData {
 	public NBTTagCompound toNBT() {
 		NBTTagCompound tag = new NBTTagCompound();
 		for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
-			if (getItem(slot) != null)
+			if (!getItem(slot).isEmpty())
 				tag.setTag(slot.toString(), getItem(slot).writeToNBT(new NBTTagCompound()));
 		}
 		NBTTagCompound drops = new NBTTagCompound();

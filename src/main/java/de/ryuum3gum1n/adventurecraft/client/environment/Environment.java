@@ -1,11 +1,11 @@
 package de.ryuum3gum1n.adventurecraft.client.environment;
 
-import net.minecraft.client.renderer.Matrix4f;
-import net.minecraft.client.renderer.Vector3d;
-import org.lwjgl.util.vector.Vector3f;
-
 import java.util.Arrays;
 import java.util.List;
+
+import org.lwjgl.util.vector.Vector3f;
+
+import net.minecraft.client.renderer.Matrix4f;
 
 public class Environment {
 	public Conditions predicate = null;
