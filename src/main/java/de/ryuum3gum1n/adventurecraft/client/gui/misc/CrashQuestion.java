@@ -66,7 +66,7 @@ public class CrashQuestion extends GuiScreen {
 			}
 			break;
 		case 2:
-			// Save world back to thier folders!
+			// Save world back to their folders!
 			for (String s : savesList) {
 				if (s.startsWith(".AC"))
 					continue;

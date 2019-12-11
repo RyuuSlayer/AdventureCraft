@@ -21,83 +21,86 @@ import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiListSaveSelection extends GuiListExtended {
-    private static final Logger LOGGER = LogManager.getLogger();
-    private final SaveSelector worldSelection;
-    private final List<GuiListSaveSelectionEntry> entries = Lists.newArrayList();
-    public final String worldPathName;
-    /**
-     * Index to the currently selected world
-     */
-    private int selectedIdx = -1;
+	private static final Logger LOGGER = LogManager.getLogger();
+	private final SaveSelector worldSelection;
+	private final List<GuiListSaveSelectionEntry> entries = Lists.newArrayList();
+	public final String worldPathName;
+	/**
+	 * Index to the currently selected world
+	 */
+	private int selectedIdx = -1;
 
-    public GuiListSaveSelection(SaveSelector p_i46590_1_, Minecraft clientIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn, String worldPathName) {
-        super(clientIn, widthIn, heightIn, topIn, bottomIn, slotHeightIn);
-        this.worldSelection = p_i46590_1_;
-        this.worldPathName = worldPathName;
-        this.refreshList();
-    }
+	public GuiListSaveSelection(SaveSelector p_i46590_1_, Minecraft clientIn, int widthIn, int heightIn, int topIn,
+			int bottomIn, int slotHeightIn, String worldPathName) {
+		super(clientIn, widthIn, heightIn, topIn, bottomIn, slotHeightIn);
+		this.worldSelection = p_i46590_1_;
+		this.worldPathName = worldPathName;
+		this.refreshList();
+	}
 
-    public void refreshList() {
-        ISaveFormat isaveformat = new AnvilSaveConverter(new File(this.mc.mcDataDir, this.worldPathName), this.mc.getDataFixer());
-        List<WorldSummary> list;
+	public void refreshList() {
+		ISaveFormat isaveformat = new AnvilSaveConverter(new File(this.mc.mcDataDir, this.worldPathName),
+				this.mc.getDataFixer());
+		List<WorldSummary> list;
 
-        try {
-            list = isaveformat.getSaveList();
-        } catch (AnvilConverterException anvilconverterexception) {
-            LOGGER.error("Couldn't load level list", anvilconverterexception);
-            this.mc.displayGuiScreen(new GuiErrorScreen(I18n.format("selectWorld.unable_to_load"), anvilconverterexception.getMessage()));
-            return;
-        }
+		try {
+			list = isaveformat.getSaveList();
+		} catch (AnvilConverterException anvilconverterexception) {
+			LOGGER.error("Couldn't load level list", anvilconverterexception);
+			this.mc.displayGuiScreen(new GuiErrorScreen(I18n.format("selectWorld.unable_to_load"),
+					anvilconverterexception.getMessage()));
+			return;
+		}
 
-        Collections.sort(list);
+		Collections.sort(list);
 
-        for (WorldSummary worldsummary : list) {
-            this.entries.add(new GuiListSaveSelectionEntry(this, worldsummary, new AnvilSaveConverter(new File(this.mc.mcDataDir, this.worldPathName), this.mc.getDataFixer())));
-        }
-    }
+		for (WorldSummary worldsummary : list) {
+			this.entries.add(new GuiListSaveSelectionEntry(this, worldsummary,
+					new AnvilSaveConverter(new File(this.mc.mcDataDir, this.worldPathName), this.mc.getDataFixer())));
+		}
+	}
 
-    /**
-     * Gets the IGuiListEntry object for the given index
-     */
-    public GuiListSaveSelectionEntry getListEntry(int index) {
-        return this.entries.get(index);
-    }
+	/**
+	 * Gets the IGuiListEntry object for the given index
+	 */
+	public GuiListSaveSelectionEntry getListEntry(int index) {
+		return this.entries.get(index);
+	}
 
-    protected int getSize() {
-        return this.entries.size();
-    }
+	protected int getSize() {
+		return this.entries.size();
+	}
 
-    protected int getScrollBarX() {
-        return super.getScrollBarX() + 20;
-    }
+	protected int getScrollBarX() {
+		return super.getScrollBarX() + 20;
+	}
 
-    /**
-     * Gets the width of the list
-     */
-    public int getListWidth() {
-        return super.getListWidth() + 50;
-    }
+	/**
+	 * Gets the width of the list
+	 */
+	public int getListWidth() {
+		return super.getListWidth() + 50;
+	}
 
-    public void selectWorld(int idx) {
-        this.selectedIdx = idx;
-        this.worldSelection.selectWorld(this.getSelectedWorld());
-    }
+	public void selectWorld(int idx) {
+		this.selectedIdx = idx;
+		this.worldSelection.selectWorld(this.getSelectedWorld());
+	}
 
-    /**
-     * Returns true if the element passed in is currently selected
-     */
-    protected boolean isSelected(int slotIndex) {
-        return slotIndex == this.selectedIdx;
-    }
+	/**
+	 * Returns true if the element passed in is currently selected
+	 */
+	protected boolean isSelected(int slotIndex) {
+		return slotIndex == this.selectedIdx;
+	}
 
-    @Nullable
-    public GuiListSaveSelectionEntry getSelectedWorld() {
-        return this.selectedIdx >= 0 && this.selectedIdx < this.getSize() ? this.getListEntry(this.selectedIdx) : null;
-    }
+	@Nullable
+	public GuiListSaveSelectionEntry getSelectedWorld() {
+		return this.selectedIdx >= 0 && this.selectedIdx < this.getSize() ? this.getListEntry(this.selectedIdx) : null;
+	}
 
-    public SaveSelector getGuiWorldSelection() {
-        return this.worldSelection;
-    }
-
+	public SaveSelector getGuiWorldSelection() {
+		return this.worldSelection;
+	}
 
 }

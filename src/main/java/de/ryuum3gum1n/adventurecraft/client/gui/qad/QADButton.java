@@ -10,22 +10,23 @@ import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
 public class QADButton extends QADRectangularComponent {
-	public static final ResourceLocation ICON_ADD = new ResourceLocation("talecraft:textures/gui/add.png");
-	public static final ResourceLocation ICON_DELETE = new ResourceLocation("talecraft:textures/gui/delete.png");
-	public static final ResourceLocation ICON_INVEDIT = new ResourceLocation("talecraft:textures/gui/invokeedit.png");
-	public static final ResourceLocation ICON_PAUSE = new ResourceLocation("talecraft:textures/gui/pause.png");
-	public static final ResourceLocation ICON_PLAY = new ResourceLocation("talecraft:textures/gui/play.png");
-	public static final ResourceLocation ICON_STOP = new ResourceLocation("talecraft:textures/gui/stop.png");
-	public static final ResourceLocation ICON_SAVE = new ResourceLocation("talecraft:textures/gui/save.png");
-	public static final ResourceLocation ICON_NEW = new ResourceLocation("talecraft:textures/gui/new.png");
+	public static final ResourceLocation ICON_ADD = new ResourceLocation("adventurecraft:textures/gui/add.png");
+	public static final ResourceLocation ICON_DELETE = new ResourceLocation("adventurecraft:textures/gui/delete.png");
+	public static final ResourceLocation ICON_INVEDIT = new ResourceLocation(
+			"adventurecraft:textures/gui/invokeedit.png");
+	public static final ResourceLocation ICON_PAUSE = new ResourceLocation("adventurecraft:textures/gui/pause.png");
+	public static final ResourceLocation ICON_PLAY = new ResourceLocation("adventurecraft:textures/gui/play.png");
+	public static final ResourceLocation ICON_STOP = new ResourceLocation("adventurecraft:textures/gui/stop.png");
+	public static final ResourceLocation ICON_SAVE = new ResourceLocation("adventurecraft:textures/gui/save.png");
+	public static final ResourceLocation ICON_NEW = new ResourceLocation("adventurecraft:textures/gui/new.png");
 	public static final ResourceLocation ICON_EDITOR_TXT = new ResourceLocation(
-			"talecraft:textures/gui/file/editors/txt.png");
+			"adventurecraft:textures/gui/file/editors/txt.png");
 	public static final ResourceLocation ICON_EDITOR_NBT = new ResourceLocation(
-			"talecraft:textures/gui/file/editors/nbt.png");
+			"adventurecraft:textures/gui/file/editors/nbt.png");
 	public static final ResourceLocation ICON_EDITOR_BIN = new ResourceLocation(
-			"talecraft:textures/gui/file/editors/bin.png");
+			"adventurecraft:textures/gui/file/editors/bin.png");
 	public static final ResourceLocation ICON_EDITOR_NIL = new ResourceLocation(
-			"talecraft:textures/gui/file/editors/none.png");
+			"adventurecraft:textures/gui/file/editors/none.png");
 	protected static final ResourceLocation buttonTextures = new ResourceLocation("minecraft:textures/gui/widgets.png");
 	/**
 	 * 0 = Left, 1 = Center, 2 = Right
@@ -377,7 +378,6 @@ public class QADButton extends QADRectangularComponent {
 	}
 
 	public String getText() {
-		// TODO Auto-generated method stub
 		return this.model.getText();
 	}
 
@@ -387,7 +387,6 @@ public class QADButton extends QADRectangularComponent {
 	}
 
 	public Runnable getAction() {
-		// TODO Auto-generated method stub
 		return clickRunnable;
 	}
 
@@ -401,7 +400,6 @@ public class QADButton extends QADRectangularComponent {
 	}
 
 	public boolean isEnabeld() {
-		// TODO Auto-generated method stub
 		return this.enabled;
 	}
 
