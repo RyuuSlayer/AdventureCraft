@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "de.ryuu.adventurecraft.client.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "MixinClientWorld"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

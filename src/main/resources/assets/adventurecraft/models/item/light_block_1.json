@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "adventurecraft:item/light_block_1"
+  }
+}
