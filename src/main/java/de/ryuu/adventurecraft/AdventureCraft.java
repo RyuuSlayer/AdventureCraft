@@ -1,5 +1,6 @@
 package de.ryuu.adventurecraft;
 
+import de.ryuu.adventurecraft.client.init.AdventureCraftBlocks;
 import de.ryuu.adventurecraft.client.init.AdventureCraftEntities;
 import de.ryuu.adventurecraft.client.init.AdventureCraftItems;
 import de.ryuu.adventurecraft.client.registry.LightBlocks;
@@ -27,5 +28,6 @@ public class AdventureCraft implements ModInitializer {
         LightParticles.init();
         AdventureCraftItems.init();
         AdventureCraftEntities.init();
+        AdventureCraftBlocks.init();
     }
 }

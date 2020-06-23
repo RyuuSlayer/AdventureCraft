@@ -15,5 +15,8 @@
   "block.adventurecraft.light_block_12": "Light Block (12)",
   "block.adventurecraft.light_block_13": "Light Block (13)",
   "block.adventurecraft.light_block_14": "Light Block (14)",
-  "block.adventurecraft.light_block_15": "Light Block (15)"
+  "block.adventurecraft.light_block_15": "Light Block (15)",
+  "menu.new.adventurecraft": "Create",
+  "menu.load.adventurecraft": "Load",
+  "menu.delete.adventurecraft": "Delete"
 }
