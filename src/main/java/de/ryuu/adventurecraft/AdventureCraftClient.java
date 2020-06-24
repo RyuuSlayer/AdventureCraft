@@ -86,7 +86,7 @@ public class AdventureCraftClient implements ClientModInitializer {
         GameRules gameRules = new GameRules();
         gameRules.get(GameRules.DO_DAYLIGHT_CYCLE).set(false, null);
         gameRules.get(GameRules.DO_WEATHER_CYCLE).set(false, null);
-        gameRules.get(GameRules.field_19390).set(false, null);
+        gameRules.get(GameRules.DO_MOB_SPAWNING).set(false, null);
 
         LevelInfo levelInfo = new LevelInfo(worldName, GameMode.CREATIVE, false, Difficulty.NORMAL, false, gameRules, DataPackSettings.SAFE_MODE);
 
