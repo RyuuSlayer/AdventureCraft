@@ -70,7 +70,7 @@ public class AdventureCraftClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(LightParticles.lightParticle_14, new Factory(LightBlocks.blockLight_14.asItem()));
         ParticleFactoryRegistry.getInstance().register(LightParticles.lightParticle_15, new Factory(LightBlocks.blockLight_15.asItem()));
 
-        // Menu Button code registry
+        // Menu Button registry
         MENU_INSTANCE = new AdventureCraftClient();
     }
 
@@ -173,7 +173,7 @@ public class AdventureCraftClient implements ClientModInitializer {
         return false;
     }
 
-    // Menu: Check wether or not the world exists
+    // Menu: Check whether or not the world exists
     public boolean saveExist() {
         return MinecraftClient.getInstance().getLevelStorage().levelExists(worldName);
     }
