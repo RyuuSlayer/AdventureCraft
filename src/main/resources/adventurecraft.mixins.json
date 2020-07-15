@@ -9,6 +9,8 @@
     "MixinClientWorld",
     "MixinTitleScreen"
   ],
+  "server": [
+  ],
   "injectors": {
     "defaultRequire": 1
   }

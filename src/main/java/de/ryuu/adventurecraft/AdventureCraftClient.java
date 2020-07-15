@@ -18,7 +18,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resource.DataPackSettings;
 import net.minecraft.util.Util;
-import net.minecraft.util.registry.RegistryTracker;
+import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.GameRules;
@@ -47,7 +47,7 @@ public class AdventureCraftClient implements ClientModInitializer {
 
     private static final Logger LOGGER = LogManager.getLogger();
     public static AdventureCraftClient MENU_INSTANCE;
-    private String worldName = "Your Map";
+    private final String worldName = "Your Map";
 
     @Override
     public void onInitializeClient() {
@@ -118,7 +118,7 @@ public class AdventureCraftClient implements ClientModInitializer {
 
             worldData.put("GameRules", gameRules.toNbt());
 
-            Dynamic dynamic = new Dynamic(NbtOps.INSTANCE, worldData);
+            Dynamic<Tag> dynamic = new Dynamic<>(NbtOps.INSTANCE, worldData);
             SaveVersionInfo lv = SaveVersionInfo.fromDynamic(dynamic);
 
             levelInfo = LevelInfo.method_28383(dynamic, DataPackSettings.SAFE_MODE); // Sets Cheat mode enabled
@@ -131,7 +131,7 @@ public class AdventureCraftClient implements ClientModInitializer {
             levelProperties.setSpawnY(55);
             levelProperties.setSpawnZ(0);
 
-            session.method_27426(RegistryTracker.create(), levelProperties, worldData);
+            session.method_27426(DynamicRegistryManager.create(), levelProperties, worldData);
             session.save(worldName);
             session.close();
         } catch (IOException e) {
@@ -139,7 +139,8 @@ public class AdventureCraftClient implements ClientModInitializer {
         }
 
         // Start the World
-        MinecraftClient.getInstance().method_29607(worldName, levelProperties.getLevelInfo(), RegistryTracker.create(), BUILD_MAP_GENERATOR);
+        assert levelProperties != null;
+        MinecraftClient.getInstance().method_29607(worldName, levelProperties.getLevelInfo(), DynamicRegistryManager.create(), BUILD_MAP_GENERATOR);
     }
 
     private FlatChunkGeneratorConfig getAdventureCraftWorldGeneratorConfig() {
@@ -165,12 +166,10 @@ public class AdventureCraftClient implements ClientModInitializer {
     }
 
     // Menu: Loading World
-    public boolean loadWorld() {
+    public void loadWorld() {
         if (MinecraftClient.getInstance().getLevelStorage().levelExists(worldName)) {
             MinecraftClient.getInstance().startIntegratedServer(worldName);
-            return true;
         }
-        return false;
     }
 
     // Menu: Check whether or not the world exists
