@@ -30,7 +30,6 @@ public class LightBlocks {
     public static final Block blockLight_14 = register("light_block_14", new LightBlock(Settings.copy(Blocks.BARRIER).noCollision().lightLevel(value -> value.get(LightBlock.lightLevel)), 14));
     public static final Block blockLight_15 = register("light_block_15", new LightBlock(Settings.copy(Blocks.BARRIER).noCollision().lightLevel(value -> value.get(LightBlock.lightLevel)), 15));
 
-
     public static void init() {
 
     }
