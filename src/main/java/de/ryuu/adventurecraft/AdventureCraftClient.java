@@ -88,7 +88,8 @@ public class AdventureCraftClient implements ClientModInitializer {
         gameRules.get(GameRules.DO_WEATHER_CYCLE).set(false, null);
         gameRules.get(GameRules.DO_MOB_SPAWNING).set(false, null);
 
-        LevelInfo levelInfo = new LevelInfo(worldName, GameMode.CREATIVE, false, Difficulty.NORMAL, false, gameRules, DataPackSettings.SAFE_MODE);
+        new LevelInfo(worldName, GameMode.CREATIVE, false, Difficulty.NORMAL, false, gameRules, DataPackSettings.SAFE_MODE);
+        LevelInfo levelInfo;
 
         File gameDir = MinecraftClient.getInstance().runDirectory;
         LevelStorage levelStorage = new LevelStorage(gameDir.toPath().resolve("saves"), gameDir.toPath().resolve("backups"), null);
@@ -123,7 +124,8 @@ public class AdventureCraftClient implements ClientModInitializer {
 
             levelInfo = LevelInfo.method_28383(dynamic, DataPackSettings.SAFE_MODE); // Sets Cheat mode enabled
 
-            levelProperties = new LevelProperties(levelInfo, BUILD_MAP_GENERATOR, Lifecycle.stable())
+            new LevelProperties(levelInfo, BUILD_MAP_GENERATOR, Lifecycle.stable());
+            levelProperties = LevelProperties
                     .method_29029(dynamic, MinecraftClient.getInstance().getDataFixer(), 16, null, levelInfo, lv, BUILD_MAP_GENERATOR, Lifecycle.stable());
 
             // Spawn Location

@@ -14,7 +14,7 @@ public class LightItems {
 
     }
 
-    protected static <T extends Item> T register(String name, T item) {
-        return Registry.register(Registry.ITEM, AdventureCraft.id(name), item);
+    protected static <T extends Item> void register(String name, T item) {
+        Registry.register(Registry.ITEM, AdventureCraft.id(name), item);
     }
 }
