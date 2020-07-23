@@ -74,7 +74,7 @@ public class AdventureCraftClient implements ClientModInitializer {
         MENU_INSTANCE = new AdventureCraftClient();
     }
 
-    // TODO: Put all this "World creating from menu" stuff into its seperate class
+    // TODO: Put all this "World creating from menu" stuff into separate classes
 
     // Menu: Create World Button
     public void createWorld() {
@@ -149,8 +149,9 @@ public class AdventureCraftClient implements ClientModInitializer {
         FlatChunkGeneratorConfig flatChunkGeneratorConfig = new FlatChunkGeneratorConfig(new StructuresConfig(Optional.of(StructuresConfig.DEFAULT_STRONGHOLD), Maps.newHashMap()));
         flatChunkGeneratorConfig.setBiome(Biomes.PLAINS);
         flatChunkGeneratorConfig.getLayers().add(new FlatChunkGeneratorLayer(1, Blocks.BEDROCK));
-        flatChunkGeneratorConfig.getLayers().add(new FlatChunkGeneratorLayer(3, Blocks.STONE));
-        flatChunkGeneratorConfig.getLayers().add(new FlatChunkGeneratorLayer(52, Blocks.SANDSTONE));
+        flatChunkGeneratorConfig.getLayers().add(new FlatChunkGeneratorLayer(59, Blocks.STONE));
+        flatChunkGeneratorConfig.getLayers().add(new FlatChunkGeneratorLayer(3, Blocks.DIRT));
+        flatChunkGeneratorConfig.getLayers().add(new FlatChunkGeneratorLayer(1, Blocks.GRASS_BLOCK));
         flatChunkGeneratorConfig.updateLayerBlocks();
         return flatChunkGeneratorConfig;
     }
