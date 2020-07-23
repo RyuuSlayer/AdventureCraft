@@ -122,7 +122,7 @@ public class AdventureCraftClient implements ClientModInitializer {
             Dynamic<Tag> dynamic = new Dynamic<>(NbtOps.INSTANCE, worldData);
             SaveVersionInfo lv = SaveVersionInfo.fromDynamic(dynamic);
 
-            levelInfo = LevelInfo.method_28383(dynamic, DataPackSettings.SAFE_MODE); // Sets Cheat mode enabled
+            levelInfo = LevelInfo.fromDynamic(dynamic, DataPackSettings.SAFE_MODE); // Sets Cheat mode enabled
 
             new LevelProperties(levelInfo, BUILD_MAP_GENERATOR, Lifecycle.stable());
             levelProperties = LevelProperties
