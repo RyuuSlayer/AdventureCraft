@@ -11,7 +11,7 @@ import org.mozilla.javascript.Token;
 /**
  * AST node for a simple name.  A simple name is an identifier that is
  * not a keyword. Node type is {@link Token#NAME}.<p>
- *
+ * <p>
  * This node type is also used to represent certain non-identifier names that
  * are part of the language syntax.  It's used for the "get" and "set"
  * pseudo-keywords for object-initializer getter/setter properties, and it's
@@ -39,8 +39,9 @@ public class Name extends AstNode {
 
     /**
      * Constructs a new {@link Name}
-     * @param pos node start position
-     * @param len node length
+     *
+     * @param pos  node start position
+     * @param len  node length
      * @param name the identifier associated with this {@code Name} node
      */
     public Name(int pos, int len, String name) {
@@ -63,27 +64,13 @@ public class Name extends AstNode {
 
     /**
      * Sets the node's identifier
+     *
      * @throws IllegalArgumentException if identifier is null
      */
     public void setIdentifier(String identifier) {
         assertNotNull(identifier);
         this.identifier = identifier;
         setLength(identifier.length());
-    }
-
-    /**
-     * Set the {@link Scope} associated with this node.  This method does not
-     * set the scope's ast-node field to this node.  The field exists only
-     * for temporary storage by the code generator.  Not every name has an
-     * associated scope - typically only function and variable names (but not
-     * property names) are registered in a scope.
-     *
-     * @param s the scope.  Can be null.  Doesn't set any fields in the
-     * scope.
-     */
-    @Override
-		public void setScope(Scope s) {
-        scope = s;
     }
 
     /**
@@ -94,12 +81,28 @@ public class Name extends AstNode {
      * if any.
      */
     @Override
-		public Scope getScope() {
+    public Scope getScope() {
         return scope;
     }
 
     /**
+     * Set the {@link Scope} associated with this node.  This method does not
+     * set the scope's ast-node field to this node.  The field exists only
+     * for temporary storage by the code generator.  Not every name has an
+     * associated scope - typically only function and variable names (but not
+     * property names) are registered in a scope.
+     *
+     * @param s the scope.  Can be null.  Doesn't set any fields in the
+     *          scope.
+     */
+    @Override
+    public void setScope(Scope s) {
+        scope = s;
+    }
+
+    /**
      * Returns the {@link Scope} in which this {@code Name} is defined.
+     *
      * @return the scope in which this name is defined, or {@code null}
      * if it's not defined in the current lexical scope chain
      */

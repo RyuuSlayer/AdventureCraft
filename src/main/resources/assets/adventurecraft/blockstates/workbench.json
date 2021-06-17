@@ -1,5 +1,7 @@
 {
-    "variants": {
-        "normal" : {"model" : "adventurecraft:workbench"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:workbench"
     }
+  }
 }

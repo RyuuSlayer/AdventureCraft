@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:musicblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:musicblock"
+    }
   }
 }

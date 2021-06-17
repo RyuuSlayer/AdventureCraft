@@ -1,14 +1,14 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "adventurecraft:items/weapons/boomerang"
-    },
-    "overrides": [
-        {
-            "predicate": {
-                "thrown": 1
-            },
-            "model": "adventurecraft:item/boomerang_thrown"
-        }
-    ]
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "adventurecraft:items/weapons/boomerang"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "thrown": 1
+      },
+      "model": "adventurecraft:item/boomerang_thrown"
+    }
+  ]
 }

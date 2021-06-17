@@ -12,7 +12,7 @@ import org.mozilla.javascript.Token;
  * A variable declaration or initializer, part of a {@link VariableDeclaration}
  * expression.  The variable "target" can be a simple name or a destructuring
  * form.  The initializer, if present, can be any expression.<p>
- *
+ * <p>
  * Node type is one of {@link Token#VAR}, {@link Token#CONST}, or
  * {@link Token#LET}.<p>
  */
@@ -23,19 +23,6 @@ public class VariableInitializer extends AstNode {
 
     {
         type = Token.VAR;
-    }
-
-    /**
-     * Sets the node type.
-     * @throws IllegalArgumentException if {@code nodeType} is not one of
-     * {@link Token#VAR}, {@link Token#CONST}, or {@link Token#LET}
-     */
-    public void setNodeType(int nodeType) {
-        if (nodeType != Token.VAR
-            && nodeType != Token.CONST
-            && nodeType != Token.LET)
-            throw new IllegalArgumentException("invalid node type");
-        setType(nodeType);
     }
 
     public VariableInitializer() {
@@ -49,10 +36,24 @@ public class VariableInitializer extends AstNode {
         super(pos, len);
     }
 
+    /**
+     * Sets the node type.
+     *
+     * @throws IllegalArgumentException if {@code nodeType} is not one of
+     *                                  {@link Token#VAR}, {@link Token#CONST}, or {@link Token#LET}
+     */
+    public void setNodeType(int nodeType) {
+        if (nodeType != Token.VAR
+                && nodeType != Token.CONST
+                && nodeType != Token.LET)
+            throw new IllegalArgumentException("invalid node type");
+        setType(nodeType);
+    }
 
     /**
      * Returns true if this is a destructuring assignment.  If so, the
      * initializer must be non-{@code null}.
+     *
      * @return {@code true} if the {@code target} field is a destructuring form
      * (an {@link ArrayLiteral} or {@link ObjectLiteral} node)
      */
@@ -70,6 +71,7 @@ public class VariableInitializer extends AstNode {
     /**
      * Sets the variable name or destructuring form, and sets
      * its parent to this node.
+     *
      * @throws IllegalArgumentException if target is {@code null}
      */
     public void setTarget(AstNode target) {
@@ -90,6 +92,7 @@ public class VariableInitializer extends AstNode {
 
     /**
      * Sets the initial value expression, and sets its parent to this node.
+     *
      * @param initializer the initial value.  May be {@code null}.
      */
     public void setInitializer(AstNode initializer) {
@@ -104,7 +107,7 @@ public class VariableInitializer extends AstNode {
         sb.append(makeIndent(depth));
         sb.append(target.toSource(0));
         if (initializer != null) {
-            sb.append (" = ");
+            sb.append(" = ");
             sb.append(initializer.toSource(0));
         }
         return sb.toString();

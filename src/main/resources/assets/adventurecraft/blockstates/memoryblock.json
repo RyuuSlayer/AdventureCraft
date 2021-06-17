@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:memoryblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:memoryblock"
+    }
   }
 }

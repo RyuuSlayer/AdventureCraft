@@ -1,31 +1,236 @@
 {
-    "SONG1": { "category": "block", "sounds":[{"name":"adventurecraft:SONG1", "stream": true}] },
-    "SONG2": { "category": "block", "sounds":[{"name":"adventurecraft:SONG2", "stream": true}] },
-    "SONG3": { "category": "block", "sounds":[{"name":"adventurecraft:SONG3", "stream": true}] },
-    "SONG4": { "category": "block", "sounds":[{"name":"adventurecraft:SONG4", "stream": true}] },
-    "SONG5": { "category": "block", "sounds":[{"name":"adventurecraft:SONG5", "stream": true}] },
-    "SONG6": { "category": "block", "sounds":[{"name":"adventurecraft:SONG6", "stream": true}] },
-    "SONG7": { "category": "block", "sounds":[{"name":"adventurecraft:SONG7", "stream": true}] },
-    "SONG8": { "category": "block", "sounds":[{"name":"adventurecraft:SONG8", "stream": true}] },
-    
-    "EFFECT1": { "category": "block", "sounds":[{"name":"adventurecraft:EFFECT1", "stream": true}] },
-    "EFFECT2": { "category": "block", "sounds":[{"name":"adventurecraft:EFFECT2", "stream": true}] },
-    "EFFECT3": { "category": "block", "sounds":[{"name":"adventurecraft:EFFECT3", "stream": true}] },
-    "EFFECT4": { "category": "block", "sounds":[{"name":"adventurecraft:EFFECT4", "stream": true}] },
-    "EFFECT5": { "category": "block", "sounds":[{"name":"adventurecraft:EFFECT5", "stream": true}] },
-    "EFFECT6": { "category": "block", "sounds":[{"name":"adventurecraft:EFFECT6", "stream": true}] },
-    "EFFECT7": { "category": "block", "sounds":[{"name":"adventurecraft:EFFECT7", "stream": true}] },
-    "EFFECT8": { "category": "block", "sounds":[{"name":"adventurecraft:EFFECT8", "stream": true}] },
-    
-    "EXTRA1": { "category": "block", "sounds":[{"name":"adventurecraft:EXTRA1", "stream": true}] },
-    "EXTRA2": { "category": "block", "sounds":[{"name":"adventurecraft:EXTRA2", "stream": true}] },
-    "EXTRA3": { "category": "block", "sounds":[{"name":"adventurecraft:EXTRA3", "stream": true}] },
-    "EXTRA4": { "category": "block", "sounds":[{"name":"adventurecraft:EXTRA4", "stream": true}] },
-	
-	"dryfire": { "category": "ambient", "sounds":[{"name":"adventurecraft:gun/dryfire", "stream": false}] },
-    "pistolfire": { "category": "ambient", "sounds":[{"name":"adventurecraft:gun/pistolfire", "stream": false}] },
-	"reload": { "category": "ambient", "sounds":[{"name":"adventurecraft:gun/reload", "stream": false}] },
-	"riflefire": { "category": "ambient", "sounds":[{"name":"adventurecraft:gun/riflefire", "stream": false}] },
-	"shotgunfire": { "category": "ambient", "sounds":[{"name":"adventurecraft:gun/shotgunfire", "stream": false}] },
-	"shotgunreload": { "category": "ambient", "sounds":[{"name":"adventurecraft:gun/shotgunreload", "stream": false}] }
+  "SONG1": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:SONG1",
+        "stream": true
+      }
+    ]
+  },
+  "SONG2": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:SONG2",
+        "stream": true
+      }
+    ]
+  },
+  "SONG3": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:SONG3",
+        "stream": true
+      }
+    ]
+  },
+  "SONG4": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:SONG4",
+        "stream": true
+      }
+    ]
+  },
+  "SONG5": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:SONG5",
+        "stream": true
+      }
+    ]
+  },
+  "SONG6": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:SONG6",
+        "stream": true
+      }
+    ]
+  },
+  "SONG7": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:SONG7",
+        "stream": true
+      }
+    ]
+  },
+  "SONG8": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:SONG8",
+        "stream": true
+      }
+    ]
+  },
+  "EFFECT1": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:EFFECT1",
+        "stream": true
+      }
+    ]
+  },
+  "EFFECT2": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:EFFECT2",
+        "stream": true
+      }
+    ]
+  },
+  "EFFECT3": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:EFFECT3",
+        "stream": true
+      }
+    ]
+  },
+  "EFFECT4": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:EFFECT4",
+        "stream": true
+      }
+    ]
+  },
+  "EFFECT5": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:EFFECT5",
+        "stream": true
+      }
+    ]
+  },
+  "EFFECT6": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:EFFECT6",
+        "stream": true
+      }
+    ]
+  },
+  "EFFECT7": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:EFFECT7",
+        "stream": true
+      }
+    ]
+  },
+  "EFFECT8": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:EFFECT8",
+        "stream": true
+      }
+    ]
+  },
+  "EXTRA1": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:EXTRA1",
+        "stream": true
+      }
+    ]
+  },
+  "EXTRA2": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:EXTRA2",
+        "stream": true
+      }
+    ]
+  },
+  "EXTRA3": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:EXTRA3",
+        "stream": true
+      }
+    ]
+  },
+  "EXTRA4": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "adventurecraft:EXTRA4",
+        "stream": true
+      }
+    ]
+  },
+  "dryfire": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "adventurecraft:gun/dryfire",
+        "stream": false
+      }
+    ]
+  },
+  "pistolfire": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "adventurecraft:gun/pistolfire",
+        "stream": false
+      }
+    ]
+  },
+  "reload": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "adventurecraft:gun/reload",
+        "stream": false
+      }
+    ]
+  },
+  "riflefire": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "adventurecraft:gun/riflefire",
+        "stream": false
+      }
+    ]
+  },
+  "shotgunfire": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "adventurecraft:gun/shotgunfire",
+        "stream": false
+      }
+    ]
+  },
+  "shotgunreload": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "adventurecraft:gun/shotgunreload",
+        "stream": false
+      }
+    ]
+  }
 }

@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:delayblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:delayblock"
+    }
   }
 }

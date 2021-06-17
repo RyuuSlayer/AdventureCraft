@@ -47,6 +47,7 @@ public class ForInLoop extends Loop {
     /**
      * Sets loop iterator expression:  the part before the "in" keyword.
      * Also sets its parent to this node.
+     *
      * @throws IllegalArgumentException if {@code iterator} is {@code null}
      */
     public void setIterator(AstNode iterator) {
@@ -64,6 +65,7 @@ public class ForInLoop extends Loop {
 
     /**
      * Sets object being iterated over, and sets its parent to this node.
+     *
      * @throws IllegalArgumentException if {@code object} is {@code null}
      */
     public void setIteratedObject(AstNode object) {
@@ -95,8 +97,9 @@ public class ForInLoop extends Loop {
 
     /**
      * Sets position of "in" keyword
+     *
      * @param inPosition position of "in" keyword,
-     * or -1 if not present (e.g. in presence of a syntax error)
+     *                   or -1 if not present (e.g. in presence of a syntax error)
      */
     public void setInPosition(int inPosition) {
         this.inPosition = inPosition;
@@ -111,8 +114,9 @@ public class ForInLoop extends Loop {
 
     /**
      * Sets position of "each" keyword
+     *
      * @param eachPosition position of "each" keyword,
-     * or -1 if not present.
+     *                     or -1 if not present.
      */
     public void setEachPosition(int eachPosition) {
         this.eachPosition = eachPosition;
@@ -134,7 +138,7 @@ public class ForInLoop extends Loop {
         if (body instanceof Block) {
             sb.append(body.toSource(depth).trim()).append("\n");
         } else {
-            sb.append("\n").append(body.toSource(depth+1));
+            sb.append("\n").append(body.toSource(depth + 1));
         }
         return sb.toString();
     }

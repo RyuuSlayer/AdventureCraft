@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:summonblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:summonblock"
+    }
   }
 }

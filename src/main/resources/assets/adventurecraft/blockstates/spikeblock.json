@@ -1,17 +1,54 @@
 {
-    "variants": {
-        "active=true,facing=up": { "model": "adventurecraft:spikeblock", "x": 180 },
-        "active=true,facing=down": { "model": "adventurecraft:spikeblock"},
-        "active=true,facing=south": { "model": "adventurecraft:spikeblock", "x": 90 },
-        "active=true,facing=north": { "model": "adventurecraft:spikeblock", "x": 270 },
-        "active=true,facing=east": { "model": "adventurecraft:spikeblock", "x": -90, "y": 90},
-        "active=true,facing=west": { "model": "adventurecraft:spikeblock", "x": 90, "y": 90},
-        
-        "active=false,facing=up": { "model": "adventurecraft:spikeblock_inactive", "x": 180  },
-        "active=false,facing=down": { "model": "adventurecraft:spikeblock_inactive"},
-        "active=false,facing=south": { "model": "adventurecraft:spikeblock_inactive", "x": 90 },
-        "active=false,facing=north": { "model": "adventurecraft:spikeblock_inactive", "x": 270 },
-        "active=false,facing=east": { "model": "adventurecraft:spikeblock_inactive", "x": -90, "y": 90},
-        "active=false,facing=west": { "model": "adventurecraft:spikeblock_inactive", "x": 90, "y": 90}
+  "variants": {
+    "active=true,facing=up": {
+      "model": "adventurecraft:spikeblock",
+      "x": 180
+    },
+    "active=true,facing=down": {
+      "model": "adventurecraft:spikeblock"
+    },
+    "active=true,facing=south": {
+      "model": "adventurecraft:spikeblock",
+      "x": 90
+    },
+    "active=true,facing=north": {
+      "model": "adventurecraft:spikeblock",
+      "x": 270
+    },
+    "active=true,facing=east": {
+      "model": "adventurecraft:spikeblock",
+      "x": -90,
+      "y": 90
+    },
+    "active=true,facing=west": {
+      "model": "adventurecraft:spikeblock",
+      "x": 90,
+      "y": 90
+    },
+    "active=false,facing=up": {
+      "model": "adventurecraft:spikeblock_inactive",
+      "x": 180
+    },
+    "active=false,facing=down": {
+      "model": "adventurecraft:spikeblock_inactive"
+    },
+    "active=false,facing=south": {
+      "model": "adventurecraft:spikeblock_inactive",
+      "x": 90
+    },
+    "active=false,facing=north": {
+      "model": "adventurecraft:spikeblock_inactive",
+      "x": 270
+    },
+    "active=false,facing=east": {
+      "model": "adventurecraft:spikeblock_inactive",
+      "x": -90,
+      "y": 90
+    },
+    "active=false,facing=west": {
+      "model": "adventurecraft:spikeblock_inactive",
+      "x": 90,
+      "y": 90
     }
+  }
 }

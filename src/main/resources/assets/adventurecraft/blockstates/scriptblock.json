@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:scriptblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:scriptblock"
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
-    "parent": "block/cube_all",
-    "textures": {
-        "all": "adventurecraft:blocks/util/storage"
-    }
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "adventurecraft:blocks/util/storage"
+  }
 }

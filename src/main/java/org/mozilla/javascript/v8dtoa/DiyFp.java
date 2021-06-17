@@ -37,11 +37,10 @@ package org.mozilla.javascript.v8dtoa;
 // DiyFp are not designed to contain special doubles (NaN and Infinity).
 class DiyFp {
 
-    private long f;
-    private int e;
-
     static final int kSignificandSize = 64;
     static final long kUint64MSB = 0x8000000000000000L;
+    private long f;
+    private int e;
 
 
     DiyFp() {
@@ -59,16 +58,6 @@ class DiyFp {
         return (a == b) || ((a > b) ^ (a < 0) ^ (b < 0));
     }
 
-    // this = this - other.
-    // The exponents of both numbers must be the same and the significand of this
-    // must be bigger than the significand of other.
-    // The result will not be normalized.
-    void subtract(DiyFp other) {
-        assert (e == other.e);
-        assert uint64_gte(f, other.f);
-        f -= other.f;
-    }
-
     // Returns a - b.
     // The exponents of both numbers must be the same and this must be bigger
     // than other. The result will not be normalized.
@@ -78,6 +67,28 @@ class DiyFp {
         return result;
     }
 
+    // returns a * b;
+    static DiyFp times(DiyFp a, DiyFp b) {
+        DiyFp result = new DiyFp(a.f, a.e);
+        result.multiply(b);
+        return result;
+    }
+
+    static DiyFp normalize(DiyFp a) {
+        DiyFp result = new DiyFp(a.f, a.e);
+        result.normalize();
+        return result;
+    }
+
+    // this = this - other.
+    // The exponents of both numbers must be the same and the significand of this
+    // must be bigger than the significand of other.
+    // The result will not be normalized.
+    void subtract(DiyFp other) {
+        assert (e == other.e);
+        assert uint64_gte(f, other.f);
+        f -= other.f;
+    }
 
     // this = this * other.
     void multiply(DiyFp other) {
@@ -103,15 +114,8 @@ class DiyFp {
         f = result_f;
     }
 
-    // returns a * b;
-    static DiyFp times(DiyFp a, DiyFp b) {
-        DiyFp result = new DiyFp(a.f, a.e);
-        result.multiply(b);
-        return result;
-    }
-
     void normalize() {
-        assert(f != 0);
+        assert (f != 0);
         long f = this.f;
         int e = this.e;
 
@@ -130,17 +134,21 @@ class DiyFp {
         this.e = e;
     }
 
-    static DiyFp normalize(DiyFp a) {
-        DiyFp result = new DiyFp(a.f, a.e);
-        result.normalize();
-        return result;
+    long f() {
+        return f;
     }
 
-    long f() { return f; }
-    int e() { return e; }
+    int e() {
+        return e;
+    }
 
-    void setF(long new_value) { f = new_value; }
-    void setE(int new_value) { e = new_value; }
+    void setF(long new_value) {
+        f = new_value;
+    }
+
+    void setE(int new_value) {
+        e = new_value;
+    }
 
     @Override
     public String toString() {

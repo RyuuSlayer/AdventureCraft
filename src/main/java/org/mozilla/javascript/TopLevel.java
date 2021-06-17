@@ -4,7 +4,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
- package org.mozilla.javascript;
+package org.mozilla.javascript;
 
 import java.util.EnumMap;
 
@@ -38,30 +38,58 @@ import java.util.EnumMap;
 public class TopLevel extends IdScriptableObject {
 
     static final long serialVersionUID = -4648046356662472260L;
+    private EnumMap<Builtins, BaseFunction> ctors;
 
     /**
-     * An enumeration of built-in ECMAScript objects.
+     * Static helper method to get a built-in object constructor with the given
+     * <code>type</code> from the given <code>scope</code>. If the scope is not
+     * an instance of this class or does have a cache of built-ins,
+     * the constructor is looked up via normal property lookup.
+     *
+     * @param cx    the current Context
+     * @param scope the top-level scope
+     * @param type  the built-in type
+     * @return the built-in constructor
      */
-    public enum Builtins {
-        /** The built-in Object type. */
-        Object,
-        /** The built-in Array type. */
-        Array,
-        /** The built-in Function type. */
-        Function,
-        /** The built-in String type. */
-        String,
-        /** The built-in Number type. */
-        Number,
-        /** The built-in Boolean type. */
-        Boolean,
-        /** The built-in RegExp type. */
-        RegExp,
-        /** The built-in Error type. */
-        Error
+    public static Function getBuiltinCtor(Context cx,
+                                          Scriptable scope,
+                                          Builtins type) {
+        // must be called with top level scope
+        assert scope.getParentScope() == null;
+        if (scope instanceof TopLevel) {
+            Function result = ((TopLevel) scope).getBuiltinCtor(type);
+            if (result != null) {
+                return result;
+            }
+        }
+        // fall back to normal constructor lookup
+        return ScriptRuntime.getExistingCtor(cx, scope, type.name());
     }
 
-    private EnumMap<Builtins, BaseFunction> ctors;
+    /**
+     * Static helper method to get a built-in object prototype with the given
+     * <code>type</code> from the given <code>scope</code>. If the scope is not
+     * an instance of this class or does have a cache of built-ins,
+     * the prototype is looked up via normal property lookup.
+     *
+     * @param scope the top-level scope
+     * @param type  the built-in type
+     * @return the built-in prototype
+     */
+    public static Scriptable getBuiltinPrototype(Scriptable scope,
+                                                 Builtins type) {
+        // must be called with top level scope
+        assert scope.getParentScope() == null;
+        if (scope instanceof TopLevel) {
+            Scriptable result = ((TopLevel) scope)
+                    .getBuiltinPrototype(type);
+            if (result != null) {
+                return result;
+            }
+        }
+        // fall back to normal prototype lookup
+        return ScriptableObject.getClassPrototype(scope, type.name());
+    }
 
     @Override
     public String getClassName() {
@@ -81,66 +109,16 @@ public class TopLevel extends IdScriptableObject {
         for (Builtins builtin : Builtins.values()) {
             Object value = ScriptableObject.getProperty(this, builtin.name());
             if (value instanceof BaseFunction) {
-                ctors.put(builtin, (BaseFunction)value);
+                ctors.put(builtin, (BaseFunction) value);
             }
         }
-    }
-
-    /**
-     * Static helper method to get a built-in object constructor with the given
-     * <code>type</code> from the given <code>scope</code>. If the scope is not
-     * an instance of this class or does have a cache of built-ins,
-     * the constructor is looked up via normal property lookup.
-     *
-     * @param cx the current Context
-     * @param scope the top-level scope
-     * @param type the built-in type
-     * @return the built-in constructor
-     */
-    public static Function getBuiltinCtor(Context cx,
-                                          Scriptable scope,
-                                          Builtins type) {
-        // must be called with top level scope
-        assert scope.getParentScope() == null;
-        if (scope instanceof TopLevel) {
-            Function result = ((TopLevel)scope).getBuiltinCtor(type);
-            if (result != null) {
-                return result;
-            }
-        }
-        // fall back to normal constructor lookup
-        return ScriptRuntime.getExistingCtor(cx, scope, type.name());
-    }
-
-    /**
-     * Static helper method to get a built-in object prototype with the given
-     * <code>type</code> from the given <code>scope</code>. If the scope is not
-     * an instance of this class or does have a cache of built-ins,
-     * the prototype is looked up via normal property lookup.
-     *
-     * @param scope the top-level scope
-     * @param type the built-in type
-     * @return the built-in prototype
-     */
-    public static Scriptable getBuiltinPrototype(Scriptable scope,
-                                                 Builtins type) {
-        // must be called with top level scope
-        assert scope.getParentScope() == null;
-        if (scope instanceof TopLevel) {
-            Scriptable result = ((TopLevel)scope)
-                    .getBuiltinPrototype(type);
-            if (result != null) {
-                return result;
-            }
-        }
-        // fall back to normal prototype lookup
-        return ScriptableObject.getClassPrototype(scope, type.name());
     }
 
     /**
      * Get the cached built-in object constructor from this scope with the
      * given <code>type</code>. Returns null if {@link #cacheBuiltins()} has not
      * been called on this object.
+     *
      * @param type the built-in type
      * @return the built-in constructor
      */
@@ -152,6 +130,7 @@ public class TopLevel extends IdScriptableObject {
      * Get the cached built-in object prototype from this scope with the
      * given <code>type</code>. Returns null if {@link #cacheBuiltins()} has not
      * been called on this object.
+     *
      * @param type the built-in type
      * @return the built-in prototype
      */
@@ -159,6 +138,44 @@ public class TopLevel extends IdScriptableObject {
         BaseFunction func = getBuiltinCtor(type);
         Object proto = func != null ? func.getPrototypeProperty() : null;
         return proto instanceof Scriptable ? (Scriptable) proto : null;
+    }
+
+    /**
+     * An enumeration of built-in ECMAScript objects.
+     */
+    public enum Builtins {
+        /**
+         * The built-in Object type.
+         */
+        Object,
+        /**
+         * The built-in Array type.
+         */
+        Array,
+        /**
+         * The built-in Function type.
+         */
+        Function,
+        /**
+         * The built-in String type.
+         */
+        String,
+        /**
+         * The built-in Number type.
+         */
+        Number,
+        /**
+         * The built-in Boolean type.
+         */
+        Boolean,
+        /**
+         * The built-in RegExp type.
+         */
+        RegExp,
+        /**
+         * The built-in Error type.
+         */
+        Error
     }
 
 }

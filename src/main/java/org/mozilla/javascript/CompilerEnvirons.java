@@ -6,14 +6,31 @@
 
 package org.mozilla.javascript;
 
-import java.util.Set;
-
 import org.mozilla.javascript.ast.ErrorCollector;
 
-public class CompilerEnvirons
-{
-    public CompilerEnvirons()
-    {
+import java.util.Set;
+
+public class CompilerEnvirons {
+    Set<String> activationNames;
+    private ErrorReporter errorReporter;
+    private int languageVersion;
+    private boolean generateDebugInfo;
+    private boolean reservedKeywordAsIdentifier;
+    private boolean allowMemberExprAsFunctionName;
+    private boolean xmlAvailable;
+    private int optimizationLevel;
+    private boolean generatingSource;
+    private boolean strictMode;
+    private boolean warningAsError;
+    private boolean generateObserverCount;
+    private boolean recordingComments;
+    private boolean recordingLocalJsDocComments;
+    private boolean recoverFromErrors;
+    private boolean warnTrailingComma;
+    private boolean ideMode;
+    private boolean allowSharpComments;
+
+    public CompilerEnvirons() {
         errorReporter = DefaultErrorReporter.instance;
         languageVersion = Context.VERSION_DEFAULT;
         generateDebugInfo = true;
@@ -28,21 +45,38 @@ public class CompilerEnvirons
         allowSharpComments = false;
     }
 
-    public void initFromContext(Context cx)
-    {
+    /**
+     * Returns a {@code CompilerEnvirons} suitable for using Rhino
+     * in an IDE environment.  Most features are enabled by default.
+     * The {@link ErrorReporter} is set to an {@link ErrorCollector}.
+     */
+    public static CompilerEnvirons ideEnvirons() {
+        CompilerEnvirons env = new CompilerEnvirons();
+        env.setRecoverFromErrors(true);
+        env.setRecordingComments(true);
+        env.setStrictMode(true);
+        env.setWarnTrailingComma(true);
+        env.setLanguageVersion(170);
+        env.setReservedKeywordAsIdentifier(true);
+        env.setIdeMode(true);
+        env.setErrorReporter(new ErrorCollector());
+        return env;
+    }
+
+    public void initFromContext(Context cx) {
         setErrorReporter(cx.getErrorReporter());
         languageVersion = cx.getLanguageVersion();
         generateDebugInfo = (!cx.isGeneratingDebugChanged()
-                             || cx.isGeneratingDebug());
+                || cx.isGeneratingDebug());
         reservedKeywordAsIdentifier
-            = cx.hasFeature(Context.FEATURE_RESERVED_KEYWORD_AS_IDENTIFIER);
+                = cx.hasFeature(Context.FEATURE_RESERVED_KEYWORD_AS_IDENTIFIER);
         allowMemberExprAsFunctionName
-            = cx.hasFeature(Context.FEATURE_MEMBER_EXPR_AS_FUNCTION_NAME);
+                = cx.hasFeature(Context.FEATURE_MEMBER_EXPR_AS_FUNCTION_NAME);
         strictMode
-            = cx.hasFeature(Context.FEATURE_STRICT_MODE);
+                = cx.hasFeature(Context.FEATURE_STRICT_MODE);
         warningAsError = cx.hasFeature(Context.FEATURE_WARNING_AS_ERROR);
         xmlAvailable
-            = cx.hasFeature(Context.FEATURE_E4X);
+                = cx.hasFeature(Context.FEATURE_E4X);
 
         optimizationLevel = cx.getOptimizationLevel();
 
@@ -53,45 +87,37 @@ public class CompilerEnvirons
         generateObserverCount = cx.generateObserverCount;
     }
 
-    public final ErrorReporter getErrorReporter()
-    {
+    public final ErrorReporter getErrorReporter() {
         return errorReporter;
     }
 
-    public void setErrorReporter(ErrorReporter errorReporter)
-    {
+    public void setErrorReporter(ErrorReporter errorReporter) {
         if (errorReporter == null) throw new IllegalArgumentException();
         this.errorReporter = errorReporter;
     }
 
-    public final int getLanguageVersion()
-    {
+    public final int getLanguageVersion() {
         return languageVersion;
     }
 
-    public void setLanguageVersion(int languageVersion)
-    {
+    public void setLanguageVersion(int languageVersion) {
         Context.checkLanguageVersion(languageVersion);
         this.languageVersion = languageVersion;
     }
 
-    public final boolean isGenerateDebugInfo()
-    {
+    public final boolean isGenerateDebugInfo() {
         return generateDebugInfo;
     }
 
-    public void setGenerateDebugInfo(boolean flag)
-    {
+    public void setGenerateDebugInfo(boolean flag) {
         this.generateDebugInfo = flag;
     }
 
-    public final boolean isReservedKeywordAsIdentifier()
-    {
+    public final boolean isReservedKeywordAsIdentifier() {
         return reservedKeywordAsIdentifier;
     }
 
-    public void setReservedKeywordAsIdentifier(boolean flag)
-    {
+    public void setReservedKeywordAsIdentifier(boolean flag) {
         reservedKeywordAsIdentifier = flag;
     }
 
@@ -99,63 +125,33 @@ public class CompilerEnvirons
      * Extension to ECMA: if 'function &lt;name&gt;' is not followed
      * by '(', assume &lt;name&gt; starts a {@code memberExpr}
      */
-    public final boolean isAllowMemberExprAsFunctionName()
-    {
+    public final boolean isAllowMemberExprAsFunctionName() {
         return allowMemberExprAsFunctionName;
     }
 
-    public void setAllowMemberExprAsFunctionName(boolean flag)
-    {
+    public void setAllowMemberExprAsFunctionName(boolean flag) {
         allowMemberExprAsFunctionName = flag;
     }
 
-    public final boolean isXmlAvailable()
-    {
+    public final boolean isXmlAvailable() {
         return xmlAvailable;
     }
 
-    public void setXmlAvailable(boolean flag)
-    {
+    public void setXmlAvailable(boolean flag) {
         xmlAvailable = flag;
     }
 
-    public final int getOptimizationLevel()
-    {
+    public final int getOptimizationLevel() {
         return optimizationLevel;
     }
 
-    public void setOptimizationLevel(int level)
-    {
+    public void setOptimizationLevel(int level) {
         Context.checkOptimizationLevel(level);
         this.optimizationLevel = level;
     }
 
-    public final boolean isGeneratingSource()
-    {
+    public final boolean isGeneratingSource() {
         return generatingSource;
-    }
-
-    public boolean getWarnTrailingComma() {
-        return warnTrailingComma;
-    }
-
-    public void setWarnTrailingComma(boolean warn) {
-        warnTrailingComma = warn;
-    }
-
-    public final boolean isStrictMode()
-    {
-        return strictMode;
-    }
-
-    public void setStrictMode(boolean strict)
-    {
-        strictMode = strict;
-    }
-
-    public final boolean reportWarningAsError()
-    {
-        return warningAsError;
     }
 
     /**
@@ -167,9 +163,28 @@ public class CompilerEnvirons
      * Note that code generated without source is not fully ECMA
      * conformant.
      */
-    public void setGeneratingSource(boolean generatingSource)
-    {
+    public void setGeneratingSource(boolean generatingSource) {
         this.generatingSource = generatingSource;
+    }
+
+    public boolean getWarnTrailingComma() {
+        return warnTrailingComma;
+    }
+
+    public void setWarnTrailingComma(boolean warn) {
+        warnTrailingComma = warn;
+    }
+
+    public final boolean isStrictMode() {
+        return strictMode;
+    }
+
+    public void setStrictMode(boolean strict) {
+        strictMode = strict;
+    }
+
+    public final boolean reportWarningAsError() {
+        return warningAsError;
     }
 
     /**
@@ -188,8 +203,9 @@ public class CompilerEnvirons
      * be counted toward instruction thresholds. Rhino's interpretive
      * mode does instruction counting without inserting callbacks, so
      * there is no requirement to compile code differently.
+     *
      * @param generateObserverCount if true, generated code will contain
-     * calls to accumulate an estimate of the instructions executed.
+     *                              calls to accumulate an estimate of the instructions executed.
      */
     public void setGenerateObserverCount(boolean generateObserverCount) {
         this.generateObserverCount = generateObserverCount;
@@ -224,16 +240,16 @@ public class CompilerEnvirons
         return recoverFromErrors;
     }
 
+    public boolean isIdeMode() {
+        return ideMode;
+    }
+
     /**
      * Puts the parser in "IDE" mode.  This enables some slightly more expensive
      * computations, such as figuring out helpful error bounds.
      */
     public void setIdeMode(boolean ide) {
         ideMode = ide;
-    }
-
-    public boolean isIdeMode() {
-        return ideMode;
     }
 
     public Set<String> getActivationNames() {
@@ -244,52 +260,14 @@ public class CompilerEnvirons
         this.activationNames = activationNames;
     }
 
+    public boolean getAllowSharpComments() {
+        return allowSharpComments;
+    }
+
     /**
      * Mozilla sources use the C preprocessor.
      */
     public void setAllowSharpComments(boolean allow) {
         allowSharpComments = allow;
     }
-
-    public boolean getAllowSharpComments() {
-        return allowSharpComments;
-    }
-
-    /**
-     * Returns a {@code CompilerEnvirons} suitable for using Rhino
-     * in an IDE environment.  Most features are enabled by default.
-     * The {@link ErrorReporter} is set to an {@link ErrorCollector}.
-     */
-    public static CompilerEnvirons ideEnvirons() {
-        CompilerEnvirons env = new CompilerEnvirons();
-        env.setRecoverFromErrors(true);
-        env.setRecordingComments(true);
-        env.setStrictMode(true);
-        env.setWarnTrailingComma(true);
-        env.setLanguageVersion(170);
-        env.setReservedKeywordAsIdentifier(true);
-        env.setIdeMode(true);
-        env.setErrorReporter(new ErrorCollector());
-        return env;
-    }
-
-    private ErrorReporter errorReporter;
-
-    private int languageVersion;
-    private boolean generateDebugInfo;
-    private boolean reservedKeywordAsIdentifier;
-    private boolean allowMemberExprAsFunctionName;
-    private boolean xmlAvailable;
-    private int optimizationLevel;
-    private boolean generatingSource;
-    private boolean strictMode;
-    private boolean warningAsError;
-    private boolean generateObserverCount;
-    private boolean recordingComments;
-    private boolean recordingLocalJsDocComments;
-    private boolean recoverFromErrors;
-    private boolean warnTrailingComma;
-    private boolean ideMode;
-    private boolean allowSharpComments;
-    Set<String> activationNames;
 }

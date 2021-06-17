@@ -10,8 +10,9 @@ package org.mozilla.javascript;
  * @author Norris Boyd
  */
 public class DefiningClassLoader extends ClassLoader
-    implements GeneratedClassLoader
-{
+        implements GeneratedClassLoader {
+    private final ClassLoader parentLoader;
+
     public DefiningClassLoader() {
         this.parentLoader = getClass().getClassLoader();
     }
@@ -21,7 +22,7 @@ public class DefiningClassLoader extends ClassLoader
     }
 
     @Override
-		public Class<?> defineClass(String name, byte[] data) {
+    public Class<?> defineClass(String name, byte[] data) {
         // Use our own protection domain for the generated classes.
         // TODO: we might want to use a separate protection domain for classes
         // compiled from scripts, based on where the script was loaded from.
@@ -30,14 +31,13 @@ public class DefiningClassLoader extends ClassLoader
     }
 
     @Override
-		public void linkClass(Class<?> cl) {
+    public void linkClass(Class<?> cl) {
         resolveClass(cl);
     }
 
     @Override
     public Class<?> loadClass(String name, boolean resolve)
-        throws ClassNotFoundException
-    {
+            throws ClassNotFoundException {
         Class<?> cl = findLoadedClass(name);
         if (cl == null) {
             if (parentLoader != null) {
@@ -51,6 +51,4 @@ public class DefiningClassLoader extends ClassLoader
         }
         return cl;
     }
-
-    private final ClassLoader parentLoader;
 }

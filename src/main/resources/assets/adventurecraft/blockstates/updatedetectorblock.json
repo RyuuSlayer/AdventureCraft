@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:updatedetectorblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:updatedetectorblock"
+    }
   }
 }

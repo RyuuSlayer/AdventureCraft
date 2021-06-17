@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:clockblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:clockblock"
+    }
   }
 }

@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:shopblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:shopblock"
+    }
   }
 }

@@ -13,13 +13,13 @@ import org.mozilla.javascript.Token;
  * For simple entries, the node type is {@link Token#COLON}, and
  * the name (left side expression) is either a {@link Name}, a
  * {@link StringLiteral} or a {@link NumberLiteral}.<p>
- *
+ * <p>
  * This node type is also used for getter/setter properties in object
  * literals.  In this case the node bounds include the "get" or "set"
  * keyword.  The left-hand expression in this case is always a
  * {@link Name}, and the overall node type is {@link Token#GET} or
  * {@link Token#SET}, as appropriate.<p>
- *
+ * <p>
  * The {@code operatorPosition} field is meaningless if the node is
  * a getter or setter.<p>
  *
@@ -36,20 +36,6 @@ public class ObjectProperty extends InfixExpression {
         type = Token.COLON;
     }
 
-    /**
-     * Sets the node type.  Must be one of
-     * {@link Token#COLON}, {@link Token#GET}, or {@link Token#SET}.
-     * @throws IllegalArgumentException if {@code nodeType} is invalid
-     */
-    public void setNodeType(int nodeType) {
-        if (nodeType != Token.COLON
-            && nodeType != Token.GET
-            && nodeType != Token.SET)
-            throw new IllegalArgumentException("invalid node type: "
-                                               + nodeType);
-        setType(nodeType);
-    }
-
     public ObjectProperty() {
     }
 
@@ -59,6 +45,21 @@ public class ObjectProperty extends InfixExpression {
 
     public ObjectProperty(int pos, int len) {
         super(pos, len);
+    }
+
+    /**
+     * Sets the node type.  Must be one of
+     * {@link Token#COLON}, {@link Token#GET}, or {@link Token#SET}.
+     *
+     * @throws IllegalArgumentException if {@code nodeType} is invalid
+     */
+    public void setNodeType(int nodeType) {
+        if (nodeType != Token.COLON
+                && nodeType != Token.GET
+                && nodeType != Token.SET)
+            throw new IllegalArgumentException("invalid node type: "
+                    + nodeType);
+        setType(nodeType);
     }
 
     /**

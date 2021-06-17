@@ -48,6 +48,7 @@ public class IfStatement extends AstNode {
 
     /**
      * Sets if condition.
+     *
      * @throws IllegalArgumentException if {@code condition} is {@code null}.
      */
     public void setCondition(AstNode condition) {
@@ -65,6 +66,7 @@ public class IfStatement extends AstNode {
 
     /**
      * Sets statement to execute if condition is true
+     *
      * @throws IllegalArgumentException if thenPart is {@code null}
      */
     public void setThenPart(AstNode thenPart) {
@@ -82,8 +84,9 @@ public class IfStatement extends AstNode {
 
     /**
      * Sets statement to execute if condition is false
+     *
      * @param elsePart statement to execute if condition is false.
-     * Can be {@code null}.
+     *                 Can be {@code null}.
      */
     public void setElsePart(AstNode elsePart) {
         this.elsePart = elsePart;

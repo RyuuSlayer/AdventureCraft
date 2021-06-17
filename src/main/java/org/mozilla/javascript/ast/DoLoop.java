@@ -43,6 +43,7 @@ public class DoLoop extends Loop {
 
     /**
      * Sets loop condition, and sets its parent to this node.
+     *
      * @throws IllegalArgumentException if condition is null
      */
     public void setCondition(AstNode condition) {

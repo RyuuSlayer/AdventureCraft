@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:collisiontriggerblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:collisiontriggerblock"
+    }
   }
 }

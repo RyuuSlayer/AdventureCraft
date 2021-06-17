@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:emitterblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:emitterblock"
+    }
   }
 }

@@ -27,9 +27,8 @@ import java.io.Serializable;
 public class ConsString implements CharSequence, Serializable {
 
     private static final long serialVersionUID = -8432806714471372570L;
-
-    private CharSequence s1, s2;
     private final int length;
+    private CharSequence s1, s2;
     private int depth;
 
     public ConsString(CharSequence str1, CharSequence str2) {
@@ -38,10 +37,10 @@ public class ConsString implements CharSequence, Serializable {
         length = str1.length() + str2.length();
         depth = 1;
         if (str1 instanceof ConsString) {
-            depth += ((ConsString)str1).depth;
+            depth += ((ConsString) str1).depth;
         }
         if (str2 instanceof ConsString) {
-            depth += ((ConsString)str2).depth;
+            depth += ((ConsString) str2).depth;
         }
         // Don't let it grow too deep, can cause stack overflows
         if (depth > 2000) {
@@ -49,14 +48,22 @@ public class ConsString implements CharSequence, Serializable {
         }
     }
 
+    private static void appendFragment(CharSequence s, StringBuilder b) {
+        if (s instanceof ConsString) {
+            ((ConsString) s).appendTo(b);
+        } else {
+            b.append(s);
+        }
+    }
+
     // Replace with string representation when serializing
     private Object writeReplace() {
         return this.toString();
     }
-    
+
     @Override
-		public String toString() {
-        return depth == 0 ? (String)s1 : flatten();
+    public String toString() {
+        return depth == 0 ? (String) s1 : flatten();
     }
 
     private synchronized String flatten() {
@@ -67,7 +74,7 @@ public class ConsString implements CharSequence, Serializable {
             s2 = "";
             depth = 0;
         }
-        return (String)s1;
+        return (String) s1;
     }
 
     private synchronized void appendTo(StringBuilder b) {
@@ -75,28 +82,20 @@ public class ConsString implements CharSequence, Serializable {
         appendFragment(s2, b);
     }
 
-    private static void appendFragment(CharSequence s, StringBuilder b) {
-        if (s instanceof ConsString) {
-            ((ConsString)s).appendTo(b);
-        } else {
-            b.append(s);
-        }
-    }
-
     @Override
-		public int length() {
+    public int length() {
         return length;
     }
 
     @Override
-		public char charAt(int index) {
-        String str = depth == 0 ? (String)s1 : flatten();
+    public char charAt(int index) {
+        String str = depth == 0 ? (String) s1 : flatten();
         return str.charAt(index);
     }
 
     @Override
-		public CharSequence subSequence(int start, int end) {
-        String str = depth == 0 ? (String)s1 : flatten();
+    public CharSequence subSequence(int start, int end) {
+        String str = depth == 0 ? (String) s1 : flatten();
         return str.substring(start, end);
     }
 

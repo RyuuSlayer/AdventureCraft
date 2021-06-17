@@ -12,8 +12,7 @@ package org.mozilla.javascript.debug;
  * This interface exposes debugging information from executable
  * code (either functions or top-level scripts).
  */
-public interface DebuggableScript
-{
+public interface DebuggableScript {
     public boolean isTopLevel();
 
     /**

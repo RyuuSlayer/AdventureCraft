@@ -10,6 +10,9 @@ import java.util.Arrays;
 
 public class FastDtoaBuilder {
 
+    final static char[] digits = {
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+    };
     // allocate buffer for generated digits + extra notation + padding zeroes
     final char[] chars = new char[FastDtoa.kFastDtoaMaximalLength + 8];
     int end = 0;
@@ -97,15 +100,11 @@ public class FastDtoaBuilder {
         end = charPos + 1;
 
         // code below is needed because Integer.getChars() is not public
-        for (;;) {
+        for (; ; ) {
             int r = exp % 10;
             chars[charPos--] = digits[r];
             exp = exp / 10;
             if (exp == 0) break;
         }
     }
-
-    final static char[] digits = {
-        '0' , '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9'
-    };
 }

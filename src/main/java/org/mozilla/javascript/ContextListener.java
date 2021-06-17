@@ -14,8 +14,7 @@ package org.mozilla.javascript;
  * {@link ContextFactory.Listener}.
  */
 @SuppressWarnings("dep-ann")
-public interface ContextListener extends ContextFactory.Listener
-{
+public interface ContextListener extends ContextFactory.Listener {
 
     /**
      * @deprecated Rhino runtime never calls the method.

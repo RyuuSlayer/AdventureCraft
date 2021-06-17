@@ -6,14 +6,16 @@
 
 package org.mozilla.javascript.jdk15;
 
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Wrapper;
+
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
-import java.lang.reflect.Constructor;
 import java.util.Iterator;
-import org.mozilla.javascript.*;
 
-public class VMBridge_jdk15 extends org.mozilla.javascript.jdk13.VMBridge_jdk13
-{
+public class VMBridge_jdk15 extends org.mozilla.javascript.jdk13.VMBridge_jdk13 {
     public VMBridge_jdk15() throws SecurityException, InstantiationException {
         try {
             // Just try and see if we can access the isVarArgs method.
@@ -50,7 +52,7 @@ public class VMBridge_jdk15 extends org.mozilla.javascript.jdk13.VMBridge_jdk13
             if (unwrapped instanceof Iterator)
                 iterator = (Iterator<?>) unwrapped;
             if (unwrapped instanceof Iterable)
-                iterator = ((Iterable<?>)unwrapped).iterator();
+                iterator = ((Iterable<?>) unwrapped).iterator();
             return iterator;
         }
         return null;

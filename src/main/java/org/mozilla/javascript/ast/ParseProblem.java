@@ -11,14 +11,11 @@ package org.mozilla.javascript.ast;
  */
 public class ParseProblem {
 
-    public static enum Type {Error, Warning}
-
     private Type type;
     private String message;
     private String sourceName;
     private int offset;
     private int length;
-
     /**
      * Constructs a new ParseProblem.
      */
@@ -81,4 +78,6 @@ public class ParseProblem {
         sb.append(message);
         return sb.toString();
     }
+
+    public static enum Type {Error, Warning}
 }

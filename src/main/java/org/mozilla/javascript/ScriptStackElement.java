@@ -8,14 +8,15 @@ import java.io.Serializable;
 
 /**
  * This class represents an element on the script execution stack.
- * @see RhinoException#getScriptStack()
+ *
  * @author Hannes Wallnoefer
+ * @see RhinoException#getScriptStack()
  * @since 1.7R3
  */
 public final class ScriptStackElement implements Serializable {
 
     static final long serialVersionUID = -6416688260860477449L;
-    
+
     public final String fileName;
     public final String functionName;
     public final int lineNumber;
@@ -27,7 +28,7 @@ public final class ScriptStackElement implements Serializable {
     }
 
     @Override
-		public String toString() {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         renderMozillaStyle(sb);
         return sb.toString();
@@ -36,6 +37,7 @@ public final class ScriptStackElement implements Serializable {
     /**
      * Render stack element in Java-inspired style:
      * <code>    at fileName:lineNumber (functionName)</code>
+     *
      * @param sb the StringBuilder to append to
      */
     public void renderJavaStyle(StringBuilder sb) {
@@ -51,6 +53,7 @@ public final class ScriptStackElement implements Serializable {
     /**
      * Render stack element in Mozilla/Firefox style:
      * <code>functionName()@fileName:lineNumber</code>
+     *
      * @param sb the StringBuilder to append to
      */
     public void renderMozillaStyle(StringBuilder sb) {

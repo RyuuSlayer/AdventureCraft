@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:relayblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:relayblock"
+    }
   }
 }

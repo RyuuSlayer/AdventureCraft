@@ -1,12 +1,12 @@
 {
-    "parent": "block/cube",
-    "textures": {
-        "particle": "adventurecraft:blocks/world/workbench_front",
-        "down": "adventurecraft:blocks/world/workbench_bottom",
-        "up": "adventurecraft:blocks/world/workbench_top",
-        "north": "adventurecraft:blocks/world/workbench_front",
-        "east": "adventurecraft:blocks/world/workbench_side",
-        "south": "adventurecraft:blocks/world/workbench_side",
-        "west": "adventurecraft:blocks/world/workbench_front"
-    }
+  "parent": "block/cube",
+  "textures": {
+    "particle": "adventurecraft:blocks/world/workbench_front",
+    "down": "adventurecraft:blocks/world/workbench_bottom",
+    "up": "adventurecraft:blocks/world/workbench_top",
+    "north": "adventurecraft:blocks/world/workbench_front",
+    "east": "adventurecraft:blocks/world/workbench_side",
+    "south": "adventurecraft:blocks/world/workbench_side",
+    "west": "adventurecraft:blocks/world/workbench_front"
+  }
 }

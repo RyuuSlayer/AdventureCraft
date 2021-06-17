@@ -7,9 +7,10 @@
 package org.mozilla.javascript.ast;
 
 /**
+ *
  */
 public class GeneratorExpressionLoop extends ForInLoop {
-    
+
     public GeneratorExpressionLoop() {
     }
 
@@ -20,7 +21,7 @@ public class GeneratorExpressionLoop extends ForInLoop {
     public GeneratorExpressionLoop(int pos, int len) {
         super(pos, len);
     }
-    
+
     /**
      * Returns whether the loop is a for-each loop
      */
@@ -41,7 +42,7 @@ public class GeneratorExpressionLoop extends ForInLoop {
     public String toSource(int depth) {
         return makeIndent(depth)
                 + " for "
-                + (isForEach()?"each ":"")
+                + (isForEach() ? "each " : "")
                 + "("
                 + iterator.toSource(0)
                 + " in "

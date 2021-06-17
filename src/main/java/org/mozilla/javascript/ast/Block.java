@@ -47,7 +47,7 @@ public class Block extends AstNode {
         sb.append(makeIndent(depth));
         sb.append("{\n");
         for (Node kid : this) {
-            sb.append(((AstNode)kid).toSource(depth+1));
+            sb.append(((AstNode) kid).toSource(depth + 1));
         }
         sb.append(makeIndent(depth));
         sb.append("}\n");
@@ -58,7 +58,7 @@ public class Block extends AstNode {
     public void visit(NodeVisitor v) {
         if (v.visit(this)) {
             for (Node kid : this) {
-                ((AstNode)kid).visit(v);
+                ((AstNode) kid).visit(v);
             }
         }
     }

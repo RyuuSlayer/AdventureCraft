@@ -42,6 +42,7 @@ public class WhileLoop extends Loop {
 
     /**
      * Sets loop condition
+     *
      * @throws IllegalArgumentException} if condition is {@code null}
      */
     public void setCondition(AstNode condition) {
@@ -61,7 +62,7 @@ public class WhileLoop extends Loop {
             sb.append(body.toSource(depth).trim());
             sb.append("\n");
         } else {
-            sb.append("\n").append(body.toSource(depth+1));
+            sb.append("\n").append(body.toSource(depth + 1));
         }
         return sb.toString();
     }

@@ -1,7 +1,7 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "adventurecraft:items/emerald_coin"
-    }
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "adventurecraft:items/emerald_coin"
+  }
 }
 

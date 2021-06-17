@@ -27,7 +27,7 @@ import java.util.List;
 public class TryStatement extends AstNode {
 
     private static final List<CatchClause> NO_CATCHES =
-        Collections.unmodifiableList(new ArrayList<CatchClause>());
+            Collections.unmodifiableList(new ArrayList<CatchClause>());
 
     private AstNode tryBlock;
     private List<CatchClause> catchClauses;
@@ -55,6 +55,7 @@ public class TryStatement extends AstNode {
 
     /**
      * Sets try block.  Also sets its parent to this node.
+     *
      * @throws IllegalArgumentException} if {@code tryBlock} is {@code null}
      */
     public void setTryBlock(AstNode tryBlock) {
@@ -91,6 +92,7 @@ public class TryStatement extends AstNode {
     /**
      * Add a catch-clause to the end of the list, and sets its parent to
      * this node.
+     *
      * @throws IllegalArgumentException} if {@code clause} is {@code null}
      */
     public void addCatchClause(CatchClause clause) {

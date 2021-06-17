@@ -28,8 +28,17 @@ public class XmlString extends XmlFragment {
     }
 
     /**
+     * Returns the xml string for this component.
+     * Note that it may not be well-formed XML; it is a fragment.
+     */
+    public String getXml() {
+        return xml;
+    }
+
+    /**
      * Sets the string for this XML component.  Sets the length of the
      * component to the length of the passed string.
+     *
      * @param s a string of xml text
      * @throws IllegalArgumentException} if {@code s} is {@code null}
      */
@@ -37,14 +46,6 @@ public class XmlString extends XmlFragment {
         assertNotNull(s);
         xml = s;
         setLength(s.length());
-    }
-
-    /**
-     * Returns the xml string for this component.
-     * Note that it may not be well-formed XML; it is a fragment.
-     */
-    public String getXml() {
-        return xml;
     }
 
     @Override

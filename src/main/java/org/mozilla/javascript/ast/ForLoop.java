@@ -50,8 +50,9 @@ public class ForLoop extends Loop {
      * Sets loop initializer expression, and sets its parent
      * to this node.  Virtually any expression can be in the initializer,
      * so no error-checking is done other than a {@code null}-check.
+     *
      * @param initializer loop initializer.  Pass an
-     * {@link EmptyExpression} if the initializer is not specified.
+     *                    {@link EmptyExpression} if the initializer is not specified.
      * @throws IllegalArgumentException if condition is {@code null}
      */
     public void setInitializer(AstNode initializer) {
@@ -69,8 +70,9 @@ public class ForLoop extends Loop {
 
     /**
      * Sets loop condition, and sets its parent to this node.
+     *
      * @param condition loop condition.  Pass an {@link EmptyExpression}
-     * if the condition is missing.
+     *                  if the condition is missing.
      * @throws IllegalArgumentException} if condition is {@code null}
      */
     public void setCondition(AstNode condition) {
@@ -89,8 +91,9 @@ public class ForLoop extends Loop {
     /**
      * Sets loop increment expression, and sets its parent to
      * this node.
+     *
      * @param increment loop increment expression.  Pass an
-     * {@link EmptyExpression} if increment is {@code null}.
+     *                  {@link EmptyExpression} if increment is {@code null}.
      * @throws IllegalArgumentException} if increment is {@code null}
      */
     public void setIncrement(AstNode increment) {
@@ -113,7 +116,7 @@ public class ForLoop extends Loop {
         if (body instanceof Block) {
             sb.append(body.toSource(depth).trim()).append("\n");
         } else {
-            sb.append("\n").append(body.toSource(depth+1));
+            sb.append("\n").append(body.toSource(depth + 1));
         }
         return sb.toString();
     }

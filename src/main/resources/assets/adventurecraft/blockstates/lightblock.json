@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:lightblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:lightblock"
+    }
   }
 }

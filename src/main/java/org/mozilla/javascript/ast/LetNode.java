@@ -16,7 +16,7 @@ import org.mozilla.javascript.Token;
  *     <b>let</b> ( VariableDeclarationList ) Block
  * <i>LetExpression</i>:
  *     <b>let</b> ( VariableDeclarationList ) Expression</pre>
- *
+ * <p>
  * Note that standalone let-statements with no parens or body block,
  * such as {@code let x=6, y=7;}, are represented as a
  * {@link VariableDeclaration} node of type {@code Token.LET},
@@ -53,6 +53,7 @@ public class LetNode extends Scope {
 
     /**
      * Sets variable list.  Sets list parent to this node.
+     *
      * @throws IllegalArgumentException if variables is {@code null}
      */
     public void setVariables(VariableDeclaration variables) {
@@ -76,8 +77,9 @@ public class LetNode extends Scope {
     /**
      * Sets body statement or expression.  Also sets the body parent to this
      * node.
+     *
      * @param body the body statement or expression.  May be
-     * {@code null}.
+     *             {@code null}.
      */
     public void setBody(AstNode body) {
         this.body = body;

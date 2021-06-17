@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:hiddenblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:hiddenblock"
+    }
   }
 }

@@ -16,10 +16,11 @@ public class RhinoSecurityManager extends SecurityManager {
 
     /**
      * Get the class of the top-most stack element representing a script.
+     *
      * @return The class of the top-most script in the current stack,
-     *         or null if no script is currently running
+     * or null if no script is currently running
      */
-  	@SuppressWarnings("rawtypes")
+    @SuppressWarnings("rawtypes")
     protected Class getCurrentScriptClass() {
         Class[] context = getClassContext();
         for (Class c : context) {

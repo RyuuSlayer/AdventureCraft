@@ -6,7 +6,7 @@
 
 package org.mozilla.javascript;
 
-import java.lang.reflect.*;
+import java.lang.reflect.InvocationTargetException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
@@ -16,7 +16,7 @@ import java.security.PrivilegedAction;
  * <p> This improves startup time and average memory usage.
  */
 public final class LazilyLoadedCtor implements java.io.Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private static final int STATE_BEFORE_INIT = 0;
     private static final int STATE_INITIALIZING = 1;
@@ -31,14 +31,12 @@ public final class LazilyLoadedCtor implements java.io.Serializable {
     private int state;
 
     public LazilyLoadedCtor(ScriptableObject scope, String propertyName,
-            String className, boolean sealed)
-    {
+                            String className, boolean sealed) {
         this(scope, propertyName, className, sealed, false);
     }
 
     LazilyLoadedCtor(ScriptableObject scope, String propertyName,
-            String className, boolean sealed, boolean privileged)
-    {
+                     String className, boolean sealed, boolean privileged) {
 
         this.scope = scope;
         this.propertyName = propertyName;
@@ -51,12 +49,11 @@ public final class LazilyLoadedCtor implements java.io.Serializable {
                 ScriptableObject.DONTENUM);
     }
 
-    void init()
-    {
+    void init() {
         synchronized (this) {
             if (state == STATE_INITIALIZING)
                 throw new IllegalStateException(
-                    "Recursive initialization for "+propertyName);
+                        "Recursive initialization for " + propertyName);
             if (state == STATE_BEFORE_INIT) {
                 state = STATE_INITIALIZING;
                 // Set value now to have something to set in finally block if
@@ -72,43 +69,34 @@ public final class LazilyLoadedCtor implements java.io.Serializable {
         }
     }
 
-    Object getValue()
-    {
+    Object getValue() {
         if (state != STATE_WITH_VALUE)
             throw new IllegalStateException(propertyName);
         return initializedValue;
     }
 
-    private Object buildValue()
-    {
-        if(privileged)
-        {
-            return AccessController.doPrivileged(new PrivilegedAction<Object>()
-            {
+    private Object buildValue() {
+        if (privileged) {
+            return AccessController.doPrivileged(new PrivilegedAction<Object>() {
                 @Override
-								public Object run()
-                {
+                public Object run() {
                     return buildValue0();
                 }
             });
-        }
-        else
-        {
+        } else {
             return buildValue0();
         }
     }
 
-    private Object buildValue0()
-    {
+    private Object buildValue0() {
         Class<? extends Scriptable> cl = cast(Kit.classOrNull(className));
         if (cl != null) {
             try {
                 Object value = ScriptableObject.buildClassCtor(scope, cl,
-                                                               sealed, false);
+                        sealed, false);
                 if (value != null) {
                     return value;
-                }
-                else {
+                } else {
                     // cl has own static initializer which is expected
                     // to set the property on its own.
                     value = scope.get(propertyName, scope);
@@ -118,7 +106,7 @@ public final class LazilyLoadedCtor implements java.io.Serializable {
             } catch (InvocationTargetException ex) {
                 Throwable target = ex.getTargetException();
                 if (target instanceof RuntimeException) {
-                    throw (RuntimeException)target;
+                    throw (RuntimeException) target;
                 }
             } catch (RhinoException ex) {
             } catch (InstantiationException ex) {
@@ -131,7 +119,7 @@ public final class LazilyLoadedCtor implements java.io.Serializable {
 
     @SuppressWarnings({"unchecked"})
     private Class<? extends Scriptable> cast(Class<?> cl) {
-        return (Class<? extends Scriptable>)cl;
+        return (Class<? extends Scriptable>) cl;
     }
 
 }

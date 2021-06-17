@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:inverterblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:inverterblock"
+    }
   }
 }

@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:storageblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:storageblock"
+    }
   }
 }

@@ -25,13 +25,14 @@ import java.util.Set;
  */
 
 @SuppressWarnings("dep-ann")
-public class NativeJavaPackage extends ScriptableObject
-{
+public class NativeJavaPackage extends ScriptableObject {
     static final long serialVersionUID = 7445054382212031523L;
+    private String packageName;
+    private transient ClassLoader classLoader;
+    private Set<String> negativeCache = null;
 
     NativeJavaPackage(boolean internalUsage, String packageName,
-                      ClassLoader classLoader)
-    {
+                      ClassLoader classLoader) {
         this.packageName = packageName;
         this.classLoader = classLoader;
     }
@@ -50,7 +51,7 @@ public class NativeJavaPackage extends ScriptableObject
      */
     public NativeJavaPackage(String packageName) {
         this(false, packageName,
-             Context.getCurrentContext().getApplicationClassLoader());
+                Context.getCurrentContext().getApplicationClassLoader());
     }
 
     @Override
@@ -90,15 +91,14 @@ public class NativeJavaPackage extends ScriptableObject
 
     // set up a name which is known to be a package so we don't
     // need to look for a class by that name
-    NativeJavaPackage forcePackage(String name, Scriptable scope)
-    {
+    NativeJavaPackage forcePackage(String name, Scriptable scope) {
         Object cached = super.get(name, this);
         if (cached != null && cached instanceof NativeJavaPackage) {
             return (NativeJavaPackage) cached;
         } else {
             String newPackage = packageName.length() == 0
-                                ? name
-                                : packageName + "." + name;
+                    ? name
+                    : packageName + "." + name;
             NativeJavaPackage pkg = new NativeJavaPackage(true, newPackage, classLoader);
             ScriptRuntime.setObjectProtoAndParent(pkg, scope);
             super.put(name, this, pkg);
@@ -107,8 +107,7 @@ public class NativeJavaPackage extends ScriptableObject
     }
 
     synchronized Object getPkgProperty(String name, Scriptable start,
-                                       boolean createPkg)
-    {
+                                       boolean createPkg) {
         Object cached = super.get(name, start);
         if (cached != NOT_FOUND)
             return cached;
@@ -118,7 +117,7 @@ public class NativeJavaPackage extends ScriptableObject
         }
 
         String className = (packageName.length() == 0)
-                               ? name : packageName + '.' + name;
+                ? name : packageName + '.' + name;
         Context cx = Context.getContext();
         ClassShutter shutter = cx.getClassShutter();
         Scriptable newValue = null;
@@ -173,10 +172,10 @@ public class NativeJavaPackage extends ScriptableObject
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof NativeJavaPackage) {
-            NativeJavaPackage njp = (NativeJavaPackage)obj;
+        if (obj instanceof NativeJavaPackage) {
+            NativeJavaPackage njp = (NativeJavaPackage) obj;
             return packageName.equals(njp.packageName) &&
-                   classLoader == njp.classLoader;
+                    classLoader == njp.classLoader;
         }
         return false;
     }
@@ -184,10 +183,6 @@ public class NativeJavaPackage extends ScriptableObject
     @Override
     public int hashCode() {
         return packageName.hashCode() ^
-               (classLoader == null ? 0 : classLoader.hashCode());
+                (classLoader == null ? 0 : classLoader.hashCode());
     }
-
-    private String packageName;
-    private transient ClassLoader classLoader;
-    private Set<String> negativeCache = null;
 }

@@ -76,6 +76,7 @@ public class ScriptNode extends Scope {
 
     /**
      * Used by code generator.
+     *
      * @see #getEncodedSource
      */
     public void setEncodedSourceStart(int start) {
@@ -92,6 +93,7 @@ public class ScriptNode extends Scope {
 
     /**
      * Used by code generator.
+     *
      * @see #getEncodedSource
      */
     public void setEncodedSourceEnd(int end) {
@@ -100,19 +102,12 @@ public class ScriptNode extends Scope {
 
     /**
      * Used by code generator.
+     *
      * @see #getEncodedSource
      */
     public void setEncodedSourceBounds(int start, int end) {
         this.encodedSourceStart = start;
         this.encodedSourceEnd = end;
-    }
-
-    /**
-     * Used by the code generator.
-     * @see #getEncodedSource
-     */
-    public void setEncodedSource(String encodedSource) {
-        this.encodedSource = encodedSource;
     }
 
     /**
@@ -122,7 +117,7 @@ public class ScriptNode extends Scope {
      * generation.  It must be passed back to
      * {@link org.mozilla.javascript.Decompiler#decompile} to construct the
      * human-readable source string.<p>
-     *
+     * <p>
      * Given a parsed AST, you can always convert it to source code using the
      * {@link AstNode#toSource} method, although it's not guaranteed to produce
      * exactly the same results as {@code Object.toSource} with respect to
@@ -132,6 +127,15 @@ public class ScriptNode extends Scope {
      */
     public String getEncodedSource() {
         return encodedSource;
+    }
+
+    /**
+     * Used by the code generator.
+     *
+     * @see #getEncodedSource
+     */
+    public void setEncodedSource(String encodedSource) {
+        this.encodedSource = encodedSource;
     }
 
     public int getBaseLineno() {
@@ -173,6 +177,7 @@ public class ScriptNode extends Scope {
     /**
      * Adds a {@link FunctionNode} to the functions table for codegen.
      * Does not set the parent of the node.
+     *
      * @return the index of the function within its parent
      */
     public int addFunction(FunctionNode fnNode) {
@@ -210,8 +215,8 @@ public class ScriptNode extends Scope {
         if (variableNames == null) codeBug();
         Scope node = nameNode.getScope();
         Symbol symbol = node == null
-            ? null
-            : node.getSymbol(((Name)nameNode).getIdentifier());
+                ? null
+                : node.getSymbol(((Name) nameNode).getIdentifier());
         return (symbol == null) ? -1 : symbol.getIndex();
     }
 
@@ -260,8 +265,8 @@ public class ScriptNode extends Scope {
      * names and constness that can be indexed by those indices.
      *
      * @param flattenAllTables if true, flatten all symbol tables,
-     * included nested block scope symbol tables. If false, just flatten the
-     * script's or function's symbol table.
+     *                         included nested block scope symbol tables. If false, just flatten the
+     *                         script's or function's symbol table.
      */
     public void flattenSymbolTable(boolean flattenAllTables) {
         if (!flattenAllTables) {
@@ -309,7 +314,7 @@ public class ScriptNode extends Scope {
     public void visit(NodeVisitor v) {
         if (v.visit(this)) {
             for (Node kid : this) {
-                ((AstNode)kid).visit(v);
+                ((AstNode) kid).visit(v);
             }
         }
     }

@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:triggerfilterblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:triggerfilterblock"
+    }
   }
 }

@@ -6,8 +6,8 @@
 
 package org.mozilla.javascript.ast;
 
-import org.mozilla.javascript.Token;
 import org.mozilla.javascript.ScriptRuntime;
+import org.mozilla.javascript.Token;
 
 /**
  * AST node for a single- or double-quoted string literal.
@@ -31,6 +31,7 @@ public class StringLiteral extends AstNode {
 
     /**
      * Creates a string literal node at the specified position.
+     *
      * @param len the length <em>including</em> the enclosing quotes
      */
     public StringLiteral(int pos, int len) {
@@ -39,11 +40,23 @@ public class StringLiteral extends AstNode {
 
     /**
      * Returns the node's value:  the parsed string without the enclosing quotes
+     *
      * @return the node's value, a {@link String} of unescaped characters
      * that includes the delimiter quotes.
      */
     public String getValue() {
         return value;
+    }
+
+    /**
+     * Sets the node's value.  Do not include the enclosing quotes.
+     *
+     * @param value the node's value
+     * @throws IllegalArgumentException} if value is {@code null}
+     */
+    public void setValue(String value) {
+        assertNotNull(value);
+        this.value = value;
     }
 
     /**
@@ -53,16 +66,6 @@ public class StringLiteral extends AstNode {
         if (!includeQuotes)
             return value;
         return quoteChar + value + quoteChar;
-    }
-
-    /**
-     * Sets the node's value.  Do not include the enclosing quotes.
-     * @param value the node's value
-     * @throws IllegalArgumentException} if value is {@code null}
-     */
-    public void setValue(String value) {
-        assertNotNull(value);
-        this.value = value;
     }
 
     /**

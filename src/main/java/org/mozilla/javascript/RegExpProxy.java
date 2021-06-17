@@ -12,12 +12,11 @@ package org.mozilla.javascript;
  *
  * @author Norris Boyd
  */
-public interface RegExpProxy
-{
+public interface RegExpProxy {
     // Types of regexp actions
-    public static final int RA_MATCH   = 1;
+    public static final int RA_MATCH = 1;
     public static final int RA_REPLACE = 2;
-    public static final int RA_SEARCH  = 3;
+    public static final int RA_SEARCH = 3;
 
     public boolean isRegExp(Scriptable obj);
 

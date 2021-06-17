@@ -27,23 +27,25 @@ public class ArrayComprehensionLoop extends ForInLoop {
     public ArrayComprehensionLoop(int pos, int len) {
         super(pos, len);
     }
-    
+
     /**
      * Returns {@code null} for loop body
+     *
      * @return loop body (always {@code null} for this node type)
      */
     @Override
-		public AstNode getBody() {
+    public AstNode getBody() {
         return null;
     }
 
     /**
      * Throws an exception on attempts to set the loop body.
+     *
      * @param body loop body
      * @throws UnsupportedOperationException
      */
-		@Override
-		public void setBody(AstNode body) {
+    @Override
+    public void setBody(AstNode body) {
         throw new UnsupportedOperationException("this node type has no body");
     }
 
@@ -51,7 +53,7 @@ public class ArrayComprehensionLoop extends ForInLoop {
     public String toSource(int depth) {
         return makeIndent(depth)
                 + " for "
-                + (isForEach()?"each ":"")
+                + (isForEach() ? "each " : "")
                 + "("
                 + iterator.toSource(0)
                 + " in "

@@ -1,5 +1,7 @@
 {
-  "variants" : {
-    "normal" : {"model" : "adventurecraft:messageblock"}
+  "variants": {
+    "normal": {
+      "model": "adventurecraft:messageblock"
+    }
   }
 }
